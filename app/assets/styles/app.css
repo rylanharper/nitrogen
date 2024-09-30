@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --body-text-color: #000;
+  --body-background-color: #fff;
+  --body-selection-color: #eee;
+  --backgound-line-color: #f4f4f4
+}
+
+@layer base {
+  html {
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    height: 100%;
+    color: var(--body-text-color);
+    background-color: var(--body-background-color);
+    overflow-x: hidden;
+  }
+
+  svg,
+  span {
+    display: block;
+    overflow: visible;
+  }
+
+  img {
+    object-fit: cover;
+    vertical-align: middle;
+  }
+
+  ::selection {
+    color: var(--body-text-color);
+    background: var(--body-selection-color);
+  }
+}
+
+@layer utilities {
+  .bg-line-pattern {
+    background-image: linear-gradient(135deg, var(--backgound-line-color) 10%, #0000 0, #0000 50%, var(--backgound-line-color) 0, var(--backgound-line-color) 60%, #0000 0, #0000);
+    background-size: 6px 6px;
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "nitrogen",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "dev:codegen": "graphql-codegen --config codegen.ts --watch"
+  },
+  "dependencies": {
+    "@nuxt/fonts": "^0.9.2",
+    "@nuxt/icon": "^1.5.2",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
+    "@pinia/nuxt": "^0.5.4",
+    "@vueuse/core": "^11.1.0",
+    "@vueuse/nuxt": "^11.1.0",
+    "dotenv": "^16.4.5",
+    "graphql": "^16.9.0",
+    "graphql-tag": "^2.12.6",
+    "pinia": "^2.2.2"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript": "^4.0.9",
+    "@graphql-codegen/typescript-operations": "^4.2.3",
+    "@iconify-json/ph": "^1.2.0",
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "nuxt": "^3.13.2",
+    "typescript": "^5.6.2",
+    "vue": "^3.5.10",
+    "vue-router": "^4.4.5"
+  }
+}
