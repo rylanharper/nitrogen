@@ -45,9 +45,9 @@ import {
  */
 async function get(
   options: CustomerQueryVariables
-): Promise<CustomerQuery> {
+): Promise<CustomerQuery['customer']> {
   const response = await query(CUSTOMER, options);
-  return response.data?.customer ?? response;
+  return response.data?.customer;
 };
 
 /**
@@ -58,9 +58,9 @@ async function get(
  */
 async function createAccessToken(
   options: CustomerAccessTokenCreateMutationVariables
-): Promise<CustomerAccessTokenCreateMutation> {
+): Promise<CustomerAccessTokenCreateMutation['customerAccessTokenCreate']> {
   const response = await query(CUSTOMER_ACCESS_TOKEN_CREATE, options);
-  return response.data?.customerAccessTokenCreate ?? response;
+  return response.data?.customerAccessTokenCreate;
 }
 
 /**
@@ -71,9 +71,9 @@ async function createAccessToken(
  */
 async function deleteAccessToken(
   options: CustomerAccessTokenDeleteMutationVariables
-): Promise<CustomerAccessTokenDeleteMutation> {
+): Promise<CustomerAccessTokenDeleteMutation['customerAccessTokenDelete']> {
   const response = await query(CUSTOMER_ACCESS_TOKEN_DELETE, options);
-  return response.data?.customerAccessTokenDelete ?? response;
+  return response.data?.customerAccessTokenDelete;
 }
 
 /**
@@ -84,9 +84,9 @@ async function deleteAccessToken(
  */
 async function create(
   options: CustomerCreateMutationVariables
-): Promise<CustomerCreateMutation> {
+): Promise<CustomerCreateMutation['customerCreate']> {
   const response = await query(CUSTOMER_CREATE, options);
-  return response.data?.customerCreate ?? response;
+  return response.data?.customerCreate;
 }
 
 /**
@@ -99,7 +99,7 @@ async function recover(
   options: CustomerRecoverMutationVariables
 ): Promise<CustomerRecoverMutation> {
   const response = await query(CUSTOMER_RECOVER, options);
-  return response.data?.customerRecover ?? response;
+  return response.data?.customerRecover;
 }
 
 /**
@@ -110,9 +110,9 @@ async function recover(
  */
 async function reset(
   options: CustomerResetMutationVariables
-): Promise<CustomerResetMutation> {
+): Promise<CustomerResetMutation['customerReset']> {
   const response = await query(CUSTOMER_RESET, options);
-  return response.data?.customerReset ?? response;
+  return response.data?.customerReset;
 }
 
 /**
@@ -123,9 +123,9 @@ async function reset(
  */
 async function resetByUrl(
   options: CustomerResetByUrlMutationVariables
-): Promise<CustomerResetByUrlMutation> {
+): Promise<CustomerResetByUrlMutation['customerResetByUrl']> {
   const response = await query(CUSTOMER_RESET_BY_URL, options);
-  return response.data?.customerResetByUrl ?? response;
+  return response.data?.customerResetByUrl;
 }
 
 /**
@@ -136,9 +136,9 @@ async function resetByUrl(
  */
 async function createAddress(
   options: CustomerAddressCreateMutationVariables
-): Promise<CustomerAddressCreateMutation> {
+): Promise<CustomerAddressCreateMutation['customerAddressCreate']> {
   const response = await query(CUSTOMER_ADDRESS_CREATE, options);
-  return response.data?.customerAddressCreate ?? response;
+  return response.data?.customerAddressCreate;
 }
 
 /**
@@ -149,9 +149,9 @@ async function createAddress(
  */
 async function deleteAddress(
   options: CustomerAddressDeleteMutationVariables
-): Promise<CustomerAddressDeleteMutation> {
+): Promise<CustomerAddressDeleteMutation['customerAddressDelete']> {
   const response = await query(CUSTOMER_ADDRESS_DELETE, options);
-  return response.data?.customerAddressDelete ?? response;
+  return response.data?.customerAddressDelete;
 }
 
 /**
@@ -162,9 +162,9 @@ async function deleteAddress(
  */
 async function updateAddress(
   options: CustomerAddressUpdateMutationVariables
-): Promise<CustomerAddressUpdateMutation> {
+): Promise<CustomerAddressUpdateMutation['customerAddressUpdate']> {
   const response = await query(CUSTOMER_ADDRESS_UPDATE, options);
-  return response.data?.customerAddressUpdate ?? response;
+  return response.data?.customerAddressUpdate;
 }
 
 export default {

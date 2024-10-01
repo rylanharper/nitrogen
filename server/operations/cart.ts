@@ -33,9 +33,9 @@ import {
  */
 async function get(
   options: CartQueryVariables
-): Promise<CartQuery> {
+): Promise<CartQuery['cart']> {
   const response = await query(CART, options);
-  return response.data?.customer ?? response;
+  return response.data?.cart;
 };
 
 /**
@@ -46,9 +46,9 @@ async function get(
  */
 async function create(
   options: CartCreateMutationVariables
-): Promise<CartCreateMutation> {
+): Promise<CartCreateMutation['cartCreate']> {
   const response = await query(CART_CREATE, options);
-  return response.data?.cartCreate ?? response;
+  return response.data?.cartCreate;
 }
 
 /**
@@ -59,9 +59,9 @@ async function create(
  */
 async function addLines(
   options: CartLinesAddMutationVariables
-): Promise<CartLinesAddMutation> {
+): Promise<CartLinesAddMutation['cartLinesAdd']> {
   const response = await query(CART_LINES_ADD, options);
-  return response.data?.cartLinesAdd ?? response;
+  return response.data?.cartLinesAdd;
 }
 
 /**
@@ -72,9 +72,9 @@ async function addLines(
  */
 async function removeLines(
   options: CartLinesRemoveMutationVariables
-): Promise<CartLinesRemoveMutation> {
+): Promise<CartLinesRemoveMutation['cartLinesRemove']> {
   const response = await query(CART_LINES_REMOVE, options);
-  return response.data?.cartLinesRemove ?? response;
+  return response.data?.cartLinesRemove;
 }
 
 /**
@@ -85,9 +85,9 @@ async function removeLines(
  */
 async function updateLines(
   options: CartLinesUpdateMutationVariables
-): Promise<CartLinesUpdateMutation> {
+): Promise<CartLinesUpdateMutation['cartLinesUpdate']> {
   const response = await query(CART_LINES_UPDATE, options);
-  return response.data?.cartLinesUpdate ?? response;
+  return response.data?.cartLinesUpdate;
 }
 
 /**
@@ -98,9 +98,9 @@ async function updateLines(
  */
 async function updateBuyerIdentity(
   options: CartBuyerIdentityUpdateMutationVariables
-): Promise<CartBuyerIdentityUpdateMutation> {
+): Promise<CartBuyerIdentityUpdateMutation['cartBuyerIdentityUpdate']> {
   const response = await query(CART_BUYER_IDENTITY_UPDATE, options);
-  return response.data?.cartBuyerIdentityUpdate ?? response;
+  return response.data?.cartBuyerIdentityUpdate;
 }
 
 export default {

@@ -15,9 +15,9 @@ import { COLLECTION } from '../graphql/queries/collection';
  */
 async function get(
   options: CollectionQueryVariables
-): Promise<CollectionQuery> {
+): Promise<CollectionQuery['collection']> {
   const response = await query(COLLECTION, options);
-  return response.data?.collection ?? response;
+  return response.data?.collection;
 }
 
 export default {

@@ -15,9 +15,9 @@ import { LOCALIZATION } from '../graphql/queries/localization';
  */
 export const get = async (
   options: LocalizationQueryVariables
-): Promise<LocalizationQuery> => {
+): Promise<LocalizationQuery['localization']> => {
   const response = await query(LOCALIZATION, options);
-  return response.data?.localization ?? response;
+  return response.data?.localization;
 };
 
 export default {

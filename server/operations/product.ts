@@ -15,9 +15,9 @@ import { PRODUCT } from '../graphql/queries/product';
  */
 async function get(
   options: ProductQueryVariables
-): Promise<ProductQuery> {
+): Promise<ProductQuery['product']> {
   const response = await query(PRODUCT, options);
-  return response.data?.product ?? response;
+  return response.data?.product;
 }
 
 export default {

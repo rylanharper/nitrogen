@@ -15,9 +15,11 @@ import { SEARCH, PREDICTIVE_SEARCH } from '../graphql/queries/search';
  * @returns A Promise resolving to the search results
  * @see https://shopify.dev/docs/api/storefront/2024-07/queries/search
  */
-async function get(options: SearchQueryVariables): Promise<SearchQuery> {
+async function get(
+  options: SearchQueryVariables
+): Promise<SearchQuery['products']> {
   const response = await query(SEARCH, options);
-  return response.data?.products ?? response;
+  return response.data?.products;
 }
 
 /**
@@ -28,9 +30,9 @@ async function get(options: SearchQueryVariables): Promise<SearchQuery> {
  */
 async function predictive(
   options: PredictiveSearchQueryVariables
-): Promise<PredictiveSearchQuery> {
+): Promise<PredictiveSearchQuery['predictiveSearch']> {
   const response = await query(PREDICTIVE_SEARCH, options);
-  return response.data?.predictiveSearch ?? response;
+  return response.data?.predictiveSearch;
 }
 
 export default {
