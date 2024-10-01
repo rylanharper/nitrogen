@@ -7,8 +7,9 @@
 
 ## Key Features
 
-- 🌐 Shop localization ✅
 - 🛒 Cart functionality ✅
+- 🌐 Shop localization ✅
+- 🧩 Localized routes (help needed) ❌
 - 🔒 User authentication, with password reset ❌
 - 👤 Full customer account functionality ❌
 - 🗂️ Collection/search filters and sort ❌
