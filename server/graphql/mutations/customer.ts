@@ -74,7 +74,7 @@ export const CUSTOMER_RECOVER = gql`
 
 export const CUSTOMER_RESET = gql`
   mutation customerReset(
-    $id: ID!,
+    $id: ID!
     $input: CustomerResetInput!
     $country: CountryCode
     $language: LanguageCode
@@ -95,7 +95,7 @@ export const CUSTOMER_RESET = gql`
 
 export const CUSTOMER_RESET_BY_URL = gql`
   mutation customerResetByUrl(
-    $password: String!,
+    $password: String!
     $resetUrl: URL!
     $country: CountryCode
     $language: LanguageCode
@@ -121,7 +121,10 @@ export const CUSTOMER_ADDRESS_CREATE = gql`
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    customerAddressCreate(address: $address, customerAccessToken: $customerAccessToken) {
+    customerAddressCreate(
+      address: $address
+      customerAccessToken: $customerAccessToken
+    ) {
       customerAddress {
         id
       }
@@ -136,7 +139,7 @@ export const CUSTOMER_ADDRESS_CREATE = gql`
 
 export const CUSTOMER_ADDRESS_DELETE = gql`
   mutation customerAddressDelete(
-    $customerAccessToken: String!,
+    $customerAccessToken: String!
     $id: ID!
     $country: CountryCode
     $language: LanguageCode
@@ -160,10 +163,34 @@ export const CUSTOMER_ADDRESS_UPDATE = gql`
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    customerAddressUpdate(address: $address, customerAccessToken: $customerAccessToken, id: $id) {
+    customerAddressUpdate(
+      address: $address
+      customerAccessToken: $customerAccessToken
+      id: $id
+    ) {
       customerAddress {
         id
       }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const CUSTOMER_DEFAULT_ADDRESS_UPDATE = gql`
+  mutation customerDefaultAddressUpdate(
+    $addressId: ID!
+    $customerAccessToken: String!
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    customerDefaultAddressUpdate(
+      addressId: $addressId
+      customerAccessToken: $customerAccessToken
+    ) {
       customerUserErrors {
         code
         field

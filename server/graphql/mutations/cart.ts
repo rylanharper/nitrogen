@@ -2,14 +2,12 @@ import { gql } from 'graphql-tag';
 import { CART_FRAGMENT } from '../fragments/cart';
 
 export const CART_CREATE = gql`
-  mutation cartCreate (
+  mutation cartCreate(
     $input: CartInput
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    cartCreate (
-      input: $input
-    ) {
+    cartCreate(input: $input) {
       cart {
         ...Cart
       }
@@ -25,15 +23,12 @@ export const CART_CREATE = gql`
 
 export const CART_LINES_ADD = gql`
   mutation cartLinesAdd(
-    $cartId: ID!,
+    $cartId: ID!
     $lines: [CartLineInput!]!
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    cartLinesAdd(
-      cartId: $cartId,
-      lines: $lines
-    ) {
+    cartLinesAdd(cartId: $cartId, lines: $lines) {
       cart {
         ...Cart
       }
@@ -54,10 +49,7 @@ export const CART_LINES_REMOVE = gql`
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    cartLinesRemove(
-      cartId: $cartId
-      lineIds: $lineIds
-    ) {
+    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
       cart {
         ...Cart
       }
@@ -77,10 +69,7 @@ export const CART_LINES_UPDATE = gql`
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    cartLinesUpdate(
-      cartId: $cartId
-      lines: $lines
-    ) {
+    cartLinesUpdate(cartId: $cartId, lines: $lines) {
       cart {
         ...Cart
       }
@@ -100,10 +89,7 @@ export const CART_BUYER_IDENTITY_UPDATE = gql`
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    cartBuyerIdentityUpdate(
-      buyerIdentity: $buyerIdentity
-      cartId: $cartId
-    ) {
+    cartBuyerIdentityUpdate(buyerIdentity: $buyerIdentity, cartId: $cartId) {
       cart {
         ...Cart
       }
