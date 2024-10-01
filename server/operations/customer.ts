@@ -18,7 +18,9 @@ import {
   CustomerAddressDeleteMutation,
   CustomerAddressDeleteMutationVariables,
   CustomerAddressUpdateMutation,
-  CustomerAddressUpdateMutationVariables
+  CustomerAddressUpdateMutationVariables,
+  CustomerDefaultAddressUpdateMutation,
+  CustomerDefaultAddressUpdateMutationVariables
 } from '@@/types/shopify';
 
 import { query } from '../utils/client';
@@ -34,7 +36,8 @@ import {
   CUSTOMER_RESET_BY_URL,
   CUSTOMER_ADDRESS_CREATE,
   CUSTOMER_ADDRESS_DELETE,
-  CUSTOMER_ADDRESS_UPDATE
+  CUSTOMER_ADDRESS_UPDATE,
+  CUSTOMER_DEFAULT_ADDRESS_UPDATE
 } from '../graphql/mutations/customer';
 
 /**
@@ -167,6 +170,19 @@ async function updateAddress(
   return response.data?.customerAddressUpdate;
 }
 
+/**
+ * Updates the customer's default address.
+ * @param options - The variables for the customer default address update mutation (address ID, access token)
+ * @returns A Promise resolving to the customer update status
+ * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerDefaultAddressUpdate
+ */
+async function updateDefaultAddress(
+  options: CustomerDefaultAddressUpdateMutationVariables
+): Promise<CustomerDefaultAddressUpdateMutation['customerDefaultAddressUpdate']> {
+  const response = await query(CUSTOMER_DEFAULT_ADDRESS_UPDATE, options);
+  return response.data?.customerDefaultAddressUpdate;
+}
+
 export default {
   get,
   create,
@@ -177,5 +193,6 @@ export default {
   deleteAccessToken,
   createAddress,
   deleteAddress,
-  updateAddress
+  updateAddress,
+  updateDefaultAddress
 };
