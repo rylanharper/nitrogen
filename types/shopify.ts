@@ -8159,6 +8159,16 @@ export type CustomerAddressUpdateMutationVariables = Exact<{
 
 export type CustomerAddressUpdateMutation = { __typename?: 'Mutation', customerAddressUpdate?: { __typename?: 'CustomerAddressUpdatePayload', customerAddress?: { __typename?: 'MailingAddress', id: string } | null, customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
+export type CustomerDefaultAddressUpdateMutationVariables = Exact<{
+  addressId: Scalars['ID']['input'];
+  customerAccessToken: Scalars['String']['input'];
+  country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
+}>;
+
+
+export type CustomerDefaultAddressUpdateMutation = { __typename?: 'Mutation', customerDefaultAddressUpdate?: { __typename?: 'CustomerDefaultAddressUpdatePayload', customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+
 export type CartQueryVariables = Exact<{
   id: Scalars['ID']['input'];
   country?: InputMaybe<CountryCode>;
