@@ -23,7 +23,12 @@ export const COLLECTION = gql`
       }
       title
       updatedAt
-      products(first: 250, filters: $filters, sortKey: $sortKey, reverse: $reverse) {
+      products(
+        first: 250
+        filters: $filters
+        sortKey: $sortKey
+        reverse: $reverse
+      ) {
         filters {
           ...Filter
         }
@@ -43,4 +48,3 @@ export const COLLECTION = gql`
   ${PRODUCT_FRAGMENT}
   ${PAGE_INFO_FRAGMENT}
 `;
-

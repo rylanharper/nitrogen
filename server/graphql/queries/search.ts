@@ -15,7 +15,14 @@ export const SEARCH = gql`
     $sortKey: SearchSortKeys!
     $reverse: Boolean
   ) @inContext(country: $country, language: $language) {
-    products: search(query: $query, first: 250, types: PRODUCT, productFilters: $filters, sortKey: $sortKey, reverse: $reverse) {
+    products: search(
+      query: $query
+      first: 250
+      types: PRODUCT
+      productFilters: $filters
+      sortKey: $sortKey
+      reverse: $reverse
+    ) {
       filters: productFilters {
         ...Filter
       }
