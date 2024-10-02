@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cart'
+import { useCartStore } from '@/stores/cart';
 
 // Stores
-const cartStore = useCartStore()
+const cartStore = useCartStore();
 
 // Computed
-const cartSubtotal = computed(() => cartStore.subtotalAmount)
-const checkoutUrl = computed(() => cartStore.checkoutUrl)
+const cartSubtotal = computed(() => cartStore.subtotalAmount);
+const checkoutUrl = computed(() => cartStore.checkoutUrl);
 </script>
 
 <template>

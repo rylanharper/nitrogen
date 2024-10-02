@@ -1,59 +1,56 @@
 <script setup lang="ts">
-import type { CountryCode } from '@@/types/shopify'
-import { useAppStore } from '@/stores/app'
-import { useCartStore } from '@/stores/cart'
-import { useShopStore } from '@/stores/shop'
-import { useMagicKeys } from '@vueuse/core'
+import type { CountryCode } from '@@/types/shopify';
+import { useAppStore } from '@/stores/app';
+import { useCartStore } from '@/stores/cart';
+import { useShopStore } from '@/stores/shop';
+import { useMagicKeys } from '@vueuse/core';
 
 // Stores
-const appStore = useAppStore()
-const cartStore = useCartStore()
-const shopStore = useShopStore()
+const appStore = useAppStore();
+const cartStore = useCartStore();
+const shopStore = useShopStore();
 
 // Shop data
-const cartId = cartStore.cart?.id
-const countries = shopStore.locale?.availableCountries
-const countryCode = shopStore.locale?.country?.isoCode
+const cartId = cartStore.cart?.id;
+const countries = shopStore.locale?.availableCountries;
+const countryCode = shopStore.locale?.country?.isoCode;
 
 // Refs
-const countryLocale = ref<CountryCode>(countryCode)
+const countryLocale = ref<CountryCode>(countryCode);
 
 // Close modal
 function closeModal() {
-  appStore.localeModalOpen = false
+  appStore.localeModalOpen = false;
 }
 
 // Update localization
 async function updateLocalization() {
   if (cartId && countries) {
-    await cartStore.attachBuyer({ countryCode: countryLocale.value })
-    await shopStore.fetchLocalizationData(countryLocale.value)
+    await cartStore.attachBuyer({ countryCode: countryLocale.value });
+    await shopStore.fetchLocalizationData(countryLocale.value);
   }
 
-  closeModal()
+  closeModal();
 }
 
 // Watchers
-const route = useRoute()
-const { escape } = useMagicKeys()
+const route = useRoute();
+const { escape } = useMagicKeys();
 
 watch(
   () => route.fullPath,
   () => {
     if (appStore.localeModalOpen) {
-      closeModal()
+      closeModal();
     }
   }
-)
+);
 
-watch(
-  escape,
-  () => {
-    if (appStore.localeModalOpen) {
-      closeModal()
-    }
+watch(escape, () => {
+  if (appStore.localeModalOpen) {
+    closeModal();
   }
-)
+});
 </script>
 
 <template>
@@ -71,7 +68,11 @@ watch(
             v-model="countryLocale"
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-black focus:outline focus:outline-1 focus:outline-black"
           >
-            <option v-for="country in countries" :key="country.isoCode" :value="country.isoCode">
+            <option
+              v-for="country in countries"
+              :key="country.isoCode"
+              :value="country.isoCode"
+            >
               {{ country.name }} ({{ country.currency.isoCode }} {{ country.currency.symbol }})
             </option>
           </select>

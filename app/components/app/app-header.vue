@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import { useAppStore } from '@/stores/app'
+import { useAppStore } from '@/stores/app';
 
 // Stores
-const appStore = useAppStore()
+const appStore = useAppStore();
 
-// Functions
+// Toggles
 function toggleShopMenu() {
-  appStore.toggleMobileMenu()
+  appStore.toggleMobileMenu();
 }
 
 function toggleCartDrawer() {
-  appStore.toggleCartDrawer()
+  appStore.toggleCartDrawer();
 }
 
 function toggleLocaleModal() {
-  appStore.toggleLocaleModal()
+  appStore.toggleLocaleModal();
 }
 
 function toggleSearchMenu() {
-  appStore.toggleSearchMenu()
+  appStore.toggleSearchMenu();
 }
 </script>
 

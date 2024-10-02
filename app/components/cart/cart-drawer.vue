@@ -1,47 +1,48 @@
 <script setup lang="ts">
-import { useAppStore } from '@/stores/app'
-import { useCartStore } from '@/stores/cart'
-import { flattenNodeItem } from '@/utils/flatten-nodes'
-import { useMagicKeys } from '@vueuse/core'
+import { useAppStore } from '@/stores/app';
+import { useCartStore } from '@/stores/cart';
+import { flattenNodeItem } from '@/utils/flatten-nodes';
+import { useMagicKeys } from '@vueuse/core';
 
 // Stores
-const appStore = useAppStore()
-const cartStore = useCartStore()
+const appStore = useAppStore();
+const cartStore = useCartStore();
 
 // Computed
-const cartTotalItems = computed(() => cartStore.lineItemsCount)
-const lineItems = computed(() => flattenNodeItem(cartStore.lineItems))
+const cartTotalItems = computed(() => cartStore.lineItemsCount);
+const lineItems = computed(() => flattenNodeItem(cartStore.lineItems));
 
 // Close drawer
 function closeDrawer() {
-  appStore.cartDrawerOpen = false
+  appStore.cartDrawerOpen = false;
 }
 
 // Watchers
-const route = useRoute()
-const { escape } = useMagicKeys()
+const route = useRoute();
+const { escape } = useMagicKeys();
 
 watch(
   () => route.fullPath,
   () => {
     if (appStore.cartDrawerOpen) {
-      closeDrawer()
+      closeDrawer();
     }
   }
-)
+);
 
-watch(
-  escape,
-  () => {
+watch(escape, () => {
   if (appStore.cartDrawerOpen) {
-    closeDrawer()
+    closeDrawer();
   }
-})
+});
 </script>
 
 <template>
   <transition name="slider" mode="out-in" appear>
-    <aside v-if="appStore.cartDrawerOpen" class="fixed top-0 right-0 z-[200] size-full bg-white md:max-w-[450px]" >
+    <aside
+      v-if="appStore.cartDrawerOpen"
+      class="fixed top-0 right-0 z-[200] size-full bg-white md:max-w-[450px]"
+    >
       <div class="flex flex-col size-full px-5">
         <div class="flex justify-between items-center py-3 border-b border-zinc-300 lg:py-4">
           <h2>Your Cart ({{ cartTotalItems }})</h2>
@@ -60,7 +61,9 @@ watch(
           <cart-summary />
         </div>
         <div v-else class="flex flex-col justify-center items-center flex-1">
-          <p class="mb-3 normal-case text-xl tracking-tight leading-none text-center">Your cart is empty</p>
+          <p class="mb-3 normal-case text-xl tracking-tight leading-none text-center">
+            Your cart is empty
+          </p>
           <button
             @click="closeDrawer"
             class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
@@ -81,10 +84,6 @@ watch(
 </template>
 
 <style lang="css" scoped>
-::-webkit-scrollbar {
-  @apply hidden;
-}
-
 .slider-enter-active,
 .slider-leave-active {
   @apply transform translate-x-0;

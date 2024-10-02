@@ -38,17 +38,33 @@ export const useAuthStore = defineStore('@yeren/auth', {
 
         if (response?.customerAccessToken) {
           this.accessToken = response.customerAccessToken.accessToken;
-
-          const customerResponse = await shopify.customer.get({
-            customerAccessToken: this.accessToken
-          });
-
-          if (customerResponse) {
-            this.customer = customerResponse;
-          }
+          await this.getCustomer();
         }
       } catch (error) {
         console.error('Cannot create customer token', error);
+      }
+    },
+    /**
+     * Fetches the customer data using the stored access token.
+     */
+    async getCustomer() {
+      try {
+        const response = await shopify.customer.get({
+          customerAccessToken: this.accessToken
+        });
+
+        if (response) {
+          const customerInfo = {
+            id: response.id,
+            email: response.email,
+            firstName: response.firstName,
+            lastName: response.lastName
+          };
+
+          this.customer = customerInfo;
+        }
+      } catch (error) {
+        console.error('Cannot get customer data', error);
       }
     },
     /**

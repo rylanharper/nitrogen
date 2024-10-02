@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cart'
+import { useCartStore } from '@/stores/cart';
 
 // Stores
-const cartStore = useCartStore()
+const cartStore = useCartStore();
 
 // Computed
-const cartTotalItems = computed(() => cartStore.lineItemsCount)
+const cartTotalItems = computed(() => cartStore.lineItemsCount);
 
 // Emits
-const emit = defineEmits(['toggleShopMenu', 'toggleCartDrawer'])
+const emit = defineEmits(['toggleShopMenu', 'toggleCartDrawer']);
 </script>
 
 <template>
@@ -22,7 +22,7 @@ const emit = defineEmits(['toggleShopMenu', 'toggleCartDrawer'])
       </button>
     </div>
     <div class="flex items-center">
-      <nuxt-link to="/" id="logo" class="p-2 text-normalize bg-transparent rounded-full">
+      <nuxt-link to="/" id="logo" class="p-2 bg-transparent rounded-full">
         Nitrogen
       </nuxt-link>
     </div>

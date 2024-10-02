@@ -1,29 +1,31 @@
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cart'
-import { useShopStore } from '@/stores/shop'
+import { useCartStore } from '@/stores/cart';
+import { useShopStore } from '@/stores/shop';
 
 // Links
 const navLinksLeft = [
   { label: 'Shop', path: '/' },
   { label: 'Catalog', path: '/' },
   { label: 'About', path: '/' }
-]
+];
 
-const navLinksRight = [
-  { label: 'Account', path: '/account' }
-]
+const navLinksRight = [{ label: 'Account', path: '/account' }];
 
 // Stores
-const cartStore = useCartStore()
-const shopStore = useShopStore()
+const cartStore = useCartStore();
+const shopStore = useShopStore();
 
 // Computed
-const countryCode = computed(() => shopStore.buyerCountryCode)
-const currencySymbol = computed(() => shopStore.buyerCurrencySymbol)
-const cartTotalItems = computed(() => cartStore.lineItemsCount)
+const countryCode = computed(() => shopStore.buyerCountryCode);
+const currencySymbol = computed(() => shopStore.buyerCurrencySymbol);
+const cartTotalItems = computed(() => cartStore.lineItemsCount);
 
 // Emits
-const emit = defineEmits(['toggleLocaleModal', 'toggleSearchMenu', 'toggleCartDrawer'])
+const emit = defineEmits([
+  'toggleLocaleModal',
+  'toggleSearchMenu',
+  'toggleCartDrawer'
+]);
 </script>
 
 <template>

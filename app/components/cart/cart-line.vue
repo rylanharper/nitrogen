@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import type { CartLineFragment } from '@@/types/shopify'
-import { useCartStore } from '@/stores/cart'
+import type { CartLineFragment } from '@@/types/shopify';
+import { useCartStore } from '@/stores/cart';
 
 // Props
 const props = defineProps<{
-  line: CartLineFragment
-}>()
+  line: CartLineFragment;
+}>();
 
 // Stores
-const cartStore = useCartStore()
+const cartStore = useCartStore();
 
 // Update line quantity
 async function updateLineQuantity(line: CartLineFragment, newQuantity: number) {
   if (newQuantity <= 0) {
-    await removeLineFromCart(line.id)
+    await removeLineFromCart(line.id);
   } else {
-    const quantityAvailable = Math.min(newQuantity, 10)
+    const quantityAvailable = Math.min(newQuantity, 10);
 
     await cartStore.updateCart([
       {
         id: line.id,
         quantity: quantityAvailable
       }
-    ])
+    ]);
   }
 }
 
 // Remove line
 async function removeLineFromCart(lineId: string) {
-  await cartStore.removeFromCart([lineId])
+  await cartStore.removeFromCart([lineId]);
 }
 </script>
 
@@ -73,7 +73,12 @@ async function removeLineFromCart(lineId: string) {
             <Icon name="ph:plus" class="h-3 w-3 shrink-0" />
           </button>
         </div>
-        <button @click="removeLineFromCart(line.id)" class="text-sm text-normalize">Remove</button>
+        <button
+          @click="removeLineFromCart(line.id)"
+          class="text-sm text-normalize"
+        >
+          Remove
+        </button>
       </div>
     </div>
   </div>
