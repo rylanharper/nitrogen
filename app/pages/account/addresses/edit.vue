@@ -72,8 +72,7 @@ async function handleUpdateAddress() {
   isLoading.value = true;
 
   if (!formCompleted.value) {
-    errorMessage.value =
-      'Please fill out all necessary fields to update your address.';
+    errorMessage.value = 'Please fill out all necessary fields to update your address.';
     isLoading.value = false;
     return;
   }

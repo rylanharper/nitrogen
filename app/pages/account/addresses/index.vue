@@ -50,8 +50,8 @@ definePageMeta({
     v-if="customer"
     class="relative flex flex-col lg:col-span-2 2xl:col-span-1"
   >
-    <div class="flex flex-col gap-6 lg:mt-6 lg:px-8">
-      <h2 class="px-6 normal-case text-xl tracking-tight leading-none lg:p-0">
+    <div class="px-6 flex flex-col gap-6 lg:mt-6 lg:px-8">
+      <h2 class="normal-case text-xl tracking-tight leading-none lg:p-0">
         Addresses
       </h2>
       <div v-if="addresses?.length">

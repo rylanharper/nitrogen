@@ -28,7 +28,7 @@ const headers = [
             :key="header.label"
             class="pl-6 pr-12 py-2.5 text-start lg:w-[16.667%]"
           >
-            <span class="text-sm">{{ header.label }}</span>
+            <span class="text-sm font-normal whitespace-nowrap">{{ header.label }}</span>
           </th>
         </tr>
       </thead>
@@ -39,17 +39,14 @@ const headers = [
               :to="order.statusUrl"
               target="_blank"
               rel="noreferrer"
-              class="flex items-center gap-2 max-w-fit whitespace-nowrap"
+              class="flex items-center gap-2 whitespace-nowrap"
             >
               {{ order.lineItems?.edges[0]?.node.title }}
-              <Icon
-                name="ph:arrow-up-right"
-                class="h-4 w-4 shrink-0 text-zinc-400"
-              />
+              <Icon name="ph:arrow-up-right" class="h-4 w-4 shrink-0 text-zinc-400"/>
             </nuxt-link>
           </td>
           <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
-            <span>{{ order.lineItems?.edges[0]?.node.quantity }} </span>
+            <span>{{ order.lineItems?.edges[0]?.node.quantity }}</span>
           </td>
           <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
             <span>{{ order.orderNumber }}</span>
