@@ -16,8 +16,8 @@ const router = useRouter();
 const handle = route.params.handle as string;
 
 // Composables
-const shopify = useShopify();
 const { getCollectionSortValuesFromUrl, getFilterValuesFromUrl, filterProductsByAvailability } = useCollectionHelpers();
+const shopify = useShopify();
 
 // Sort query
 const sortParam = computed(() => route.query.sort as string | null);
