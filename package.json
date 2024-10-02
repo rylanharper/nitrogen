@@ -14,13 +14,13 @@
     "@nuxt/fonts": "^0.9.2",
     "@nuxt/icon": "^1.5.2",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
-    "@pinia/nuxt": "^0.5.4",
+    "@pinia/nuxt": "^0.5.5",
     "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.1.0",
     "dotenv": "^16.4.5",
     "graphql": "^16.9.0",
     "graphql-tag": "^2.12.6",
-    "pinia": "^2.2.2"
+    "pinia": "^2.2.4"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
