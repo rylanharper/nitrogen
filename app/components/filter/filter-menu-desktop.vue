@@ -1,44 +1,52 @@
 <script setup lang="ts">
-import { useAppStore } from '@/stores/app'
+import { useAppStore } from '@/stores/app';
 
 // Props
 const props = defineProps<{
-  colorOptions: string[]
-  sizeOptions: string[]
-  productTypeOptions: string[]
-  sortOptions: { label: string, value: string | null }[]
-  activeFilterCount: number
-}>()
+  colorOptions: string[];
+  sizeOptions: string[];
+  productTypeOptions: string[];
+  sortOptions: { label: string; value: string | null }[];
+  activeFilterCount: number;
+}>();
 
 // Route
-const route = useRoute()
+const route = useRoute();
 
 // Stores
-const appStore = useAppStore()
+const appStore = useAppStore();
 
 // Emits
-const emit = defineEmits(['closeFilterMenu', 'setSortOption', 'setFilterOption', 'clearAllFilters'])
+const emit = defineEmits([
+  'closeFilterMenu',
+  'setSortOption',
+  'setFilterOption',
+  'clearAllFilters'
+]);
 
 function closeFilterMenu() {
-  emit('closeFilterMenu')
+  emit('closeFilterMenu');
 }
 
 function setSortOption(sortValue: string | null) {
-  emit('setSortOption', sortValue)
+  emit('setSortOption', sortValue);
 }
 
 function setFilterOption(filterName: string, filterValue: string) {
-  emit('setFilterOption', filterName, filterValue)
+  emit('setFilterOption', filterName, filterValue);
 }
 
 function clearAllFilters() {
-  emit('clearAllFilters')
+  emit('clearAllFilters');
 }
 </script>
 
 <template>
   <transition name="slider" mode="out-in" appear>
-    <aside v-if="appStore.filterMenuOpen" class="hidden fixed top-0 z-[200] w-full bg-white lg:flex">
+    <aside
+      v-if="appStore.filterMenuOpen"
+      class="hidden fixed top-0 z-[200] w-full bg-white lg:flex"
+    >
       <div class="relative flex flex-col justify-between gap-20 w-full px-6 py-4">
         <div class="absolute top-0 right-0 px-6 py-4">
           <button

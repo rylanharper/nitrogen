@@ -1,45 +1,53 @@
 <script setup lang="ts">
-import { useAppStore } from '@/stores/app'
+import { useAppStore } from '@/stores/app';
 
 // Props
 const props = defineProps<{
-  colorOptions: string[]
-  sizeOptions: string[]
-  productTypeOptions: string[]
-  sortOptions: { label: string, value: string | null }[]
-  activeFilterCount: number
-}>()
+  colorOptions: string[];
+  sizeOptions: string[];
+  productTypeOptions: string[];
+  sortOptions: { label: string; value: string | null }[];
+  activeFilterCount: number;
+}>();
 
 // Route
-const route = useRoute()
+const route = useRoute();
 
 // Stores
-const appStore = useAppStore()
+const appStore = useAppStore();
 
-// Define emits
-const emit = defineEmits(['closeFilterMenu', 'setSortOption', 'setFilterOption', 'clearAllFilters'])
+// Emits
+const emit = defineEmits([
+  'closeFilterMenu',
+  'setSortOption',
+  'setFilterOption',
+  'clearAllFilters'
+]);
 
 // Emit events
 function closeFilterMenu() {
-  emit('closeFilterMenu')
+  emit('closeFilterMenu');
 }
 
 function setSortOption(sortValue: string | null) {
-  emit('setSortOption', sortValue)
+  emit('setSortOption', sortValue);
 }
 
 function setFilterOption(filterName: string, filterValue: string) {
-  emit('setFilterOption', filterName, filterValue)
+  emit('setFilterOption', filterName, filterValue);
 }
 
 function clearAllFilters() {
-  emit('clearAllFilters')
+  emit('clearAllFilters');
 }
 </script>
 
 <template>
   <transition name="slider" mode="out-in" appear>
-    <aside v-if="appStore.filterMenuOpen" class="fixed inset-0 z-[200] size-full bg-white lg:hidden">
+    <aside
+      v-if="appStore.filterMenuOpen"
+      class="fixed inset-0 z-[200] size-full bg-white lg:hidden"
+    >
       <div class="flex flex-col size-full px-5">
         <div class="flex justify-between items-center py-3 border-b border-zinc-300">
           <h2>Filters</h2>
@@ -56,7 +64,10 @@ function clearAllFilters() {
             <details class="group">
               <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span class="truncate">Sort By</span>
-                <Icon name="ph:caret-down" class="h-5 w-5 shrink-0 transition group-open:rotate-180" />
+                <Icon
+                  name="ph:caret-down"
+                  class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+                />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
                 <div class="flex flex-col pb-4">
@@ -75,7 +86,10 @@ function clearAllFilters() {
             <details class="group">
               <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span class="truncate">Color</span>
-                <Icon name="ph:caret-down" class="h-5 w-5 shrink-0 transition group-open:rotate-180" />
+                <Icon
+                  name="ph:caret-down"
+                  class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+                />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
                 <div class="flex flex-col pb-4">
@@ -94,7 +108,10 @@ function clearAllFilters() {
             <details class="group">
               <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span class="truncate">Size</span>
-                <Icon name="ph:caret-down" class="h-5 w-5 shrink-0 transition group-open:rotate-180" />
+                <Icon
+                  name="ph:caret-down"
+                  class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+                />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
                 <div class="flex flex-col pb-4">
@@ -113,7 +130,10 @@ function clearAllFilters() {
             <details class="group">
               <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span class="truncate">Style</span>
-                <Icon name="ph:caret-down" class="h-5 w-5 shrink-0 transition group-open:rotate-180" />
+                <Icon
+                  name="ph:caret-down"
+                  class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+                />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
                 <div class="flex flex-col pb-4">
