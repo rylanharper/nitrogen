@@ -7,21 +7,21 @@ import { PRICE_RANGE_FRAGMENT } from '../fragments/priceRange';
 import { PRODUCT_OPTION_FRAGMENT } from '../fragments/productOption';
 
 export const SEARCH = gql`
-  query search(
-    $query: String!
+  query searchProducts(
+    $searchTerm: String!
     $country: CountryCode
     $language: LanguageCode
     $filters: [ProductFilter!]
     $sortKey: SearchSortKeys!
     $reverse: Boolean
   ) @inContext(country: $country, language: $language) {
-    products: search(
-      query: $query
+    search(
       first: 250
-      types: PRODUCT
+      query: $searchTerm
       productFilters: $filters
       sortKey: $sortKey
       reverse: $reverse
+      types: PRODUCT
     ) {
       filters: productFilters {
         ...Filter
@@ -50,16 +50,6 @@ export const PREDICTIVE_SEARCH = gql`
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
     predictiveSearch(query: $query, limit: 6, unavailableProducts: HIDE) {
-      collections {
-        __typename
-        handle
-        id
-        image {
-          ...Image
-        }
-        title
-        trackingParameters
-      }
       products {
         __typename
         featuredImage {
