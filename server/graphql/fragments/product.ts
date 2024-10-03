@@ -27,6 +27,7 @@ export const PRODUCT_FRAGMENT = gql`
         }
       }
     }
+    isGiftCard
     media(first: 250) {
       edges {
         node {
@@ -54,6 +55,7 @@ export const PRODUCT_FRAGMENT = gql`
     tags
     title
     totalInventory
+    trackingParameters
     updatedAt
     variants(first: 250) {
       edges {

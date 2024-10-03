@@ -2,9 +2,6 @@ import { gql } from 'graphql-tag';
 import { FILTER_FRAGMENT } from '../fragments/filter';
 import { PRODUCT_FRAGMENT } from '../fragments/product';
 import { PAGE_INFO_FRAGMENT } from '../fragments/pageInfo';
-import { IMAGE_FRAGMENT } from '../fragments/image';
-import { PRICE_RANGE_FRAGMENT } from '../fragments/priceRange';
-import { PRODUCT_OPTION_FRAGMENT } from '../fragments/productOption';
 
 export const SEARCH = gql`
   query searchProducts(
@@ -36,6 +33,7 @@ export const SEARCH = gql`
       pageInfo {
         ...PageInfo
       }
+      totalCount
     }
   }
   ${FILTER_FRAGMENT}
@@ -51,24 +49,9 @@ export const PREDICTIVE_SEARCH = gql`
   ) @inContext(country: $country, language: $language) {
     predictiveSearch(query: $query, limit: 6, unavailableProducts: HIDE) {
       products {
-        __typename
-        featuredImage {
-          ...Image
-        }
-        handle
-        id
-        title
-        trackingParameters
-        options(first: 250) {
-          ...ProductOption
-        }
-        priceRange {
-          ...PriceRange
-        }
+        ...Product
       }
     }
   }
-  ${IMAGE_FRAGMENT}
-  ${PRICE_RANGE_FRAGMENT}
-  ${PRODUCT_OPTION_FRAGMENT}
+  ${PRODUCT_FRAGMENT}
 `;
