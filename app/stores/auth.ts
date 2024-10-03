@@ -159,6 +159,6 @@ export const useAuthStore = defineStore('@yeren/auth', {
   },
 
   persist: {
-    paths: ['accessToken', 'customer']
+    pick: ['accessToken', 'customer']
   }
 });

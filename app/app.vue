@@ -1,7 +1,7 @@
 <script setup lang="ts">
 await Promise.all([
-  useShopStore().fetchLocalizationData(),
-  useCartStore().retrieveCart()
+  useShopStore().getLocalization(),
+  useCartStore().getCart()
 ])
 
 useHead({
@@ -21,6 +21,8 @@ useHead({
   <div id="app" class="flex flex-col items-center">
     <app-header />
     <cart-drawer />
+    <mobile-menu />
+    <search-menu />
     <locale-modal />
     <main id="content" class="flex-1 min-h-svh w-full">
       <nuxt-layout>

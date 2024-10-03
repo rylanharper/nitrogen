@@ -37,7 +37,7 @@ export const useCartStore = defineStore('@yeren/cart', {
      * @param input - The cart input data
      * @param optionalParams - Optional cart parameters such as country and language
      */
-    async cartCreate(input?: CartInput, optionalParams?: CartOptionalInput) {
+    async createCart(input?: CartInput, optionalParams?: CartOptionalInput) {
       try {
         const response = await shopify.cart.create({
           input: input,
@@ -55,9 +55,9 @@ export const useCartStore = defineStore('@yeren/cart', {
      * Retrieves the cart.
      * @param optionalParams - Optional cart parameters such as country and language
      */
-    async retrieveCart(optionalParams?: CartOptionalInput) {
+    async getCart(optionalParams?: CartOptionalInput) {
       if (!this.cart?.id) {
-        await this.cartCreate();
+        await this.createCart();
         return;
       }
 
@@ -81,7 +81,7 @@ export const useCartStore = defineStore('@yeren/cart', {
      */
     async addToCart(lines: CartLineInput[], optionalParams?: CartOptionalInput) {
       if (!this.cart?.id) {
-        await this.cartCreate();
+        await this.createCart();
         return;
       }
 
@@ -106,7 +106,7 @@ export const useCartStore = defineStore('@yeren/cart', {
      */
     async removeFromCart(lineIds: string[], optionalParams?: CartOptionalInput) {
       if (!this.cart?.id) {
-        await this.cartCreate();
+        await this.createCart();
         return;
       }
 
@@ -131,7 +131,7 @@ export const useCartStore = defineStore('@yeren/cart', {
      */
     async updateCart(lines: CartLineUpdateInput[], optionalParams?: CartOptionalInput) {
       if (!this.cart?.id) {
-        await this.cartCreate();
+        await this.createCart();
         return;
       }
 
@@ -156,7 +156,7 @@ export const useCartStore = defineStore('@yeren/cart', {
      */
     async attachBuyer(buyerIdentity: CartBuyerIdentityInput, optionalParams?: CartOptionalInput) {
       if (!this.cart?.id) {
-        await this.cartCreate();
+        await this.createCart();
         return;
       }
 
@@ -185,6 +185,6 @@ export const useCartStore = defineStore('@yeren/cart', {
   },
 
   persist: {
-    paths: ['cart']
+    pick: ['cart']
   }
 });

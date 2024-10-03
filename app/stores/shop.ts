@@ -10,7 +10,7 @@ import type {
 
 // Interface
 interface shopState {
-  locale: LocalizationQuery['localization']
+  locale: LocalizationQuery['localization'];
 }
 
 // Composables
@@ -37,21 +37,21 @@ export const useShopStore = defineStore('@yeren/shop', {
      * @param newCountryCode - Optional country code input
      * @param newLanguageCode - Optional language code input
      */
-    async fetchLocalizationData(newCountryCode?: CountryCode, newLanguageCode?: LanguageCode) {
+    async getLocalization(newCountryCode?: CountryCode, newLanguageCode?: LanguageCode) {
       try {
         const response = await shopify.localization.get({
           country: newCountryCode ?? this.locale.country.isoCode,
           language: newLanguageCode ?? this.locale.language.isoCode
-        })
+        });
 
         if (response) {
-          this.locale.availableCountries = response.availableCountries
-          this.locale.availableLanguages = response.availableLanguages
-          this.locale.country = response.country
-          this.locale.language = response.language
+          this.locale.availableCountries = response.availableCountries;
+          this.locale.availableLanguages = response.availableLanguages;
+          this.locale.country = response.country;
+          this.locale.language = response.language;
         }
       } catch (error) {
-        console.error('Cannot get localization data from Shopify', error)
+        console.error('Cannot get localization data from Shopify', error);
       }
     }
   },
@@ -64,6 +64,6 @@ export const useShopStore = defineStore('@yeren/shop', {
   },
 
   persist: {
-    paths: ['locale.country', 'locale.language']
+    pick: ['locale.country', 'locale.language']
   }
-})
+});
