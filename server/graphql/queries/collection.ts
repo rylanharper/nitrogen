@@ -10,7 +10,7 @@ export const COLLECTION = gql`
     $country: CountryCode
     $language: LanguageCode
     $filters: [ProductFilter!]
-    $sortKey: ProductCollectionSortKeys!
+    $sortKey: ProductCollectionSortKeys
     $reverse: Boolean
   ) @inContext(country: $country, language: $language) {
     collection(handle: $handle) {

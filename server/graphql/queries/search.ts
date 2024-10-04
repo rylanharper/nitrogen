@@ -9,7 +9,7 @@ export const SEARCH = gql`
     $country: CountryCode
     $language: LanguageCode
     $filters: [ProductFilter!]
-    $sortKey: SearchSortKeys!
+    $sortKey: SearchSortKeys
     $reverse: Boolean
   ) @inContext(country: $country, language: $language) {
     search(
