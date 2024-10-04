@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { MoneyFragment } from '@@/types/shopify';
-import { formatCurrency } from '@/utils/formatters';
-import { useProductHelpers } from '@/composables/use-product-helpers';
 
 // Props
 const props = defineProps<{

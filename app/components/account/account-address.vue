@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { MailingAddressFragment } from '@@/types/shopify';
-import { useShopify } from '@/composables/use-shopify';
-import { useAuthStore } from '@/stores/auth';
 
 // Props
 const props = defineProps<{

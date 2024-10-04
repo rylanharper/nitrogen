@@ -1,34 +1,26 @@
 <script setup lang="ts">
 import type { CollectionQueryVariables } from '@@/types/shopify';
-import { useAppStore } from '@/stores/app';
-import { useShopStore } from '@/stores/shop';
-import { useShopify } from '@/composables/use-shopify';
-import { useCollectionHelpers } from '@/composables/use-collection-helpers';
-import { fetchData } from '@/utils/fetch-data';
-import { flattenNodeConnection } from '@/utils/flatten-nodes';
+
+// Route data
+const route = useRoute();
+const router = useRouter();
+const handle = computed(() => route.params.handle as string);
 
 // Stores
 const appStore = useAppStore();
 const shopStore = useShopStore();
 
-// Route
-const route = useRoute();
-const router = useRouter();
-
-// Handle
-const handle = computed(() => route.params.handle as string);
-
 // Composables
 const shopify = useShopify();
-const helpers = useCollectionHelpers();
+const { getCollectionSortValuesFromUrl, getFilterValuesFromUrl, filterProductsByAvailability } = useCollectionHelpers();
 
 // Sort query
 const sortParam = computed(() => route.query.sort as string | null);
-const sortValues = computed(() => helpers.getCollectionSortValuesFromUrl(sortParam.value));
+const sortValues = computed(() => getCollectionSortValuesFromUrl(sortParam.value));
 
 // Filter query
 const filterParam = computed(() => route.query);
-const filters = computed(() => helpers.getFilterValuesFromUrl(filterParam.value));
+const filters = computed(() => getFilterValuesFromUrl(filterParam.value));
 
 // Active filter options
 const activeFilterOptions = computed(() => {
@@ -94,8 +86,8 @@ const collection = computed(() => fullCollectionData?.value);
 const products = computed(() => flattenNodeConnection(collection.value?.products));
 const defaultProducts = computed(() => flattenNodeConnection(basicCollectionData.value?.products));
 
-// Filter products by availability
-const availableProducts = computed(() => helpers.filterProductsByAvailability(products.value, filters.value));
+// Filter available products
+const availableProducts = computed(() => filterProductsByAvailability(products.value, filters.value));
 
 // Toggle filter menu
 function toggleFilterMenu() {

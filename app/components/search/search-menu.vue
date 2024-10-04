@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { PredictiveSearchQueryVariables } from '@@/types/shopify';
-import { useShopStore } from '@/stores/shop';
-import { useShopify } from '@/composables/use-shopify';
-import { debounce } from '@/utils/debounce';
 
 // Stores
 const appStore = useAppStore();
 const shopStore = useShopStore();
+
+// Composables
+const shopify = useShopify();
 
 // Refs
 const searchQuery = ref('');
@@ -16,28 +16,17 @@ const setDebouncedQuery = debounce((query: string) => {
   searchQuery.value = query;
 }, 350);
 
-// Composables
-const shopify = useShopify();
-
 // Fetch data
-const variables = computed<PredictiveSearchQueryVariables>(() => ({
+const searchVars = computed<PredictiveSearchQueryVariables>(() => ({
   query: searchQuery.value,
   country: shopStore.buyerCountryCode,
   language: shopStore.buyerLanguageCode
 }));
 
-const { data, error } = await useAsyncData('predictiveSearch', () =>
-  shopify.search.predictive(variables.value), {
-    watch: [variables]
-  }
-);
-
-if (error.value) {
-  console.error('Error fetching predictiveSearch data', error.value);
-}
+const { data: searchData } = await fetchData(searchVars, 'predictiveSearch', shopify.search.predictive);
 
 // Computed data
-const products = computed(() => data.value?.products || []);
+const products = computed(() => searchData.value?.products || []);
 
 // Handle keydown event
 async function handleSearchSubmit() {

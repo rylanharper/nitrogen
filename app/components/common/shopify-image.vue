@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ImageFragment } from '@@/types/shopify';
-import { formatSizeUrl } from '@/utils/formatters';
 
 // Props
 const props = defineProps<{

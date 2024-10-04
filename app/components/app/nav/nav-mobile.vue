@@ -8,7 +8,10 @@ const cartStore = useCartStore();
 const cartTotalItems = computed(() => cartStore.lineItemsCount);
 
 // Emits
-const emit = defineEmits(['toggleShopMenu', 'toggleCartDrawer']);
+const emit = defineEmits([
+  'toggleShopMenu',
+  'toggleCartDrawer'
+]);
 </script>
 
 <template>

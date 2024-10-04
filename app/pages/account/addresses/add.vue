@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import type { CustomerQueryVariables, MailingAddressInput } from '@@/types/shopify';
-import { useAuthStore } from '@/stores/auth';
-import { useShopStore } from '@/stores/shop';
-import { useShopify } from '@/composables/use-shopify';
-import { fetchData } from '@/utils/fetch-data';
 
 // Stores
 const authStore = useAuthStore();

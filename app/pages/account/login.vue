@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth';
-import { isEmail } from '@/utils/validators';
-
 // Stores
 const authStore = useAuthStore();
 

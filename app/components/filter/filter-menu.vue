@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import type { ProductFragment } from '@@/types/shopify';
-import { useAppStore } from '@/stores/app';
-import { useCollectionHelpers } from '@/composables/use-collection-helpers';
-import { useMagicKeys } from '@vueuse/core';
 
 // Props
 const props = defineProps<{

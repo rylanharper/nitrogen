@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cart';
-import { useShopStore } from '@/stores/shop';
-
 // Links
 const navLinksLeft = [
   { label: 'Shop', path: '/' },
@@ -9,7 +6,9 @@ const navLinksLeft = [
   { label: 'About', path: '/' }
 ];
 
-const navLinksRight = [{ label: 'Account', path: '/account' }];
+const navLinksRight = [
+  { label: 'Account', path: '/account' }
+];
 
 // Stores
 const cartStore = useCartStore();

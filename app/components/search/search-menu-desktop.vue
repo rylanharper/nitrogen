@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { ProductFragment } from '@@/types/shopify'
-import { useAppStore } from '@/stores/app'
-import { useMagicKeys } from '@vueuse/core'
 
 // Props
 const props = defineProps<{
@@ -9,11 +7,11 @@ const props = defineProps<{
   searchQuery: string
 }>()
 
-// Stores
-const appStore = useAppStore()
-
 // Route
 const route = useRoute()
+
+// Stores
+const appStore = useAppStore()
 
 // Refs
 const input = ref<HTMLInputElement | null>(null)
@@ -87,7 +85,7 @@ if (escape) {
             id="searchInput"
             name="searchInput"
             type="text"
-            placeholder="Search"
+            placeholder="Search products"
             @input="handleInput"
             @keydown="handleKeyDown"
             autocapitalize="off"

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ProductFragment } from '@@/types/shopify';
-import { useProductHelpers } from '@/composables/use-product-helpers';
 
 // Props
 const props = defineProps<{

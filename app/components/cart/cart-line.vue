@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { CartLineFragment } from '@@/types/shopify';
-import { useCartStore } from '@/stores/cart';
 
 // Props
 const props = defineProps<{

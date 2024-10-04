@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import type { CustomerQueryVariables } from '@@/types/shopify';
-import { useAuthStore } from '@/stores/auth';
-import { useShopStore } from '@/stores/shop';
-import { useShopify } from '@/composables/use-shopify';
-import { fetchData } from '@/utils/fetch-data';
-import { flattenNodeConnection } from '@/utils/flatten-nodes';
 
 // Stores
 const authStore = useAuthStore();

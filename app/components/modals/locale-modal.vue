@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import type { CountryCode } from '@@/types/shopify';
-import { useAppStore } from '@/stores/app';
-import { useCartStore } from '@/stores/cart';
-import { useShopStore } from '@/stores/shop';
-import { useMagicKeys } from '@vueuse/core';
 
 // Stores
 const appStore = useAppStore();

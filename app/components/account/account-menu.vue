@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth';
+// Route
+const route = useRoute();
 
 // Stores
 const authStore = useAuthStore();
 
 // Auth customer data
 const customer = authStore.customer;
-
-// Route
-const route = useRoute();
 
 // Select navigation
 const pages = [
