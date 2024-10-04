@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { SearchProductsQueryVariables, ProductFragment } from '@@/types/shopify';
+import type { SearchProductsQueryVariables } from '@@/types/shopify';
 import { useAppStore } from '@/stores/app';
 import { useShopStore } from '@/stores/shop';
 import { useShopify } from '@/composables/use-shopify';
 import { useCollectionHelpers } from '@/composables/use-collection-helpers';
+import { fetchData } from '@/utils/fetch-data';
 import { flattenNodeConnection } from '@/utils/flatten-nodes';
 
 // Stores
@@ -13,19 +14,21 @@ const shopStore = useShopStore();
 // Route
 const route = useRoute();
 const router = useRouter();
-const searchTerm = route.query.q as string;
+
+// Search term
+const searchTerm = computed(() => route.query.q as string);
 
 // Composables
-const { getSearchSortValuesFromUrl, getFilterValuesFromUrl, filterProductsByAvailability } = useCollectionHelpers();
 const shopify = useShopify();
+const helpers = useCollectionHelpers();
 
 // Sort query
 const sortParam = computed(() => route.query.sort as string | null);
-const sortValues = computed(() => getSearchSortValuesFromUrl(sortParam.value));
+const sortValues = computed(() => helpers.getSearchSortValuesFromUrl(sortParam.value));
 
 // Filter query
 const filterParam = computed(() => route.query);
-const filters = computed(() => getFilterValuesFromUrl(filterParam.value));
+const filters = computed(() => helpers.getFilterValuesFromUrl(filterParam.value));
 
 // Active filter options
 const activeFilterOptions = computed(() => {
@@ -70,8 +73,8 @@ function removeActiveFilterOption(filterName: string, filterValue: string) {
 }
 
 // Fetch data
-const variables = computed<SearchProductsQueryVariables>(() => ({
-  searchTerm,
+const fullSearchVars = computed<SearchProductsQueryVariables>(() => ({
+  searchTerm: searchTerm.value,
   filters: filters.value,
   sortKey: sortValues.value.sortKey,
   reverse: sortValues.value.reverse,
@@ -79,42 +82,19 @@ const variables = computed<SearchProductsQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }));
 
-const { data, error, refresh } = await useAsyncData('collection', () =>
-  shopify.search.products(variables.value), {
-    watch: [variables]
-  }
-);
+const basicSearchVars = computed<SearchProductsQueryVariables>(() => ({
+  searchTerm: searchTerm.value
+}));
 
-if (error.value) {
-  console.error('Error fetching collection data', error.value);
-}
+const { data: fullSearchData } = await fetchData(fullSearchVars, 'full-search', shopify.search.products);
+const { data: basicSearchData } = await fetchData(basicSearchVars, 'basic-search', shopify.search.products);
 
 // Computed data
-const products = computed(() => flattenNodeConnection(data.value))
-const availableProducts = computed(() => filterProductsByAvailability(products.value, filters.value))
+const products = computed(() => flattenNodeConnection(fullSearchData.value));
+const initialProducts = computed(() => flattenNodeConnection(basicSearchData.value));
 
-// Save the initial product values via `useState`
-// This helps the filter-menu retain the correct filter and sort options across navigation and query changes
-const initialProducts = useState<ProductFragment[] | null>('initialProducts', () => shallowRef(null))
-
-// Watchers
-watch(
-  products,
-  () => {
-    if (!initialProducts.value) {
-      initialProducts.value = products.value;
-    }
-  },
-  { immediate: true }
-);
-
-watch(
-  () => searchTerm,
-  () => {
-    clearNuxtState('initialProducts');
-    refresh();
-  }
-);
+// Filter products by availability
+const availableProducts = computed(() => helpers.filterProductsByAvailability(products.value, filters.value));
 
 // Toggle filter menu
 function toggleFilterMenu() {
@@ -122,12 +102,15 @@ function toggleFilterMenu() {
 }
 
 // SEO
-// SEO
-useHead({
-  title: searchTerm
-    ? `Search: ${availableProducts.value.length} results found for "${searchTerm}"`
+const pageTitle = computed(() =>
+  searchTerm.value
+    ? `Search: ${availableProducts.value.length} results found for "${searchTerm.value}"`
     : 'Search'
-});
+);
+
+useHead(() => ({
+  title: pageTitle.value
+}));
 </script>
 
 <template>

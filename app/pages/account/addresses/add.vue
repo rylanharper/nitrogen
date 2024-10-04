@@ -3,6 +3,7 @@ import type { CustomerQueryVariables, MailingAddressInput } from '@@/types/shopi
 import { useAuthStore } from '@/stores/auth';
 import { useShopStore } from '@/stores/shop';
 import { useShopify } from '@/composables/use-shopify';
+import { fetchData } from '@/utils/fetch-data';
 
 // Stores
 const authStore = useAuthStore();
@@ -12,24 +13,16 @@ const shopStore = useShopStore();
 const shopify = useShopify();
 
 // Fetch data
-const variables = computed<CustomerQueryVariables>(() => ({
+const customerVars = computed<CustomerQueryVariables>(() => ({
   customerAccessToken: authStore.accessToken,
   country: shopStore.buyerCountryCode,
   language: shopStore.buyerLanguageCode
 }));
 
-const { data, error } = await useAsyncData('customer', () =>
-  shopify.customer.get(variables.value), {
-    watch: [variables]
-  }
-);
-
-if (error.value) {
-  console.error('Error fetching customer data', error.value);
-}
+const { data: customerData } = await fetchData(customerVars, 'customer', shopify.customer.get);
 
 // Computed data
-const customer = computed(() => data.value);
+const customer = computed(() => customerData.value);
 
 // Address
 const address = reactive<MailingAddressInput>({

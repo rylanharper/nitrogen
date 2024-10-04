@@ -17,7 +17,7 @@ const route = useRoute();
 const router = useRouter();
 
 // Composables
-const { sortLetterAndNumberSizes } = useCollectionHelpers();
+const helpers = useCollectionHelpers();
 
 // Sort options
 const searchSortOptions = [
@@ -119,7 +119,7 @@ const sizeOptions = computed(() => {
       .map((value) => value.name)
   );
 
-  return sortLetterAndNumberSizes(Array.from(allSizes));
+  return helpers.sortLetterAndNumberSizes(Array.from(allSizes));
 });
 
 // ProductType options
@@ -148,18 +148,20 @@ function clearAllFilters() {
 }
 
 // Close filter menu
-function closeFilterMenu() {
+function closeFilter() {
   appStore.filterMenuOpen = false;
 }
 
 // Watchers
 const { escape } = useMagicKeys();
 
-watch(escape, () => {
-  if (appStore.filterMenuOpen) {
-    closeFilterMenu();
-  }
-});
+if (escape) {
+  watch(escape, () => {
+    if (appStore.filterMenuOpen) {
+      closeFilter();
+    }
+  });
+}
 </script>
 
 <template>
@@ -169,7 +171,7 @@ watch(escape, () => {
     :productTypeOptions="productTypeOptions"
     :sortOptions="sortOptions"
     :activeFilterCount="activeFilterCount"
-    @closeFilterMenu="closeFilterMenu"
+    @closeFilter="closeFilter"
     @setSortOption="setSortOption"
     @setFilterOption="setFilterOption"
     @clearAllFilters="clearAllFilters"
@@ -180,7 +182,7 @@ watch(escape, () => {
     :productTypeOptions="productTypeOptions"
     :sortOptions="sortOptions"
     :activeFilterCount="activeFilterCount"
-    @closeFilterMenu="closeFilterMenu"
+    @closeFilter="closeFilter"
     @setSortOption="setSortOption"
     @setFilterOption="setFilterOption"
     @clearAllFilters="clearAllFilters"

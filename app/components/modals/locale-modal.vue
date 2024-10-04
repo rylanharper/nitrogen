@@ -27,7 +27,7 @@ function closeModal() {
 async function updateLocalization() {
   if (cartId && countries) {
     await cartStore.attachBuyer({ countryCode: countryLocale.value });
-    await shopStore.fetchLocalizationData(countryLocale.value);
+    await shopStore.getLocalization(countryLocale.value);
   }
 
   closeModal();
@@ -46,11 +46,13 @@ watch(
   }
 );
 
-watch(escape, () => {
-  if (appStore.localeModalOpen) {
-    closeModal();
-  }
-});
+if (escape) {
+  watch(escape, () => {
+    if (appStore.localeModalOpen) {
+      closeModal();
+    }
+  });
+}
 </script>
 
 <template>

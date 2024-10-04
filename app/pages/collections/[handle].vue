@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { CollectionQueryVariables, ProductFragment } from '@@/types/shopify';
+import type { CollectionQueryVariables } from '@@/types/shopify';
 import { useAppStore } from '@/stores/app';
 import { useShopStore } from '@/stores/shop';
 import { useShopify } from '@/composables/use-shopify';
 import { useCollectionHelpers } from '@/composables/use-collection-helpers';
+import { fetchData } from '@/utils/fetch-data';
 import { flattenNodeConnection } from '@/utils/flatten-nodes';
 
 // Stores
@@ -13,19 +14,21 @@ const shopStore = useShopStore();
 // Route
 const route = useRoute();
 const router = useRouter();
-const handle = route.params.handle as string;
+
+// Handle
+const handle = computed(() => route.params.handle as string);
 
 // Composables
-const { getCollectionSortValuesFromUrl, getFilterValuesFromUrl, filterProductsByAvailability } = useCollectionHelpers();
 const shopify = useShopify();
+const helpers = useCollectionHelpers();
 
 // Sort query
 const sortParam = computed(() => route.query.sort as string | null);
-const sortValues = computed(() => getCollectionSortValuesFromUrl(sortParam.value));
+const sortValues = computed(() => helpers.getCollectionSortValuesFromUrl(sortParam.value));
 
 // Filter query
 const filterParam = computed(() => route.query);
-const filters = computed(() => getFilterValuesFromUrl(filterParam.value));
+const filters = computed(() => helpers.getFilterValuesFromUrl(filterParam.value));
 
 // Active filter options
 const activeFilterOptions = computed(() => {
@@ -70,8 +73,8 @@ function removeActiveFilterOption(filterName: string, filterValue: string) {
 }
 
 // Fetch data
-const variables = computed<CollectionQueryVariables>(() => ({
-  handle,
+const fullCollectionVars = computed<CollectionQueryVariables>(() => ({
+  handle: handle.value,
   filters: filters.value,
   sortKey: sortValues.value.sortKey,
   reverse: sortValues.value.reverse,
@@ -79,43 +82,20 @@ const variables = computed<CollectionQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }));
 
-const { data, error, refresh } = await useAsyncData('collection', () =>
-  shopify.collection.get(variables.value), {
-    watch: [variables]
-  }
-);
+const basicCollectionVars = computed<CollectionQueryVariables>(() => ({
+  handle: handle.value
+}));
 
-if (error.value) {
-  console.error('Error fetching collection data', error.value);
-}
+const { data: fullCollectionData } = await fetchData(fullCollectionVars, 'full-collection', shopify.collection.get);
+const { data: basicCollectionData } = await fetchData(basicCollectionVars, 'basic-collection', shopify.collection.get);
 
 // Computed data
-const collection = computed(() => data?.value);
+const collection = computed(() => fullCollectionData?.value);
 const products = computed(() => flattenNodeConnection(collection.value?.products));
-const availableProducts = computed(() => filterProductsByAvailability(products.value, filters.value));
+const defaultProducts = computed(() => flattenNodeConnection(basicCollectionData.value?.products));
 
-// Save the initial product values via `useState`
-// This helps the filter-menu retain the correct filter and sort options across navigation and query changes
-const initialProducts = useState<ProductFragment[] | null>('initialProducts', () => shallowRef(null))
-
-// Watchers
-watch(
-  products,
-  () => {
-    if (!initialProducts.value) {
-      initialProducts.value = products.value;
-    }
-  },
-  { immediate: true }
-);
-
-watch(
-  () => handle,
-  () => {
-    clearNuxtState('initialProducts');
-    refresh();
-  }
-);
+// Filter products by availability
+const availableProducts = computed(() => helpers.filterProductsByAvailability(products.value, filters.value));
 
 // Toggle filter menu
 function toggleFilterMenu() {
@@ -129,7 +109,7 @@ useHead({
 </script>
 
 <template>
-  <section v-if="collection" class="relative flex flex-col px-6">
+  <section v-if="collection && availableProducts" class="relative flex flex-col px-6">
     <div class="grid grid-cols-[1fr_max-content_1fr] my-6">
       <div class="flex grid-flow-col justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
@@ -175,5 +155,5 @@ useHead({
   <section v-else class="flex items-center justify-center inset-0 size-full">
     <p class="normal-case">No collection data found.</p>
   </section>
-  <filter-menu v-if="initialProducts" :products="initialProducts" />
+  <filter-menu v-if="defaultProducts" :products="defaultProducts" />
 </template>

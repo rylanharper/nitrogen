@@ -18,15 +18,15 @@ const appStore = useAppStore();
 
 // Emits
 const emit = defineEmits([
-  'closeFilterMenu',
+  'closeFilter',
   'setSortOption',
   'setFilterOption',
   'clearAllFilters'
 ]);
 
 // Emit events
-function closeFilterMenu() {
-  emit('closeFilterMenu');
+function closeFilter() {
+  emit('closeFilter');
 }
 
 function setSortOption(sortValue: string | null) {
@@ -53,7 +53,7 @@ function clearAllFilters() {
           <h2>Filters</h2>
           <button
             type="button"
-            @click="closeFilterMenu"
+            @click="closeFilter"
             class="flex ring-1 ring-offset-2 ring-transparent rounded-sm focus:ring-black"
           >
             <Icon name="ph:x" class="h-5 w-5 shrink-0" />
@@ -161,7 +161,7 @@ function clearAllFilters() {
           </button>
           <button
             type="button"
-            @click="closeFilterMenu"
+            @click="closeFilter"
             class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
           >
             View Products
@@ -173,7 +173,7 @@ function clearAllFilters() {
   <transition name="fade" mode="out-in" appear>
     <div
       v-if="appStore.filterMenuOpen"
-      @click="closeFilterMenu"
+      @click="closeFilter"
       class="fixed inset-0 z-[150] pointer-events-auto bg-black/50 lg:hidden"
     />
   </transition>
