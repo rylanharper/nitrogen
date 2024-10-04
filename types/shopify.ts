@@ -8183,7 +8183,7 @@ export type CollectionQueryVariables = Exact<{
   country?: InputMaybe<CountryCode>;
   language?: InputMaybe<LanguageCode>;
   filters?: InputMaybe<Array<ProductFilter> | ProductFilter>;
-  sortKey: ProductCollectionSortKeys;
+  sortKey?: InputMaybe<ProductCollectionSortKeys>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
@@ -8221,7 +8221,7 @@ export type SearchProductsQueryVariables = Exact<{
   country?: InputMaybe<CountryCode>;
   language?: InputMaybe<LanguageCode>;
   filters?: InputMaybe<Array<ProductFilter> | ProductFilter>;
-  sortKey: SearchSortKeys;
+  sortKey?: InputMaybe<SearchSortKeys>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
