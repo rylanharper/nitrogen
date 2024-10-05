@@ -54,6 +54,7 @@ export const CART_LINES_REMOVE = gql`
         ...Cart
       }
       userErrors {
+        code
         field
         message
       }
@@ -74,6 +75,7 @@ export const CART_LINES_UPDATE = gql`
         ...Cart
       }
       userErrors {
+        code
         field
         message
       }
@@ -94,6 +96,7 @@ export const CART_BUYER_IDENTITY_UPDATE = gql`
         ...Cart
       }
       userErrors {
+        code
         field
         message
       }
