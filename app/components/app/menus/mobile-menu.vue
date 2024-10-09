@@ -30,7 +30,7 @@ watch(
   <transition name="clip" mode="out-in" appear>
     <aside v-if="appStore.mobileMenuOpen" class="fixed inset-0 z-[80] size-full bg-white">
       <div class="flex flex-col size-full px-6">
-        <div class="flex flex-col flex-1 mt-20 overflow-y-scroll overflow-x-hidden no-scrollbar">
+        <div class="flex flex-col flex-1 mt-16 overflow-y-scroll overflow-x-hidden no-scrollbar">
           <nuxt-link
             v-for="link in navLinks"
             :key="link.label"

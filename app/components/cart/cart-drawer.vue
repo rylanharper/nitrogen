@@ -7,7 +7,7 @@ const cartStore = useCartStore();
 const cartTotalItems = computed(() => cartStore.lineItemsCount);
 const lineItems = computed(() => flattenNodeItem(cartStore.lineItems));
 
-// Close cart drawer
+// Close drawer
 function closeDrawer() {
   appStore.cartDrawerOpen = false;
 }

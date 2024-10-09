@@ -5,7 +5,7 @@ import type { CustomerQueryVariables, MailingAddressInput } from '@@/types/shopi
 const authStore = useAuthStore();
 const shopStore = useShopStore();
 
-// Composables
+// Shopify
 const shopify = useShopify();
 
 // Fetch data
@@ -15,7 +15,7 @@ const customerVars = computed<CustomerQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }));
 
-const { data: customerData } = await fetchData(customerVars, 'customer', shopify.customer.get);
+const { data: customerData } = await fetchData('customer', customerVars, shopify.customer.get);
 
 // Computed data
 const customer = computed(() => customerData.value);
@@ -268,6 +268,7 @@ definePageMeta({
         </div>
         <button
           type="submit"
+          :disabled="isLoading"
           class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
         >
           {{ isLoading === true ? 'Working...' : 'Add Address' }}

@@ -5,7 +5,7 @@ import type { CustomerQueryVariables } from '@@/types/shopify';
 const authStore = useAuthStore();
 const shopStore = useShopStore();
 
-// Composables
+// Shopify
 const shopify = useShopify();
 
 // Fetch data
@@ -15,7 +15,7 @@ const customerVars = computed<CustomerQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }));
 
-const { data: customerData } = await fetchData(customerVars, 'customer', shopify.customer.get);
+const { data: customerData } = await fetchData('customer', customerVars, shopify.customer.get);
 
 // Computed data
 const customer = computed(() => customerData.value);

@@ -9,7 +9,7 @@ const shopStore = useShopStore();
 const route = useRoute();
 const urlQuery = route.query;
 
-// Composables
+// Shopify
 const shopify = useShopify();
 
 // Fetch data
@@ -19,7 +19,7 @@ const customerVars = computed<CustomerQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }));
 
-const { data: customerData } = await fetchData(customerVars, 'customer', shopify.customer.get);
+const { data: customerData } = await fetchData('customer', customerVars, shopify.customer.get);
 
 // Computed data
 const customer = computed(() => customerData.value);
@@ -98,7 +98,7 @@ watchEffect(() => {
     const addresses = flattenNodeConnection(customer.value.addresses);
     const currentAddress = addresses.find(({ id }) => id.startsWith(addressId as string));
 
-    // Sync address object with currentAddress
+    // Sync address object with address ID
     if (currentAddress) {
       for (const key in address) {
         if (key in currentAddress) {
@@ -289,6 +289,7 @@ definePageMeta({
         </div>
         <button
           type="submit"
+          :disabled="isLoading"
           class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
         >
           {{ isLoading === true ? 'Working...' : 'Update Address' }}

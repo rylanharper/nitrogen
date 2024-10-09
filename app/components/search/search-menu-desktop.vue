@@ -7,27 +7,24 @@ const props = defineProps<{
   searchQuery: string
 }>()
 
-// Route
-const route = useRoute()
-
 // Stores
 const appStore = useAppStore()
 
 // Refs
 const input = ref<HTMLInputElement | null>(null)
 
-// Composables
-const { getColorOption } = useProductHelpers()
-
 // Suggested links
-const defaulSearchtLinks = [
+const defaulSearchLinks = [
   { label: 'Mens tops', path: '/' },
   { label: 'Womens tops', path: '/' },
   { label: 'Womens Pants', path: '/' }
 ]
 
 // Emits
-const emit = defineEmits(['setDebouncedQuery', 'handleSearchSubmit'])
+const emit = defineEmits([
+  'setDebouncedQuery',
+  'handleSearchSubmit'
+])
 
 // Handle input
 function handleInput(event: Event) {
@@ -42,14 +39,31 @@ function handleKeyDown(event: KeyboardEvent) {
   }
 }
 
-// Close search menu
+// Helpers
+const { getColorOption } = useProductHelpers();
+
+// Computed
+const productsWithOptions = computed(() =>
+  props.products.map(product => {
+    const productOptions = product.options;
+    const productOptionColor = getColorOption(productOptions);
+    const colorOptionName = productOptionColor?.optionValues[0]?.name;
+
+    return {
+      ...product,
+      productOptions,
+      productOptionColor,
+      colorOptionName,
+    };
+  })
+);
+
+// Close search
 function closeSearch() {
   appStore.searchMenuOpen = false
 }
 
 // Watchers
-const { escape } = useMagicKeys()
-
 watch(
   () => appStore.searchMenuOpen,
   () => {
@@ -58,27 +72,15 @@ watch(
     })
   }
 )
-
-watch(
-  () => route.path,
-  () => {
-    closeSearch()
-  }
-)
-
-if (escape) {
-  watch(escape, () => {
-    if (appStore.searchMenuOpen) {
-      closeSearch();
-    }
-  });
-}
 </script>
 
 <template>
   <transition name="slider" mode="out-in" appear>
-    <aside v-if="appStore.searchMenuOpen" class="hidden fixed top-0 z-[80] w-full bg-white lg:flex lg:min-h-[400px]">
-      <div class="flex flex-col gap-6 w-full px-6 pt-14 pb-10 mx-auto xl:max-w-7xl">
+    <aside
+      v-if="appStore.searchMenuOpen"
+      class="hidden fixed top-0 z-[80] w-full bg-white lg:flex lg:min-h-[400px]"
+    >
+      <div class="flex flex-col gap-6 w-full px-6 pt-16 pb-10 mx-auto xl:max-w-7xl">
         <div class="relative w-full">
           <input
             ref="input"
@@ -93,7 +95,7 @@ if (escape) {
             autocorrect="off"
             class="peer flex w-full py-2 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none placeholder:text-zinc-400 focus:border-black focus:outline-transparent"
           />
-          <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black">
+          <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
             <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0"/>
           </div>
           <div
@@ -103,24 +105,24 @@ if (escape) {
             <Icon name="ph:x" class="h-5 w-5 shrink-0"/>
           </div>
         </div>
-        <div class="grid grid-cols-8 gap-10">
-          <div class="col-span-2">
+        <div class="grid grid-cols-4 gap-10">
+          <div class="col-span-1 flex flex-col">
             <h3 class="text-sm mb-2.5">Suggestions</h3>
             <div v-if="searchQuery.length && products?.length" class="flex flex-col">
               <nuxt-link
-                v-for="product in props.products"
+                v-for="product in productsWithOptions"
                 :key="product.id"
                 :to="`/products/${product.handle}`"
               >
-                <span v-if="getColorOption(product.options)">
-                  {{ product?.title }} {{ getColorOption(product.options)?.optionValues[0]?.name }}
+                <span v-if="product.productOptionColor">
+                  {{ product.title }} {{ product.colorOptionName }}
                 </span>
                 <span v-else>{{ product?.title }}</span>
               </nuxt-link>
             </div>
             <div v-else class="flex flex-col">
               <nuxt-link
-                v-for="link in defaulSearchtLinks"
+                v-for="link in defaulSearchLinks"
                 :key="link.label"
                 :to="link.path"
               >
@@ -128,11 +130,11 @@ if (escape) {
               </nuxt-link>
             </div>
           </div>
-          <div class="col-span-6">
+          <div class="col-span-3 flex flex-col">
             <h3 class="text-sm mb-3">Products</h3>
-            <div v-if="products?.length" class="grid grid-cols-2 gap-x-2 gap-y-6">
+            <div v-if="products?.length" class="grid grid-cols-2 gap-8 w-full">
               <nuxt-link
-                v-for="product in props.products"
+                v-for="product in productsWithOptions"
                 :key="product.id"
                 :to="`/products/${product.handle}`"
                 class="flex gap-4"
@@ -140,19 +142,19 @@ if (escape) {
                 <div class="w-24 shrink-0">
                   <shopify-image
                     :image="product.featuredImage"
-                    :alt="product.featuredImage.altText || product.title"
+                    :alt="product.featuredImage?.altText || product.title"
                   />
                 </div>
                 <div class="flex flex-col flex-1">
                   <div class="mb-1">
                     <h2 v-if="product.title" class="leading-tight">{{ product.title }}</h2>
-                    <h3 v-if="getColorOption(product.options)" class="normal-case">
-                      {{ getColorOption(product.options)?.optionValues[0]?.name }}
+                    <h3 v-if="product.productOptionColor" class="normal-case">
+                      {{ product.colorOptionName }}
                     </h3>
                   </div>
                   <price-display
-                    :price="product?.priceRange?.minVariantPrice"
-                    :compare-at-price-range="product?.compareAtPriceRange?.minVariantPrice"
+                    :price="product.priceRange?.minVariantPrice"
+                    :compare-at-price-range="product.compareAtPriceRange?.minVariantPrice"
                   />
                 </div>
               </nuxt-link>

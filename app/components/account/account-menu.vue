@@ -19,9 +19,9 @@ const pages = [
 const currentPath = computed(() => route.path);
 const selectedPage = ref(currentPath.value);
 
-function navigateToSelectedPage() {
+async function navigateToSelectedPage() {
   if (selectedPage.value !== 'logout') {
-    navigateTo(selectedPage.value);
+    await navigateTo(selectedPage.value);
   } else {
     logout();
   }

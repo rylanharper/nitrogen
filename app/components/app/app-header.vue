@@ -29,6 +29,7 @@ function toggleSearchMenu() {
     />
     <nav-mobile
       @toggleCartDrawer="toggleCartDrawer"
+      @toggleSearchMenu="toggleSearchMenu"
       @toggleShopMenu="toggleShopMenu"
     />
   </header>

@@ -6,15 +6,15 @@ const props = defineProps<{
   products: ProductFragment[];
 }>();
 
-// Stores
-const appStore = useAppStore();
-
-// Route and Router
+// Route data
 const route = useRoute();
 const router = useRouter();
 
-// Composables
-const helpers = useCollectionHelpers();
+// Stores
+const appStore = useAppStore();
+
+// Helpers
+const { sortLetterAndNumberSizes } = useCollectionHelpers();
 
 // Sort options
 const searchSortOptions = [
@@ -116,7 +116,7 @@ const sizeOptions = computed(() => {
       .map((value) => value.name)
   );
 
-  return helpers.sortLetterAndNumberSizes(Array.from(allSizes));
+  return sortLetterAndNumberSizes(Array.from(allSizes));
 });
 
 // ProductType options
@@ -144,7 +144,7 @@ function clearAllFilters() {
   });
 }
 
-// Close filter menu
+// Close filter
 function closeFilter() {
   appStore.filterMenuOpen = false;
 }

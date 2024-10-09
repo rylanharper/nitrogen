@@ -20,7 +20,7 @@ const filteredAddresses = computed(() => [
   ...props.addresses.filter((address) => address.id !== props.defaultAddress.id)
 ]);
 
-// Composables
+// Shopify
 const shopify = useShopify();
 
 // Delete address

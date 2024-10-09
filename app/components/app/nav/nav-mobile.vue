@@ -10,6 +10,7 @@ const cartTotalItems = computed(() => cartStore.lineItemsCount);
 // Emits
 const emit = defineEmits([
   'toggleShopMenu',
+  'toggleSearchMenu',
   'toggleCartDrawer'
 ]);
 </script>
@@ -30,6 +31,12 @@ const emit = defineEmits([
       </nuxt-link>
     </div>
     <div class="grid grid-flow-col justify-end items-center">
+      <button
+        @click="$emit('toggleSearchMenu')"
+        class="p-2 text-normalize bg-transparent rounded-full"
+      >
+        <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0" />
+      </button>
       <button
         @click="$emit('toggleCartDrawer')"
         class="p-2 text-normalize bg-transparent rounded-full"

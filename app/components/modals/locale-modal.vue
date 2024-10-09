@@ -13,6 +13,8 @@ const countryCode = shopStore.locale?.country?.isoCode;
 
 // Refs
 const countryLocale = ref<CountryCode>(countryCode);
+const errorMessage = ref('');
+const isLoading = ref(false)
 
 // Close modal
 function closeModal() {
@@ -21,12 +23,19 @@ function closeModal() {
 
 // Update localization
 async function updateLocalization() {
-  if (cartId && countries) {
-    await cartStore.attachBuyer({ countryCode: countryLocale.value });
-    await shopStore.getLocalization(countryLocale.value);
-  }
+  isLoading.value = true;
 
-  closeModal();
+  try {
+    if (cartId && countries) {
+      await cartStore.attachBuyer({ countryCode: countryLocale.value });
+      await shopStore.getLocalization(countryLocale.value);
+    }
+  } catch (error) {
+    errorMessage.value = 'Cannot update localization via modal.';
+  } finally {
+    isLoading.value = false;
+    closeModal();
+  }
 }
 
 // Watchers
@@ -80,9 +89,10 @@ if (escape) {
         </div>
         <button
           type="submit"
+          :disabled="isLoading"
           class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
         >
-          Save
+          {{ isLoading ? 'Saving...' : 'Save' }}
         </button>
       </form>
       <p class="max-w-[75%] mx-auto text-sm leading-snug text-center">

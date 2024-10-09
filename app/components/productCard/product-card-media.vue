@@ -10,10 +10,8 @@ const props = defineProps<{
 const productMedia = computed(() => flattenNodeConnection(props.product?.media));
 const productImage = computed(() => flattenNodeConnection(props.product?.images));
 
-// Get the first video item
-const productVideo = computed(() =>
-  productMedia.value.find((item) => item.mediaContentType === 'VIDEO') ?? null
-);
+// Find video (if any exist)
+const productVideo = computed(() => productMedia.value.find((item) => item.mediaContentType === 'VIDEO'));
 </script>
 
 <template>

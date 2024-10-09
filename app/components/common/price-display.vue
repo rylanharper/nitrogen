@@ -7,7 +7,7 @@ const props = defineProps<{
   compareAtPriceRange?: MoneyFragment;
 }>();
 
-// Composables
+// Helpers
 const { isOnSale } = useProductHelpers();
 
 // Computed

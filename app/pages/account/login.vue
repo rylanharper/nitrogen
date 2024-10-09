@@ -117,6 +117,7 @@ useHead({
         </div>
         <button
           type="submit"
+          :disabled="isLoading"
           class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
         >
           {{ isLoading === true ? 'Working...' : 'Sign in' }}

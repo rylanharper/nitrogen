@@ -10,8 +10,7 @@ const handle = computed(() => route.params.handle as string);
 const appStore = useAppStore();
 const shopStore = useShopStore();
 
-// Composables
-const shopify = useShopify();
+// Helpers
 const { getCollectionSortValuesFromUrl, getFilterValuesFromUrl, filterProductsByAvailability } = useCollectionHelpers();
 
 // Sort query
@@ -64,6 +63,9 @@ function removeActiveFilterOption(filterName: string, filterValue: string) {
   });
 }
 
+// Shopify
+const shopify = useShopify();
+
 // Fetch data
 const fullCollectionVars = computed<CollectionQueryVariables>(() => ({
   handle: handle.value,
@@ -78,18 +80,18 @@ const basicCollectionVars = computed<CollectionQueryVariables>(() => ({
   handle: handle.value
 }));
 
-const { data: fullCollectionData } = await fetchData(fullCollectionVars, 'full-collection', shopify.collection.get);
-const { data: basicCollectionData } = await fetchData(basicCollectionVars, 'basic-collection', shopify.collection.get);
+const { data: fullCollectionData } = await fetchData('full-collection', fullCollectionVars, shopify.collection.get);
+const { data: basicCollectionData } = await fetchData('basic-collection', basicCollectionVars, shopify.collection.get);
 
 // Computed data
 const collection = computed(() => fullCollectionData?.value);
 const products = computed(() => flattenNodeConnection(collection.value?.products));
-const defaultProducts = computed(() => flattenNodeConnection(basicCollectionData.value?.products));
+const initialProducts = computed(() => flattenNodeConnection(basicCollectionData.value?.products));
 
-// Filter available products
+// Filter by availability
 const availableProducts = computed(() => filterProductsByAvailability(products.value, filters.value));
 
-// Toggle filter menu
+// Toggles
 function toggleFilterMenu() {
   appStore.toggleFilterMenu();
 }
@@ -102,27 +104,27 @@ useHead({
 
 <template>
   <section v-if="collection && availableProducts" class="relative flex flex-col px-6">
-    <div class="grid grid-cols-[1fr_max-content_1fr] my-6">
-      <div class="flex grid-flow-col justify-start items-center">
+    <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
+      <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
           {{ collection.title }} ({{ availableProducts.length }})
         </h1>
       </div>
-      <div v-if="activeFilterOptions.length" class="hidden flex-wrap gap-2 lg:flex">
-        <div v-for="option in activeFilterOptions" :key="`${option.name}-${option.value}`">
-          <button
-            @click="removeActiveFilterOption(option.name, option.value)"
-            class="flex items-center justify-center p-2 px-4 gap-2.5 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-red-50 hover:text-red-600 hover:border-red-500"
-          >
-            {{ option.value }}
-            <Icon name="ph:x" class="h-4 w-4 shrink-0" />
-          </button>
+      <div class="hidden lg:flex">
+        <div v-if="activeFilterOptions.length" class="flex flex-wrap gap-2">
+          <div v-for="option in activeFilterOptions" :key="`${option.name}-${option.value}`">
+            <button
+              @click="removeActiveFilterOption(option.name, option.value)"
+              class="flex items-center justify-center p-2 px-4 gap-2.5 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-red-50 hover:text-red-600 hover:border-red-500"
+            >
+              {{ option.value }}
+              <Icon name="ph:x" class="h-4 w-4 shrink-0" />
+            </button>
+          </div>
         </div>
+        <span v-else class="invisible" />
       </div>
-      <div v-else class="invisible">
-        <span></span>
-      </div>
-      <div class="flex grid-flow-col justify-end items-center">
+      <div class="col-start-3 flex justify-end items-center">
         <button
           @click="toggleFilterMenu"
           class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
@@ -147,5 +149,5 @@ useHead({
   <section v-else class="flex items-center justify-center inset-0 size-full">
     <p class="normal-case">No collection data found.</p>
   </section>
-  <filter-menu v-if="defaultProducts" :products="defaultProducts" />
+  <filter-menu v-if="initialProducts" :products="initialProducts" />
 </template>

@@ -6,7 +6,7 @@ const props = defineProps<{
   product: ProductFragment;
 }>();
 
-// Composables
+// Helpers
 const { getColorOption } = useProductHelpers();
 
 // Computed
