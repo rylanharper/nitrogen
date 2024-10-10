@@ -11,8 +11,8 @@
     "dev:codegen": "graphql-codegen --config codegen.ts --watch"
   },
   "dependencies": {
-    "@nuxt/fonts": "^0.9.2",
-    "@nuxt/icon": "^1.5.2",
+    "@nuxt/fonts": "^0.10.0",
+    "@nuxt/icon": "^1.5.5",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@pinia/nuxt": "^0.5.5",
     "@vueuse/core": "^11.1.0",
@@ -23,13 +23,13 @@
     "pinia": "^2.2.4"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/typescript": "^4.0.9",
-    "@graphql-codegen/typescript-operations": "^4.2.3",
-    "@iconify-json/ph": "^1.2.0",
+    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/typescript": "^4.1.0",
+    "@graphql-codegen/typescript-operations": "^4.3.0",
+    "@iconify-json/ph": "^1.2.1",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "nuxt": "^3.13.2",
-    "typescript": "^5.6.2",
+    "typescript": "^5.6.3",
     "vue": "^3.5.10",
     "vue-router": "^4.4.5"
   }
