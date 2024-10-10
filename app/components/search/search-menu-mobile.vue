@@ -15,21 +15,25 @@ const input = ref<HTMLInputElement | null>(null)
 
 // Emits
 const emit = defineEmits([
+  'closeSearch',
   'setDebouncedQuery',
   'handleSearchSubmit'
 ])
 
-// Handle input
+// Emit events
 function handleInput(event: Event) {
   const target = event.target as HTMLInputElement
   emit('setDebouncedQuery', target.value)
 }
 
-// Handle keydown (Enter key)
 function handleKeyDown(event: KeyboardEvent) {
   if (event.key === 'Enter') {
     emit('handleSearchSubmit')
   }
+}
+
+function closeSearch() {
+  emit('closeSearch');
 }
 
 // Helpers
@@ -50,11 +54,6 @@ const productsWithOptions = computed(() =>
     };
   })
 );
-
-// Close search
-function closeSearch() {
-  appStore.searchMenuOpen = false
-}
 
 // Watchers
 watch(

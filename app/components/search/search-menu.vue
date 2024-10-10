@@ -9,9 +9,9 @@ const shopStore = useShopStore();
 const searchQuery = ref('');
 
 // Debounce search query
-const setDebouncedQuery = debounce((query: string) => {
+const setDebouncedQuery = useDebounceFn((query: string) => {
   searchQuery.value = query;
-}, 200);
+}, 250);
 
 // Shopify
 const shopify = useShopify();
@@ -78,12 +78,14 @@ if (escape) {
   <search-menu-desktop
     :products="products"
     :searchQuery="searchQuery"
+    @closeSearch="closeSearch"
     @setDebouncedQuery="setDebouncedQuery"
     @handleSearchSubmit="handleSearchSubmit"
   />
   <search-menu-mobile
     :products="products"
     :searchQuery="searchQuery"
+    @closeSearch="closeSearch"
     @setDebouncedQuery="setDebouncedQuery"
     @handleSearchSubmit="handleSearchSubmit"
   />
