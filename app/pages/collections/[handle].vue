@@ -21,7 +21,7 @@ const sortValues = computed(() => getCollectionSortValuesFromUrl(sortParam.value
 const filterParam = computed(() => route.query);
 const filters = computed(() => getFilterValuesFromUrl(filterParam.value));
 
-// Active filter options
+// Active options
 const activeFilterOptions = computed(() => {
   const filters: { name: string; value: string }[] = [];
 
@@ -40,7 +40,7 @@ const activeFilterOptions = computed(() => {
   return filters;
 });
 
-// Remove active filter option
+// Remove active option
 function removeActiveFilterOption(filterName: string, filterValue: string) {
   const query = { ...route.query };
 
@@ -88,7 +88,7 @@ const collection = computed(() => fullCollectionData?.value);
 const products = computed(() => flattenNodeConnection(collection.value?.products));
 const initialProducts = computed(() => flattenNodeConnection(basicCollectionData.value?.products));
 
-// Filter by availability
+// Filter available
 const availableProducts = computed(() => filterProductsByAvailability(products.value, filters.value));
 
 // Toggles
@@ -103,7 +103,7 @@ useHead({
 </script>
 
 <template>
-  <section v-if="collection && availableProducts" class="relative flex flex-col px-6">
+  <section v-if="collection" class="relative flex flex-col px-6">
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">

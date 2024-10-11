@@ -21,7 +21,7 @@ const sortValues = computed(() => getSearchSortValuesFromUrl(sortParam.value));
 const filterParam = computed(() => route.query);
 const filters = computed(() => getFilterValuesFromUrl(filterParam.value));
 
-// Active filter options
+// Active options
 const activeFilterOptions = computed(() => {
   const filters: { name: string; value: string }[] = [];
 
@@ -40,7 +40,7 @@ const activeFilterOptions = computed(() => {
   return filters;
 });
 
-// Remove active filter option
+// Remove active option
 function removeActiveFilterOption(filterName: string, filterValue: string) {
   const query = { ...route.query };
 
@@ -87,7 +87,7 @@ const { data: basicSearchData } = await fetchData('basic-search', basicSearchVar
 const products = computed(() => flattenNodeConnection(fullSearchData.value));
 const initialProducts = computed(() => flattenNodeConnection(basicSearchData.value));
 
-// Filter by availability
+// Filter available
 const availableProducts = computed(() => filterProductsByAvailability(products.value, filters.value));
 
 // Toggles
