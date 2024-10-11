@@ -55,16 +55,14 @@ async function removeLineFromCart(lineId: string) {
         </div>
       </div>
       <div class="flex justify-between">
-        <div class="flex items-center">
+        <div class="flex items-center gap-4">
           <button
             @click="updateLineQuantity(line, line.quantity - 1)"
             class="flex items-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 ease-in-out hover:lg:border-black"
           >
             <Icon name="ph:minus" class="h-3 w-3 shrink-0" />
           </button>
-          <span class="mx-4">
-            {{ line.quantity }}
-          </span>
+          <span>{{ line.quantity }}</span>
           <button
             @click="updateLineQuantity(line, line.quantity + 1)"
             class="flex items-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 ease-in-out hover:lg:border-black"

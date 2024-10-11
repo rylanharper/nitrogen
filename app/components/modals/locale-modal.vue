@@ -31,7 +31,7 @@ async function updateLocalization() {
       await shopStore.getLocalization(countryLocale.value);
     }
   } catch (error) {
-    errorMessage.value = 'Cannot update localization via modal.';
+    errorMessage.value = 'An error occurred. Please try again later.';
   } finally {
     isLoading.value = false;
     closeModal();
