@@ -68,31 +68,34 @@ watch(
 
 <template>
   <transition name="slider" mode="out-in" appear>
-    <aside v-if="appStore.searchMenuOpen" class="fixed inset-0 z-[200] size-full bg-white lg:hidden">
+    <aside
+      v-if="appStore.searchMenuOpen"
+      class="fixed inset-0 z-[200] size-full bg-white lg:hidden"
+    >
       <div class="flex flex-col size-full px-5">
-        <div class="relative w-full mb-8">
+        <div class="relative flex">
           <input
             ref="input"
+            type="text"
             id="searchInput"
             name="searchInput"
-            type="text"
             placeholder="Search products"
             @input="handleInput"
             @keydown="handleKeyDown"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
-            class="peer flex w-full py-3 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none placeholder:text-zinc-400 focus:border-black focus:outline-transparent"
+            class="peer flex w-full py-3 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-transparent"
           />
           <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
             <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0"/>
           </div>
-          <div
+          <button
             @click="closeSearch"
-            class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black cursor-pointer"
+            class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black"
           >
             <Icon name="ph:x" class="h-5 w-5 shrink-0"/>
-          </div>
+          </button>
         </div>
         <div class="flex flex-col flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
           <div v-if="searchQuery.length && products?.length" class="grid grid-cols-2 gap-x-2 gap-y-8 w-full">
@@ -110,7 +113,7 @@ watch(
               </div>
               <div class="flex flex-col flex-1">
                 <div class="mb-1">
-                  <h2 v-if="product.title" class="leading-tight">{{ product.title }}</h2>
+                  <h2 v-if="product.title">{{ product.title }}</h2>
                   <h3 v-if="product.productOptionColor" class="normal-case">
                     {{ product.colorOptionName }}
                   </h3>

@@ -77,9 +77,9 @@ watch(
   <transition name="slider" mode="out-in" appear>
     <aside
       v-if="appStore.searchMenuOpen"
-      class="hidden fixed top-0 z-[80] w-full bg-white lg:flex lg:min-h-[400px]"
+      class="hidden fixed top-0 left-0 z-[80] w-full bg-white lg:flex lg:min-h-[400px]"
     >
-      <div class="flex flex-col gap-6 w-full px-6 pt-16 pb-10 mx-auto xl:max-w-7xl">
+      <div class="flex flex-col gap-6 w-full px-6 pt-16 pb-10 mx-auto xl:max-w-6xl">
         <div class="relative w-full">
           <input
             ref="input"
@@ -92,20 +92,20 @@ watch(
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
-            class="peer flex w-full py-2 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none placeholder:text-zinc-400 focus:border-black focus:outline-transparent"
+            class="peer flex w-full py-2 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-transparent"
           />
           <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
             <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0"/>
           </div>
-          <div
+          <button
             @click="closeSearch"
-            class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black cursor-pointer"
+            class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black"
           >
             <Icon name="ph:x" class="h-5 w-5 shrink-0"/>
-          </div>
+          </button>
         </div>
-        <div class="grid grid-cols-4 gap-10">
-          <div class="col-span-1 flex flex-col">
+        <div class="grid grid-cols-[1fr_2fr]">
+          <div class="flex flex-col">
             <h3 class="text-sm mb-2.5">Suggestions</h3>
             <div v-if="searchQuery.length && products?.length" class="flex flex-col">
               <nuxt-link
@@ -129,7 +129,7 @@ watch(
               </nuxt-link>
             </div>
           </div>
-          <div class="col-span-3 flex flex-col">
+          <div class="flex flex-col">
             <h3 class="text-sm mb-3">Products</h3>
             <div v-if="products?.length" class="grid grid-cols-2 gap-8 w-full">
               <nuxt-link
@@ -146,7 +146,7 @@ watch(
                 </div>
                 <div class="flex flex-col flex-1">
                   <div class="mb-1">
-                    <h2 v-if="product.title" class="leading-tight">{{ product.title }}</h2>
+                    <h2 v-if="product.title">{{ product.title }}</h2>
                     <h3 v-if="product.productOptionColor" class="normal-case">
                       {{ product.colorOptionName }}
                     </h3>
