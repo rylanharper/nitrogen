@@ -72,7 +72,7 @@ watch(
       v-if="appStore.searchMenuOpen"
       class="fixed inset-0 z-[200] size-full bg-white lg:hidden"
     >
-      <div class="flex flex-col size-full px-5">
+      <div class="flex flex-col gap-10 size-full px-5">
         <div class="relative flex">
           <input
             ref="input"

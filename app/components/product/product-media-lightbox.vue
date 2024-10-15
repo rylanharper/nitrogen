@@ -51,7 +51,7 @@ if (escape) {
   <section class="hidden fixed items-center justify-center inset-0 z-[200] bg-white lg:flex">
     <button
       @click="closeLightbox"
-      class="flex absolute z-10 top-4 right-10 ring-1 ring-offset-2 ring-transparent rounded-sm focus:ring-black"
+      class="flex absolute z-10 top-4 right-10 ring-1 ring-transparent ring-offset-2 ring-offset-[#f2f2f2] rounded-sm focus:ring-black"
     >
       <Icon name="ph:x" class="h-6 w-6 shrink-0" />
     </button>

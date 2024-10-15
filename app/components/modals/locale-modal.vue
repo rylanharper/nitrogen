@@ -100,7 +100,7 @@ if (escape) {
       </p>
       <button
         @click="closeModal"
-        class="flex absolute top-2 right-2 ring-1 ring-offset-2 ring-transparent rounded-sm focus:ring-black"
+        class="flex absolute top-2 right-2 ring-1 ring-transparent ring-offset-2 rounded-sm focus:ring-black"
       >
         <Icon name="ph:x" class="h-5 w-5 shrink-0" />
       </button>

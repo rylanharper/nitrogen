@@ -44,9 +44,8 @@ if (escape) {
         <div class="flex justify-between items-center py-3 border-b border-zinc-300 lg:py-4">
           <h2>Your Cart ({{ cartTotalItems }})</h2>
           <button
-            type="button"
             @click="closeDrawer"
-            class="flex ring-1 ring-offset-2 ring-transparent rounded-sm focus:ring-black"
+            class="flex ring-1 ring-transparent ring-offset-2 rounded-sm focus:ring-black"
           >
             <Icon name="ph:x" class="h-5 w-5 shrink-0" />
           </button>
