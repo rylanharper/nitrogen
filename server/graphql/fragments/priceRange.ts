@@ -12,4 +12,3 @@ export const PRICE_RANGE_FRAGMENT = gql`
     }
   }
 `;
-

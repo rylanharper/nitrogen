@@ -13,4 +13,3 @@ export const PRODUCT = gql`
   }
   ${PRODUCT_FRAGMENT}
 `;
-

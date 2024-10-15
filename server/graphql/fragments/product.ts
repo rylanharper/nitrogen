@@ -1,6 +1,7 @@
 import { gql } from 'graphql-tag';
 import { PRICE_RANGE_FRAGMENT } from './priceRange';
 import { IMAGE_FRAGMENT } from './image';
+import { MEDIA_IMAGE_FRAGMENT } from './mediaImage';
 import { MODEL_3D_FRAGMENT } from './model3d';
 import { VIDEO_FRAGMENT } from './video';
 import { PRODUCT_OPTION_FRAGMENT } from './productOption';
@@ -34,6 +35,9 @@ export const PRODUCT_FRAGMENT = gql`
           alt
           id
           mediaContentType
+          ... on MediaImage {
+            ...MediaImage
+          }
           ... on Model3d {
             ...Model3d
           }
@@ -67,6 +71,7 @@ export const PRODUCT_FRAGMENT = gql`
   }
   ${PRICE_RANGE_FRAGMENT}
   ${IMAGE_FRAGMENT}
+  ${MEDIA_IMAGE_FRAGMENT}
   ${MODEL_3D_FRAGMENT}
   ${VIDEO_FRAGMENT}
   ${PRODUCT_VARIANT_FRAGMENT}
