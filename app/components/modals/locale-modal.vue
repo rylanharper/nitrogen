@@ -99,7 +99,6 @@ if (escape) {
         Shop in your local currency · Enjoy local shipping rates at checkout
       </p>
       <button
-        type="button"
         @click="closeModal"
         class="flex absolute top-2 right-2 ring-1 ring-offset-2 ring-transparent rounded-sm focus:ring-black"
       >
