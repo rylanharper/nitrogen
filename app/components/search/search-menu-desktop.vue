@@ -83,12 +83,11 @@ watch(
         <div class="relative w-full">
           <input
             ref="input"
-            id="searchInput"
-            name="searchInput"
             type="text"
-            placeholder="Search products"
+            name="searchInput"
             @input="handleInput"
             @keydown="handleKeyDown"
+            placeholder="Search products"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"

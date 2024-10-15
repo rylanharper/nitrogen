@@ -77,11 +77,10 @@ watch(
           <input
             ref="input"
             type="text"
-            id="searchInput"
             name="searchInput"
-            placeholder="Search products"
             @input="handleInput"
             @keydown="handleKeyDown"
+            placeholder="Search products"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
