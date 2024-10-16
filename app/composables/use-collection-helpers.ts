@@ -1,7 +1,8 @@
 import type {
   ProductCollectionSortKeys,
   SearchSortKeys,
-  ProductFilter
+  ProductFilter,
+  ProductFragment
 } from '@@/types/shopify';
 
 export function useCollectionHelpers() {
@@ -122,6 +123,42 @@ export function useCollectionHelpers() {
   };
 
   /**
+   * Filters products to show those with available variants matching the selected size.
+   * @param products Array of products to filter
+   * @param filters Array of filters from URL query
+   * @returns Array of products with at least one matching and available variant
+   */
+  const filterAvailableProducts = (
+    products: ProductFragment[],
+    filters: ProductFilter[]
+  ) => {
+    const sizeOptionNames = ['Size', 'Length'];
+
+    // If no filters, return all products
+    if (!filters.length) return products;
+
+    // Find size filter if it exists
+    const sizeFilter = filters.find((filter) =>
+      sizeOptionNames.includes(filter.variantOption?.name || '')
+    );
+
+    // If no size filter, return all products
+    if (!sizeFilter) return products;
+
+    return products.filter((product) => {
+      const variants = product.variants.edges.map(({ node }) => node);
+
+      return variants.some((variant) =>
+        variant.availableForSale &&
+        variant.selectedOptions.some((option) =>
+          sizeOptionNames.includes(option.name) &&
+          option.value === sizeFilter.variantOption?.value
+        )
+      );
+    });
+  };
+
+  /**
    * Sorts an array of sizes, prioritizing letter sizes first, then number sizes.
    * @param sizes - The array of size strings to sort
    * @returns The sorted array of sizes
@@ -154,6 +191,7 @@ export function useCollectionHelpers() {
     getCollectionSortValuesFromUrl,
     getSearchSortValuesFromUrl,
     getFilterValuesFromUrl,
+    filterAvailableProducts,
     sortLetterAndNumberSizes
   };
 }

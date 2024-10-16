@@ -11,7 +11,7 @@ const appStore = useAppStore();
 const shopStore = useShopStore();
 
 // Helpers
-const { getCollectionSortValuesFromUrl, getFilterValuesFromUrl } = useCollectionHelpers();
+const { getCollectionSortValuesFromUrl, getFilterValuesFromUrl, filterAvailableProducts } = useCollectionHelpers();
 
 // Sort query
 const sortParam = computed(() => route.query.sort as string | null);
@@ -88,6 +88,9 @@ const collection = computed(() => fullCollectionData?.value);
 const products = computed(() => flattenNodeConnection(collection.value?.products));
 const initialProducts = computed(() => flattenNodeConnection(basicCollectionData.value?.products));
 
+// Filter available
+const filteredProducts = computed(() => filterAvailableProducts(products.value, filters.value));
+
 // Toggles
 function toggleFilterMenu() {
   appStore.toggleFilterMenu();
@@ -104,7 +107,7 @@ useHead({
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
-          {{ collection.title }} ({{ products.length }})
+          {{ collection.title }} ({{ filteredProducts.length }})
         </h1>
       </div>
       <div class="hidden lg:flex">
@@ -131,10 +134,10 @@ useHead({
       </div>
     </div>
     <div
-      v-if="products.length"
+      v-if="filteredProducts.length"
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
-      <div v-for="product in products" :key="product.id">
+      <div v-for="product in filteredProducts" :key="product.id">
         <product-card :product="product" />
       </div>
     </div>
