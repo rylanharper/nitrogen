@@ -11,7 +11,7 @@ const appStore = useAppStore();
 const shopStore = useShopStore();
 
 // Helpers
-const { getSearchSortValuesFromUrl, getFilterValuesFromUrl, filterProductsByAvailability } = useCollectionHelpers();
+const { getSearchSortValuesFromUrl, getFilterValuesFromUrl } = useCollectionHelpers();
 
 // Sort query
 const sortParam = computed(() => route.query.sort as string | null);
@@ -87,9 +87,6 @@ const { data: basicSearchData } = await fetchData('basic-search', basicSearchVar
 const products = computed(() => flattenNodeConnection(fullSearchData.value));
 const initialProducts = computed(() => flattenNodeConnection(basicSearchData.value));
 
-// Filter available
-const availableProducts = computed(() => filterProductsByAvailability(products.value, filters.value));
-
 // Toggles
 function toggleFilterMenu() {
   appStore.toggleFilterMenu();
@@ -98,7 +95,7 @@ function toggleFilterMenu() {
 // SEO
 const pageTitle = computed(() =>
   searchTerm.value
-    ? `Search: ${availableProducts.value.length} results found for "${searchTerm.value}"`
+    ? `Search: ${products.value.length} results found for "${searchTerm.value}"`
     : 'Search'
 );
 
@@ -112,7 +109,7 @@ useHead(() => ({
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
-          Results for "{{ searchTerm }}" ({{ availableProducts.length }})
+          Results for "{{ searchTerm }}" ({{ products.length }})
         </h1>
       </div>
       <div class="hidden lg:flex">
@@ -139,10 +136,10 @@ useHead(() => ({
       </div>
     </div>
     <div
-      v-if="availableProducts.length"
+      v-if="products.length"
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
-      <div v-for="product in availableProducts" :key="product.id">
+      <div v-for="product in products" :key="product.id">
         <product-card :product="product" />
       </div>
     </div>

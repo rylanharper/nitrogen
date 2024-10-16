@@ -48,6 +48,16 @@ const openLightbox = (index: number) => {
 const closeLightbox = () => {
   isLightboxOpen.value = false;
 };
+
+
+// TEST
+// Flatten related products
+const relatedProducts = computed(() => flattenNodeConnection(product.value?.related_products?.references));
+
+// Log related products for testing
+watchEffect(() => {
+  console.log('Related Products:', relatedProducts.value);
+});
 </script>
 
 <template>

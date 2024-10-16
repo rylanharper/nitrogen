@@ -8,14 +8,9 @@ const props = defineProps<{
 }>();
 
 // Emits
-const emit = defineEmits(['close', 'update:currentIndex']);
+const emit = defineEmits(['close']);
 
 // Emit events
-const localCurrentIndex = computed({
-  get: () => props.currentIndex,
-  set: (value) => emit('update:currentIndex', value)
-});
-
 const closeLightbox = () => {
   emit('close');
 };
@@ -32,7 +27,7 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
 
 onMounted(() => {
   nextTick(() => {
-    const selectedItem = document.querySelector(`[data-media-index="${localCurrentIndex.value}"]`);
+    const selectedItem = document.querySelector(`[data-media-index="${props.currentIndex}"]`);
     selectedItem?.scrollIntoView();
   });
 });

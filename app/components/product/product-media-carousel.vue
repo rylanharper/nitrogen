@@ -11,7 +11,7 @@ const props = defineProps<{
   product: ProductFragment;
 }>();
 
-// Computed properties
+// Computed
 const mediaItems = computed(() => flattenNodeConnection(props.product?.media));
 
 // Check if media item is a video
