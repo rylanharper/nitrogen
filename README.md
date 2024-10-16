@@ -18,19 +18,38 @@
 
 ## Get Started
 
-To begin using Nitrogen, you'll need to set up the following environment variables:
+> [!NOTE]
+> Ensure you have access to your Shopify admin and are familiar with API configurations.
 
-```ts
+### Shopify
+
+1. Within your Shopify admin dashboard, create a custom app and configure the necessary Storefront API permissions needed for your project (enable all Storefront API access scopes to keep things simple). Give your app a name like "Headless Storefront" so it's clear what it's being used for. Once the app is created, retrieve your Storefront API access token to use in the project’s environment variables.
+
+2. To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) and set up basic filters. This project uses the product type, size, and color filter options. To customize filters, modify the `getFilterValuesFromUrl` function in the `use-collection-helpers` composable.
+
+3. Add a custom `related_products` metafield to display related products on your product pages. This metafield allows you to reference the full data of related products, ideal for managing color swatches, media, etc.
+
+### Nuxt
+
+1. To begin using Nitrogen, you'll need to set up the following environment variables:
+
+```ini
 SHOPIFY_STOREFRONT=
 SHOPIFY_ACCESS_TOKEN=
 SHOPIFY_API_VERSION=
 ```
 
-Make sure to populate these variables with your Shopify store's specific information:
-
-- `SHOPIFY_STOREFRONT`: Your Shopify store's URL
-- `SHOPIFY_ACCESS_TOKEN`: Your Storefront API access token
-- `SHOPIFY_API_VERSION`: The version of the Shopify API you're using (`2024-07`)
-
 > [!WARNING]
 > It is recommended that you use the `2024-07` API version or higher. If not, you will not have access to new API features found within this template.
+
+2. Install the dependencies:
+
+```bash
+pnpm install # or npm
+```
+
+3. Start the project:
+
+```bash
+pnpm dev
+```
