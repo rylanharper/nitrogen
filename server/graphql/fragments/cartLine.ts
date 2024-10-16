@@ -30,6 +30,11 @@ export const CART_LINE_FRAGMENT = gql`
       }
     }
     quantity
+    sellingPlanAllocation {
+      sellingPlan {
+        name
+      }
+    }
   }
   ${MONEY_FRAGMENT}
   ${PRODUCT_VARIANT_FRAGMENT}
