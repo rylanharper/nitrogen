@@ -1,8 +1,7 @@
 import type {
   ProductCollectionSortKeys,
   SearchSortKeys,
-  ProductFilter,
-  ProductFragment
+  ProductFilter
 } from '@@/types/shopify';
 
 export function useCollectionHelpers() {
@@ -123,53 +122,6 @@ export function useCollectionHelpers() {
   };
 
   /**
-   * Filters products with available variants that match the selected color and size options.
-   * @param products - The array of products to filter
-   * @param filters - The filters extracted from the URL query
-   * @returns An array of products with at least one matching and available variant
-   */
-  const filterProductsByAvailability = (
-    products: ProductFragment[],
-    filters: ProductFilter[]
-  ) => {
-    return products.filter((product) => {
-      const variants = product.variants.edges.map(({ node }) => node);
-      const colorOptionNames = ['Color', 'Colour'];
-      const sizeOptionNames = ['Size', 'Length'];
-
-      return variants.some((variant) => {
-        const colorMatch = filters.find((filter) =>
-          colorOptionNames.includes(filter.variantOption?.name || '')
-        )
-          ? variant.selectedOptions.some(
-              (option) =>
-                colorOptionNames.includes(option.name) &&
-                filters.find((filter) =>
-                  filter.variantOption?.value === option.value
-                )
-            )
-          : true;
-
-        const sizeMatch = filters.find((filter) =>
-          sizeOptionNames.includes(filter.variantOption?.name || '')
-        )
-          ? variant.selectedOptions.some(
-              (option) =>
-                sizeOptionNames.includes(option.name) &&
-                filters.find((filter) =>
-                  filter.variantOption?.value === option.value
-                )
-            )
-          : true;
-
-        const isAvailable = variant.availableForSale;
-
-        return colorMatch && sizeMatch && isAvailable;
-      });
-    });
-  };
-
-  /**
    * Sorts an array of sizes, prioritizing letter sizes first, then number sizes.
    * @param sizes - The array of size strings to sort
    * @returns The sorted array of sizes
@@ -202,7 +154,6 @@ export function useCollectionHelpers() {
     getCollectionSortValuesFromUrl,
     getSearchSortValuesFromUrl,
     getFilterValuesFromUrl,
-    filterProductsByAvailability,
     sortLetterAndNumberSizes
   };
 }
