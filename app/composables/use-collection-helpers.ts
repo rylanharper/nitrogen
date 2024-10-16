@@ -134,9 +134,6 @@ export function useCollectionHelpers() {
   ) => {
     const sizeOptionNames = ['Size', 'Length'];
 
-    // If no filters, return all products
-    if (!filters.length) return products;
-
     // Find size filter if it exists
     const sizeFilter = filters.find((filter) =>
       sizeOptionNames.includes(filter.variantOption?.name || '')
