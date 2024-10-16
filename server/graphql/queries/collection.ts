@@ -22,6 +22,7 @@ export const COLLECTION = gql`
         ...Image
       }
       title
+      trackingParameters
       updatedAt
       products(
         first: 250

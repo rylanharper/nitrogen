@@ -47,7 +47,7 @@ export const PREDICTIVE_SEARCH = gql`
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
-    predictiveSearch(query: $query, limit: 6, unavailableProducts: HIDE) {
+    predictiveSearch(query: $query, limit: 6, types: PRODUCT) {
       products {
         ...Product
       }
