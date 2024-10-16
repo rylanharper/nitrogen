@@ -24,7 +24,7 @@
 
 2. To support international currencies and localized experiences, enable Markets within your Shopify admin dashboard. Navigate to `Settings` > `Markets` and configure your global markets. This ensures that customers can see prices in their local currencies when using this template.
 
-3. To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) and set up basic filters. This template uses the product type, size, and color filter options.
+3. To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) and set up basic filters. This template uses the product type, size, and color filter options. You'll likely need to remove some default filter options, or you can add more filters if needed.
 
 4. Additionally, you'll want to add a custom `related_products` metafield to display related products on your product pages. Navigate to `Settings` > `Custom Data` > `Products` > `Add Definition`. This metafield allows you to reference the full data of related products, which is ideal for managing color swatches, media, etc.
 
