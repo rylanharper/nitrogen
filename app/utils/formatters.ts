@@ -35,17 +35,19 @@ export const formatSizeUrl = (src: string, width: number): string => {
 
 /**
  * Formats a number as a currency string.
- * @param amount - The number to format
+ * @param amount - The number (or string) to format
  * @param currencyCode - The currency code, e.g., 'USD'
  * @param locale - The locale code, e.g., 'en-US'
  * @returns The formatted currency string
  */
-export const formatCurrency = (amount: number, currencyCode: string = 'USD', locale: string = 'en-US'): string => {
+export const formatCurrency = (amount: string | number, currencyCode: string = 'USD', locale: string = 'en-US'): string => {
+  const numericAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currencyCode,
     minimumFractionDigits: 2
   })
-    .format(amount)
+    .format(numericAmount)
     .replace(/\.00/g, '');
 };
