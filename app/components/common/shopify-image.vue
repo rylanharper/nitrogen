@@ -20,7 +20,7 @@ const srcset = computed(() => {
 </script>
 
 <template>
-  <figure class="relative aspect-square bg-gray-100">
+  <figure class="relative size-full bg-gray-100">
     <img
       :src="image.url"
       :srcset="srcset"

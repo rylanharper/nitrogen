@@ -8,7 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <figure class="relative aspect-square bg-gray-100">
+  <figure class="relative size-full bg-gray-100">
     <video
       :poster="video.previewImage?.url ?? ''"
       class="absolute size-full inset-0 object-cover"
