@@ -20,7 +20,6 @@
   }
 
   body {
-    position: relative;
     color: var(--body-text-color);
     background-color: var(--body-background-color);
     overflow-x: hidden;
