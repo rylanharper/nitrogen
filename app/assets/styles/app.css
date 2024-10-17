@@ -16,10 +16,11 @@
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%
   }
 
   body {
-    height: 100%;
+    position: relative;
     color: var(--body-text-color);
     background-color: var(--body-background-color);
     overflow-x: hidden;
