@@ -22,13 +22,13 @@ useHead({
 </script>
 
 <template>
-  <div id="app" class="flex flex-col items-center">
+  <div id="app" class="flex flex-col">
     <app-header />
     <cart-drawer />
     <mobile-menu />
     <search-menu />
     <locale-modal />
-    <main id="content" class="flex-1 min-h-svh w-full">
+    <main role="main" class="flex-1 min-h-svh">
       <nuxt-layout>
         <nuxt-page />
       </nuxt-layout>
