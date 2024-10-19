@@ -20,9 +20,11 @@
 
 ### Shopify
 
+Before using Nitrogen, you must configure your Shopify store as follows:
+
 1. Within your Shopify admin dashboard, create a custom app and configure the necessary Storefront API permissions needed for your project. Navigate to `Settings` > `Apps and Sales Channels` > `Develop Apps` > `Create an App` and enable all Storefront API access scopes to keep things simple. Once the app is created, retrieve your Storefront API access token to use in the project’s environment variables.
 
-2. To support international currencies and localized experiences, enable Markets within your Shopify admin dashboard. Navigate to `Settings` > `Markets` and configure your global markets. This ensures that customers can see prices in their local currencies when using this template.
+2. To support international currencies and localized experiences, enable Markets within your Shopify admin dashboard. Navigate to `Settings` > `Markets` and configure your global markets. This ensures that customers can see prices in their local currencies.
 
 3. To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) and set up basic filters. This template uses the product type, size, and color filter options. You'll likely need to remove some default filter options, or you can add more filters if needed.
 
