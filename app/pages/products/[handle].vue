@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { ProductQueryVariables } from '@@/types/shopify';
+import type { ProductQueryVariables, ProductFragment } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
 const handle = computed(() => route.params.handle as string);
 
 // Stores
-const appStore = useAppStore();
 const shopStore = useShopStore();
 
 // Shopify
@@ -19,13 +18,26 @@ const productVars = computed<ProductQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }))
 
-const { data: productData } = await fetchData('product', productVars, shopify.product.get);
+const { data: productData } = await useAsyncData('product-data', () =>
+  shopify.product.get(productVars.value), {
+    watch: [productVars]
+  }
+);
 
 // Computed data
-const product = computed(() => productData.value)
-const productImages = computed(() => flattenNodeConnection(product.value?.images))
-const productVariants = computed(() => flattenNodeConnection(product.value?.variants))
+const product = computed(() => productData.value as ProductFragment)
 const mediaItems = computed(() => flattenNodeConnection(product.value?.media))
+
+// Get related products (if any)
+const relatedProducts = computed(() => {
+  const references = productData.value?.related_products?.references;
+
+  if (!references) {
+    return [];
+  }
+
+  return flattenNodeConnection(references) as ProductFragment[];
+});
 
 // Lightbox state
 const isLightboxOpen = ref(false);
@@ -48,25 +60,17 @@ const openLightbox = (index: number) => {
 const closeLightbox = () => {
   isLightboxOpen.value = false;
 };
-
-
-// TEST
-// Flatten related products
-const relatedProducts = computed(() => flattenNodeConnection(product.value?.related_products?.references));
-
-// Log related products for testing
-watchEffect(() => {
-  console.log('Related Products:', relatedProducts.value);
-});
 </script>
 
 <template>
-  <section class="relative grid lg:grid-cols-2">
-    <div>
-      <product-media-gallery :product="product" @openLightbox="openLightbox" />
-      <product-media-carousel :product="product" />
+  <section v-if="product" class="relative grid gap-10 lg:grid-cols-2 lg:gap-0">
+    <div class="flex flex-col">
+      <product-media-gallery :mediaItems="mediaItems" @openLightbox="openLightbox" />
+      <product-media-carousel :mediaItems="mediaItems" />
     </div>
-    <div></div>
+    <div class="flex flex-col px-6">
+      <product-form :product="product" :relatedProducts="relatedProducts" />
+    </div>
   </section>
   <product-media-lightbox
     v-if="isLightboxOpen"

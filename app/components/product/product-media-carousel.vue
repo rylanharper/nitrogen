@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import type {
-  ProductFragment,
-  VideoFragment,
-  MediaImageFragment
-} from '@@/types/shopify';
+import type { VideoFragment, MediaImageFragment } from '@@/types/shopify';
 import emblaCarouselVue from 'embla-carousel-vue';
 
 // Props
 const props = defineProps<{
-  product: ProductFragment;
+  mediaItems: Array<VideoFragment | MediaImageFragment>;
 }>();
-
-// Computed
-const mediaItems = computed(() => flattenNodeConnection(props.product?.media));
 
 // Check if media item is a video
 const isMediaVideo = (media: any): media is VideoFragment => {
@@ -40,7 +33,7 @@ watch(
   (emblaAPIValue) => {
     if (!emblaAPIValue) return;
 
-    // Set initial active slide
+    // Set active slide
     activeSlide.value = emblaAPIValue.selectedScrollSnap();
 
     // Update active slide
@@ -57,13 +50,13 @@ watch(
       <div
         v-for="(media, index) in mediaItems"
         :key="media.id"
-        class="flex-[0_0_100%] min-w-0"
+        class="flex-[0_0_100%] aspect-square"
       >
         <shopify-video v-if="isMediaVideo(media)" :video="media" />
         <shopify-image
           v-else-if="isMediaImage(media)"
           :image="media.image"
-          :alt="media.image?.altText || `${props.product.title}`"
+          :alt="media.image?.altText || ''"
         />
       </div>
     </div>

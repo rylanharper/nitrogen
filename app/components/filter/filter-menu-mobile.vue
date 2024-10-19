@@ -44,7 +44,7 @@ function clearAllFilters() {
   <transition name="slider" mode="out-in" appear>
     <aside
       v-if="appStore.filterMenuOpen"
-      class="fixed inset-0 z-[200] size-full bg-white lg:hidden"
+      class="fixed top-0 right-0 z-[200] size-full bg-white md:max-w-[450px] lg:hidden"
     >
       <div class="flex flex-col size-full px-5">
         <div class="flex justify-between items-center py-3 border-b border-zinc-300">

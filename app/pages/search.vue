@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SearchProductsQueryVariables } from '@@/types/shopify';
+import type { SearchProductsQueryVariables, ProductFragment } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -67,7 +67,7 @@ function removeActiveFilterOption(filterName: string, filterValue: string) {
 const shopify = useShopify();
 
 // Fetch data
-const fullSearchVars = computed<SearchProductsQueryVariables>(() => ({
+const searchVars = computed<SearchProductsQueryVariables>(() => ({
   searchTerm: searchTerm.value,
   filters: filters.value,
   sortKey: sortValues.value.sortKey,
@@ -76,19 +76,36 @@ const fullSearchVars = computed<SearchProductsQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }));
 
-const basicSearchVars = computed<SearchProductsQueryVariables>(() => ({
+const { data: searchData } = await useAsyncData('search-data', () =>
+  shopify.search.products(searchVars.value), {
+    watch: [searchVars]
+  }
+);
+
+const filterVars = computed<SearchProductsQueryVariables>(() => ({
   searchTerm: searchTerm.value
 }));
 
-const { data: fullSearchData } = await fetchData('full-search', fullSearchVars, shopify.search.products);
-const { data: basicSearchData } = await fetchData('basic-search', basicSearchVars, shopify.search.products);
+const { data: filterData } = await useAsyncData('filter-data', () =>
+  shopify.search.products(filterVars.value), {
+    watch: [filterVars]
+  }
+);
 
 // Computed data
-const products = computed(() => flattenNodeConnection(fullSearchData.value));
-const initialProducts = computed(() => flattenNodeConnection(basicSearchData.value));
+const search = computed(() => searchData?.value);
+const filterOptions = computed(() => flattenNodeConnection(filterData.value) as ProductFragment[]);
 
-// Filter available
-const filteredProducts = computed(() => filterAvailableProducts(products.value, filters.value));
+// Get products, filter available
+const products = computed(() => {
+  const allProducts = flattenNodeConnection(search.value) as ProductFragment[];
+
+  if (allProducts.length > 0) {
+    return filterAvailableProducts(allProducts, filters.value);
+  }
+
+  return [];
+});
 
 // Toggles
 function toggleFilterMenu() {
@@ -98,7 +115,7 @@ function toggleFilterMenu() {
 // SEO
 const pageTitle = computed(() =>
   searchTerm.value
-    ? `Search: ${filteredProducts.value.length} results found for "${searchTerm.value}"`
+    ? `Search: ${products.value.length} results found for "${searchTerm.value}"`
     : 'Search'
 );
 
@@ -108,11 +125,11 @@ useHead(() => ({
 </script>
 
 <template>
-  <section v-if="products" class="relative flex flex-col px-6">
+  <section v-if="search && products" class="relative flex flex-col px-6">
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
-          Results for "{{ searchTerm }}" ({{ filteredProducts.length }})
+          Results for "{{ searchTerm }}" ({{ products.length }})
         </h1>
       </div>
       <div class="hidden lg:flex">
@@ -139,10 +156,10 @@ useHead(() => ({
       </div>
     </div>
     <div
-      v-if="filteredProducts.length"
+      v-if="products.length"
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
-      <div v-for="product in filteredProducts" :key="product.id">
+      <div v-for="product in products" :key="product.id">
         <product-card :product="product" />
       </div>
     </div>
@@ -154,5 +171,5 @@ useHead(() => ({
   <section v-else class="flex items-center justify-center inset-0 size-full">
     <p class="normal-case">No collection data found.</p>
   </section>
-  <filter-menu v-if="initialProducts" :products="initialProducts" />
+  <filter-menu v-if="filterOptions" :products="filterOptions" />
 </template>

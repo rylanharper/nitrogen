@@ -56,7 +56,7 @@ if (escape) {
         :key="media.id"
         :data-media-index="index"
         @click="closeLightbox"
-        class="cursor-zoom-out"
+        class="aspect-square cursor-zoom-out"
       >
         <shopify-video v-if="isMediaVideo(media)" :video="media" />
         <shopify-image

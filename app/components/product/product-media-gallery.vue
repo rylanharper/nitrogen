@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import type {
-  ProductFragment,
-  VideoFragment,
-  MediaImageFragment
-} from '@@/types/shopify';
+import type { VideoFragment, MediaImageFragment } from '@@/types/shopify';
 
 // Props
 const props = defineProps<{
-  product: ProductFragment;
+  mediaItems: Array<VideoFragment | MediaImageFragment>;
 }>();
 
 // Emits
@@ -17,9 +13,6 @@ const emit = defineEmits(['openLightbox']);
 const handleMediaClick = (index: number) => {
   emit('openLightbox', index);
 };
-
-// Computed
-const mediaItems = computed(() => flattenNodeConnection(props.product?.media));
 
 // Check if media item is a video
 const isMediaVideo = (media: any): media is VideoFragment => {
@@ -38,13 +31,13 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
       v-for="(media, index) in mediaItems"
       :key="media.id"
       @click="handleMediaClick(index)"
-      class="cursor-zoom-in"
+      class="aspect-square cursor-zoom-in"
     >
       <shopify-video v-if="isMediaVideo(media)" :video="media" />
       <shopify-image
         v-else-if="isMediaImage(media)"
         :image="media.image"
-        :alt="media.image?.altText || `${product.title}`"
+        :alt="media.image?.altText || ''"
       />
     </div>
   </div>

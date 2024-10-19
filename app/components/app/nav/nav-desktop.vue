@@ -28,7 +28,7 @@ const emit = defineEmits([
 </script>
 
 <template>
-  <nav class="hidden grid-cols-[1fr_max-content_1fr] my-2 px-4 lg:grid">
+  <nav class="hidden grid-cols-[1fr_max-content_1fr] min-h-[--header-height] px-4 lg:grid">
     <div class="grid grid-flow-col justify-start items-center">
       <nuxt-link
         v-for="link in navLinksLeft"

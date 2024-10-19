@@ -35,7 +35,7 @@ async function removeLineFromCart(lineId: string) {
   <div class="flex items-center gap-6 pb-4 my-4 border-b border-zinc-300">
     <nuxt-link
       :to="`/products/${line.merchandise.product.handle}`"
-      class="w-28 shrink-0 border border-transparent transition duration-200 ease-in-out hover:border-zinc-300"
+      class="w-28 aspect-square shrink-0 border border-transparent transition duration-200 ease-in-out hover:border-zinc-300"
     >
       <shopify-image
         :image="line.merchandise.product.featuredImage"

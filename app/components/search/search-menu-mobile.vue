@@ -104,7 +104,7 @@ watch(
               :to="`/products/${product.handle}`"
               class="flex gap-4"
             >
-              <div class="w-24 shrink-0">
+              <div class="w-24 aspect-square shrink-0">
                 <shopify-image
                   :image="product.featuredImage"
                   :alt="product.featuredImage?.altText || product.title"

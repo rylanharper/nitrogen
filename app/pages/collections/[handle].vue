@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CollectionQueryVariables } from '@@/types/shopify';
+import type { CollectionQueryVariables, ProductFragment } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -67,7 +67,7 @@ function removeActiveFilterOption(filterName: string, filterValue: string) {
 const shopify = useShopify();
 
 // Fetch data
-const fullCollectionVars = computed<CollectionQueryVariables>(() => ({
+const collectionVars = computed<CollectionQueryVariables>(() => ({
   handle: handle.value,
   filters: filters.value,
   sortKey: sortValues.value.sortKey,
@@ -76,20 +76,36 @@ const fullCollectionVars = computed<CollectionQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }));
 
-const basicCollectionVars = computed<CollectionQueryVariables>(() => ({
+const { data: collectionData } = await useAsyncData('collection-data', () =>
+  shopify.collection.get(collectionVars.value), {
+    watch: [collectionVars]
+  }
+);
+
+const filterVars = computed<CollectionQueryVariables>(() => ({
   handle: handle.value
 }));
 
-const { data: fullCollectionData } = await fetchData('full-collection', fullCollectionVars, shopify.collection.get);
-const { data: basicCollectionData } = await fetchData('basic-collection', basicCollectionVars, shopify.collection.get);
+const { data: filterData } = await useAsyncData('filter-data', () =>
+  shopify.collection.get(filterVars.value), {
+    watch: [filterVars]
+  }
+);
 
 // Computed data
-const collection = computed(() => fullCollectionData?.value);
-const products = computed(() => flattenNodeConnection(collection.value?.products));
-const initialProducts = computed(() => flattenNodeConnection(basicCollectionData.value?.products));
+const collection = computed(() => collectionData?.value);
+const filterOptions = computed(() => flattenNodeConnection(filterData.value?.products) as ProductFragment[]);
 
-// Filter available
-const filteredProducts = computed(() => filterAvailableProducts(products.value, filters.value));
+// Get products, filter available
+const products = computed(() => {
+  const allProducts = flattenNodeConnection(collection.value?.products) as ProductFragment[];
+
+  if (allProducts.length > 0) {
+    return filterAvailableProducts(allProducts, filters.value);
+  }
+
+  return [];
+});
 
 // Toggles
 function toggleFilterMenu() {
@@ -107,7 +123,7 @@ useHead({
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
-          {{ collection.title }} ({{ filteredProducts.length }})
+          {{ collection.title }} ({{ products.length }})
         </h1>
       </div>
       <div class="hidden lg:flex">
@@ -134,10 +150,10 @@ useHead({
       </div>
     </div>
     <div
-      v-if="filteredProducts.length"
+      v-if="products.length"
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
-      <div v-for="product in filteredProducts" :key="product.id">
+      <div v-for="product in products" :key="product.id">
         <product-card :product="product" />
       </div>
     </div>
@@ -149,5 +165,5 @@ useHead({
   <section v-else class="flex items-center justify-center inset-0 size-full">
     <p class="normal-case">No collection data found.</p>
   </section>
-  <filter-menu v-if="initialProducts" :products="initialProducts" />
+  <filter-menu v-if="filterOptions" :products="filterOptions" />
 </template>

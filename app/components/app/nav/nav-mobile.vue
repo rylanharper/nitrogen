@@ -16,7 +16,7 @@ const emit = defineEmits([
 </script>
 
 <template>
-  <nav class="grid grid-cols-[1fr_max-content_1fr] gap-4 my-1 px-4 lg:hidden">
+  <nav class="grid grid-cols-[1fr_max-content_1fr] gap-4 min-h-[--header-height] px-4 lg:hidden">
     <div class="grid grid-flow-col justify-start items-center">
       <button
         @click="$emit('toggleShopMenu')"
