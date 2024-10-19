@@ -6,7 +6,8 @@
   --body-text-color: #000;
   --body-background-color: #fff;
   --body-selection-color: #eee;
-  --backgound-line-color: #f4f4f4
+  --backgound-line-color: #f4f4f4;
+  --header-height: 36px;
 }
 
 @layer base {
@@ -16,7 +17,7 @@
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
