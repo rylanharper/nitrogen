@@ -13,6 +13,7 @@ const config: CodegenConfig = {
         defaultScalarType: 'unknown',
         useImplementingTypes: true,
         enumsAsTypes: true,
+        skipTypename: true,
         scalars: customerAccountApiCustomScalars
       }
     }
