@@ -28,7 +28,6 @@ export type Scalars = {
  *
  */
 export type ApiVersion = {
-  __typename?: 'ApiVersion';
   /** The human-readable name of the version. */
   displayName: Scalars['String']['output'];
   /** The unique identifier of an ApiVersion. All supported API versions have a date-based (YYYY-MM) or `unstable` handle. */
@@ -73,7 +72,6 @@ export type ApplePayWalletHeaderInput = {
 
 /** Details about the gift card used on the checkout. */
 export type AppliedGiftCard = Node & {
-  __typename?: 'AppliedGiftCard';
   /** The amount that was taken from the gift card by applying it. */
   amountUsed: MoneyV2;
   /**
@@ -98,7 +96,6 @@ export type AppliedGiftCard = Node & {
 
 /** An article in an online store blog. */
 export type Article = HasMetafields & Node & OnlineStorePublishable & Trackable & {
-  __typename?: 'Article';
   /**
    * The article's author.
    * @deprecated Use `authorV2` instead.
@@ -182,7 +179,6 @@ export type ArticleMetafieldsArgs = {
 
 /** The author of an article. */
 export type ArticleAuthor = {
-  __typename?: 'ArticleAuthor';
   /** The author's bio. */
   bio?: Maybe<Scalars['String']['output']>;
   /** The author’s email. */
@@ -200,7 +196,6 @@ export type ArticleAuthor = {
  *
  */
 export type ArticleConnection = {
-  __typename?: 'ArticleConnection';
   /** A list of edges. */
   edges: Array<ArticleEdge>;
   /** A list of the nodes contained in ArticleEdge. */
@@ -214,7 +209,6 @@ export type ArticleConnection = {
  *
  */
 export type ArticleEdge = {
-  __typename?: 'ArticleEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of ArticleEdge. */
@@ -244,7 +238,6 @@ export type ArticleSortKeys =
 
 /** Represents a generic custom attribute, such as whether an order is a customer's first. */
 export type Attribute = {
-  __typename?: 'Attribute';
   /**
    * The key or name of the attribute. For example, `"customersFirstOrder"`.
    *
@@ -270,7 +263,6 @@ export type AttributeInput = {
  *
  */
 export type AutomaticDiscountApplication = DiscountApplication & {
-  __typename?: 'AutomaticDiscountApplication';
   /** The method by which the discount's value is allocated to its entitled items. */
   allocationMethod: DiscountApplicationAllocationMethod;
   /** Which lines of targetType that the discount is allocated over. */
@@ -319,7 +311,6 @@ export type BaseCartLineAttributeArgs = {
  *
  */
 export type BaseCartLineConnection = {
-  __typename?: 'BaseCartLineConnection';
   /** A list of edges. */
   edges: Array<BaseCartLineEdge>;
   /** A list of the nodes contained in BaseCartLineEdge. */
@@ -333,7 +324,6 @@ export type BaseCartLineConnection = {
  *
  */
 export type BaseCartLineEdge = {
-  __typename?: 'BaseCartLineEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of BaseCartLineEdge. */
@@ -342,7 +332,6 @@ export type BaseCartLineEdge = {
 
 /** An online store blog. */
 export type Blog = HasMetafields & Node & OnlineStorePublishable & {
-  __typename?: 'Blog';
   /** Find an article by its handle. */
   articleByHandle?: Maybe<Article>;
   /** List of the blog's articles. */
@@ -404,7 +393,6 @@ export type BlogMetafieldsArgs = {
  *
  */
 export type BlogConnection = {
-  __typename?: 'BlogConnection';
   /** A list of edges. */
   edges: Array<BlogEdge>;
   /** A list of the nodes contained in BlogEdge. */
@@ -418,7 +406,6 @@ export type BlogConnection = {
  *
  */
 export type BlogEdge = {
-  __typename?: 'BlogEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of BlogEdge. */
@@ -445,7 +432,6 @@ export type BlogSortKeys =
  *
  */
 export type Brand = {
-  __typename?: 'Brand';
   /** The colors of the store's brand. */
   colors: BrandColors;
   /** The store's cover image. */
@@ -465,7 +451,6 @@ export type Brand = {
  *
  */
 export type BrandColorGroup = {
-  __typename?: 'BrandColorGroup';
   /** The background color. */
   background?: Maybe<Scalars['Color']['output']>;
   /** The foreground color. */
@@ -477,7 +462,6 @@ export type BrandColorGroup = {
  *
  */
 export type BrandColors = {
-  __typename?: 'BrandColors';
   /** The shop's primary brand colors. */
   primary: Array<BrandColorGroup>;
   /** The shop's secondary brand colors. */
@@ -518,7 +502,6 @@ export type CardBrand =
  *
  */
 export type Cart = HasMetafields & Node & {
-  __typename?: 'Cart';
   /** The gift cards that have been applied to the cart. */
   appliedGiftCards: Array<AppliedGiftCard>;
   /** An attribute associated with the cart. */
@@ -636,7 +619,6 @@ export type CartMetafieldsArgs = {
 
 /** Return type for `cartAttributesUpdate` mutation. */
 export type CartAttributesUpdatePayload = {
-  __typename?: 'CartAttributesUpdatePayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -645,7 +627,6 @@ export type CartAttributesUpdatePayload = {
 
 /** The discounts automatically applied to the cart line based on prerequisites that have been met. */
 export type CartAutomaticDiscountAllocation = CartDiscountAllocation & {
-  __typename?: 'CartAutomaticDiscountAllocation';
   /** The discounted amount that has been applied to the cart line. */
   discountedAmount: MoneyV2;
   /** The type of line that the discount is applicable towards. */
@@ -656,7 +637,6 @@ export type CartAutomaticDiscountAllocation = CartDiscountAllocation & {
 
 /** Return type for `cartBillingAddressUpdate` mutation. */
 export type CartBillingAddressUpdatePayload = {
-  __typename?: 'CartBillingAddressUpdatePayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -665,7 +645,6 @@ export type CartBillingAddressUpdatePayload = {
 
 /** Represents information about the buyer that is interacting with the cart. */
 export type CartBuyerIdentity = {
-  __typename?: 'CartBuyerIdentity';
   /** The country where the buyer is located. */
   countryCode?: Maybe<CountryCode>;
   /** The customer account associated with the cart. */
@@ -727,7 +706,6 @@ export type CartBuyerIdentityInput = {
 
 /** Return type for `cartBuyerIdentityUpdate` mutation. */
 export type CartBuyerIdentityUpdatePayload = {
-  __typename?: 'CartBuyerIdentityUpdatePayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -748,7 +726,6 @@ export type CartCardSource =
 
 /** The discount that has been applied to the cart line using a discount code. */
 export type CartCodeDiscountAllocation = CartDiscountAllocation & {
-  __typename?: 'CartCodeDiscountAllocation';
   /** The code used to apply the discount. */
   code: Scalars['String']['output'];
   /** The discounted amount that has been applied to the cart line. */
@@ -762,7 +739,6 @@ export type CartCompletionAction = CompletePaymentChallenge;
 
 /** The required completion action to checkout a cart. */
 export type CartCompletionActionRequired = {
-  __typename?: 'CartCompletionActionRequired';
   /** The action required to complete the cart completion attempt. */
   action?: Maybe<CartCompletionAction>;
   /** The ID of the cart completion attempt. */
@@ -774,7 +750,6 @@ export type CartCompletionAttemptResult = CartCompletionActionRequired | CartCom
 
 /** A failed completion to checkout a cart. */
 export type CartCompletionFailed = {
-  __typename?: 'CartCompletionFailed';
   /** The errors that caused the checkout to fail. */
   errors: Array<CompletionError>;
   /** The ID of the cart completion attempt. */
@@ -783,7 +758,6 @@ export type CartCompletionFailed = {
 
 /** A cart checkout completion that's still processing. */
 export type CartCompletionProcessing = {
-  __typename?: 'CartCompletionProcessing';
   /** The ID of the cart completion attempt. */
   id: Scalars['String']['output'];
   /** The number of milliseconds to wait before polling again. */
@@ -792,7 +766,6 @@ export type CartCompletionProcessing = {
 
 /** A successful completion to checkout a cart and a created order. */
 export type CartCompletionSuccess = {
-  __typename?: 'CartCompletionSuccess';
   /** The date and time when the job completed. */
   completedAt?: Maybe<Scalars['DateTime']['output']>;
   /** The ID of the cart completion attempt. */
@@ -810,7 +783,6 @@ export type CartCompletionSuccess = {
  *
  */
 export type CartCost = {
-  __typename?: 'CartCost';
   /** The estimated amount, before taxes and discounts, for the customer to pay at checkout. The checkout charge amount doesn't include any deferred payments that'll be paid at a later date. If the cart has no deferred payments, then the checkout charge amount is equivalent to `subtotalAmount`. */
   checkoutChargeAmount: MoneyV2;
   /** The amount, before taxes and cart-level discounts, for the customer to pay. */
@@ -833,7 +805,6 @@ export type CartCost = {
 
 /** Return type for `cartCreate` mutation. */
 export type CartCreatePayload = {
-  __typename?: 'CartCreatePayload';
   /** The new cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -842,7 +813,6 @@ export type CartCreatePayload = {
 
 /** The discounts automatically applied to the cart line based on prerequisites that have been met. */
 export type CartCustomDiscountAllocation = CartDiscountAllocation & {
-  __typename?: 'CartCustomDiscountAllocation';
   /** The discounted amount that has been applied to the cart line. */
   discountedAmount: MoneyV2;
   /** The type of line that the discount is applicable towards. */
@@ -853,7 +823,6 @@ export type CartCustomDiscountAllocation = CartDiscountAllocation & {
 
 /** Preferred location used to find the closest pick up point based on coordinates. */
 export type CartDeliveryCoordinatesPreference = {
-  __typename?: 'CartDeliveryCoordinatesPreference';
   /**
    * The two-letter code for the country of the preferred location.
    *
@@ -884,7 +853,6 @@ export type CartDeliveryCoordinatesPreferenceInput = {
 
 /** Information about the options available for one or more line items to be delivered to a specific address. */
 export type CartDeliveryGroup = {
-  __typename?: 'CartDeliveryGroup';
   /** A list of cart lines for the delivery group. */
   cartLines: BaseCartLineConnection;
   /** The destination address for the delivery group. */
@@ -914,7 +882,6 @@ export type CartDeliveryGroupCartLinesArgs = {
  *
  */
 export type CartDeliveryGroupConnection = {
-  __typename?: 'CartDeliveryGroupConnection';
   /** A list of edges. */
   edges: Array<CartDeliveryGroupEdge>;
   /** A list of the nodes contained in CartDeliveryGroupEdge. */
@@ -928,7 +895,6 @@ export type CartDeliveryGroupConnection = {
  *
  */
 export type CartDeliveryGroupEdge = {
-  __typename?: 'CartDeliveryGroupEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of CartDeliveryGroupEdge. */
@@ -951,7 +917,6 @@ export type CartDeliveryGroupType =
 
 /** Information about a delivery option. */
 export type CartDeliveryOption = {
-  __typename?: 'CartDeliveryOption';
   /** The code of the delivery option. */
   code?: Maybe<Scalars['String']['output']>;
   /** The method for the delivery option. */
@@ -972,7 +937,6 @@ export type CartDeliveryOption = {
  *
  */
 export type CartDeliveryPreference = {
-  __typename?: 'CartDeliveryPreference';
   /** Preferred location used to find the closest pick up point based on coordinates. */
   coordinates?: Maybe<CartDeliveryCoordinatesPreference>;
   /** The preferred delivery methods such as shipping, local pickup or through pickup points. */
@@ -1027,7 +991,6 @@ export type CartDiscountAllocation = {
 
 /** The discount codes applied to the cart. */
 export type CartDiscountCode = {
-  __typename?: 'CartDiscountCode';
   /** Whether the discount code is applicable to the cart's current contents. */
   applicable: Scalars['Boolean']['output'];
   /** The code for the discount. */
@@ -1036,7 +999,6 @@ export type CartDiscountCode = {
 
 /** Return type for `cartDiscountCodesUpdate` mutation. */
 export type CartDiscountCodesUpdatePayload = {
-  __typename?: 'CartDiscountCodesUpdatePayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1106,7 +1068,6 @@ export type CartErrorCode =
 
 /** The estimated costs that the buyer will pay at checkout. The estimated cost uses [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity) to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
 export type CartEstimatedCost = {
-  __typename?: 'CartEstimatedCost';
   /** The estimated amount, before taxes and discounts, for the customer to pay at checkout. The checkout charge amount doesn't include any deferred payments that'll be paid at a later date. If the cart has no deferred payments, then the checkout charge amount is equivalent to`subtotal_amount`. */
   checkoutChargeAmount: MoneyV2;
   /** The estimated amount, before taxes and discounts, for the customer to pay. */
@@ -1130,7 +1091,6 @@ export type CartFreePaymentMethodInput = {
 
 /** Return type for `cartGiftCardCodesUpdate` mutation. */
 export type CartGiftCardCodesUpdatePayload = {
-  __typename?: 'CartGiftCardCodesUpdatePayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1202,7 +1162,6 @@ export type CartInputMetafieldInput = {
 
 /** Represents information about the merchandise in the cart. */
 export type CartLine = BaseCartLine & Node & {
-  __typename?: 'CartLine';
   /** An attribute associated with the cart line. */
   attribute?: Maybe<Attribute>;
   /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
@@ -1234,7 +1193,6 @@ export type CartLineAttributeArgs = {
 
 /** The cost of the merchandise line that the buyer will pay at checkout. */
 export type CartLineCost = {
-  __typename?: 'CartLineCost';
   /** The amount of the merchandise line. */
   amountPerQuantity: MoneyV2;
   /** The compare at amount of the merchandise line. */
@@ -1250,7 +1208,6 @@ export type CartLineCost = {
  *
  */
 export type CartLineEstimatedCost = {
-  __typename?: 'CartLineEstimatedCost';
   /** The amount of the merchandise line. */
   amount: MoneyV2;
   /** The compare at amount of the merchandise line. */
@@ -1297,7 +1254,6 @@ export type CartLineUpdateInput = {
 
 /** Return type for `cartLinesAdd` mutation. */
 export type CartLinesAddPayload = {
-  __typename?: 'CartLinesAddPayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1306,7 +1262,6 @@ export type CartLinesAddPayload = {
 
 /** Return type for `cartLinesRemove` mutation. */
 export type CartLinesRemovePayload = {
-  __typename?: 'CartLinesRemovePayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1315,7 +1270,6 @@ export type CartLinesRemovePayload = {
 
 /** Return type for `cartLinesUpdate` mutation. */
 export type CartLinesUpdatePayload = {
-  __typename?: 'CartLinesUpdatePayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1336,7 +1290,6 @@ export type CartMetafieldDeleteInput = {
 
 /** Return type for `cartMetafieldDelete` mutation. */
 export type CartMetafieldDeletePayload = {
-  __typename?: 'CartMetafieldDeletePayload';
   /** The ID of the deleted cart metafield. */
   deletedId?: Maybe<Scalars['ID']['output']>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1364,7 +1317,6 @@ export type CartMetafieldsSetInput = {
 
 /** Return type for `cartMetafieldsSet` mutation. */
 export type CartMetafieldsSetPayload = {
-  __typename?: 'CartMetafieldsSetPayload';
   /** The list of cart metafields that were set. */
   metafields?: Maybe<Array<Metafield>>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1373,7 +1325,6 @@ export type CartMetafieldsSetPayload = {
 
 /** Return type for `cartNoteUpdate` mutation. */
 export type CartNoteUpdatePayload = {
-  __typename?: 'CartNoteUpdatePayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1413,7 +1364,6 @@ export type CartPaymentInput = {
 
 /** Return type for `cartPaymentUpdate` mutation. */
 export type CartPaymentUpdatePayload = {
-  __typename?: 'CartPaymentUpdatePayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1426,7 +1376,6 @@ export type CartPaymentUpdatePayload = {
  *
  */
 export type CartPreferences = {
-  __typename?: 'CartPreferences';
   /** Delivery preferences can be used to prefill the delivery section in at checkout. */
   delivery?: Maybe<CartDeliveryPreference>;
   /**
@@ -1463,7 +1412,6 @@ export type CartSelectedDeliveryOptionInput = {
 
 /** Return type for `cartSelectedDeliveryOptionsUpdate` mutation. */
 export type CartSelectedDeliveryOptionsUpdatePayload = {
-  __typename?: 'CartSelectedDeliveryOptionsUpdatePayload';
   /** The updated cart. */
   cart?: Maybe<Cart>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1472,7 +1420,6 @@ export type CartSelectedDeliveryOptionsUpdatePayload = {
 
 /** Return type for `cartSubmitForCompletion` mutation. */
 export type CartSubmitForCompletionPayload = {
-  __typename?: 'CartSubmitForCompletionPayload';
   /** The result of cart submission for completion. */
   result?: Maybe<CartSubmitForCompletionResult>;
   /** The list of errors that occurred from executing the mutation. */
@@ -1484,7 +1431,6 @@ export type CartSubmitForCompletionResult = SubmitAlreadyAccepted | SubmitFailed
 
 /** Represents an error that happens during execution of a cart mutation. */
 export type CartUserError = DisplayableError & {
-  __typename?: 'CartUserError';
   /** The error code. */
   code?: Maybe<CartErrorCode>;
   /** The path to the input field that caused the error. */
@@ -1510,7 +1456,6 @@ export type CartWalletPaymentMethodInput = {
  *
  */
 export type Collection = HasMetafields & Node & OnlineStorePublishable & Trackable & {
-  __typename?: 'Collection';
   /** Stripped description of the collection, single line with HTML tags removed. */
   description: Scalars['String']['output'];
   /** The description of the collection, complete with HTML formatting. */
@@ -1595,7 +1540,6 @@ export type CollectionProductsArgs = {
  *
  */
 export type CollectionConnection = {
-  __typename?: 'CollectionConnection';
   /** A list of edges. */
   edges: Array<CollectionEdge>;
   /** A list of the nodes contained in CollectionEdge. */
@@ -1611,7 +1555,6 @@ export type CollectionConnection = {
  *
  */
 export type CollectionEdge = {
-  __typename?: 'CollectionEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of CollectionEdge. */
@@ -1635,7 +1578,6 @@ export type CollectionSortKeys =
 
 /** A comment on an article. */
 export type Comment = Node & {
-  __typename?: 'Comment';
   /** The comment’s author. */
   author: CommentAuthor;
   /** Stripped content of the comment, single line with HTML tags removed. */
@@ -1654,7 +1596,6 @@ export type CommentContentArgs = {
 
 /** The author of a comment. */
 export type CommentAuthor = {
-  __typename?: 'CommentAuthor';
   /** The author's email. */
   email: Scalars['String']['output'];
   /** The author’s name. */
@@ -1666,7 +1607,6 @@ export type CommentAuthor = {
  *
  */
 export type CommentConnection = {
-  __typename?: 'CommentConnection';
   /** A list of edges. */
   edges: Array<CommentEdge>;
   /** A list of the nodes contained in CommentEdge. */
@@ -1680,7 +1620,6 @@ export type CommentConnection = {
  *
  */
 export type CommentEdge = {
-  __typename?: 'CommentEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of CommentEdge. */
@@ -1689,7 +1628,6 @@ export type CommentEdge = {
 
 /** Represents information about a company which is also a customer of the shop. */
 export type Company = HasMetafields & Node & {
-  __typename?: 'Company';
   /** The date and time ([ISO 8601 format](http://en.wikipedia.org/wiki/ISO_8601)) at which the company was created in Shopify. */
   createdAt: Scalars['DateTime']['output'];
   /** A unique externally-supplied ID for the company. */
@@ -1721,7 +1659,6 @@ export type CompanyMetafieldsArgs = {
 
 /** A company's main point of contact. */
 export type CompanyContact = Node & {
-  __typename?: 'CompanyContact';
   /** The date and time ([ISO 8601 format](http://en.wikipedia.org/wiki/ISO_8601)) at which the company contact was created in Shopify. */
   createdAt: Scalars['DateTime']['output'];
   /** A globally-unique ID. */
@@ -1736,7 +1673,6 @@ export type CompanyContact = Node & {
 
 /** A company's location. */
 export type CompanyLocation = HasMetafields & Node & {
-  __typename?: 'CompanyLocation';
   /** The date and time ([ISO 8601 format](http://en.wikipedia.org/wiki/ISO_8601)) at which the company location was created in Shopify. */
   createdAt: Scalars['DateTime']['output'];
   /** A unique externally-supplied ID for the company. */
@@ -1770,14 +1706,12 @@ export type CompanyLocationMetafieldsArgs = {
 
 /** The action for the 3DS payment redirect. */
 export type CompletePaymentChallenge = {
-  __typename?: 'CompletePaymentChallenge';
   /** The URL for the 3DS payment redirect. */
   redirectUrl?: Maybe<Scalars['URL']['output']>;
 };
 
 /** An error that occurred during a cart completion attempt. */
 export type CompletionError = {
-  __typename?: 'CompletionError';
   /** The error code. */
   code: CompletionErrorCode;
   /** The error message. */
@@ -1802,7 +1736,6 @@ export type CompletionErrorCode =
 
 /** Represents information about the grouped merchandise in the cart. */
 export type ComponentizableCartLine = BaseCartLine & Node & {
-  __typename?: 'ComponentizableCartLine';
   /** An attribute associated with the cart line. */
   attribute?: Maybe<Attribute>;
   /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
@@ -1836,7 +1769,6 @@ export type ComponentizableCartLineAttributeArgs = {
 
 /** A country. */
 export type Country = {
-  __typename?: 'Country';
   /** The languages available for the country. */
   availableLanguages: Array<Language>;
   /** The currency of the country. */
@@ -2365,7 +2297,6 @@ export type CropRegion =
 
 /** A currency. */
 export type Currency = {
-  __typename?: 'Currency';
   /** The ISO code of the currency. */
   isoCode: CurrencyCode;
   /** The name of the currency. */
@@ -2706,7 +2637,6 @@ export type CurrencyCode =
 
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type Customer = HasMetafields & {
-  __typename?: 'Customer';
   /** Indicates whether the customer has consented to be sent marketing material via email. */
   acceptsMarketing: Scalars['Boolean']['output'];
   /** A list of addresses for the customer. */
@@ -2782,7 +2712,6 @@ export type CustomerOrdersArgs = {
 
 /** A CustomerAccessToken represents the unique token required to make modifications to the customer object. */
 export type CustomerAccessToken = {
-  __typename?: 'CustomerAccessToken';
   /** The customer’s access token. */
   accessToken: Scalars['String']['output'];
   /** The date and time when the customer access token expires. */
@@ -2799,7 +2728,6 @@ export type CustomerAccessTokenCreateInput = {
 
 /** Return type for `customerAccessTokenCreate` mutation. */
 export type CustomerAccessTokenCreatePayload = {
-  __typename?: 'CustomerAccessTokenCreatePayload';
   /** The newly created customer access token object. */
   customerAccessToken?: Maybe<CustomerAccessToken>;
   /** The list of errors that occurred from executing the mutation. */
@@ -2813,7 +2741,6 @@ export type CustomerAccessTokenCreatePayload = {
 
 /** Return type for `customerAccessTokenCreateWithMultipass` mutation. */
 export type CustomerAccessTokenCreateWithMultipassPayload = {
-  __typename?: 'CustomerAccessTokenCreateWithMultipassPayload';
   /** An access token object associated with the customer. */
   customerAccessToken?: Maybe<CustomerAccessToken>;
   /** The list of errors that occurred from executing the mutation. */
@@ -2822,7 +2749,6 @@ export type CustomerAccessTokenCreateWithMultipassPayload = {
 
 /** Return type for `customerAccessTokenDelete` mutation. */
 export type CustomerAccessTokenDeletePayload = {
-  __typename?: 'CustomerAccessTokenDeletePayload';
   /** The destroyed access token. */
   deletedAccessToken?: Maybe<Scalars['String']['output']>;
   /** ID of the destroyed customer access token. */
@@ -2833,7 +2759,6 @@ export type CustomerAccessTokenDeletePayload = {
 
 /** Return type for `customerAccessTokenRenew` mutation. */
 export type CustomerAccessTokenRenewPayload = {
-  __typename?: 'CustomerAccessTokenRenewPayload';
   /** The renewed customer access token object. */
   customerAccessToken?: Maybe<CustomerAccessToken>;
   /** The list of errors that occurred from executing the mutation. */
@@ -2842,7 +2767,6 @@ export type CustomerAccessTokenRenewPayload = {
 
 /** Return type for `customerActivateByUrl` mutation. */
 export type CustomerActivateByUrlPayload = {
-  __typename?: 'CustomerActivateByUrlPayload';
   /** The customer that was activated. */
   customer?: Maybe<Customer>;
   /** A new customer access token for the customer. */
@@ -2861,7 +2785,6 @@ export type CustomerActivateInput = {
 
 /** Return type for `customerActivate` mutation. */
 export type CustomerActivatePayload = {
-  __typename?: 'CustomerActivatePayload';
   /** The customer object. */
   customer?: Maybe<Customer>;
   /** A newly created customer access token object for the customer. */
@@ -2877,7 +2800,6 @@ export type CustomerActivatePayload = {
 
 /** Return type for `customerAddressCreate` mutation. */
 export type CustomerAddressCreatePayload = {
-  __typename?: 'CustomerAddressCreatePayload';
   /** The new customer address object. */
   customerAddress?: Maybe<MailingAddress>;
   /** The list of errors that occurred from executing the mutation. */
@@ -2891,7 +2813,6 @@ export type CustomerAddressCreatePayload = {
 
 /** Return type for `customerAddressDelete` mutation. */
 export type CustomerAddressDeletePayload = {
-  __typename?: 'CustomerAddressDeletePayload';
   /** The list of errors that occurred from executing the mutation. */
   customerUserErrors: Array<CustomerUserError>;
   /** ID of the deleted customer address. */
@@ -2905,7 +2826,6 @@ export type CustomerAddressDeletePayload = {
 
 /** Return type for `customerAddressUpdate` mutation. */
 export type CustomerAddressUpdatePayload = {
-  __typename?: 'CustomerAddressUpdatePayload';
   /** The customer’s updated mailing address. */
   customerAddress?: Maybe<MailingAddress>;
   /** The list of errors that occurred from executing the mutation. */
@@ -2940,7 +2860,6 @@ export type CustomerCreateInput = {
 
 /** Return type for `customerCreate` mutation. */
 export type CustomerCreatePayload = {
-  __typename?: 'CustomerCreatePayload';
   /** The created customer object. */
   customer?: Maybe<Customer>;
   /** The list of errors that occurred from executing the mutation. */
@@ -2954,7 +2873,6 @@ export type CustomerCreatePayload = {
 
 /** Return type for `customerDefaultAddressUpdate` mutation. */
 export type CustomerDefaultAddressUpdatePayload = {
-  __typename?: 'CustomerDefaultAddressUpdatePayload';
   /** The updated customer object. */
   customer?: Maybe<Customer>;
   /** The list of errors that occurred from executing the mutation. */
@@ -3001,7 +2919,6 @@ export type CustomerErrorCode =
 
 /** Return type for `customerRecover` mutation. */
 export type CustomerRecoverPayload = {
-  __typename?: 'CustomerRecoverPayload';
   /** The list of errors that occurred from executing the mutation. */
   customerUserErrors: Array<CustomerUserError>;
   /**
@@ -3013,7 +2930,6 @@ export type CustomerRecoverPayload = {
 
 /** Return type for `customerResetByUrl` mutation. */
 export type CustomerResetByUrlPayload = {
-  __typename?: 'CustomerResetByUrlPayload';
   /** The customer object which was reset. */
   customer?: Maybe<Customer>;
   /** A newly created customer access token object for the customer. */
@@ -3037,7 +2953,6 @@ export type CustomerResetInput = {
 
 /** Return type for `customerReset` mutation. */
 export type CustomerResetPayload = {
-  __typename?: 'CustomerResetPayload';
   /** The customer object which was reset. */
   customer?: Maybe<Customer>;
   /** A newly created customer access token object for the customer. */
@@ -3074,7 +2989,6 @@ export type CustomerUpdateInput = {
 
 /** Return type for `customerUpdate` mutation. */
 export type CustomerUpdatePayload = {
-  __typename?: 'CustomerUpdatePayload';
   /** The updated customer object. */
   customer?: Maybe<Customer>;
   /**
@@ -3094,7 +3008,6 @@ export type CustomerUpdatePayload = {
 
 /** Represents an error that happens during execution of a customer mutation. */
 export type CustomerUserError = DisplayableError & {
-  __typename?: 'CustomerUserError';
   /** The error code. */
   code?: Maybe<CustomerErrorCode>;
   /** The path to the input field that caused the error. */
@@ -3173,7 +3086,6 @@ export type DigitalWallet =
  *
  */
 export type DiscountAllocation = {
-  __typename?: 'DiscountAllocation';
   /** Amount of discount allocated. */
   allocatedAmount: MoneyV2;
   /** The discount this allocated amount originated from. */
@@ -3210,7 +3122,6 @@ export type DiscountApplicationAllocationMethod =
  *
  */
 export type DiscountApplicationConnection = {
-  __typename?: 'DiscountApplicationConnection';
   /** A list of edges. */
   edges: Array<DiscountApplicationEdge>;
   /** A list of the nodes contained in DiscountApplicationEdge. */
@@ -3224,7 +3135,6 @@ export type DiscountApplicationConnection = {
  *
  */
 export type DiscountApplicationEdge = {
-  __typename?: 'DiscountApplicationEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of DiscountApplicationEdge. */
@@ -3262,7 +3172,6 @@ export type DiscountApplicationTargetType =
  *
  */
 export type DiscountCodeApplication = DiscountApplication & {
-  __typename?: 'DiscountCodeApplication';
   /** The method by which the discount's value is allocated to its entitled items. */
   allocationMethod: DiscountApplicationAllocationMethod;
   /** Specifies whether the discount code was applied successfully. */
@@ -3287,7 +3196,6 @@ export type DisplayableError = {
 
 /** Represents a web address. */
 export type Domain = {
-  __typename?: 'Domain';
   /** The host name of the domain (eg: `example.com`). */
   host: Scalars['String']['output'];
   /** Whether SSL is enabled or not. */
@@ -3298,7 +3206,6 @@ export type Domain = {
 
 /** Represents a video hosted outside of Shopify. */
 export type ExternalVideo = Media & Node & {
-  __typename?: 'ExternalVideo';
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']['output']>;
   /** The embed URL of the video for the respective host. */
@@ -3324,7 +3231,6 @@ export type ExternalVideo = Media & Node & {
 
 /** A filter that is supported on the parent field. */
 export type Filter = {
-  __typename?: 'Filter';
   /** A unique identifier. */
   id: Scalars['String']['output'];
   /** A human-friendly string for this filter. */
@@ -3370,7 +3276,6 @@ export type FilterType =
 
 /** A selectable value within a filter. */
 export type FilterValue = {
-  __typename?: 'FilterValue';
   /** The number of results that match this filter value. */
   count: Scalars['Int']['output'];
   /** A unique identifier. */
@@ -3394,7 +3299,6 @@ export type FilterValue = {
 
 /** Represents a single fulfillment in an order. */
 export type Fulfillment = {
-  __typename?: 'Fulfillment';
   /** List of the fulfillment's line items. */
   fulfillmentLineItems: FulfillmentLineItemConnection;
   /** The name of the tracking company. */
@@ -3425,7 +3329,6 @@ export type FulfillmentTrackingInfoArgs = {
 
 /** Represents a single line item in a fulfillment. There is at most one fulfillment line item for each order line item. */
 export type FulfillmentLineItem = {
-  __typename?: 'FulfillmentLineItem';
   /** The associated order's line item. */
   lineItem: OrderLineItem;
   /** The amount fulfilled in this fulfillment. */
@@ -3437,7 +3340,6 @@ export type FulfillmentLineItem = {
  *
  */
 export type FulfillmentLineItemConnection = {
-  __typename?: 'FulfillmentLineItemConnection';
   /** A list of edges. */
   edges: Array<FulfillmentLineItemEdge>;
   /** A list of the nodes contained in FulfillmentLineItemEdge. */
@@ -3451,7 +3353,6 @@ export type FulfillmentLineItemConnection = {
  *
  */
 export type FulfillmentLineItemEdge = {
-  __typename?: 'FulfillmentLineItemEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of FulfillmentLineItemEdge. */
@@ -3460,7 +3361,6 @@ export type FulfillmentLineItemEdge = {
 
 /** Tracking information associated with the fulfillment. */
 export type FulfillmentTrackingInfo = {
-  __typename?: 'FulfillmentTrackingInfo';
   /** The tracking number of the fulfillment. */
   number?: Maybe<Scalars['String']['output']>;
   /** The URL to track the fulfillment. */
@@ -3469,7 +3369,6 @@ export type FulfillmentTrackingInfo = {
 
 /** The generic file resource lets you manage files in a merchant’s store. Generic files include any file that doesn’t fit into a designated type such as image or video. Example: PDF, JSON. */
 export type GenericFile = Node & {
-  __typename?: 'GenericFile';
   /** A word or phrase to indicate the contents of a file. */
   alt?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
@@ -3523,7 +3422,6 @@ export type HasMetafieldsIdentifier = {
 
 /** Represents an image resource. */
 export type Image = {
-  __typename?: 'Image';
   /** A word or phrase to share the nature or contents of an image. */
   altText?: Maybe<Scalars['String']['output']>;
   /** The original height of the image in pixels. Returns `null` if the image isn't hosted by Shopify. */
@@ -3588,7 +3486,6 @@ export type ImageUrlArgs = {
  *
  */
 export type ImageConnection = {
-  __typename?: 'ImageConnection';
   /** A list of edges. */
   edges: Array<ImageEdge>;
   /** A list of the nodes contained in ImageEdge. */
@@ -3611,7 +3508,6 @@ export type ImageContentType =
  *
  */
 export type ImageEdge = {
-  __typename?: 'ImageEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of ImageEdge. */
@@ -3662,21 +3558,18 @@ export type ImageTransformInput = {
 
 /** Provide details about the contexts influenced by the @inContext directive on a field. */
 export type InContextAnnotation = {
-  __typename?: 'InContextAnnotation';
   description: Scalars['String']['output'];
   type: InContextAnnotationType;
 };
 
 /** This gives information about the type of context that impacts a field. For example, for a query with @inContext(language: "EN"), the type would point to the name: LanguageCode and kind: ENUM. */
 export type InContextAnnotationType = {
-  __typename?: 'InContextAnnotationType';
   kind: Scalars['String']['output'];
   name: Scalars['String']['output'];
 };
 
 /** A language. */
 export type Language = {
-  __typename?: 'Language';
   /** The name of the language in the language itself. If the language uses capitalization, it is capitalized for a mid-sentence position. */
   endonymName: Scalars['String']['output'];
   /** The ISO code. */
@@ -3978,7 +3871,6 @@ export type LanguageCode =
 
 /** Information about the localized experiences configured for the shop. */
 export type Localization = {
-  __typename?: 'Localization';
   /** The list of countries with enabled localized experiences. */
   availableCountries: Array<Country>;
   /** The list of languages available for the active country. */
@@ -3993,7 +3885,6 @@ export type Localization = {
 
 /** Represents a location where product inventory is held. */
 export type Location = HasMetafields & Node & {
-  __typename?: 'Location';
   /** The address of the location. */
   address: LocationAddress;
   /** A globally-unique ID. */
@@ -4024,7 +3915,6 @@ export type LocationMetafieldsArgs = {
  *
  */
 export type LocationAddress = {
-  __typename?: 'LocationAddress';
   /** The first line of the address for the location. */
   address1?: Maybe<Scalars['String']['output']>;
   /** The second line of the address for the location. */
@@ -4059,7 +3949,6 @@ export type LocationAddress = {
  *
  */
 export type LocationConnection = {
-  __typename?: 'LocationConnection';
   /** A list of edges. */
   edges: Array<LocationEdge>;
   /** A list of the nodes contained in LocationEdge. */
@@ -4073,7 +3962,6 @@ export type LocationConnection = {
  *
  */
 export type LocationEdge = {
-  __typename?: 'LocationEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of LocationEdge. */
@@ -4093,7 +3981,6 @@ export type LocationSortKeys =
 
 /** Represents a mailing address for customers and shipping. */
 export type MailingAddress = Node & {
-  __typename?: 'MailingAddress';
   /** The first line of the address. Typically the street address or PO Box number. */
   address1?: Maybe<Scalars['String']['output']>;
   /**
@@ -4170,7 +4057,6 @@ export type MailingAddressFormattedArgs = {
  *
  */
 export type MailingAddressConnection = {
-  __typename?: 'MailingAddressConnection';
   /** A list of edges. */
   edges: Array<MailingAddressEdge>;
   /** A list of the nodes contained in MailingAddressEdge. */
@@ -4184,7 +4070,6 @@ export type MailingAddressConnection = {
  *
  */
 export type MailingAddressEdge = {
-  __typename?: 'MailingAddressEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of MailingAddressEdge. */
@@ -4237,7 +4122,6 @@ export type MailingAddressInput = {
  *
  */
 export type ManualDiscountApplication = DiscountApplication & {
-  __typename?: 'ManualDiscountApplication';
   /** The method by which the discount's value is allocated to its entitled items. */
   allocationMethod: DiscountApplicationAllocationMethod;
   /** The description of the application. */
@@ -4254,7 +4138,6 @@ export type ManualDiscountApplication = DiscountApplication & {
 
 /** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
 export type Market = HasMetafields & Node & {
-  __typename?: 'Market';
   /**
    * A human-readable unique string for the market automatically generated from its title.
    *
@@ -4300,7 +4183,6 @@ export type Media = {
  *
  */
 export type MediaConnection = {
-  __typename?: 'MediaConnection';
   /** A list of edges. */
   edges: Array<MediaEdge>;
   /** A list of the nodes contained in MediaEdge. */
@@ -4325,7 +4207,6 @@ export type MediaContentType =
  *
  */
 export type MediaEdge = {
-  __typename?: 'MediaEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of MediaEdge. */
@@ -4341,7 +4222,6 @@ export type MediaHost =
 
 /** Represents a Shopify hosted image. */
 export type MediaImage = Media & Node & {
-  __typename?: 'MediaImage';
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
@@ -4358,7 +4238,6 @@ export type MediaImage = Media & Node & {
 
 /** A media presentation. */
 export type MediaPresentation = Node & {
-  __typename?: 'MediaPresentation';
   /** A JSON object representing a presentation view. */
   asJson?: Maybe<Scalars['JSON']['output']>;
   /** A globally-unique ID. */
@@ -4384,7 +4263,6 @@ export type MediaPresentationFormat =
  *
  */
 export type Menu = Node & {
-  __typename?: 'Menu';
   /** The menu's handle. */
   handle: Scalars['String']['output'];
   /** A globally-unique ID. */
@@ -4399,7 +4277,6 @@ export type Menu = Node & {
 
 /** A menu item within a parent menu. */
 export type MenuItem = Node & {
-  __typename?: 'MenuItem';
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
   /** The menu item's child items. */
@@ -4460,7 +4337,6 @@ export type Merchandise = ProductVariant;
  *
  */
 export type Metafield = Node & {
-  __typename?: 'Metafield';
   /** The date and time when the storefront metafield was created. */
   createdAt: Scalars['DateTime']['output'];
   /** The description of a metafield. */
@@ -4511,7 +4387,6 @@ export type MetafieldDeleteErrorCode =
 
 /** An error that occurs during the execution of cart metafield deletion. */
 export type MetafieldDeleteUserError = DisplayableError & {
-  __typename?: 'MetafieldDeleteUserError';
   /** The error code. */
   code?: Maybe<MetafieldDeleteErrorCode>;
   /** The path to the input field that caused the error. */
@@ -4553,7 +4428,6 @@ export type MetafieldReference = Collection | GenericFile | MediaImage | Metaobj
  *
  */
 export type MetafieldReferenceConnection = {
-  __typename?: 'MetafieldReferenceConnection';
   /** A list of edges. */
   edges: Array<MetafieldReferenceEdge>;
   /** A list of the nodes contained in MetafieldReferenceEdge. */
@@ -4567,7 +4441,6 @@ export type MetafieldReferenceConnection = {
  *
  */
 export type MetafieldReferenceEdge = {
-  __typename?: 'MetafieldReferenceEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of MetafieldReferenceEdge. */
@@ -4576,7 +4449,6 @@ export type MetafieldReferenceEdge = {
 
 /** An error that occurs during the execution of `MetafieldsSet`. */
 export type MetafieldsSetUserError = DisplayableError & {
-  __typename?: 'MetafieldsSetUserError';
   /** The error code. */
   code?: Maybe<MetafieldsSetUserErrorCode>;
   /** The index of the array element that's causing the error. */
@@ -4610,7 +4482,6 @@ export type MetafieldsSetUserErrorCode =
 
 /** An instance of a user-defined model based on a MetaobjectDefinition. */
 export type Metaobject = Node & OnlineStorePublishable & {
-  __typename?: 'Metaobject';
   /** Accesses a field of the object by key. */
   field?: Maybe<MetaobjectField>;
   /**
@@ -4648,7 +4519,6 @@ export type MetaobjectFieldArgs = {
  *
  */
 export type MetaobjectConnection = {
-  __typename?: 'MetaobjectConnection';
   /** A list of edges. */
   edges: Array<MetaobjectEdge>;
   /** A list of the nodes contained in MetaobjectEdge. */
@@ -4662,7 +4532,6 @@ export type MetaobjectConnection = {
  *
  */
 export type MetaobjectEdge = {
-  __typename?: 'MetaobjectEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of MetaobjectEdge. */
@@ -4671,7 +4540,6 @@ export type MetaobjectEdge = {
 
 /** Provides the value of a Metaobject field. */
 export type MetaobjectField = {
-  __typename?: 'MetaobjectField';
   /** The field key. */
   key: Scalars['String']['output'];
   /** A referenced object if the field type is a resource reference. */
@@ -4707,7 +4575,6 @@ export type MetaobjectHandleInput = {
 
 /** SEO information for a metaobject. */
 export type MetaobjectSeo = {
-  __typename?: 'MetaobjectSEO';
   /** The meta description. */
   description?: Maybe<MetaobjectField>;
   /** The SEO title. */
@@ -4716,7 +4583,6 @@ export type MetaobjectSeo = {
 
 /** Represents a Shopify hosted 3D model. */
 export type Model3d = Media & Node & {
-  __typename?: 'Model3d';
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
@@ -4733,7 +4599,6 @@ export type Model3d = Media & Node & {
 
 /** Represents a source for a Shopify hosted 3d model. */
 export type Model3dSource = {
-  __typename?: 'Model3dSource';
   /** The filesize of the 3d model. */
   filesize: Scalars['Int']['output'];
   /** The format of the 3d model. */
@@ -4757,7 +4622,6 @@ export type MoneyInput = {
  *
  */
 export type MoneyV2 = {
-  __typename?: 'MoneyV2';
   /** Decimal money amount. */
   amount: Scalars['Decimal']['output'];
   /** Currency of the money. */
@@ -4766,7 +4630,6 @@ export type MoneyV2 = {
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export type Mutation = {
-  __typename?: 'Mutation';
   /** Updates the attributes on a cart. */
   cartAttributesUpdate?: Maybe<CartAttributesUpdatePayload>;
   /** Updates the billing address on the cart. */
@@ -5118,7 +4981,6 @@ export type OnlineStorePublishable = {
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type Order = HasMetafields & Node & {
-  __typename?: 'Order';
   /** The address associated with the payment method. */
   billingAddress?: Maybe<MailingAddress>;
   /** The reason for the order's cancellation. Returns `null` if the order wasn't canceled. */
@@ -5289,7 +5151,6 @@ export type OrderCancelReason =
  *
  */
 export type OrderConnection = {
-  __typename?: 'OrderConnection';
   /** A list of edges. */
   edges: Array<OrderEdge>;
   /** A list of the nodes contained in OrderEdge. */
@@ -5305,7 +5166,6 @@ export type OrderConnection = {
  *
  */
 export type OrderEdge = {
-  __typename?: 'OrderEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of OrderEdge. */
@@ -5352,7 +5212,6 @@ export type OrderFulfillmentStatus =
 
 /** Represents a single line in an order. There is one line item for each distinct product variant. */
 export type OrderLineItem = {
-  __typename?: 'OrderLineItem';
   /** The number of entries associated to the line item minus the items that have been removed. */
   currentQuantity: Scalars['Int']['output'];
   /** List of custom attributes associated to the line item. */
@@ -5376,7 +5235,6 @@ export type OrderLineItem = {
  *
  */
 export type OrderLineItemConnection = {
-  __typename?: 'OrderLineItemConnection';
   /** A list of edges. */
   edges: Array<OrderLineItemEdge>;
   /** A list of the nodes contained in OrderLineItemEdge. */
@@ -5390,7 +5248,6 @@ export type OrderLineItemConnection = {
  *
  */
 export type OrderLineItemEdge = {
-  __typename?: 'OrderLineItemEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of OrderLineItemEdge. */
@@ -5414,7 +5271,6 @@ export type OrderSortKeys =
 
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
 export type Page = HasMetafields & Node & OnlineStorePublishable & Trackable & {
-  __typename?: 'Page';
   /** The description of the page, complete with HTML formatting. */
   body: Scalars['HTML']['output'];
   /** Summary of the page body. */
@@ -5459,7 +5315,6 @@ export type PageMetafieldsArgs = {
  *
  */
 export type PageConnection = {
-  __typename?: 'PageConnection';
   /** A list of edges. */
   edges: Array<PageEdge>;
   /** A list of the nodes contained in PageEdge. */
@@ -5473,7 +5328,6 @@ export type PageConnection = {
  *
  */
 export type PageEdge = {
-  __typename?: 'PageEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of PageEdge. */
@@ -5487,7 +5341,6 @@ export type PageEdge = {
  *
  */
 export type PageInfo = {
-  __typename?: 'PageInfo';
   /** The cursor corresponding to the last node in edges. */
   endCursor?: Maybe<Scalars['String']['output']>;
   /** Whether there are more pages to fetch following the current page. */
@@ -5515,7 +5368,6 @@ export type PageSortKeys =
 
 /** Settings related to payments. */
 export type PaymentSettings = {
-  __typename?: 'PaymentSettings';
   /** List of the card brands which the shop accepts. */
   acceptedCardBrands: Array<CardBrand>;
   /** The url pointing to the endpoint to vault credit cards. */
@@ -5549,7 +5401,6 @@ export type PredictiveSearchLimitScope =
  *
  */
 export type PredictiveSearchResult = {
-  __typename?: 'PredictiveSearchResult';
   /** The articles that match the search query. */
   articles: Array<Article>;
   /** The articles that match the search query. */
@@ -5597,7 +5448,6 @@ export type PriceRangeFilter = {
 
 /** The value of the percentage pricing object. */
 export type PricingPercentageValue = {
-  __typename?: 'PricingPercentageValue';
   /** The percentage value of the object. */
   percentage: Scalars['Float']['output'];
 };
@@ -5613,7 +5463,6 @@ export type PricingValue = MoneyV2 | PricingPercentageValue;
  *
  */
 export type Product = HasMetafields & Node & OnlineStorePublishable & Trackable & {
-  __typename?: 'Product';
   /** Indicates if at least one product variant is available for sale. */
   availableForSale: Scalars['Boolean']['output'];
   /** List of collections a product belongs to. */
@@ -5878,7 +5727,6 @@ export type ProductCollectionSortKeys =
  *
  */
 export type ProductConnection = {
-  __typename?: 'ProductConnection';
   /** A list of edges. */
   edges: Array<ProductEdge>;
   /** A list of available filters. */
@@ -5894,7 +5742,6 @@ export type ProductConnection = {
  *
  */
 export type ProductEdge = {
-  __typename?: 'ProductEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of ProductEdge. */
@@ -5961,7 +5808,6 @@ export type ProductMediaSortKeys =
  *
  */
 export type ProductOption = Node & {
-  __typename?: 'ProductOption';
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
   /** The product option’s name. */
@@ -5980,7 +5826,6 @@ export type ProductOption = Node & {
  *
  */
 export type ProductOptionValue = Node & {
-  __typename?: 'ProductOptionValue';
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
   /** The name of the product option value. */
@@ -5994,7 +5839,6 @@ export type ProductOptionValue = Node & {
  *
  */
 export type ProductOptionValueSwatch = {
-  __typename?: 'ProductOptionValueSwatch';
   /** The swatch color. */
   color?: Maybe<Scalars['Color']['output']>;
   /** The swatch image. */
@@ -6003,7 +5847,6 @@ export type ProductOptionValueSwatch = {
 
 /** The price range of the product. */
 export type ProductPriceRange = {
-  __typename?: 'ProductPriceRange';
   /** The highest variant's price. */
   maxVariantPrice: MoneyV2;
   /** The lowest variant's price. */
@@ -6051,7 +5894,6 @@ export type ProductSortKeys =
  *
  */
 export type ProductVariant = HasMetafields & Node & {
-  __typename?: 'ProductVariant';
   /** Indicates if the product variant is available for sale. */
   availableForSale: Scalars['Boolean']['output'];
   /** The barcode (for example, ISBN, UPC, or GTIN) associated with the variant. */
@@ -6215,7 +6057,6 @@ export type ProductVariantStoreAvailabilityArgs = {
  *
  */
 export type ProductVariantComponent = {
-  __typename?: 'ProductVariantComponent';
   /** The product variant object that the component belongs to. */
   productVariant: ProductVariant;
   /** The quantity of component present in the bundle. */
@@ -6227,7 +6068,6 @@ export type ProductVariantComponent = {
  *
  */
 export type ProductVariantComponentConnection = {
-  __typename?: 'ProductVariantComponentConnection';
   /** A list of edges. */
   edges: Array<ProductVariantComponentEdge>;
   /** A list of the nodes contained in ProductVariantComponentEdge. */
@@ -6241,7 +6081,6 @@ export type ProductVariantComponentConnection = {
  *
  */
 export type ProductVariantComponentEdge = {
-  __typename?: 'ProductVariantComponentEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of ProductVariantComponentEdge. */
@@ -6253,7 +6092,6 @@ export type ProductVariantComponentEdge = {
  *
  */
 export type ProductVariantConnection = {
-  __typename?: 'ProductVariantConnection';
   /** A list of edges. */
   edges: Array<ProductVariantEdge>;
   /** A list of the nodes contained in ProductVariantEdge. */
@@ -6267,7 +6105,6 @@ export type ProductVariantConnection = {
  *
  */
 export type ProductVariantEdge = {
-  __typename?: 'ProductVariantEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of ProductVariantEdge. */
@@ -6293,7 +6130,6 @@ export type ProductVariantSortKeys =
 
 /** Represents information about the buyer that is interacting with the cart. */
 export type PurchasingCompany = {
-  __typename?: 'PurchasingCompany';
   /** The company associated to the order or draft order. */
   company: Company;
   /** The company contact associated to the order or draft order. */
@@ -6308,7 +6144,6 @@ export type PurchasingCompany = {
  *
  */
 export type QuantityPriceBreak = {
-  __typename?: 'QuantityPriceBreak';
   /**
    * Minimum quantity required to reach new quantity break price.
    *
@@ -6326,7 +6161,6 @@ export type QuantityPriceBreak = {
  *
  */
 export type QuantityPriceBreakConnection = {
-  __typename?: 'QuantityPriceBreakConnection';
   /** A list of edges. */
   edges: Array<QuantityPriceBreakEdge>;
   /** A list of the nodes contained in QuantityPriceBreakEdge. */
@@ -6340,7 +6174,6 @@ export type QuantityPriceBreakConnection = {
  *
  */
 export type QuantityPriceBreakEdge = {
-  __typename?: 'QuantityPriceBreakEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of QuantityPriceBreakEdge. */
@@ -6352,7 +6185,6 @@ export type QuantityPriceBreakEdge = {
  *
  */
 export type QuantityRule = {
-  __typename?: 'QuantityRule';
   /**
    * The value that specifies the quantity increment between minimum and maximum of the rule.
    * Only quantities divisible by this value will be considered valid.
@@ -6378,7 +6210,6 @@ export type QuantityRule = {
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type QueryRoot = {
-  __typename?: 'QueryRoot';
   /** Fetch a specific Article by its ID. */
   article?: Maybe<Article>;
   /** List of the shop's articles. */
@@ -6728,7 +6559,6 @@ export type QueryRootUrlRedirectsArgs = {
 
 /** SEO information. */
 export type Seo = {
-  __typename?: 'SEO';
   /** The meta description. */
   description?: Maybe<Scalars['String']['output']>;
   /** The SEO title. */
@@ -6741,7 +6571,6 @@ export type Seo = {
  *
  */
 export type ScriptDiscountApplication = DiscountApplication & {
-  __typename?: 'ScriptDiscountApplication';
   /** The method by which the discount's value is allocated to its entitled items. */
   allocationMethod: DiscountApplicationAllocationMethod;
   /** Which lines of targetType that the discount is allocated over. */
@@ -6763,7 +6592,6 @@ export type SearchPrefixQueryType =
 
 /** A search query suggestion. */
 export type SearchQuerySuggestion = Trackable & {
-  __typename?: 'SearchQuerySuggestion';
   /** The text of the search query suggestion with highlighted HTML tags. */
   styledText: Scalars['String']['output'];
   /** The text of the search query suggestion. */
@@ -6783,7 +6611,6 @@ export type SearchResultItem = Article | Page | Product;
  *
  */
 export type SearchResultItemConnection = {
-  __typename?: 'SearchResultItemConnection';
   /** A list of edges. */
   edges: Array<SearchResultItemEdge>;
   /** A list of the nodes contained in SearchResultItemEdge. */
@@ -6801,7 +6628,6 @@ export type SearchResultItemConnection = {
  *
  */
 export type SearchResultItemEdge = {
-  __typename?: 'SearchResultItemEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of SearchResultItemEdge. */
@@ -6860,7 +6686,6 @@ export type SearchableField =
  *
  */
 export type SelectedOption = {
-  __typename?: 'SelectedOption';
   /** The product option’s name. */
   name: Scalars['String']['output'];
   /** The product option’s value. */
@@ -6877,7 +6702,6 @@ export type SelectedOptionInput = {
 
 /** Represents how products and variants can be sold and purchased. */
 export type SellingPlan = HasMetafields & {
-  __typename?: 'SellingPlan';
   /** The billing policy for the selling plan. */
   billingPolicy?: Maybe<SellingPlanBillingPolicy>;
   /** The initial payment due for the purchase. */
@@ -6917,7 +6741,6 @@ export type SellingPlanMetafieldsArgs = {
 
 /** Represents an association between a variant and a selling plan. Selling plan allocations describe the options offered for each variant, and the price of the variant when purchased with a selling plan. */
 export type SellingPlanAllocation = {
-  __typename?: 'SellingPlanAllocation';
   /** The checkout charge amount due for the purchase. */
   checkoutChargeAmount: MoneyV2;
   /** A list of price adjustments, with a maximum of two. When there are two, the first price adjustment goes into effect at the time of purchase, while the second one starts after a certain number of orders. A price adjustment represents how a selling plan affects pricing when a variant is purchased with a selling plan. Prices display in the customer's currency if the shop is configured for it. */
@@ -6933,7 +6756,6 @@ export type SellingPlanAllocation = {
  *
  */
 export type SellingPlanAllocationConnection = {
-  __typename?: 'SellingPlanAllocationConnection';
   /** A list of edges. */
   edges: Array<SellingPlanAllocationEdge>;
   /** A list of the nodes contained in SellingPlanAllocationEdge. */
@@ -6947,7 +6769,6 @@ export type SellingPlanAllocationConnection = {
  *
  */
 export type SellingPlanAllocationEdge = {
-  __typename?: 'SellingPlanAllocationEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of SellingPlanAllocationEdge. */
@@ -6956,7 +6777,6 @@ export type SellingPlanAllocationEdge = {
 
 /** The resulting prices for variants when they're purchased with a specific selling plan. */
 export type SellingPlanAllocationPriceAdjustment = {
-  __typename?: 'SellingPlanAllocationPriceAdjustment';
   /** The price of the variant when it's purchased without a selling plan for the same number of deliveries. For example, if a customer purchases 6 deliveries of $10.00 granola separately, then the price is 6 x $10.00 = $60.00. */
   compareAtPrice: MoneyV2;
   /** The effective price for a single delivery. For example, for a prepaid subscription plan that includes 6 deliveries at the price of $48.00, the per delivery price is $8.00. */
@@ -6972,7 +6792,6 @@ export type SellingPlanBillingPolicy = SellingPlanRecurringBillingPolicy;
 
 /** The initial payment due for the purchase. */
 export type SellingPlanCheckoutCharge = {
-  __typename?: 'SellingPlanCheckoutCharge';
   /** The charge type for the checkout charge. */
   type: SellingPlanCheckoutChargeType;
   /** The charge value for the checkout charge. */
@@ -6981,7 +6800,6 @@ export type SellingPlanCheckoutCharge = {
 
 /** The percentage value of the price used for checkout charge. */
 export type SellingPlanCheckoutChargePercentageValue = {
-  __typename?: 'SellingPlanCheckoutChargePercentageValue';
   /** The percentage value of the price used for checkout charge. */
   percentage: Scalars['Float']['output'];
 };
@@ -7001,7 +6819,6 @@ export type SellingPlanCheckoutChargeValue = MoneyV2 | SellingPlanCheckoutCharge
  *
  */
 export type SellingPlanConnection = {
-  __typename?: 'SellingPlanConnection';
   /** A list of edges. */
   edges: Array<SellingPlanEdge>;
   /** A list of the nodes contained in SellingPlanEdge. */
@@ -7018,7 +6835,6 @@ export type SellingPlanDeliveryPolicy = SellingPlanRecurringDeliveryPolicy;
  *
  */
 export type SellingPlanEdge = {
-  __typename?: 'SellingPlanEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of SellingPlanEdge. */
@@ -7027,21 +6843,18 @@ export type SellingPlanEdge = {
 
 /** A fixed amount that's deducted from the original variant price. For example, $10.00 off. */
 export type SellingPlanFixedAmountPriceAdjustment = {
-  __typename?: 'SellingPlanFixedAmountPriceAdjustment';
   /** The money value of the price adjustment. */
   adjustmentAmount: MoneyV2;
 };
 
 /** A fixed price adjustment for a variant that's purchased with a selling plan. */
 export type SellingPlanFixedPriceAdjustment = {
-  __typename?: 'SellingPlanFixedPriceAdjustment';
   /** A new price of the variant when it's purchased with the selling plan. */
   price: MoneyV2;
 };
 
 /** Represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans. */
 export type SellingPlanGroup = {
-  __typename?: 'SellingPlanGroup';
   /** A display friendly name for the app that created the selling plan group. */
   appName?: Maybe<Scalars['String']['output']>;
   /** The name of the selling plan group. */
@@ -7067,7 +6880,6 @@ export type SellingPlanGroupSellingPlansArgs = {
  *
  */
 export type SellingPlanGroupConnection = {
-  __typename?: 'SellingPlanGroupConnection';
   /** A list of edges. */
   edges: Array<SellingPlanGroupEdge>;
   /** A list of the nodes contained in SellingPlanGroupEdge. */
@@ -7081,7 +6893,6 @@ export type SellingPlanGroupConnection = {
  *
  */
 export type SellingPlanGroupEdge = {
-  __typename?: 'SellingPlanGroupEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of SellingPlanGroupEdge. */
@@ -7094,7 +6905,6 @@ export type SellingPlanGroupEdge = {
  * Individual selling plans contribute their options to the associated selling plan group. For example, a selling plan group might have an option called `option1: Delivery every`. One selling plan in that group could contribute `option1: 2 weeks` with the pricing for that option, and another selling plan could contribute `option1: 4 weeks`, with different pricing.
  */
 export type SellingPlanGroupOption = {
-  __typename?: 'SellingPlanGroupOption';
   /** The name of the option. For example, 'Delivery every'. */
   name: Scalars['String']['output'];
   /** The values for the options specified by the selling plans in the selling plan group. For example, '1 week', '2 weeks', '3 weeks'. */
@@ -7114,7 +6924,6 @@ export type SellingPlanInterval =
 
 /** An option provided by a Selling Plan. */
 export type SellingPlanOption = {
-  __typename?: 'SellingPlanOption';
   /** The name of the option (ie "Delivery every"). */
   name?: Maybe<Scalars['String']['output']>;
   /** The value of the option (ie "Month"). */
@@ -7123,14 +6932,12 @@ export type SellingPlanOption = {
 
 /** A percentage amount that's deducted from the original variant price. For example, 10% off. */
 export type SellingPlanPercentagePriceAdjustment = {
-  __typename?: 'SellingPlanPercentagePriceAdjustment';
   /** The percentage value of the price adjustment. */
   adjustmentPercentage: Scalars['Int']['output'];
 };
 
 /** Represents by how much the price of a variant associated with a selling plan is adjusted. Each variant can have up to two price adjustments. If a variant has multiple price adjustments, then the first price adjustment applies when the variant is initially purchased. The second price adjustment applies after a certain number of orders (specified by the `orderCount` field) are made. If a selling plan doesn't have any price adjustments, then the unadjusted price of the variant is the effective price. */
 export type SellingPlanPriceAdjustment = {
-  __typename?: 'SellingPlanPriceAdjustment';
   /** The type of price adjustment. An adjustment value can have one of three types: percentage, amount off, or a new price. */
   adjustmentValue: SellingPlanPriceAdjustmentValue;
   /** The number of orders that the price adjustment applies to. If the price adjustment always applies, then this field is `null`. */
@@ -7142,7 +6949,6 @@ export type SellingPlanPriceAdjustmentValue = SellingPlanFixedAmountPriceAdjustm
 
 /** The recurring billing policy for the selling plan. */
 export type SellingPlanRecurringBillingPolicy = {
-  __typename?: 'SellingPlanRecurringBillingPolicy';
   /** The billing frequency, it can be either: day, week, month or year. */
   interval: SellingPlanInterval;
   /** The number of intervals between billings. */
@@ -7151,7 +6957,6 @@ export type SellingPlanRecurringBillingPolicy = {
 
 /** The recurring delivery policy for the selling plan. */
 export type SellingPlanRecurringDeliveryPolicy = {
-  __typename?: 'SellingPlanRecurringDeliveryPolicy';
   /** The delivery frequency, it can be either: day, week, month or year. */
   interval: SellingPlanInterval;
   /** The number of intervals between deliveries. */
@@ -7160,7 +6965,6 @@ export type SellingPlanRecurringDeliveryPolicy = {
 
 /** Shop represents a collection of the general settings and information about the shop. */
 export type Shop = HasMetafields & Node & {
-  __typename?: 'Shop';
   /** The shop's branding configuration. */
   brand?: Maybe<Brand>;
   /** A description of the shop. */
@@ -7208,7 +7012,6 @@ export type ShopMetafieldsArgs = {
 
 /** Represents a Shop Pay payment request. */
 export type ShopPayPaymentRequest = {
-  __typename?: 'ShopPayPaymentRequest';
   /** The delivery methods for the payment request. */
   deliveryMethods: Array<ShopPayPaymentRequestDeliveryMethod>;
   /** The discount codes for the payment request. */
@@ -7239,7 +7042,6 @@ export type ShopPayPaymentRequest = {
 
 /** Represents a contact field for a Shop Pay payment request. */
 export type ShopPayPaymentRequestContactField = {
-  __typename?: 'ShopPayPaymentRequestContactField';
   /** The first address line of the contact field. */
   address1: Scalars['String']['output'];
   /** The second address line of the contact field. */
@@ -7266,7 +7068,6 @@ export type ShopPayPaymentRequestContactField = {
 
 /** Represents a delivery method for a Shop Pay payment request. */
 export type ShopPayPaymentRequestDeliveryMethod = {
-  __typename?: 'ShopPayPaymentRequestDeliveryMethod';
   /** The amount for the delivery method. */
   amount: MoneyV2;
   /** The code of the delivery method. */
@@ -7310,7 +7111,6 @@ export type ShopPayPaymentRequestDeliveryMethodType =
 
 /** Represents a discount for a Shop Pay payment request. */
 export type ShopPayPaymentRequestDiscount = {
-  __typename?: 'ShopPayPaymentRequestDiscount';
   /** The amount of the discount. */
   amount: MoneyV2;
   /** The label of the discount. */
@@ -7327,7 +7127,6 @@ export type ShopPayPaymentRequestDiscountInput = {
 
 /** Represents an image for a Shop Pay payment request line item. */
 export type ShopPayPaymentRequestImage = {
-  __typename?: 'ShopPayPaymentRequestImage';
   /** The alt text of the image. */
   alt?: Maybe<Scalars['String']['output']>;
   /** The source URL of the image. */
@@ -7394,7 +7193,6 @@ export type ShopPayPaymentRequestInput = {
 
 /** Represents a line item for a Shop Pay payment request. */
 export type ShopPayPaymentRequestLineItem = {
-  __typename?: 'ShopPayPaymentRequestLineItem';
   /** The final item price for the line item. */
   finalItemPrice: MoneyV2;
   /** The final line price for the line item. */
@@ -7455,7 +7253,6 @@ export type ShopPayPaymentRequestLineItemInput = {
 
 /** Represents a receipt for a Shop Pay payment request. */
 export type ShopPayPaymentRequestReceipt = {
-  __typename?: 'ShopPayPaymentRequestReceipt';
   /** The payment request object. */
   paymentRequest: ShopPayPaymentRequest;
   /** The processing status. */
@@ -7466,7 +7263,6 @@ export type ShopPayPaymentRequestReceipt = {
 
 /** Represents a Shop Pay payment request session. */
 export type ShopPayPaymentRequestSession = {
-  __typename?: 'ShopPayPaymentRequestSession';
   /** The checkout URL of the Shop Pay payment request session. */
   checkoutUrl: Scalars['URL']['output'];
   /** The payment request associated with the Shop Pay payment request session. */
@@ -7479,7 +7275,6 @@ export type ShopPayPaymentRequestSession = {
 
 /** Return type for `shopPayPaymentRequestSessionCreate` mutation. */
 export type ShopPayPaymentRequestSessionCreatePayload = {
-  __typename?: 'ShopPayPaymentRequestSessionCreatePayload';
   /** The new Shop Pay payment request session object. */
   shopPayPaymentRequestSession?: Maybe<ShopPayPaymentRequestSession>;
   /** Error codes for failed Shop Pay payment request session mutations. */
@@ -7488,7 +7283,6 @@ export type ShopPayPaymentRequestSessionCreatePayload = {
 
 /** Return type for `shopPayPaymentRequestSessionSubmit` mutation. */
 export type ShopPayPaymentRequestSessionSubmitPayload = {
-  __typename?: 'ShopPayPaymentRequestSessionSubmitPayload';
   /** The checkout on which the payment was applied. */
   paymentRequestReceipt?: Maybe<ShopPayPaymentRequestReceipt>;
   /** Error codes for failed Shop Pay payment request session mutations. */
@@ -7497,7 +7291,6 @@ export type ShopPayPaymentRequestSessionSubmitPayload = {
 
 /** Represents a shipping line for a Shop Pay payment request. */
 export type ShopPayPaymentRequestShippingLine = {
-  __typename?: 'ShopPayPaymentRequestShippingLine';
   /** The amount for the shipping line. */
   amount: MoneyV2;
   /** The code of the shipping line. */
@@ -7518,7 +7311,6 @@ export type ShopPayPaymentRequestShippingLineInput = {
 
 /** Represents a shipping total for a Shop Pay payment request. */
 export type ShopPayPaymentRequestTotalShippingPrice = {
-  __typename?: 'ShopPayPaymentRequestTotalShippingPrice';
   /** The discounts for the shipping total. */
   discounts: Array<ShopPayPaymentRequestDiscount>;
   /** The final total for the shipping total. */
@@ -7554,7 +7346,6 @@ export type ShopPayWalletContentInput = {
 
 /** Policy that a merchant has configured for their store, such as their refund or privacy policy. */
 export type ShopPolicy = Node & {
-  __typename?: 'ShopPolicy';
   /** Policy text, maximum size of 64kb. */
   body: Scalars['String']['output'];
   /** Policy’s handle. */
@@ -7574,7 +7365,6 @@ export type ShopPolicy = Node & {
  *
  */
 export type ShopPolicyWithDefault = {
-  __typename?: 'ShopPolicyWithDefault';
   /** The text of the policy. Maximum size: 64KB. */
   body: Scalars['String']['output'];
   /** The handle of the policy. */
@@ -7593,7 +7383,6 @@ export type ShopPolicyWithDefault = {
  *
  */
 export type StoreAvailability = {
-  __typename?: 'StoreAvailability';
   /** Whether the product variant is in-stock at this location. */
   available: Scalars['Boolean']['output'];
   /** The location where this product variant is stocked at. */
@@ -7609,7 +7398,6 @@ export type StoreAvailability = {
  *
  */
 export type StoreAvailabilityConnection = {
-  __typename?: 'StoreAvailabilityConnection';
   /** A list of edges. */
   edges: Array<StoreAvailabilityEdge>;
   /** A list of the nodes contained in StoreAvailabilityEdge. */
@@ -7623,7 +7411,6 @@ export type StoreAvailabilityConnection = {
  *
  */
 export type StoreAvailabilityEdge = {
-  __typename?: 'StoreAvailabilityEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of StoreAvailabilityEdge. */
@@ -7635,7 +7422,6 @@ export type StoreAvailabilityEdge = {
  *
  */
 export type StringConnection = {
-  __typename?: 'StringConnection';
   /** A list of edges. */
   edges: Array<StringEdge>;
   /** Information to aid in pagination. */
@@ -7647,7 +7433,6 @@ export type StringConnection = {
  *
  */
 export type StringEdge = {
-  __typename?: 'StringEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of StringEdge. */
@@ -7656,7 +7441,6 @@ export type StringEdge = {
 
 /** An error that occurred during cart submit for completion. */
 export type SubmissionError = {
-  __typename?: 'SubmissionError';
   /** The error code. */
   code: SubmissionErrorCode;
   /** The error message. */
@@ -7761,14 +7545,12 @@ export type SubmissionErrorCode =
 
 /** Cart submit for checkout completion is successful. */
 export type SubmitAlreadyAccepted = {
-  __typename?: 'SubmitAlreadyAccepted';
   /** The ID of the cart completion attempt that will be used for polling for the result. */
   attemptId: Scalars['String']['output'];
 };
 
 /** Cart submit for checkout completion failed. */
 export type SubmitFailed = {
-  __typename?: 'SubmitFailed';
   /** The URL of the checkout for the cart. */
   checkoutUrl?: Maybe<Scalars['URL']['output']>;
   /** The list of errors that occurred from executing the mutation. */
@@ -7777,14 +7559,12 @@ export type SubmitFailed = {
 
 /** Cart submit for checkout completion is already accepted. */
 export type SubmitSuccess = {
-  __typename?: 'SubmitSuccess';
   /** The ID of the cart completion attempt that will be used for polling for the result. */
   attemptId: Scalars['String']['output'];
 };
 
 /** Cart submit for checkout completion is throttled. */
 export type SubmitThrottled = {
-  __typename?: 'SubmitThrottled';
   /**
    * UTC date time string that indicates the time after which clients should make their next
    * poll request. Any poll requests sent before this time will be ignored. Use this value to schedule the
@@ -7796,7 +7576,6 @@ export type SubmitThrottled = {
 
 /** Color and image for visual representation. */
 export type Swatch = {
-  __typename?: 'Swatch';
   /** The swatch color. */
   color?: Maybe<Scalars['Color']['output']>;
   /** The swatch image. */
@@ -7814,7 +7593,6 @@ export type Trackable = {
  *
  */
 export type UnitPriceMeasurement = {
-  __typename?: 'UnitPriceMeasurement';
   /** The type of unit of measurement for the unit price measurement. */
   measuredType?: Maybe<UnitPriceMeasurementMeasuredType>;
   /** The quantity unit for the unit price measurement. */
@@ -7872,7 +7650,6 @@ export type UnitSystem =
 
 /** A redirect on the online store. */
 export type UrlRedirect = Node & {
-  __typename?: 'UrlRedirect';
   /** The ID of the URL redirect. */
   id: Scalars['ID']['output'];
   /** The old path to be redirected from. When the user visits this path, they'll be redirected to the target location. */
@@ -7886,7 +7663,6 @@ export type UrlRedirect = Node & {
  *
  */
 export type UrlRedirectConnection = {
-  __typename?: 'UrlRedirectConnection';
   /** A list of edges. */
   edges: Array<UrlRedirectEdge>;
   /** A list of the nodes contained in UrlRedirectEdge. */
@@ -7900,7 +7676,6 @@ export type UrlRedirectConnection = {
  *
  */
 export type UrlRedirectEdge = {
-  __typename?: 'UrlRedirectEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String']['output'];
   /** The item at the end of UrlRedirectEdge. */
@@ -7909,7 +7684,6 @@ export type UrlRedirectEdge = {
 
 /** Represents an error in the input of a mutation. */
 export type UserError = DisplayableError & {
-  __typename?: 'UserError';
   /** The path to the input field that caused the error. */
   field?: Maybe<Array<Scalars['String']['output']>>;
   /** The error message. */
@@ -7918,7 +7692,6 @@ export type UserError = DisplayableError & {
 
 /** Error codes for failed Shop Pay payment request session mutations. */
 export type UserErrorsShopPayPaymentRequestSessionUserErrors = DisplayableError & {
-  __typename?: 'UserErrorsShopPayPaymentRequestSessionUserErrors';
   /** The error code. */
   code?: Maybe<UserErrorsShopPayPaymentRequestSessionUserErrorsCode>;
   /** The path to the input field that caused the error. */
@@ -7946,7 +7719,6 @@ export type VariantOptionFilter = {
 
 /** Represents a Shopify hosted video. */
 export type Video = Media & Node & {
-  __typename?: 'Video';
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
@@ -7963,7 +7735,6 @@ export type Video = Media & Node & {
 
 /** Represents a source for a Shopify hosted video. */
 export type VideoSource = {
-  __typename?: 'VideoSource';
   /** The format of the video source. */
   format: Scalars['String']['output'];
   /** The height of the video. */
@@ -7987,47 +7758,47 @@ export type WeightUnit =
   /** 1 pound equals 16 ounces. */
   | 'POUNDS';
 
-export type BuyerIdentityFragment = { __typename?: 'CartBuyerIdentity', countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { __typename?: 'Customer', acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { __typename?: 'MailingAddressConnection', edges: Array<{ __typename?: 'MailingAddressEdge', node: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null };
+export type BuyerIdentityFragment = { countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null };
 
-export type CartFragment = { __typename?: 'Cart', checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ __typename?: 'Attribute', key: string, value?: string | null }>, buyerIdentity: { __typename?: 'CartBuyerIdentity', countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { __typename?: 'Customer', acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { __typename?: 'MailingAddressConnection', edges: Array<{ __typename?: 'MailingAddressEdge', node: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { __typename?: 'CartCost', totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ __typename?: 'CartDiscountCode', applicable: boolean, code: string }>, lines: { __typename?: 'BaseCartLineConnection', edges: Array<{ __typename?: 'BaseCartLineEdge', node: { __typename?: 'CartLine', id: string, quantity: number, cost: { __typename?: 'CartLineCost', amountPerQuantity: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ __typename?: 'CartAutomaticDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCodeDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCustomDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }>, merchandise: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { __typename?: 'SellingPlanAllocation', sellingPlan: { __typename?: 'SellingPlan', name: string } } | null } | { __typename?: 'ComponentizableCartLine' } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type CartFragment = { checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ key: string, value?: string | null }>, buyerIdentity: { countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { totalAmount: { amount: string, currencyCode: CurrencyCode }, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ applicable: boolean, code: string }>, lines: { edges: Array<{ node: { id: string, quantity: number, cost: { amountPerQuantity: { amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalAmount: { amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } }>, merchandise: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { sellingPlan: { name: string } } | null } | {} }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
-export type CartLineFragment = { __typename?: 'CartLine', id: string, quantity: number, cost: { __typename?: 'CartLineCost', amountPerQuantity: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ __typename?: 'CartAutomaticDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCodeDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCustomDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }>, merchandise: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { __typename?: 'SellingPlanAllocation', sellingPlan: { __typename?: 'SellingPlan', name: string } } | null };
+export type CartLineFragment = { id: string, quantity: number, cost: { amountPerQuantity: { amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalAmount: { amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } }>, merchandise: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { sellingPlan: { name: string } } | null };
 
-export type CountryFragment = { __typename?: 'Country', isoCode: CountryCode, name: string, unitSystem: UnitSystem, availableLanguages: Array<{ __typename?: 'Language', endonymName: string, isoCode: LanguageCode, name: string }>, currency: { __typename?: 'Currency', isoCode: CurrencyCode, name: string, symbol: string } };
+export type CountryFragment = { isoCode: CountryCode, name: string, unitSystem: UnitSystem, availableLanguages: Array<{ endonymName: string, isoCode: LanguageCode, name: string }>, currency: { isoCode: CurrencyCode, name: string, symbol: string } };
 
-export type CustomerFragment = { __typename?: 'Customer', acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { __typename?: 'MailingAddressConnection', edges: Array<{ __typename?: 'MailingAddressEdge', node: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } };
+export type CustomerFragment = { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } };
 
-export type FilterFragment = { __typename?: 'Filter', id: string, label: string, type: FilterType, values: Array<{ __typename?: 'FilterValue', count: number, id: string, label: string, swatch?: { __typename?: 'Swatch', color?: unknown | null, image?: { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> };
+export type FilterFragment = { id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> };
 
-export type ImageFragment = { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null };
+export type ImageFragment = { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null };
 
-export type LanguageFragment = { __typename?: 'Language', endonymName: string, isoCode: LanguageCode, name: string };
+export type LanguageFragment = { endonymName: string, isoCode: LanguageCode, name: string };
 
-export type MailingAddressFragment = { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null };
+export type MailingAddressFragment = { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null };
 
-export type MediaImageFragment = { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null };
+export type MediaImageFragment = { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null };
 
-export type Model3dFragment = { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'Model3dSource', filesize: number, format: string, mimeType: string, url: string }> };
+export type Model3dFragment = { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> };
 
-export type MoneyFragment = { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode };
+export type MoneyFragment = { amount: string, currencyCode: CurrencyCode };
 
-export type OrderFragment = { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null };
+export type OrderFragment = { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null };
 
-export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
+export type PageInfoFragment = { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
-export type PriceRangeFragment = { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } };
+export type PriceRangeFragment = { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } };
 
-export type ProductFragment = { __typename?: 'Product', availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { __typename?: 'MediaConnection', edges: Array<{ __typename?: 'MediaEdge', node: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'Model3dSource', filesize: number, format: string, mimeType: string, url: string }> } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'VideoSource', format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ __typename?: 'ProductOption', id: string, name: string, optionValues: Array<{ __typename?: 'ProductOptionValue', id: string, name: string, swatch?: { __typename?: 'ProductOptionValueSwatch', color?: unknown | null, image?: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { __typename?: 'SellingPlanGroupConnection', edges: Array<{ __typename?: 'SellingPlanGroupEdge', node: { __typename?: 'SellingPlanGroup', name: string, options: Array<{ __typename?: 'SellingPlanGroupOption', name: string, values: Array<string> }>, sellingPlans: { __typename?: 'SellingPlanConnection', edges: Array<{ __typename?: 'SellingPlanEdge', node: { __typename?: 'SellingPlan', description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { __typename?: 'SellingPlanCheckoutCharge', type: SellingPlanCheckoutChargeType, value: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | { __typename?: 'SellingPlanCheckoutChargePercentageValue', percentage: number } }, options: Array<{ __typename?: 'SellingPlanOption', name?: string | null, value?: string | null }>, priceAdjustments: Array<{ __typename?: 'SellingPlanPriceAdjustment', orderCount?: number | null, adjustmentValue: { __typename?: 'SellingPlanFixedAmountPriceAdjustment', adjustmentAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanFixedPriceAdjustment', price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanPercentagePriceAdjustment', adjustmentPercentage: number } }> } }> } } }> }, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } }> } };
+export type ProductFragment = { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> } };
 
-export type ProductOptionFragment = { __typename?: 'ProductOption', id: string, name: string, optionValues: Array<{ __typename?: 'ProductOptionValue', id: string, name: string, swatch?: { __typename?: 'ProductOptionValueSwatch', color?: unknown | null, image?: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> };
+export type ProductOptionFragment = { id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> };
 
-export type ProductVariantFragment = { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null };
+export type ProductVariantFragment = { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null };
 
-export type SellingPlanFragment = { __typename?: 'SellingPlan', description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { __typename?: 'SellingPlanCheckoutCharge', type: SellingPlanCheckoutChargeType, value: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | { __typename?: 'SellingPlanCheckoutChargePercentageValue', percentage: number } }, options: Array<{ __typename?: 'SellingPlanOption', name?: string | null, value?: string | null }>, priceAdjustments: Array<{ __typename?: 'SellingPlanPriceAdjustment', orderCount?: number | null, adjustmentValue: { __typename?: 'SellingPlanFixedAmountPriceAdjustment', adjustmentAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanFixedPriceAdjustment', price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanPercentagePriceAdjustment', adjustmentPercentage: number } }> };
+export type SellingPlanFragment = { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> };
 
-export type SellingPlanGroupFragment = { __typename?: 'SellingPlanGroup', name: string, options: Array<{ __typename?: 'SellingPlanGroupOption', name: string, values: Array<string> }>, sellingPlans: { __typename?: 'SellingPlanConnection', edges: Array<{ __typename?: 'SellingPlanEdge', node: { __typename?: 'SellingPlan', description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { __typename?: 'SellingPlanCheckoutCharge', type: SellingPlanCheckoutChargeType, value: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | { __typename?: 'SellingPlanCheckoutChargePercentageValue', percentage: number } }, options: Array<{ __typename?: 'SellingPlanOption', name?: string | null, value?: string | null }>, priceAdjustments: Array<{ __typename?: 'SellingPlanPriceAdjustment', orderCount?: number | null, adjustmentValue: { __typename?: 'SellingPlanFixedAmountPriceAdjustment', adjustmentAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanFixedPriceAdjustment', price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanPercentagePriceAdjustment', adjustmentPercentage: number } }> } }> } };
+export type SellingPlanGroupFragment = { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } };
 
-export type VideoFragment = { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'VideoSource', format: string, height: number, mimeType: string, url: string, width: number }> };
+export type VideoFragment = { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> };
 
 export type CartCreateMutationVariables = Exact<{
   input?: InputMaybe<CartInput>;
@@ -8036,7 +7807,7 @@ export type CartCreateMutationVariables = Exact<{
 }>;
 
 
-export type CartCreateMutation = { __typename?: 'Mutation', cartCreate?: { __typename?: 'CartCreatePayload', cart?: { __typename?: 'Cart', checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ __typename?: 'Attribute', key: string, value?: string | null }>, buyerIdentity: { __typename?: 'CartBuyerIdentity', countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { __typename?: 'Customer', acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { __typename?: 'MailingAddressConnection', edges: Array<{ __typename?: 'MailingAddressEdge', node: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { __typename?: 'CartCost', totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ __typename?: 'CartDiscountCode', applicable: boolean, code: string }>, lines: { __typename?: 'BaseCartLineConnection', edges: Array<{ __typename?: 'BaseCartLineEdge', node: { __typename?: 'CartLine', id: string, quantity: number, cost: { __typename?: 'CartLineCost', amountPerQuantity: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ __typename?: 'CartAutomaticDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCodeDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCustomDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }>, merchandise: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { __typename?: 'SellingPlanAllocation', sellingPlan: { __typename?: 'SellingPlan', name: string } } | null } | { __typename?: 'ComponentizableCartLine' } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null, userErrors: Array<{ __typename?: 'CartUserError', code?: CartErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CartCreateMutation = { cartCreate?: { cart?: { checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ key: string, value?: string | null }>, buyerIdentity: { countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { totalAmount: { amount: string, currencyCode: CurrencyCode }, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ applicable: boolean, code: string }>, lines: { edges: Array<{ node: { id: string, quantity: number, cost: { amountPerQuantity: { amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalAmount: { amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } }>, merchandise: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { sellingPlan: { name: string } } | null } | {} }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null, userErrors: Array<{ code?: CartErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CartLinesAddMutationVariables = Exact<{
   cartId: Scalars['ID']['input'];
@@ -8046,7 +7817,7 @@ export type CartLinesAddMutationVariables = Exact<{
 }>;
 
 
-export type CartLinesAddMutation = { __typename?: 'Mutation', cartLinesAdd?: { __typename?: 'CartLinesAddPayload', cart?: { __typename?: 'Cart', checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ __typename?: 'Attribute', key: string, value?: string | null }>, buyerIdentity: { __typename?: 'CartBuyerIdentity', countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { __typename?: 'Customer', acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { __typename?: 'MailingAddressConnection', edges: Array<{ __typename?: 'MailingAddressEdge', node: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { __typename?: 'CartCost', totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ __typename?: 'CartDiscountCode', applicable: boolean, code: string }>, lines: { __typename?: 'BaseCartLineConnection', edges: Array<{ __typename?: 'BaseCartLineEdge', node: { __typename?: 'CartLine', id: string, quantity: number, cost: { __typename?: 'CartLineCost', amountPerQuantity: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ __typename?: 'CartAutomaticDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCodeDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCustomDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }>, merchandise: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { __typename?: 'SellingPlanAllocation', sellingPlan: { __typename?: 'SellingPlan', name: string } } | null } | { __typename?: 'ComponentizableCartLine' } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null, userErrors: Array<{ __typename?: 'CartUserError', code?: CartErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CartLinesAddMutation = { cartLinesAdd?: { cart?: { checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ key: string, value?: string | null }>, buyerIdentity: { countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { totalAmount: { amount: string, currencyCode: CurrencyCode }, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ applicable: boolean, code: string }>, lines: { edges: Array<{ node: { id: string, quantity: number, cost: { amountPerQuantity: { amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalAmount: { amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } }>, merchandise: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { sellingPlan: { name: string } } | null } | {} }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null, userErrors: Array<{ code?: CartErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CartLinesRemoveMutationVariables = Exact<{
   cartId: Scalars['ID']['input'];
@@ -8056,7 +7827,7 @@ export type CartLinesRemoveMutationVariables = Exact<{
 }>;
 
 
-export type CartLinesRemoveMutation = { __typename?: 'Mutation', cartLinesRemove?: { __typename?: 'CartLinesRemovePayload', cart?: { __typename?: 'Cart', checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ __typename?: 'Attribute', key: string, value?: string | null }>, buyerIdentity: { __typename?: 'CartBuyerIdentity', countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { __typename?: 'Customer', acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { __typename?: 'MailingAddressConnection', edges: Array<{ __typename?: 'MailingAddressEdge', node: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { __typename?: 'CartCost', totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ __typename?: 'CartDiscountCode', applicable: boolean, code: string }>, lines: { __typename?: 'BaseCartLineConnection', edges: Array<{ __typename?: 'BaseCartLineEdge', node: { __typename?: 'CartLine', id: string, quantity: number, cost: { __typename?: 'CartLineCost', amountPerQuantity: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ __typename?: 'CartAutomaticDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCodeDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCustomDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }>, merchandise: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { __typename?: 'SellingPlanAllocation', sellingPlan: { __typename?: 'SellingPlan', name: string } } | null } | { __typename?: 'ComponentizableCartLine' } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null, userErrors: Array<{ __typename?: 'CartUserError', code?: CartErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CartLinesRemoveMutation = { cartLinesRemove?: { cart?: { checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ key: string, value?: string | null }>, buyerIdentity: { countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { totalAmount: { amount: string, currencyCode: CurrencyCode }, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ applicable: boolean, code: string }>, lines: { edges: Array<{ node: { id: string, quantity: number, cost: { amountPerQuantity: { amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalAmount: { amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } }>, merchandise: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { sellingPlan: { name: string } } | null } | {} }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null, userErrors: Array<{ code?: CartErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CartLinesUpdateMutationVariables = Exact<{
   cartId: Scalars['ID']['input'];
@@ -8066,7 +7837,7 @@ export type CartLinesUpdateMutationVariables = Exact<{
 }>;
 
 
-export type CartLinesUpdateMutation = { __typename?: 'Mutation', cartLinesUpdate?: { __typename?: 'CartLinesUpdatePayload', cart?: { __typename?: 'Cart', checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ __typename?: 'Attribute', key: string, value?: string | null }>, buyerIdentity: { __typename?: 'CartBuyerIdentity', countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { __typename?: 'Customer', acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { __typename?: 'MailingAddressConnection', edges: Array<{ __typename?: 'MailingAddressEdge', node: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { __typename?: 'CartCost', totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ __typename?: 'CartDiscountCode', applicable: boolean, code: string }>, lines: { __typename?: 'BaseCartLineConnection', edges: Array<{ __typename?: 'BaseCartLineEdge', node: { __typename?: 'CartLine', id: string, quantity: number, cost: { __typename?: 'CartLineCost', amountPerQuantity: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ __typename?: 'CartAutomaticDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCodeDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCustomDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }>, merchandise: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { __typename?: 'SellingPlanAllocation', sellingPlan: { __typename?: 'SellingPlan', name: string } } | null } | { __typename?: 'ComponentizableCartLine' } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null, userErrors: Array<{ __typename?: 'CartUserError', code?: CartErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CartLinesUpdateMutation = { cartLinesUpdate?: { cart?: { checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ key: string, value?: string | null }>, buyerIdentity: { countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { totalAmount: { amount: string, currencyCode: CurrencyCode }, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ applicable: boolean, code: string }>, lines: { edges: Array<{ node: { id: string, quantity: number, cost: { amountPerQuantity: { amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalAmount: { amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } }>, merchandise: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { sellingPlan: { name: string } } | null } | {} }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null, userErrors: Array<{ code?: CartErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CartBuyerIdentityUpdateMutationVariables = Exact<{
   buyerIdentity: CartBuyerIdentityInput;
@@ -8076,7 +7847,7 @@ export type CartBuyerIdentityUpdateMutationVariables = Exact<{
 }>;
 
 
-export type CartBuyerIdentityUpdateMutation = { __typename?: 'Mutation', cartBuyerIdentityUpdate?: { __typename?: 'CartBuyerIdentityUpdatePayload', cart?: { __typename?: 'Cart', checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ __typename?: 'Attribute', key: string, value?: string | null }>, buyerIdentity: { __typename?: 'CartBuyerIdentity', countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { __typename?: 'Customer', acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { __typename?: 'MailingAddressConnection', edges: Array<{ __typename?: 'MailingAddressEdge', node: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { __typename?: 'CartCost', totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ __typename?: 'CartDiscountCode', applicable: boolean, code: string }>, lines: { __typename?: 'BaseCartLineConnection', edges: Array<{ __typename?: 'BaseCartLineEdge', node: { __typename?: 'CartLine', id: string, quantity: number, cost: { __typename?: 'CartLineCost', amountPerQuantity: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ __typename?: 'CartAutomaticDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCodeDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCustomDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }>, merchandise: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { __typename?: 'SellingPlanAllocation', sellingPlan: { __typename?: 'SellingPlan', name: string } } | null } | { __typename?: 'ComponentizableCartLine' } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null, userErrors: Array<{ __typename?: 'CartUserError', code?: CartErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CartBuyerIdentityUpdateMutation = { cartBuyerIdentityUpdate?: { cart?: { checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ key: string, value?: string | null }>, buyerIdentity: { countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { totalAmount: { amount: string, currencyCode: CurrencyCode }, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ applicable: boolean, code: string }>, lines: { edges: Array<{ node: { id: string, quantity: number, cost: { amountPerQuantity: { amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalAmount: { amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } }>, merchandise: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { sellingPlan: { name: string } } | null } | {} }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null, userErrors: Array<{ code?: CartErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CustomerAccessTokenCreateMutationVariables = Exact<{
   input: CustomerAccessTokenCreateInput;
@@ -8085,7 +7856,7 @@ export type CustomerAccessTokenCreateMutationVariables = Exact<{
 }>;
 
 
-export type CustomerAccessTokenCreateMutation = { __typename?: 'Mutation', customerAccessTokenCreate?: { __typename?: 'CustomerAccessTokenCreatePayload', customerAccessToken?: { __typename?: 'CustomerAccessToken', accessToken: string, expiresAt: string } | null, customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CustomerAccessTokenCreateMutation = { customerAccessTokenCreate?: { customerAccessToken?: { accessToken: string, expiresAt: string } | null, customerUserErrors: Array<{ code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CustomerAccessTokenDeleteMutationVariables = Exact<{
   customerAccessToken: Scalars['String']['input'];
@@ -8094,7 +7865,7 @@ export type CustomerAccessTokenDeleteMutationVariables = Exact<{
 }>;
 
 
-export type CustomerAccessTokenDeleteMutation = { __typename?: 'Mutation', customerAccessTokenDelete?: { __typename?: 'CustomerAccessTokenDeletePayload', deletedAccessToken?: string | null, deletedCustomerAccessTokenId?: string | null, userErrors: Array<{ __typename?: 'UserError', field?: Array<string> | null, message: string }> } | null };
+export type CustomerAccessTokenDeleteMutation = { customerAccessTokenDelete?: { deletedAccessToken?: string | null, deletedCustomerAccessTokenId?: string | null, userErrors: Array<{ field?: Array<string> | null, message: string }> } | null };
 
 export type CustomerCreateMutationVariables = Exact<{
   input: CustomerCreateInput;
@@ -8103,7 +7874,7 @@ export type CustomerCreateMutationVariables = Exact<{
 }>;
 
 
-export type CustomerCreateMutation = { __typename?: 'Mutation', customerCreate?: { __typename?: 'CustomerCreatePayload', customer?: { __typename?: 'Customer', id: string } | null, customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CustomerCreateMutation = { customerCreate?: { customer?: { id: string } | null, customerUserErrors: Array<{ code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CustomerRecoverMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -8112,7 +7883,7 @@ export type CustomerRecoverMutationVariables = Exact<{
 }>;
 
 
-export type CustomerRecoverMutation = { __typename?: 'Mutation', customerRecover?: { __typename?: 'CustomerRecoverPayload', customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CustomerRecoverMutation = { customerRecover?: { customerUserErrors: Array<{ code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CustomerResetMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -8122,7 +7893,7 @@ export type CustomerResetMutationVariables = Exact<{
 }>;
 
 
-export type CustomerResetMutation = { __typename?: 'Mutation', customerReset?: { __typename?: 'CustomerResetPayload', customerAccessToken?: { __typename?: 'CustomerAccessToken', accessToken: string, expiresAt: string } | null, customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CustomerResetMutation = { customerReset?: { customerAccessToken?: { accessToken: string, expiresAt: string } | null, customerUserErrors: Array<{ code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CustomerResetByUrlMutationVariables = Exact<{
   password: Scalars['String']['input'];
@@ -8132,7 +7903,7 @@ export type CustomerResetByUrlMutationVariables = Exact<{
 }>;
 
 
-export type CustomerResetByUrlMutation = { __typename?: 'Mutation', customerResetByUrl?: { __typename?: 'CustomerResetByUrlPayload', customerAccessToken?: { __typename?: 'CustomerAccessToken', accessToken: string, expiresAt: string } | null, customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CustomerResetByUrlMutation = { customerResetByUrl?: { customerAccessToken?: { accessToken: string, expiresAt: string } | null, customerUserErrors: Array<{ code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CustomerAddressCreateMutationVariables = Exact<{
   address: MailingAddressInput;
@@ -8142,7 +7913,7 @@ export type CustomerAddressCreateMutationVariables = Exact<{
 }>;
 
 
-export type CustomerAddressCreateMutation = { __typename?: 'Mutation', customerAddressCreate?: { __typename?: 'CustomerAddressCreatePayload', customerAddress?: { __typename?: 'MailingAddress', id: string } | null, customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CustomerAddressCreateMutation = { customerAddressCreate?: { customerAddress?: { id: string } | null, customerUserErrors: Array<{ code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CustomerAddressDeleteMutationVariables = Exact<{
   customerAccessToken: Scalars['String']['input'];
@@ -8152,7 +7923,7 @@ export type CustomerAddressDeleteMutationVariables = Exact<{
 }>;
 
 
-export type CustomerAddressDeleteMutation = { __typename?: 'Mutation', customerAddressDelete?: { __typename?: 'CustomerAddressDeletePayload', deletedCustomerAddressId?: string | null, customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CustomerAddressDeleteMutation = { customerAddressDelete?: { deletedCustomerAddressId?: string | null, customerUserErrors: Array<{ code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CustomerAddressUpdateMutationVariables = Exact<{
   address: MailingAddressInput;
@@ -8163,7 +7934,7 @@ export type CustomerAddressUpdateMutationVariables = Exact<{
 }>;
 
 
-export type CustomerAddressUpdateMutation = { __typename?: 'Mutation', customerAddressUpdate?: { __typename?: 'CustomerAddressUpdatePayload', customerAddress?: { __typename?: 'MailingAddress', id: string } | null, customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CustomerAddressUpdateMutation = { customerAddressUpdate?: { customerAddress?: { id: string } | null, customerUserErrors: Array<{ code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CustomerDefaultAddressUpdateMutationVariables = Exact<{
   addressId: Scalars['ID']['input'];
@@ -8173,7 +7944,7 @@ export type CustomerDefaultAddressUpdateMutationVariables = Exact<{
 }>;
 
 
-export type CustomerDefaultAddressUpdateMutation = { __typename?: 'Mutation', customerDefaultAddressUpdate?: { __typename?: 'CustomerDefaultAddressUpdatePayload', customerUserErrors: Array<{ __typename?: 'CustomerUserError', code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
+export type CustomerDefaultAddressUpdateMutation = { customerDefaultAddressUpdate?: { customerUserErrors: Array<{ code?: CustomerErrorCode | null, field?: Array<string> | null, message: string }> } | null };
 
 export type CartQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -8182,7 +7953,7 @@ export type CartQueryVariables = Exact<{
 }>;
 
 
-export type CartQuery = { __typename?: 'QueryRoot', cart?: { __typename?: 'Cart', checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ __typename?: 'Attribute', key: string, value?: string | null }>, buyerIdentity: { __typename?: 'CartBuyerIdentity', countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { __typename?: 'Customer', acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { __typename?: 'MailingAddressConnection', edges: Array<{ __typename?: 'MailingAddressEdge', node: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { __typename?: 'CartCost', totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ __typename?: 'CartDiscountCode', applicable: boolean, code: string }>, lines: { __typename?: 'BaseCartLineConnection', edges: Array<{ __typename?: 'BaseCartLineEdge', node: { __typename?: 'CartLine', id: string, quantity: number, cost: { __typename?: 'CartLineCost', amountPerQuantity: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, totalAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ __typename?: 'CartAutomaticDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCodeDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'CartCustomDiscountAllocation', discountedAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }>, merchandise: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { __typename?: 'SellingPlanAllocation', sellingPlan: { __typename?: 'SellingPlan', name: string } } | null } | { __typename?: 'ComponentizableCartLine' } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null };
+export type CartQuery = { cart?: { checkoutUrl: string, createdAt: string, id: string, totalQuantity: number, updatedAt: string, attributes: Array<{ key: string, value?: string | null }>, buyerIdentity: { countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null }, cost: { totalAmount: { amount: string, currencyCode: CurrencyCode }, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalDutyAmount?: { amount: string, currencyCode: CurrencyCode } | null }, discountCodes: Array<{ applicable: boolean, code: string }>, lines: { edges: Array<{ node: { id: string, quantity: number, cost: { amountPerQuantity: { amount: string, currencyCode: CurrencyCode }, compareAtAmountPerQuantity?: { amount: string, currencyCode: CurrencyCode } | null, subtotalAmount: { amount: string, currencyCode: CurrencyCode }, totalAmount: { amount: string, currencyCode: CurrencyCode } }, discountAllocations: Array<{ discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } } | { discountedAmount: { amount: string, currencyCode: CurrencyCode } }>, merchandise: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null }, sellingPlanAllocation?: { sellingPlan: { name: string } } | null } | {} }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null };
 
 export type CollectionQueryVariables = Exact<{
   handle?: InputMaybe<Scalars['String']['input']>;
@@ -8194,7 +7965,7 @@ export type CollectionQueryVariables = Exact<{
 }>;
 
 
-export type CollectionQuery = { __typename?: 'QueryRoot', collection?: { __typename?: 'Collection', description: string, descriptionHtml: string, handle: string, id: string, title: string, trackingParameters?: string | null, updatedAt: string, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, products: { __typename?: 'ProductConnection', filters: Array<{ __typename?: 'Filter', id: string, label: string, type: FilterType, values: Array<{ __typename?: 'FilterValue', count: number, id: string, label: string, swatch?: { __typename?: 'Swatch', color?: unknown | null, image?: { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { __typename?: 'MediaConnection', edges: Array<{ __typename?: 'MediaEdge', node: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'Model3dSource', filesize: number, format: string, mimeType: string, url: string }> } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'VideoSource', format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ __typename?: 'ProductOption', id: string, name: string, optionValues: Array<{ __typename?: 'ProductOptionValue', id: string, name: string, swatch?: { __typename?: 'ProductOptionValueSwatch', color?: unknown | null, image?: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { __typename?: 'SellingPlanGroupConnection', edges: Array<{ __typename?: 'SellingPlanGroupEdge', node: { __typename?: 'SellingPlanGroup', name: string, options: Array<{ __typename?: 'SellingPlanGroupOption', name: string, values: Array<string> }>, sellingPlans: { __typename?: 'SellingPlanConnection', edges: Array<{ __typename?: 'SellingPlanEdge', node: { __typename?: 'SellingPlan', description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { __typename?: 'SellingPlanCheckoutCharge', type: SellingPlanCheckoutChargeType, value: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | { __typename?: 'SellingPlanCheckoutChargePercentageValue', percentage: number } }, options: Array<{ __typename?: 'SellingPlanOption', name?: string | null, value?: string | null }>, priceAdjustments: Array<{ __typename?: 'SellingPlanPriceAdjustment', orderCount?: number | null, adjustmentValue: { __typename?: 'SellingPlanFixedAmountPriceAdjustment', adjustmentAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanFixedPriceAdjustment', price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanPercentagePriceAdjustment', adjustmentPercentage: number } }> } }> } } }> }, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } }> } } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null };
+export type CollectionQuery = { collection?: { description: string, descriptionHtml: string, handle: string, id: string, title: string, trackingParameters?: string | null, updatedAt: string, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, products: { filters: Array<{ id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, edges: Array<{ node: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> } } }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null };
 
 export type CustomerQueryVariables = Exact<{
   customerAccessToken: Scalars['String']['input'];
@@ -8203,7 +7974,7 @@ export type CustomerQueryVariables = Exact<{
 }>;
 
 
-export type CustomerQuery = { __typename?: 'QueryRoot', customer?: { __typename?: 'Customer', acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { __typename?: 'MailingAddressConnection', edges: Array<{ __typename?: 'MailingAddressEdge', node: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, currentTotalTax: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, lineItems: { __typename?: 'OrderLineItemConnection', edges: Array<{ __typename?: 'OrderLineItemEdge', node: { __typename?: 'OrderLineItem', quantity: number, title: string, variant?: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { __typename?: 'MailingAddress', address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null };
+export type CustomerQuery = { customer?: { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } } | null };
 
 export type LocalizationQueryVariables = Exact<{
   country?: InputMaybe<CountryCode>;
@@ -8211,7 +7982,7 @@ export type LocalizationQueryVariables = Exact<{
 }>;
 
 
-export type LocalizationQuery = { __typename?: 'QueryRoot', localization: { __typename?: 'Localization', availableLanguages: Array<{ __typename?: 'Language', endonymName: string, isoCode: LanguageCode, name: string }>, availableCountries: Array<{ __typename?: 'Country', isoCode: CountryCode, name: string, unitSystem: UnitSystem, availableLanguages: Array<{ __typename?: 'Language', endonymName: string, isoCode: LanguageCode, name: string }>, currency: { __typename?: 'Currency', isoCode: CurrencyCode, name: string, symbol: string } }>, country: { __typename?: 'Country', isoCode: CountryCode, name: string, unitSystem: UnitSystem, availableLanguages: Array<{ __typename?: 'Language', endonymName: string, isoCode: LanguageCode, name: string }>, currency: { __typename?: 'Currency', isoCode: CurrencyCode, name: string, symbol: string } }, language: { __typename?: 'Language', endonymName: string, isoCode: LanguageCode, name: string } } };
+export type LocalizationQuery = { localization: { availableLanguages: Array<{ endonymName: string, isoCode: LanguageCode, name: string }>, availableCountries: Array<{ isoCode: CountryCode, name: string, unitSystem: UnitSystem, availableLanguages: Array<{ endonymName: string, isoCode: LanguageCode, name: string }>, currency: { isoCode: CurrencyCode, name: string, symbol: string } }>, country: { isoCode: CountryCode, name: string, unitSystem: UnitSystem, availableLanguages: Array<{ endonymName: string, isoCode: LanguageCode, name: string }>, currency: { isoCode: CurrencyCode, name: string, symbol: string } }, language: { endonymName: string, isoCode: LanguageCode, name: string } } };
 
 export type ProductQueryVariables = Exact<{
   handle?: InputMaybe<Scalars['String']['input']>;
@@ -8220,7 +7991,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, related_products?: { __typename?: 'Metafield', references?: { __typename?: 'MetafieldReferenceConnection', edges: Array<{ __typename?: 'MetafieldReferenceEdge', node: { __typename?: 'Collection' } | { __typename?: 'GenericFile' } | { __typename?: 'MediaImage' } | { __typename?: 'Metaobject' } | { __typename?: 'Model3d' } | { __typename?: 'Page' } | { __typename?: 'Product', availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { __typename?: 'MediaConnection', edges: Array<{ __typename?: 'MediaEdge', node: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'Model3dSource', filesize: number, format: string, mimeType: string, url: string }> } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'VideoSource', format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ __typename?: 'ProductOption', id: string, name: string, optionValues: Array<{ __typename?: 'ProductOptionValue', id: string, name: string, swatch?: { __typename?: 'ProductOptionValueSwatch', color?: unknown | null, image?: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { __typename?: 'SellingPlanGroupConnection', edges: Array<{ __typename?: 'SellingPlanGroupEdge', node: { __typename?: 'SellingPlanGroup', name: string, options: Array<{ __typename?: 'SellingPlanGroupOption', name: string, values: Array<string> }>, sellingPlans: { __typename?: 'SellingPlanConnection', edges: Array<{ __typename?: 'SellingPlanEdge', node: { __typename?: 'SellingPlan', description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { __typename?: 'SellingPlanCheckoutCharge', type: SellingPlanCheckoutChargeType, value: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | { __typename?: 'SellingPlanCheckoutChargePercentageValue', percentage: number } }, options: Array<{ __typename?: 'SellingPlanOption', name?: string | null, value?: string | null }>, priceAdjustments: Array<{ __typename?: 'SellingPlanPriceAdjustment', orderCount?: number | null, adjustmentValue: { __typename?: 'SellingPlanFixedAmountPriceAdjustment', adjustmentAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanFixedPriceAdjustment', price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanPercentagePriceAdjustment', adjustmentPercentage: number } }> } }> } } }> }, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } }> } } | { __typename?: 'ProductVariant' } | { __typename?: 'Video' } }> } | null } | null, compareAtPriceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { __typename?: 'MediaConnection', edges: Array<{ __typename?: 'MediaEdge', node: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'Model3dSource', filesize: number, format: string, mimeType: string, url: string }> } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'VideoSource', format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ __typename?: 'ProductOption', id: string, name: string, optionValues: Array<{ __typename?: 'ProductOptionValue', id: string, name: string, swatch?: { __typename?: 'ProductOptionValueSwatch', color?: unknown | null, image?: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { __typename?: 'SellingPlanGroupConnection', edges: Array<{ __typename?: 'SellingPlanGroupEdge', node: { __typename?: 'SellingPlanGroup', name: string, options: Array<{ __typename?: 'SellingPlanGroupOption', name: string, values: Array<string> }>, sellingPlans: { __typename?: 'SellingPlanConnection', edges: Array<{ __typename?: 'SellingPlanEdge', node: { __typename?: 'SellingPlan', description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { __typename?: 'SellingPlanCheckoutCharge', type: SellingPlanCheckoutChargeType, value: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | { __typename?: 'SellingPlanCheckoutChargePercentageValue', percentage: number } }, options: Array<{ __typename?: 'SellingPlanOption', name?: string | null, value?: string | null }>, priceAdjustments: Array<{ __typename?: 'SellingPlanPriceAdjustment', orderCount?: number | null, adjustmentValue: { __typename?: 'SellingPlanFixedAmountPriceAdjustment', adjustmentAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanFixedPriceAdjustment', price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanPercentagePriceAdjustment', adjustmentPercentage: number } }> } }> } } }> }, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } }> } } | null };
+export type ProductQuery = { product?: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, related_products?: { references?: { edges: Array<{ node: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> } } | {} }> } | null } | null, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> } } | null };
 
 export type SearchProductsQueryVariables = Exact<{
   searchTerm: Scalars['String']['input'];
@@ -8232,7 +8003,7 @@ export type SearchProductsQueryVariables = Exact<{
 }>;
 
 
-export type SearchProductsQuery = { __typename?: 'QueryRoot', search: { __typename?: 'SearchResultItemConnection', totalCount: number, filters: Array<{ __typename?: 'Filter', id: string, label: string, type: FilterType, values: Array<{ __typename?: 'FilterValue', count: number, id: string, label: string, swatch?: { __typename?: 'Swatch', color?: unknown | null, image?: { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, edges: Array<{ __typename?: 'SearchResultItemEdge', node: { __typename?: 'Article' } | { __typename?: 'Page' } | { __typename?: 'Product', availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { __typename?: 'MediaConnection', edges: Array<{ __typename?: 'MediaEdge', node: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'Model3dSource', filesize: number, format: string, mimeType: string, url: string }> } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'VideoSource', format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ __typename?: 'ProductOption', id: string, name: string, optionValues: Array<{ __typename?: 'ProductOptionValue', id: string, name: string, swatch?: { __typename?: 'ProductOptionValueSwatch', color?: unknown | null, image?: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { __typename?: 'SellingPlanGroupConnection', edges: Array<{ __typename?: 'SellingPlanGroupEdge', node: { __typename?: 'SellingPlanGroup', name: string, options: Array<{ __typename?: 'SellingPlanGroupOption', name: string, values: Array<string> }>, sellingPlans: { __typename?: 'SellingPlanConnection', edges: Array<{ __typename?: 'SellingPlanEdge', node: { __typename?: 'SellingPlan', description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { __typename?: 'SellingPlanCheckoutCharge', type: SellingPlanCheckoutChargeType, value: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | { __typename?: 'SellingPlanCheckoutChargePercentageValue', percentage: number } }, options: Array<{ __typename?: 'SellingPlanOption', name?: string | null, value?: string | null }>, priceAdjustments: Array<{ __typename?: 'SellingPlanPriceAdjustment', orderCount?: number | null, adjustmentValue: { __typename?: 'SellingPlanFixedAmountPriceAdjustment', adjustmentAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanFixedPriceAdjustment', price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanPercentagePriceAdjustment', adjustmentPercentage: number } }> } }> } } }> }, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } }> } } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type SearchProductsQuery = { search: { totalCount: number, filters: Array<{ id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, edges: Array<{ node: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> } } | {} }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
 export type PredictiveSearchQueryVariables = Exact<{
   query: Scalars['String']['input'];
@@ -8241,4 +8012,4 @@ export type PredictiveSearchQueryVariables = Exact<{
 }>;
 
 
-export type PredictiveSearchQuery = { __typename?: 'QueryRoot', predictiveSearch?: { __typename?: 'PredictiveSearchResult', products: Array<{ __typename?: 'Product', availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { __typename?: 'MediaConnection', edges: Array<{ __typename?: 'MediaEdge', node: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'Model3dSource', filesize: number, format: string, mimeType: string, url: string }> } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ __typename?: 'VideoSource', format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ __typename?: 'ProductOption', id: string, name: string, optionValues: Array<{ __typename?: 'ProductOptionValue', id: string, name: string, swatch?: { __typename?: 'ProductOptionValueSwatch', color?: unknown | null, image?: { __typename?: 'ExternalVideo', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'MediaImage', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Model3d', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { __typename?: 'Video', alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { __typename?: 'ProductPriceRange', maxVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, minVariantPrice: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { __typename?: 'SellingPlanGroupConnection', edges: Array<{ __typename?: 'SellingPlanGroupEdge', node: { __typename?: 'SellingPlanGroup', name: string, options: Array<{ __typename?: 'SellingPlanGroupOption', name: string, values: Array<string> }>, sellingPlans: { __typename?: 'SellingPlanConnection', edges: Array<{ __typename?: 'SellingPlanEdge', node: { __typename?: 'SellingPlan', description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { __typename?: 'SellingPlanCheckoutCharge', type: SellingPlanCheckoutChargeType, value: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | { __typename?: 'SellingPlanCheckoutChargePercentageValue', percentage: number } }, options: Array<{ __typename?: 'SellingPlanOption', name?: string | null, value?: string | null }>, priceAdjustments: Array<{ __typename?: 'SellingPlanPriceAdjustment', orderCount?: number | null, adjustmentValue: { __typename?: 'SellingPlanFixedAmountPriceAdjustment', adjustmentAmount: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanFixedPriceAdjustment', price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } } | { __typename?: 'SellingPlanPercentagePriceAdjustment', adjustmentPercentage: number } }> } }> } } }> }, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, product: { __typename?: 'Product', handle: string, title: string, featuredImage?: { __typename?: 'Image', altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }>, unitPrice?: { __typename?: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } }> } }> } | null };
+export type PredictiveSearchQuery = { predictiveSearch?: { products: Array<{ availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> } }> } | null };
