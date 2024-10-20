@@ -13,8 +13,8 @@
 @layer base {
   html {
     font-size: 13px;
-    font-style: normal;
     font-weight: 400;
+    font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
@@ -24,17 +24,6 @@
     color: var(--body-text-color);
     background-color: var(--body-background-color);
     overflow-x: hidden;
-  }
-
-  svg,
-  span {
-    display: block;
-    overflow: visible;
-  }
-
-  img {
-    object-fit: cover;
-    vertical-align: middle;
   }
 
   ::selection {
