@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CollectionQueryVariables, ProductFragment } from '@@/types/shopify';
+import type { CollectionQueryVariables, Product } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -11,7 +11,7 @@ const appStore = useAppStore();
 const shopStore = useShopStore();
 
 // Helpers
-const { getCollectionSortValuesFromUrl, getFilterValuesFromUrl, filterAvailableProducts } = useCollectionHelpers();
+const { getCollectionSortValuesFromUrl, getFilterValuesFromUrl } = useCollectionHelpers();
 
 // Sort query
 const sortParam = computed(() => route.query.sort as string | null);
@@ -94,18 +94,8 @@ const { data: filterData } = await useAsyncData('filter-data', () =>
 
 // Computed data
 const collection = computed(() => collectionData?.value);
-const filterOptions = computed(() => flattenNodeConnection(filterData.value?.products) as ProductFragment[]);
-
-// Get products, filter available
-const products = computed(() => {
-  const allProducts = flattenNodeConnection(collection.value?.products) as ProductFragment[];
-
-  if (allProducts.length > 0) {
-    return filterAvailableProducts(allProducts, filters.value);
-  }
-
-  return [];
-});
+const filterOptions = computed(() => flattenNodeConnection(filterData.value?.products) as Product[]);
+const products = computed(() => flattenNodeConnection(collection.value?.products) as Product[]);
 
 // Toggles
 function toggleFilterMenu() {

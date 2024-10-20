@@ -23,7 +23,7 @@ const searchVars = computed<PredictiveSearchQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }));
 
-const { data: searchData } = await useAsyncData('search-data', () =>
+const { data: searchData } = await useAsyncData('predictive-data', () =>
   shopify.search.predictive(searchVars.value), {
     watch: [searchVars]
   }
