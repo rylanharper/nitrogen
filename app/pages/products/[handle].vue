@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProductQueryVariables, ProductFragment } from '@@/types/shopify';
+import type { ProductQueryVariables } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -25,19 +25,15 @@ const { data: productData } = await useAsyncData('product-data', () =>
 );
 
 // Computed data
-const product = computed(() => productData.value as ProductFragment)
+const product = computed(() => productData.value)
 const mediaItems = computed(() => flattenNodeConnection(product.value?.media))
 
 // Get related products (if any)
-const relatedProducts = computed(() => {
-  const references = productData.value?.related_products?.references;
-
-  if (!references) {
-    return [];
-  }
-
-  return flattenNodeConnection(references) as ProductFragment[];
-});
+const relatedProducts = computed(() =>
+  product.value?.related_products?.references
+    ? flattenNodeConnection(product.value.related_products.references)
+    : []
+);
 
 // Lightbox state
 const isLightboxOpen = ref(false);
@@ -77,6 +73,5 @@ const closeLightbox = () => {
     :mediaItems="mediaItems"
     :current-index="currentMediaIndex"
     @close="closeLightbox"
-    @update:current-index="currentMediaIndex = $event"
   />
 </template>

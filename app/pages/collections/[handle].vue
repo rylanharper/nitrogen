@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CollectionQueryVariables, Product } from '@@/types/shopify';
+import type { CollectionQueryVariables } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -94,8 +94,8 @@ const { data: filterData } = await useAsyncData('filter-data', () =>
 
 // Computed data
 const collection = computed(() => collectionData?.value);
-const filterOptions = computed(() => flattenNodeConnection(filterData.value?.products) as Product[]);
-const products = computed(() => flattenNodeConnection(collection.value?.products) as Product[]);
+const filterOptions = computed(() => flattenNodeConnection(filterData.value?.products));
+const products = computed(() => flattenNodeConnection(collection.value?.products));
 
 // Toggles
 function toggleFilterMenu() {
