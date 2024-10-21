@@ -134,16 +134,17 @@ export function useCollectionHelpers() {
    */
   const sortLetterAndNumberSizes = (sizes: string[]) => {
     const letterSizes = ['One Size', 'OS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
+    const letterSizeMap = new Map(letterSizes.map((size, index) => [size, index]));
 
     return sizes.sort((a, b) => {
-      const indexA = letterSizes.indexOf(a);
-      const indexB = letterSizes.indexOf(b);
+      const indexA = letterSizeMap.get(a);
+      const indexB = letterSizeMap.get(b);
 
-      if (indexA !== -1 && indexB !== -1) {
+      if (indexA !== undefined && indexB !== undefined) {
         return indexA - indexB;
       }
-      if (indexA !== -1) return -1;
-      if (indexB !== -1) return 1;
+      if (indexA !== undefined) return -1;
+      if (indexB !== undefined) return 1;
 
       const numA = parseFloat(a);
       const numB = parseFloat(b);
