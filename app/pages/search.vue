@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SearchProductsQueryVariables, Product } from '@@/types/shopify';
+import type { SearchProductsQueryVariables } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -94,8 +94,8 @@ const { data: filterData } = await useAsyncData('filter-data', () =>
 
 // Computed data
 const search = computed(() => searchData?.value);
-const filterOptions = computed(() => flattenNodeConnection(filterData.value) as Product[]);
-const products = computed(() => flattenNodeConnection(search.value) as Product[]);
+const filterOptions = computed(() => flattenNodeConnection(filterData.value));
+const products = computed(() => flattenNodeConnection(search.value));
 
 // Toggles
 function toggleFilterMenu() {
