@@ -152,7 +152,7 @@ watch(
                   </div>
                   <price-display
                     :price="product.priceRange?.minVariantPrice"
-                    :compare-at-price-range="product.compareAtPriceRange?.minVariantPrice"
+                    :compareAtPriceRange="product.compareAtPriceRange?.minVariantPrice"
                   />
                 </div>
               </nuxt-link>

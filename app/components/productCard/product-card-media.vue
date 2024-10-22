@@ -1,45 +1,36 @@
 <script setup lang="ts">
-import type { ProductFragment } from '@@/types/shopify';
+import type { VideoFragment, MediaImageFragment } from '@@/types/shopify';
 
 // Props
 const props = defineProps<{
-  product: ProductFragment;
+  mediaItems: Array<VideoFragment | MediaImageFragment>;
 }>();
 
-// Computed
-const productMedia = computed(() => flattenNodeConnection(props.product?.media));
-const productImage = computed(() => flattenNodeConnection(props.product?.images));
+// Check if media item is a video
+const isMediaVideo = (media: any): media is VideoFragment => {
+  return media?.mediaContentType === 'VIDEO';
+};
 
-// Find video (if any exist)
-const productVideo = computed(() => productMedia.value.find((item) => item.mediaContentType === 'VIDEO'));
+// Check if media item is an image
+const isMediaImage = (media: any): media is MediaImageFragment => {
+  return media?.mediaContentType === 'IMAGE';
+};
 </script>
 
 <template>
   <div class="relative overflow-hidden aspect-square">
-    <div v-if="product && productVideo">
-      <div class="absolute top-0 left-0 size-full">
-        <shopify-image
-          :image="productImage[0]"
-          :alt="productImage[0].altText || product.title"
-        />
-      </div>
-      <div class="absolute top-0 left-0 size-full opacity-0 transition duration-150 ease-in-out hover:lg:opacity-100">
-        <shopify-video :video="productVideo" />
-      </div>
-    </div>
-    <div v-if="product && !productVideo">
-      <div class="absolute top-0 left-0 size-full">
-        <shopify-image
-          :image="productImage[0]"
-          :alt="productImage[0].altText || product.title"
-        />
-      </div>
-      <div class="absolute top-0 left-0 size-full opacity-0 transition duration-150 ease-in-out hover:lg:opacity-100">
-        <shopify-image
-          :image="productImage[1]"
-          :alt="productImage[1].altText || product.title"
-        />
-      </div>
+    <div
+      v-for="(media, index) in mediaItems.slice(0, 2)"
+      :key="media.id"
+      class="absolute size-full transition-opacity ease-in-out"
+      :class="{ 'opacity-0 hover:opacity-100': index === 1 }"
+    >
+      <shopify-video v-if="isMediaVideo(media)" :video="media" />
+      <shopify-image
+        v-else-if="isMediaImage(media)"
+        :image="media.image"
+        :alt="media.image?.altText || ''"
+      />
     </div>
   </div>
 </template>

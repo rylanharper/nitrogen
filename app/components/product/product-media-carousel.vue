@@ -64,8 +64,8 @@ watch(
       <div v-for="(item, index) in mediaItems" :key="index">
         <button
           @click="emblaAPI?.scrollTo(index)"
-          :class="{ 'bg-black': index === activeSlide }"
           class="h-1.5 w-1.5 rounded-full border border-black"
+          :class="{ 'bg-black': index === activeSlide }"
         />
       </div>
     </div>

@@ -10,9 +10,9 @@ const props = defineProps<{
 const { getColorOption } = useProductHelpers();
 
 // Computed
-const productOptions = computed(() => props.product?.options);
-const productOptionColor = computed(() => getColorOption(productOptions.value));
+const productOptionColor = computed(() => getColorOption(props.product?.options));
 const colorOptionName = computed(() => productOptionColor.value?.optionValues[0]?.name);
+const mediaItems = computed(() => flattenNodeConnection(props.product.media))
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const colorOptionName = computed(() => productOptionColor.value?.optionValues[0]
     class="relative flex flex-col gap-4"
   >
     <product-card-tags :product="product" />
-    <product-card-media :product="product" />
+    <product-card-media :mediaItems="mediaItems" />
     <div class="flex flex-col">
       <div class="mb-2">
         <h2 v-if="product.title">{{ product.title }}</h2>
@@ -31,7 +31,7 @@ const colorOptionName = computed(() => productOptionColor.value?.optionValues[0]
       </div>
       <price-display
         :price="product.priceRange.minVariantPrice"
-        :compare-at-price-range="product.compareAtPriceRange.minVariantPrice"
+        :compareAtPriceRange="product.compareAtPriceRange.minVariantPrice"
       />
     </div>
   </nuxt-link>
