@@ -56,6 +56,11 @@ const openLightbox = (index: number) => {
 const closeLightbox = () => {
   isLightboxOpen.value = false;
 };
+
+// SEO
+useHead({
+  title: product.value?.title
+});
 </script>
 
 <template>
