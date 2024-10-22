@@ -17,9 +17,7 @@ export function useProductHelpers() {
   };
 
   const isOnSale = (price: MoneyFragment, compareAtPrice: MoneyFragment) => {
-    if (compareAtPrice.amount > price.amount) {
-      return true;
-    }
+    if (compareAtPrice.amount > price.amount) return true;
     return false;
   };
 
