@@ -30,7 +30,7 @@ Before using Nitrogen, you must configure your Shopify store as follows:
 
 4. Additionally, you'll want to add a custom `related_products` metafield to display related products on your product pages. This metafield allows you to reference the full data of related products, which is ideal for managing matching color swatches, media, and more.
 
-### ⛰️ Nuxt
+### 🧩 Nuxt
 
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
