@@ -23,9 +23,6 @@
 
 ### Shopify
 
-> [!TIP]
-> [📖 Read the Storefront API documentation](https://shopify.dev/docs/api/storefront)
-
 Before using Nitrogen, you must configure your Shopify store as follows:
 
 1. Within your Shopify admin dashboard, create a custom app and configure the necessary Storefront API permissions needed for your project. Enable all Storefront API access scopes to keep things simple. Once the app is created, retrieve your storefront API access token to use in the project’s environment variables.
@@ -36,10 +33,10 @@ Before using Nitrogen, you must configure your Shopify store as follows:
 
 4. Additionally, you'll want to add a custom `related_products` metafield to display related products on your product pages. This metafield allows you to reference the full data of related products, which is ideal for managing matching color swatches, media, and more.
 
-### Nuxt
-
 > [!TIP]
-> [📖 Read the Nuxt documentation](https://nuxt.com/)
+> [📖 Read the Storefront API documentation](https://shopify.dev/docs/api/storefront)
+
+### Nuxt
 
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
@@ -57,5 +54,8 @@ SHOPIFY_API_VERSION=
 1. Install dependencies using `pnpm install`
 2. Generate your project types using `pnpm codgen`
 3. Start the development server using `pnpm run dev`
+
+> [!TIP]
+> [📖 Read the Nuxt documentation](https://nuxt.com/)
 
 ## 🛠️ Basic Usage
