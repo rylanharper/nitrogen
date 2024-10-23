@@ -55,9 +55,9 @@ SHOPIFY_API_VERSION=
 2. Generate your project types using `pnpm codgen`
 3. Start the development server using `pnpm run dev`
 
-## 🛠️ Basic Usage
+## 🏓 Basic Usage
 
-Nitrogen works by leveraging a server-side proxy to communicate with Shopify's Storefront API, providing a type-safe GraphQL client for your queries. 
+Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while exposing a typesafe interface for executing GraphQL operations.
 
 ### Composable
 
@@ -66,6 +66,19 @@ To get GraphQL operations, use the `useShopify` composable:
 ```ts
 const shopify = useShopify();
 ```
+
+Operations can be referenced using this composable with dot notation:
+
+```ts
+// Shopify
+const shopify = useShopify();
+
+// With dot notation
+await shopify.cart.addLines(cart.id, [ ... ])
+await shopify.collection.get({ handle: 'example-collection' })
+```
+
+All available operations can be found in the [operations folder](https://github.com/rylanharper/Nitrogen/tree/master/server/operations). Feel free to add or remove as many operations as you want!
 
 ### With `useAsyncData`
 
@@ -82,7 +95,7 @@ const productVars = computed<ProductQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }))
 
-const { data: productData } = await useAsyncData('product-data', () =>
+const { data: productData } = await useAsyncData(`product-${handle.value}`, () =>
   shopify.product.get(productVars.value), {
     watch: [productVars]
   }
@@ -94,7 +107,7 @@ const product = computed(() => productData.value)
 
 ### With `Pinia`
 
-Ideal for managing state actions throughout your stores:
+Ideal for working with actions within your stores:
 
 ```ts
 // Shopify
@@ -116,6 +129,6 @@ actions: {
       console.error('No cart returned from cartCreate mutation', error);
     }
   },
-  // etc.
+  // More actions...
 }
 ```
