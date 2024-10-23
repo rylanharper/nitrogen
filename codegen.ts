@@ -9,11 +9,11 @@ const config: CodegenConfig = {
     './types/shopify.ts': {
       plugins: ['typescript', 'typescript-operations'],
       config: {
+        skipTypename: true,
         useTypeImports: true,
         defaultScalarType: 'unknown',
         useImplementingTypes: true,
         enumsAsTypes: true,
-        skipTypename: true,
         scalars: customerAccountApiCustomScalars
       }
     }
