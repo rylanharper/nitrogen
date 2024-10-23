@@ -92,32 +92,30 @@ const { data: productData } = await useAsyncData('product-data', () =>
 const product = computed(() => productData.value)
 ```
 
-### In Stores
+### With `Pinia`
 
-Ideal for managing various Pinia store actions:
+Ideal for managing state actions throughout your stores:
 
 ```ts
 // Shopify
 const shopify = useShopify();
 
 // Cart actions
-async getCart(optionalParams?: CartOptionalInput) {
-  if (!this.cart?.id) {
-    await this.createCart();
-    return;
-  }
-
-  try {
-    const response = await shopify.cart.get({
-      id: this.cart.id,
-      ...optionalParams
-    });
-
-    if (response) {
-      this.cart = response;
+actions: {
+  async createCart(input?: CartInput, optionalParams?: CartOptionalInput) {
+    try {
+      const response = await shopify.cart.create({
+        input: input,
+        ...optionalParams
+      });
+      
+      if (response?.cart) {
+        this.cart = response.cart;
+      }
+    } catch (error) {
+      console.error('No cart returned from cartCreate mutation', error);
     }
-  } catch (error) {
-    console.error('No cart retrieved from cart query', error);
-  }
+  },
+  // etc.
 }
 ```
