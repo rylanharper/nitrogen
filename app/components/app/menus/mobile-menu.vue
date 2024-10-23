@@ -1,10 +1,10 @@
 <script setup lang="ts">
 // Links
 const navLinks = [
-  { label: 'Shop', path: '/' },
-  { label: 'Catalog', path: '/' },
+  { label: 'Shop', path: '/collections/latest' },
+  { label: 'Catalog', path: '/collections/latest' },
   { label: 'Account', path: '/account' },
-  { label: 'About', path: '/' }
+  { label: 'About', path: '/collections/latest' }
 ];
 
 // Stores

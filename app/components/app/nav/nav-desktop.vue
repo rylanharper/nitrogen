@@ -1,9 +1,9 @@
 <script setup lang="ts">
 // Links
 const navLinksLeft = [
-  { label: 'Shop', path: '/' },
-  { label: 'Catalog', path: '/' },
-  { label: 'About', path: '/' }
+  { label: 'Shop', path: '/collections/latest' },
+  { label: 'Catalog', path: '/collections/latest' },
+  { label: 'About', path: '/collections/latest' }
 ];
 
 const navLinksRight = [
