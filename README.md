@@ -1,9 +1,9 @@
 # Nitrogen
 
-**Nitrogen** is a Nuxt template inspired by Shopify's Hydrogen framework for headless commerce. This template is designed to empower Nuxt and Vue developers to build fast, scalable, and customizable storefronts, incorporating key features from Hydrogen’s starter theme.
+Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headless commerce. This template is designed to empower Nuxt and Vue developers to build fast, scalable, and customizable storefronts, incorporating key features from Hydrogen’s starter theme.
 
 > [!IMPORTANT]
-> This template is designed for developers who are already familiar with the Shopify API and have prior experience building headless storefronts.
+> This template is designed for developers who are already familiar with the GraphQL Storefront API and have prior experience building headless storefronts.
 
 ## ✨ Key Features
 
@@ -19,7 +19,7 @@
 ## 🚀 Get Started
 
 > [!NOTE]
-> Nitrogen provides a solid foundation for headless Shopify development in Nuxt, but comes with opinionated choices regarding structure and organization. Feel free to customize the queries, functions, pages, and components to match your project's specific needs!
+> Nitrogen provides a solid foundation for headless Shopify development in Nuxt, but comes with opinionated choices regarding project structure and organization. Feel free to customize the queries, functions, pages, and components to match your project's specific needs!
 
 ### Shopify
 
@@ -55,7 +55,69 @@ SHOPIFY_API_VERSION=
 2. Generate your project types using `pnpm codgen`
 3. Start the development server using `pnpm run dev`
 
-> [!TIP]
-> [📖 Read the Nuxt documentation](https://nuxt.com/)
-
 ## 🛠️ Basic Usage
+
+Nitrogen works by leveraging a server-side proxy to communicate with Shopify's Storefront API, providing a type-safe GraphQL client for your queries. 
+
+### Composable
+
+To get GraphQL operations, use the `useShopify` composable:
+
+```ts
+const shopify = useShopify();
+```
+
+### With `useAsyncData`
+
+Perfect for reactive data fetching in pages or components:
+
+```ts
+// Shopify
+const shopify = useShopify();
+
+// Fetch data
+const productVars = computed<ProductQueryVariables>(() => ({
+  handle: handle.value,
+  country: shopStore.buyerCountryCode,
+  language: shopStore.buyerLanguageCode
+}))
+
+const { data: productData } = await useAsyncData('product-data', () =>
+  shopify.product.get(productVars.value), {
+    watch: [productVars]
+  }
+);
+
+// Computed data
+const product = computed(() => productData.value)
+```
+
+### In Stores
+
+Ideal for managing various Pinia store actions:
+
+```ts
+// Shopify
+const shopify = useShopify();
+
+// Cart actions
+async getCart(optionalParams?: CartOptionalInput) {
+  if (!this.cart?.id) {
+    await this.createCart();
+    return;
+  }
+
+  try {
+    const response = await shopify.cart.get({
+      id: this.cart.id,
+      ...optionalParams
+    });
+
+    if (response) {
+      this.cart = response;
+    }
+  } catch (error) {
+    console.error('No cart retrieved from cart query', error);
+  }
+}
+```
