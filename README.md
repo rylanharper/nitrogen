@@ -75,16 +75,16 @@ const shopify = useShopify();
 
 // With dot notation
 await shopify.cart.addLines(cart.id, [ ... ])
-await shopify.collection.get({ handle: 'example-collection' })
+await shopify.product.get({ handle: 'example-product' })
 ```
 
-All available operations can be found in the [operations folder](https://github.com/rylanharper/Nitrogen/tree/master/server/operations). Feel free to add or remove as many operations as you want!
+All available operations can be found in the [operations folder](https://github.com/rylanharper/Nitrogen/tree/master/server/operations).
 
 ### With `useAsyncData`
 
 Perfect for reactive data fetching in pages or components:
 
-```ts
+```js
 // Shopify
 const shopify = useShopify();
 
@@ -95,10 +95,10 @@ const productVars = computed<ProductQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }))
 
-const { data: productData } = await useAsyncData(`product-${handle.value}`, () =>
-  shopify.product.get(productVars.value), {
-    watch: [productVars]
-  }
+const { data: productData } = await useAsyncData(
+  `product-${handle.value}`,
+  () => shopify.product.get(productVars.value),
+  { watch: [productVars] }
 );
 
 // Computed data
@@ -107,9 +107,9 @@ const product = computed(() => productData.value)
 
 ### With `Pinia`
 
-Ideal for working with actions within your stores:
+Ideal for working with actions in your stores:
 
-```ts
+```js
 // Shopify
 const shopify = useShopify();
 
