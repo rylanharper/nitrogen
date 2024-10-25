@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import type { PredictiveSearchQueryVariables } from '@@/types/shopify';
+import type {
+  PredictiveSearchQueryVariables,
+  ProductFragment
+} from '@@/types/shopify';
 
 // Stores
 const appStore = useAppStore();
@@ -7,34 +10,34 @@ const shopStore = useShopStore();
 
 // Refs
 const searchQuery = ref('');
-
-// Debounce search query
-const setDebouncedQuery = useDebounceFn((query: string) => {
-  searchQuery.value = query;
-}, 250);
+const searchResults = ref<ProductFragment[]>([]);
 
 // Shopify
 const shopify = useShopify();
 
-// Fetch data
-const searchVars = computed<PredictiveSearchQueryVariables>(() => ({
-  query: searchQuery.value,
-  country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode
-}));
+// Debounce search query
+const setDebouncedQuery = useDebounceFn(async (query: string) => {
+  searchQuery.value = query;
 
-const { data: searchData } = await useAsyncData('predictive-data', () =>
-  shopify.search.predictive(searchVars.value), {
-    watch: [searchVars]
+  if (searchQuery.value) {
+    const searchVars: PredictiveSearchQueryVariables = {
+      query,
+      country: shopStore.buyerCountryCode,
+      language: shopStore.buyerLanguageCode
+    };
+
+    try {
+      const result = await shopify.search.predictive(searchVars);
+      searchResults.value = result?.products || [];
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
   }
-);
-
-// Computed data
-const products = computed(() => searchData.value?.products || []);
+}, 300);
 
 // Close search
 function closeSearch() {
-  appStore.searchMenuOpen = false
+  appStore.searchMenuOpen = false;
 }
 
 // Handle keydown event
@@ -50,14 +53,15 @@ async function handleSearchSubmit() {
 }
 
 // Watchers
-const route = useRoute()
-const { escape } = useMagicKeys()
+const route = useRoute();
+const { escape } = useMagicKeys();
 
 watch(
   () => appStore.searchMenuOpen,
   (isOpen) => {
     if (!isOpen) {
       searchQuery.value = '';
+      searchResults.value = [];
     }
   }
 );
@@ -65,9 +69,9 @@ watch(
 watch(
   () => route.path,
   () => {
-    closeSearch()
+    closeSearch();
   }
-)
+);
 
 if (escape) {
   watch(escape, () => {
@@ -80,14 +84,14 @@ if (escape) {
 
 <template>
   <search-menu-desktop
-    :products="products"
+    :products="searchResults"
     :searchQuery="searchQuery"
     @closeSearch="closeSearch"
     @setDebouncedQuery="setDebouncedQuery"
     @handleSearchSubmit="handleSearchSubmit"
   />
   <search-menu-mobile
-    :products="products"
+    :products="searchResults"
     :searchQuery="searchQuery"
     @closeSearch="closeSearch"
     @setDebouncedQuery="setDebouncedQuery"
