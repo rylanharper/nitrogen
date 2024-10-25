@@ -1,5 +1,4 @@
 <template>
-  <div>
-    <slot />
-  </div>
+  <nuxt-loading-indicator color="#181717" :height="1" />
+  <slot />
 </template>
