@@ -53,7 +53,7 @@ const sortedColors = computed(() => {
 const colorName = ref<string | undefined>(mainProductColor.value.name);
 
 // Update color name
-const updateColorName = (name: string) => {
+const updateColorName = (name: string | undefined) => {
   colorName.value = name;
 };
 
@@ -61,11 +61,6 @@ const updateColorName = (name: string) => {
 const resetColorName = () => {
   colorName.value = mainProductColor.value.name;
 };
-
-// Watchers
-watch(mainProductColor, (newColor) => {
-  colorName.value = newColor.name;
-});
 </script>
 
 <template>
@@ -76,28 +71,16 @@ watch(mainProductColor, (newColor) => {
         v-for="color in sortedColors"
         :key="color.handle"
         :to="`/products/${color.handle}`"
+        class="flex h-8 w-8 shrink-0 outline outline-1 rounded-full hover:outline-black"
         :class="[
           color.handle === handle
-            ? 'outline outline-1 outline-black border-4 border-white'
-            : 'outline outline-1 outline-gray-100',
-          color.image
-            ? 'flex aspect-square size-12 shrink-0 border-none rounded-sm overflow-hidden'
-            : 'flex size-8 shrink-0 rounded-full'
+            ? 'outline-black border-4 border-white'
+            : 'outline-gray-200'
         ]"
-        :style="color.image ? null : { background: color.color }"
+        :style="{ background: color.color}"
         @mouseenter="updateColorName(color.name)"
         @mouseleave="resetColorName"
-      >
-        <template v-if="color.image">
-          <shopify-image
-            :image="color.image"
-            :alt="color.image?.altText || ''"
-          />
-        </template>
-      </nuxt-link>
+      />
     </div>
   </div>
 </template>
-
-
-

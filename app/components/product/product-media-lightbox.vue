@@ -25,9 +25,12 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
   return media?.mediaContentType === 'IMAGE';
 };
 
+// Refs
+const mediaRefs = ref<(HTMLElement | null)[]>([]);
+
 onMounted(() => {
   nextTick(() => {
-    const selectedItem = document.querySelector(`[data-media-index="${props.currentIndex}"]`);
+    const selectedItem = mediaRefs.value[props.currentIndex];
     selectedItem?.scrollIntoView();
   });
 });
@@ -54,7 +57,7 @@ if (escape) {
       <div
         v-for="(media, index) in mediaItems"
         :key="media.id"
-        :data-media-index="index"
+        :ref="el => mediaRefs[index] = el"
         @click="closeLightbox"
         class="aspect-square cursor-zoom-out"
       >
