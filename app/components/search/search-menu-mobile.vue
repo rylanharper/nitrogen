@@ -84,7 +84,7 @@ watch(
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
-            class="peer flex w-full py-3 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-transparent"
+            class="peer flex w-full py-3 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-none"
           />
           <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
             <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0"/>

@@ -91,7 +91,7 @@ watch(
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
-            class="peer flex w-full py-2 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-transparent"
+            class="peer flex w-full py-2 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-none"
           />
           <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
             <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0"/>
@@ -103,18 +103,19 @@ watch(
             <Icon name="ph:x" class="h-5 w-5 shrink-0"/>
           </button>
         </div>
-        <div class="grid grid-cols-[1fr_2fr]">
-          <div class="flex flex-col">
-            <h3 class="text-sm mb-2.5">Suggestions</h3>
-            <div v-if="searchQuery.length && products?.length" class="flex flex-col">
+        <div class="grid grid-cols-[280px_1fr] gap-12">
+          <div class="flex flex-col gap-4">
+            <h3 class="text-sm">Suggestions</h3>
+            <div v-if="searchQuery.length && products" class="flex flex-col">
               <nuxt-link
                 v-for="product in productsWithOptions"
                 :key="product.id"
                 :to="`/products/${product.handle}`"
+                class="max-w-fit hover:text-gray-500"
               >
-                <span v-if="product.productOptionColor">
-                  {{ product.title }} {{ product.colorOptionName }}
-                </span>
+                <p v-if="product.productOptionColor" class="normal-case truncate ...">
+                  {{ product.title }} ({{ product.colorOptionName }})
+                </p>
                 <span v-else>{{ product?.title }}</span>
               </nuxt-link>
             </div>
@@ -123,14 +124,15 @@ watch(
                 v-for="link in defaulSearchLinks"
                 :key="link.label"
                 :to="link.path"
+                class="max-w-fit normal-case truncate ... hover:text-gray-500"
               >
                 {{ link.label }}
               </nuxt-link>
             </div>
           </div>
-          <div class="flex flex-col">
-            <h3 class="text-sm mb-3">Products</h3>
-            <div v-if="products?.length" class="grid grid-cols-2 gap-8 w-full">
+          <div v-if="searchQuery.length && products" class="flex flex-col gap-4">
+            <h3 class="text-sm">Products</h3>
+            <div class="grid grid-cols-2 gap-8 w-full">
               <nuxt-link
                 v-for="product in productsWithOptions"
                 :key="product.id"
@@ -156,10 +158,6 @@ watch(
                   />
                 </div>
               </nuxt-link>
-            </div>
-            <div v-else class="flex items-center gap-2">
-              <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
-              <p class="normal-case">There are no matching products.</p>
             </div>
           </div>
         </div>
