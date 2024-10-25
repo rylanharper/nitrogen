@@ -59,6 +59,7 @@ export const useAuthStore = defineStore('@yeren/auth', {
             email: response.email,
             firstName: response.firstName,
             lastName: response.lastName
+            // Add more if needed...
           };
 
           this.customer = customerInfo;
