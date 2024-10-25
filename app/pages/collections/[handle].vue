@@ -76,20 +76,20 @@ const collectionVars = computed<CollectionQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }));
 
-const { data: collectionData } = await useAsyncData('collection-data', () =>
-  shopify.collection.get(collectionVars.value), {
-    watch: [collectionVars]
-  }
+const { data: collectionData } = await useAsyncData(
+  `collection-${handle.value}`,
+  () => shopify.collection.get(collectionVars.value),
+  { watch: [collectionVars] }
 );
 
 const filterVars = computed<CollectionQueryVariables>(() => ({
   handle: handle.value
 }));
 
-const { data: filterData } = await useAsyncData('filter-data', () =>
-  shopify.collection.get(filterVars.value), {
-    watch: [filterVars]
-  }
+const { data: filterData } = await useAsyncData(
+  `collection-filter-${handle.value}`,
+  () => shopify.collection.get(filterVars.value),
+  { watch: [filterVars], lazy: true }
 );
 
 // Computed data
@@ -98,7 +98,7 @@ const filterOptions = computed(() => flattenNodeConnection(filterData.value?.pro
 const products = computed(() => flattenNodeConnection(collection.value?.products));
 
 // Toggles
-function toggleFilterMenu() {
+function toggleFilter() {
   appStore.toggleFilterMenu();
 }
 
@@ -118,7 +118,7 @@ useHead({
       </div>
       <div class="hidden lg:flex">
         <div v-if="activeFilterOptions.length" class="flex flex-wrap gap-2">
-          <div v-for="option in activeFilterOptions" :key="`${option.name}-${option.value}`">
+          <div v-for="option in activeFilterOptions" :key="option.value">
             <button
               @click="removeActiveFilterOption(option.name, option.value)"
               class="flex items-center justify-center p-2 px-4 gap-2.5 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-red-50 hover:text-red-600 hover:border-red-500"
@@ -132,7 +132,7 @@ useHead({
       </div>
       <div class="col-start-3 flex justify-end items-center">
         <button
-          @click="toggleFilterMenu"
+          @click="toggleFilter"
           class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
         >
           Filter & Sort

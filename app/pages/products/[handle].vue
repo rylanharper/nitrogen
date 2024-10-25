@@ -16,17 +16,17 @@ const productVars = computed<ProductQueryVariables>(() => ({
   handle: handle.value,
   country: shopStore.buyerCountryCode,
   language: shopStore.buyerLanguageCode
-}))
+}));
 
-const { data: productData } = await useAsyncData('product-data', () =>
-  shopify.product.get(productVars.value), {
-    watch: [productVars]
-  }
+const { data: productData } = await useAsyncData(
+  `product-${handle.value}`,
+  () => shopify.product.get(productVars.value),
+  { watch: [productVars] }
 );
 
 // Computed data
-const product = computed(() => productData.value)
-const mediaItems = computed(() => flattenNodeConnection(product.value?.media))
+const product = computed(() => productData.value);
+const mediaItems = computed(() => flattenNodeConnection(product.value?.media));
 
 // Get related products (if any)
 const relatedProducts = computed(() =>

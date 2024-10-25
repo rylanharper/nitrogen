@@ -15,8 +15,10 @@ const customerVars = computed<CustomerQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode
 }));
 
-const { data: customerData } = await useAsyncData('customer-data', () =>
-  shopify.customer.get(customerVars.value), {
+const { data: customerData } = await useAsyncData(
+  'customer-data',
+  () => shopify.customer.get(customerVars.value),
+  {
     watch: [customerVars]
   }
 );
