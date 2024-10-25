@@ -50,7 +50,7 @@ SHOPIFY_API_VERSION=
 ```
 
 > [!WARNING]
-> It is strongly recommended that you use the `2024-07` API version or higher. If not, you will not have access to new API features found within this template (this will cause breaking changes!).
+> It is strongly recommended that you use the `2024-07` API version or higher. If not, you will not have access to new API features found within this template (this will cause breaking changes).
 
 ### Development
 
@@ -60,11 +60,11 @@ SHOPIFY_API_VERSION=
 
 ## 🏓 Basic Usage
 
-Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while exposing a typesafe interface for executing GraphQL queries and mutations.
+Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while exposing a typesafe interface for executing GraphQL operations.
 
 ### GraphQL Operations
 
-This project includes pre-built GraphQL operations for common Shopify interactions, such as retrieving cart data, localization, and more. All available operations can be found in the [operations folder](https://github.com/rylanharper/Nitrogen/tree/master/server/operations). Feel free to add or remove operations that fit your project needs.
+This project includes pre-built GraphQL operations for common Shopify queries and mutations, such as retrieving cart data, localization, and more. All available operations can be found in the [operations folder](https://github.com/rylanharper/Nitrogen/tree/master/server/operations). Feel free to add or remove operations that fit your project needs.
 
 ### Composable
 
