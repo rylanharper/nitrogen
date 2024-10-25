@@ -23,6 +23,9 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 
 ### Shopify
 
+> [!TIP]
+> [📖 Storefront API documentation](https://shopify.dev/docs/api/storefront)
+
 Before using Nitrogen, you must configure your Shopify store as follows:
 
 1. Within your Shopify admin dashboard, create a custom app and configure the necessary Storefront API permissions needed for your project. Enable all Storefront API access scopes to keep things simple. Once the app is created, retrieve your storefront API access token to use in the project’s environment variables.
@@ -33,10 +36,10 @@ Before using Nitrogen, you must configure your Shopify store as follows:
 
 4. Additionally, you'll want to add a custom `related_products` metafield to display related products on your product pages. This metafield allows you to reference the full data of related products, which is ideal for managing matching color swatches, media, and more.
 
-> [!TIP]
-> [📖 Read the Storefront API documentation](https://shopify.dev/docs/api/storefront)
-
 ### Nuxt
+
+> [!TIP]
+> [📖 Nuxt documentation](https://nuxt.com/)
 
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
@@ -47,7 +50,7 @@ SHOPIFY_API_VERSION=
 ```
 
 > [!WARNING]
-> It is strongly recommended that you use the `2024-07` API version or higher. If not, you will not have access to new API features found within this template.
+> It is strongly recommended that you use the `2024-07` API version or higher. If not, you will not have access to new API features found within this template (this will cause breaking changes!).
 
 ### Development
 
@@ -57,7 +60,11 @@ SHOPIFY_API_VERSION=
 
 ## 🏓 Basic Usage
 
-Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while exposing a typesafe interface for executing GraphQL operations.
+Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while exposing a typesafe interface for executing GraphQL queries and mutations.
+
+### GraphQL Operations
+
+This project includes pre-built GraphQL operations for common Shopify interactions, such as retrieving cart data, localization, and more. All available operations can be found in the [operations folder](https://github.com/rylanharper/Nitrogen/tree/master/server/operations). Feel free to add or remove operations that fit your project needs.
 
 ### Composable
 
@@ -77,8 +84,6 @@ const shopify = useShopify();
 await shopify.cart.addLines(cart.id, [ ... ])
 await shopify.product.get({ handle: 'example-product' })
 ```
-
-All available operations can be found in the [operations folder](https://github.com/rylanharper/Nitrogen/tree/master/server/operations).
 
 ### With `useAsyncData`
 
