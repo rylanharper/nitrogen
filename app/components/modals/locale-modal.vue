@@ -12,7 +12,7 @@ const countryCode = shopStore.locale?.country?.isoCode;
 
 // Refs
 const countryLocale = ref<CountryCode>(countryCode);
-const isLoading = ref(false)
+const isLoading = ref(false);
 
 // Close modal
 function closeModal() {

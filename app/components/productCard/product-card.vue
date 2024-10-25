@@ -10,8 +10,9 @@ const props = defineProps<{
 const { getColorOption } = useProductHelpers();
 
 // Computed
-const productOptionColor = computed(() => getColorOption(props.product?.options));
-const colorOptionName = computed(() => productOptionColor.value?.optionValues[0]?.name);
+const options = computed(() => props.product?.options);
+const colorOption = computed(() => getColorOption(options.value));
+const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name);
 const mediaItems = computed(() => flattenNodeConnection(props.product.media))
 </script>
 
@@ -25,7 +26,7 @@ const mediaItems = computed(() => flattenNodeConnection(props.product.media))
     <div class="flex flex-col">
       <div class="mb-2">
         <h2 v-if="product.title">{{ product.title }}</h2>
-        <h3 v-if="productOptionColor" class="normal-case">
+        <h3 v-if="colorOption" class="normal-case">
           {{ colorOptionName }}
         </h3>
       </div>

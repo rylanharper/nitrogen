@@ -17,7 +17,7 @@ const { getColorOption } = useProductHelpers();
 // Computed
 const productOptionColor = computed(() => getColorOption(props.options));
 
-// Get product colors
+// Get product color options
 const mainProductColor = computed(() => {
   const colorOption = getColorOption(props.options);
 
@@ -77,7 +77,7 @@ const resetColorName = () => {
             ? 'outline-black border-4 border-white'
             : 'outline-gray-200'
         ]"
-        :style="{ background: color.color}"
+        :style="{ background: color.color }"
         @mouseenter="updateColorName(color.name)"
         @mouseleave="resetColorName"
       />
