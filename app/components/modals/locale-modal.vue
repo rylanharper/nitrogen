@@ -7,13 +7,11 @@ const cartStore = useCartStore();
 const shopStore = useShopStore();
 
 // Shop data
-const cartId = cartStore.cart?.id;
 const countries = shopStore.locale?.availableCountries;
 const countryCode = shopStore.locale?.country?.isoCode;
 
 // Refs
 const countryLocale = ref<CountryCode>(countryCode);
-const errorMessage = ref('');
 const isLoading = ref(false)
 
 // Close modal
@@ -26,12 +24,10 @@ async function updateLocalization() {
   isLoading.value = true;
 
   try {
-    if (cartId && countries) {
-      await cartStore.attachBuyer({ countryCode: countryLocale.value });
-      await shopStore.getLocalization(countryLocale.value);
-    }
+    await cartStore.attachBuyer({ countryCode: countryLocale.value });
+    await shopStore.getLocalization(countryLocale.value);
   } catch (error) {
-    errorMessage.value = 'An error occurred. Please try again later.';
+    console.error('An error occurred. Please try again later.', error);
   } finally {
     isLoading.value = false;
     closeModal();

@@ -11,7 +11,6 @@ const props = defineProps<{
 const authStore = useAuthStore();
 
 // Refs
-const errorMessage = ref('');
 const isLoading = ref(false);
 
 // Computed
@@ -25,8 +24,7 @@ const shopify = useShopify();
 
 // Delete address
 async function handleAddressDelete(addressId: string) {
-  errorMessage.value = '';
-  isLoading.value = true;
+  isLoading.value = true
 
   try {
     await shopify.customer.deleteAddress({
@@ -36,7 +34,7 @@ async function handleAddressDelete(addressId: string) {
 
     reloadNuxtApp();
   } catch (error) {
-    errorMessage.value = 'An error occurred. Please try again later.';
+    console.error('An error occurred. Please try again later.', error);
   } finally {
     isLoading.value = false;
   }
