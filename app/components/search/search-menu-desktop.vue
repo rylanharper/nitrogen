@@ -1,41 +1,41 @@
 <script setup lang="ts">
-import type { ProductFragment } from '@@/types/shopify'
+import type { ProductFragment } from '@@/types/shopify';
 
 // Props
 const props = defineProps<{
-  products: ProductFragment[]
-  searchQuery: string
-}>()
+  products: ProductFragment[];
+  searchQuery: string;
+}>();
 
 // Stores
-const appStore = useAppStore()
+const appStore = useAppStore();
 
 // Refs
-const input = ref<HTMLInputElement | null>(null)
+const input = ref<HTMLInputElement | null>(null);
 
 // Suggested links
 const defaulSearchLinks = [
   { label: 'Mens tops', path: '/' },
   { label: 'Womens tops', path: '/' },
   { label: 'Womens Pants', path: '/' }
-]
+];
 
 // Emits
 const emit = defineEmits([
   'closeSearch',
   'setDebouncedQuery',
   'handleSearchSubmit'
-])
+]);
 
 // Emit events
 function handleInput(event: Event) {
-  const target = event.target as HTMLInputElement
-  emit('setDebouncedQuery', target.value)
+  const target = event.target as HTMLInputElement;
+  emit('setDebouncedQuery', target.value);
 }
 
 function handleKeyDown(event: KeyboardEvent) {
   if (event.key === 'Enter') {
-    emit('handleSearchSubmit')
+    emit('handleSearchSubmit');
   }
 }
 
@@ -48,16 +48,15 @@ const { getColorOption } = useProductHelpers();
 
 // Computed
 const productsWithOptions = computed(() =>
-  props.products.map(product => {
-    const productOptions = product.options;
-    const productOptionColor = getColorOption(productOptions);
-    const colorOptionName = productOptionColor?.optionValues[0]?.name;
+  props.products.map((product) => {
+    const options = product.options;
+    const colorOption = getColorOption(options);
+    const colorOptionName = colorOption?.optionValues[0]?.name;
 
     return {
       ...product,
-      productOptions,
-      productOptionColor,
-      colorOptionName,
+      colorOption,
+      colorOptionName
     };
   })
 );
@@ -67,10 +66,10 @@ watch(
   () => appStore.searchMenuOpen,
   () => {
     nextTick(() => {
-      input.value?.focus()
-    })
+      input.value?.focus();
+    });
   }
-)
+);
 </script>
 
 <template>
@@ -100,20 +99,20 @@ watch(
             @click="closeSearch"
             class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black"
           >
-            <Icon name="ph:x" class="h-5 w-5 shrink-0"/>
+            <Icon name="ph:x" class="h-5 w-5 shrink-0" />
           </button>
         </div>
         <div class="grid grid-cols-[280px_1fr] gap-12">
           <div class="flex flex-col gap-4">
             <h3 class="text-sm">Suggestions</h3>
-            <div v-if="searchQuery.length && products" class="flex flex-col">
+            <div v-if="searchQuery.length && products?.length" class="flex flex-col">
               <nuxt-link
                 v-for="product in productsWithOptions"
                 :key="product.id"
                 :to="`/products/${product.handle}`"
                 class="max-w-fit hover:text-gray-500"
               >
-                <p v-if="product.productOptionColor" class="normal-case truncate ...">
+                <p v-if="product.colorOption" class="normal-case truncate ...">
                   {{ product.title }} ({{ product.colorOptionName }})
                 </p>
                 <span v-else>{{ product?.title }}</span>
@@ -130,7 +129,7 @@ watch(
               </nuxt-link>
             </div>
           </div>
-          <div v-if="searchQuery.length && products" class="flex flex-col gap-4">
+          <div v-if="searchQuery.length && products?.length" class="flex flex-col gap-4">
             <h3 class="text-sm">Products</h3>
             <div class="grid grid-cols-2 gap-8 w-full">
               <nuxt-link
@@ -148,7 +147,7 @@ watch(
                 <div class="flex flex-col flex-1">
                   <div class="mb-1">
                     <h2 v-if="product.title">{{ product.title }}</h2>
-                    <h3 v-if="product.productOptionColor" class="normal-case">
+                    <h3 v-if="product.colorOption" class="normal-case">
                       {{ product.colorOptionName }}
                     </h3>
                   </div>
