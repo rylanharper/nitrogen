@@ -27,24 +27,14 @@ const { data: productData } = await useAsyncData(
 // Computed data
 const product = computed(() => productData.value);
 const mediaItems = computed(() => flattenNodeConnection(product.value?.media));
-
-// Get related products (if any)
-const relatedProducts = computed(() =>
-  product.value?.related_products?.references
-    ? flattenNodeConnection(product.value.related_products.references)
-    : []
-);
+const relatedProducts = computed(() => {
+  const references = product.value?.related_products?.references;
+  return references ? flattenNodeConnection(references) : [];
+});
 
 // Lightbox state
 const isLightboxOpen = ref(false);
 const currentMediaIndex = ref(0);
-
-// Watchers
-const isScrollLocked = useScrollLock(document);
-
-watch(isLightboxOpen, (isOpen) => {
-  isScrollLocked.value = isOpen;
-});
 
 // Open lightbox
 const openLightbox = (index: number) => {
@@ -56,6 +46,13 @@ const openLightbox = (index: number) => {
 const closeLightbox = () => {
   isLightboxOpen.value = false;
 };
+
+// Watchers
+const isScrollLocked = useScrollLock(document);
+
+watch(isLightboxOpen, (isOpen) => {
+  isScrollLocked.value = isOpen;
+});
 
 // SEO
 useHead({

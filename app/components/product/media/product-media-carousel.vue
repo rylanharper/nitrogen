@@ -60,11 +60,11 @@ watch(
         />
       </div>
     </div>
-    <div class="absolute flex items-center justify-center gap-1.5 w-full p-2 bottom-0">
+    <div class="absolute flex items-center justify-center gap-2 w-full p-2 bottom-0">
       <div v-for="(item, index) in mediaItems" :key="index">
         <button
           @click="emblaAPI?.scrollTo(index)"
-          class="h-1.5 w-1.5 rounded-full border border-black"
+          class="h-2 w-2 rounded-full border border-black"
           :class="{ 'bg-black': index === activeSlide }"
         />
       </div>
