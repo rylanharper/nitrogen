@@ -11,24 +11,24 @@
     "dev:codegen": "graphql-codegen --config codegen.ts --watch"
   },
   "dependencies": {
-    "@nuxt/fonts": "^0.10.0",
-    "@nuxt/icon": "^1.5.6",
+    "@nuxt/fonts": "^0.10.2",
+    "@nuxt/icon": "^1.6.1",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
-    "@pinia/nuxt": "^0.5.5",
+    "@pinia/nuxt": "^0.6.0",
     "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.1.0",
     "dotenv": "^16.4.5",
-    "embla-carousel-vue": "^8.3.0",
+    "embla-carousel-vue": "^8.3.1",
     "graphql": "^16.9.0",
     "graphql-tag": "^2.12.6",
-    "pinia": "^2.2.4"
+    "pinia": "^2.2.5"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.3",
-    "@graphql-codegen/typescript": "^4.1.0",
+    "@graphql-codegen/typescript": "^4.1.1",
     "@graphql-codegen/typescript-operations": "^4.3.0",
     "@iconify-json/ph": "^1.2.1",
-    "@nuxtjs/tailwindcss": "^6.12.1",
+    "@nuxtjs/tailwindcss": "^6.12.2",
     "nuxt": "^3.13.2",
     "typescript": "^5.6.3",
     "vue": "^3.5.12",
