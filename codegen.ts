@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   schema: storefrontApiSchema,
   documents: './server/graphql/**/*.ts',
   generates: {
-    './types/shopify.ts': {
+    './types/shopify.d.ts': {
       plugins: ['typescript', 'typescript-operations'],
       config: {
         skipTypename: true,
