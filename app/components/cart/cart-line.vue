@@ -9,6 +9,10 @@ const props = defineProps<{
 // Stores
 const cartStore = useCartStore();
 
+// Computed
+const merchandise = computed(() => props.line.merchandise)
+const variantId = computed(() => formatVariantId(props.line.merchandise.id))
+
 // Update line quantity
 async function updateLineQuantity(line: CartLineFragment, newQuantity: number) {
   if (newQuantity <= 0) {
@@ -34,19 +38,19 @@ async function removeLineFromCart(lineId: string) {
 <template>
   <div class="flex items-center gap-6 pb-4 my-4 border-b border-zinc-300">
     <nuxt-link
-      :to="`/products/${line.merchandise.product.handle}`"
+      :to="`/products/${merchandise.product.handle}?variant=${variantId}`"
       class="w-28 aspect-square shrink-0 border border-transparent transition duration-200 ease-in-out hover:border-zinc-300"
     >
       <shopify-image
-        :image="line.merchandise.product.featuredImage"
-        :alt="line.merchandise.product.title"
+        :image="merchandise.product.featuredImage"
+        :alt="merchandise.product.title"
       />
     </nuxt-link>
     <div class="flex flex-col justify-between flex-1 gap-6 h-full">
       <div class="flex justify-between">
         <div>
-          <h3 class="mb-1.5">{{ line.merchandise.product.title }}</h3>
-          <p v-for="option in line.merchandise.selectedOptions" :key="option.name">
+          <h3 class="mb-1.5">{{ merchandise.product.title }}</h3>
+          <p v-for="option in merchandise.selectedOptions" :key="option.name">
             {{ option.name }}: {{ option.value }}
           </p>
         </div>

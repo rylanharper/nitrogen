@@ -5,7 +5,7 @@ const cartStore = useCartStore();
 
 // Computed
 const cartTotalItems = computed(() => cartStore.lineItemsCount);
-const lineItems = computed(() => flattenNodeItem(cartStore.lineItems));
+const lineItems = computed(() => flattenNodeConnection(cartStore.lineItems));
 
 // Close drawer
 function closeDrawer() {
