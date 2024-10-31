@@ -22,9 +22,7 @@ const customerVars = computed<CustomerQueryVariables>(() => ({
 const { data: customerData } = await useAsyncData(
   'customer-data',
   () => shopify.customer.get(customerVars.value),
-  {
-    watch: [customerVars]
-  }
+  { watch: [customerVars] }
 );
 
 // Computed data
