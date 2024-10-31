@@ -180,7 +180,7 @@ export const useCartStore = defineStore('@yeren/cart', {
     buyerCountryCode: (state) => state.cart?.buyerIdentity?.countryCode,
     checkoutUrl: (state) => state.cart?.checkoutUrl,
     subtotalAmount: (state) => state.cart?.cost?.subtotalAmount,
-    lineItems: (state) => state.cart?.lines?.edges,
+    lineItems: (state) => state.cart?.lines,
     lineItemsCount: (state) => state.cart?.totalQuantity
   },
 
