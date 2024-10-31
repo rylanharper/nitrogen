@@ -31,19 +31,6 @@ function selectSizeOption(size: string) {
 // Size options
 const sizeOptionNames = ['Size', 'Length'];
 
-// Update URL to add variant ID
-function updateUrlParams(variant: ProductVariantFragment | undefined) {
-  const query = { ...route.query };
-
-  if (variant) {
-    query.variant = formatVariantId(variant.id);
-  } else {
-    delete query.variant;
-  }
-
-  router.replace({ query });
-}
-
 // Set selected size and current variant from URL
 onMounted(() => {
   const variantId = route.query.variant as string | undefined;
@@ -69,6 +56,19 @@ onMounted(() => {
     currentVariant.value = variants.value.find((variant) => variant.availableForSale) ?? variants.value[0];
   }
 });
+
+// Update URL to add variant ID
+function updateUrlParams(variant: ProductVariantFragment | undefined) {
+  const query = { ...route.query };
+
+  if (variant) {
+    query.variant = formatVariantId(variant.id);
+  } else {
+    delete query.variant;
+  }
+
+  router.replace({ query });
+}
 
 // Watchers
 watch(selectedSize, (size) => {
@@ -120,15 +120,10 @@ async function addToCart() {
 <template>
   <div class="relative lg:sticky lg:top-[calc(var(--header-height)+1px)]">
     <div class="flex flex-col gap-5 w-full lg:md:max-w-lg lg:pt-20 lg:mx-auto">
-      <div class="flex flex-col gap-2 text-xl">
-        <h1 class="normal-case tracking-tight leading-none">
-          {{ product.title }}
-        </h1>
-        <price-display
-          :price="product.priceRange.minVariantPrice"
-          :compareAtPriceRange="product.compareAtPriceRange.minVariantPrice"
-        />
-      </div>
+      <product-header
+        :product="product"
+        :currentVariant="currentVariant"
+      />
       <product-color-options
         :product="product"
         :relatedProducts="relatedProducts"
