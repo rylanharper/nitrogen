@@ -6,10 +6,6 @@ import { CART_LINE_FRAGMENT } from './cartLine';
 
 export const CART_FRAGMENT = gql`
   fragment Cart on Cart {
-    attributes {
-      key
-      value
-    }
     buyerIdentity {
       ...BuyerIdentity
     }
@@ -22,6 +18,9 @@ export const CART_FRAGMENT = gql`
         ...Money
       }
       totalDutyAmount {
+        ...Money
+      }
+      totalTaxAmount {
         ...Money
       }
     }

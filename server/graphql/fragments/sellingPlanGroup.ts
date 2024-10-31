@@ -8,7 +8,7 @@ export const SELLING_PLAN_GROUP_FRAGMENT = gql`
       name
       values
     }
-    sellingPlans(first:10) {
+    sellingPlans(first: 250) {
       edges {
         node {
           ...SellingPlan

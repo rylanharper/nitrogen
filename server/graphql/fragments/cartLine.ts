@@ -5,12 +5,6 @@ import { PRODUCT_VARIANT_FRAGMENT } from './productVariant';
 export const CART_LINE_FRAGMENT = gql`
   fragment CartLine on CartLine {
     cost {
-      amountPerQuantity {
-        ...Money
-      }
-      compareAtAmountPerQuantity {
-        ...Money
-      }
       subtotalAmount {
         ...Money
       }

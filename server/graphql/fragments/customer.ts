@@ -28,6 +28,9 @@ export const CUSTOMER_FRAGMENT = gql`
           ...Order
         }
       }
+      pageInfo {
+        ...PageInfo
+      }
     }
     phone
     tags
