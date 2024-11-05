@@ -1,9 +1,9 @@
 /**
- * Flattens a node connection object by extracting nodes from either edges or direct nodes.
- * @param connection - The connection object containing edges or nodes
+ * Flattens a connection object by extracting nodes from edges or directly.
+ * @param connection - The object containing edges or nodes
  * @returns An array of nodes
  */
-export const flattenNodeConnection = <T>(
+export const flattenConnection = <T>(
   connection?: {
     edges?: { node: T }[];
     nodes?: T[];
