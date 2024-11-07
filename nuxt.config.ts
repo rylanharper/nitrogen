@@ -25,6 +25,11 @@ export default defineNuxtConfig({
     '@nuxt/icon'
   ],
 
+  icon: {
+    mode: 'svg',
+    clientBundle: { scan: true }
+  },
+
   fonts: {
     families: [
       { name: 'IBM Plex Mono', provider: 'google' },
