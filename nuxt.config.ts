@@ -1,5 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  experimental:  {
+    payloadExtraction: true,
+    defaults: {
+      nuxtLink: {
+        prefetchOn: {
+          visibility: false,
+          interaction: true
+        }
+      }
+    }
+  },
+
   future: {
     compatibilityVersion: 4
   },
@@ -31,10 +43,6 @@ export default defineNuxtConfig({
   },
 
   fonts: {
-    families: [
-      { name: 'IBM Plex Mono', provider: 'google' },
-      { name: 'IBM Plex Sans', provider: 'google' }
-    ],
     defaults: {
       weights: [400, 500, 600]
     }
