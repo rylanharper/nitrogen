@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { useShopify } from '@/composables/use-shopify';
 
 // Types
 import type {
