@@ -26,24 +26,25 @@ const { data: productData } = await useAsyncData(
 
 // Computed data
 const product = computed(() => productData.value);
-const mediaItems = computed(() => flattenNodeConnection(product.value?.media));
+const productMedia = computed(() => flattenConnection(product.value?.media));
+
+// Get related products (if any)
 const relatedProducts = computed(() => {
   const references = product.value?.related_products?.references;
-  return references ? flattenNodeConnection(references) : [];
+  return references ? flattenConnection(references) : [];
 });
 
-// Lightbox state
+// State
+const mediaIndex = ref<number>(0);
 const isLightboxOpen = ref(false);
-const currentMediaIndex = ref(0);
 
-// Open lightbox
-const openLightbox = (index: number) => {
-  currentMediaIndex.value = index;
+// Actions
+function openLightbox(index: number) {
+  mediaIndex.value = index;
   isLightboxOpen.value = true;
 };
 
-// Close lightbox
-const closeLightbox = () => {
+function closeLightbox() {
   isLightboxOpen.value = false;
 };
 
@@ -63,17 +64,29 @@ useHead({
 <template>
   <section v-if="product" class="relative grid gap-10 lg:grid-cols-2 lg:gap-0">
     <div class="flex flex-col">
-      <product-media-gallery :mediaItems="mediaItems" @openLightbox="openLightbox" />
-      <product-media-carousel :mediaItems="mediaItems" />
+      <ProductMediaGallery
+        :product-media="productMedia"
+        @open-lightbox="openLightbox"
+      />
+      <ProductMediaCarousel
+        :product-media="productMedia"
+      />
     </div>
     <div class="flex flex-col px-6">
-      <product-form :product="product" :relatedProducts="relatedProducts" />
+      <ProductForm
+        :product="product"
+        :related-products="relatedProducts"
+      />
     </div>
   </section>
-  <product-media-lightbox
+  <section v-else class="flex items-center p-6 gap-2">
+    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
+    <p class="normal-case">No Product data found.</p>
+  </section>
+  <ProductMediaLightbox
     v-if="isLightboxOpen"
-    :mediaItems="mediaItems"
-    :current-index="currentMediaIndex"
-    @close="closeLightbox"
+    :media-index="mediaIndex"
+    :product-media="productMedia"
+    @close-lightbox="closeLightbox"
   />
 </template>

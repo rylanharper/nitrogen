@@ -3,16 +3,16 @@ import type { VideoFragment, MediaImageFragment } from '@@/types/shopify';
 
 // Props
 const props = defineProps<{
-  mediaItems: Array<VideoFragment | MediaImageFragment>;
-  currentIndex: number;
+  productMedia: Array<VideoFragment | MediaImageFragment>;
+  mediaIndex: number;
 }>();
 
 // Emits
-const emit = defineEmits(['close']);
+const emit = defineEmits(['closeLightbox']);
 
 // Emit events
-const closeLightbox = () => {
-  emit('close');
+function closeLightbox() {
+  emit('closeLightbox');
 };
 
 // Check if media item is a video
@@ -25,14 +25,12 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
   return media?.mediaContentType === 'IMAGE';
 };
 
-// Refs
+// State
 const mediaRefs = ref<(HTMLElement | null)[]>([]);
 
 onMounted(() => {
-  nextTick(() => {
-    const selectedItem = mediaRefs.value[props.currentIndex];
-    selectedItem?.scrollIntoView();
-  });
+  const selectedItem = mediaRefs.value[props.mediaIndex];
+  selectedItem?.scrollIntoView();
 });
 
 // Watchers
@@ -55,14 +53,14 @@ if (escape) {
     </button>
     <div class="flex flex-col overflow-auto size-full">
       <div
-        v-for="(media, index) in mediaItems"
+        ref="mediaRefs"
+        v-for="media in productMedia"
         :key="media.id"
-        :ref="el => mediaRefs[index] = el"
         @click="closeLightbox"
         class="aspect-square cursor-zoom-out"
       >
-        <shopify-video v-if="isMediaVideo(media)" :video="media" />
-        <shopify-image
+        <ShopifyVideo v-if="isMediaVideo(media)" :video="media" />
+        <ShopifyImage
           v-else-if="isMediaImage(media)"
           :image="media.image"
           :alt="media.image?.altText || ''"

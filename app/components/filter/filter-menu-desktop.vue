@@ -40,7 +40,7 @@ function clearAllFilters() {
 </script>
 
 <template>
-  <transition name="slider" mode="out-in" appear>
+  <Transition name="slider" mode="out-in" appear>
     <aside
       v-if="appStore.filterMenuOpen"
       class="hidden fixed top-0 z-[200] w-full bg-white lg:flex"
@@ -133,14 +133,14 @@ function clearAllFilters() {
         </div>
       </div>
     </aside>
-  </transition>
-  <transition name="fade" mode="out-in" appear>
+  </Transition>
+  <Transition name="fade" mode="out-in" appear>
     <div
       v-if="appStore.filterMenuOpen"
       @click="closeFilter"
       class="hidden fixed inset-0 z-[150] pointer-events-auto bg-black/50 lg:flex"
     />
-  </transition>
+  </Transition>
 </template>
 
 <style lang="css" scoped>

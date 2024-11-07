@@ -23,7 +23,7 @@ const { data: customerData } = await useAsyncData(
 
 // Computed data
 const customer = computed(() => customerData.value);
-const orders = computed(() => flattenNodeConnection(customer.value?.orders));
+const orders = computed(() => flattenConnection(customer.value?.orders));
 
 // SEO
 useHead({
@@ -46,7 +46,7 @@ definePageMeta({
         Orders
       </h2>
       <div v-if="orders?.length">
-        <account-orders :orders="orders" />
+        <AccountOrders :orders="orders" />
       </div>
       <div v-else class="flex items-center gap-2 px-6 lg:p-0">
         <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
@@ -54,10 +54,8 @@ definePageMeta({
       </div>
     </div>
   </section>
-  <section
-    v-else
-    class="flex flex-col items-center justify-center inset-0 size-full"
-  >
+  <section v-else class="flex items-center self-start p-6 gap-2">
+    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
     <p class="normal-case">No customer data found.</p>
   </section>
 </template>

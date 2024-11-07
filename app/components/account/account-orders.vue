@@ -34,7 +34,7 @@ const headers = [
       <tbody class="divide-y divide-zinc-300">
         <tr v-for="order in orders" :key="order.id">
           <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
-            <nuxt-link
+            <NuxtLink
               :to="order.statusUrl"
               target="_blank"
               rel="noreferrer"
@@ -42,7 +42,7 @@ const headers = [
             >
               {{ order.lineItems?.edges[0]?.node.title }}
               <Icon name="ph:arrow-up-right" class="h-4 w-4 shrink-0 text-zinc-400"/>
-            </nuxt-link>
+            </NuxtLink>
           </td>
           <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
             <span>{{ order.lineItems?.edges[0]?.node.quantity }}</span>
@@ -66,7 +66,7 @@ const headers = [
             </span>
           </td>
           <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
-            <price-display class="price" :price="order.currentTotalPrice" />
+            <PriceDisplay class="price" :price="order.currentTotalPrice" />
           </td>
         </tr>
       </tbody>

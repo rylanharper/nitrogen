@@ -38,7 +38,7 @@ const address = reactive<MailingAddressInput>({
   company: ''
 });
 
-// Refs
+// State
 const errorMessage = ref('');
 const isLoading = ref(false);
 const defaultAddress = ref(false);
@@ -280,12 +280,12 @@ definePageMeta({
       </form>
       <div class="flex flex-col mb-10">
         <p class="normal-case">Don&apos;t want to add a new address?</p>
-        <nuxt-link
+        <NuxtLink
           to="/account"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
         >
           Go Back
-        </nuxt-link>
+        </NuxtLink>
       </div>
       <p
         v-if="errorMessage"
@@ -295,10 +295,8 @@ definePageMeta({
       </p>
     </div>
   </section>
-  <section
-    v-else
-    class="flex flex-col items-center justify-center inset-0 size-full"
-  >
+  <section v-else class="flex items-center self-start p-6 gap-2">
+    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
     <p class="normal-case">No customer data found.</p>
   </section>
 </template>

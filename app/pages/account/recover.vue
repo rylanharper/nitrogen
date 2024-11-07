@@ -2,7 +2,7 @@
 // Stores
 const authStore = useAuthStore();
 
-// Refs
+// State
 const email = ref('');
 const errorMessage = ref('');
 const successMessage = ref('');
@@ -83,12 +83,12 @@ useHead({
       </form>
       <div class="flex flex-col mb-10">
         <p class="normal-case">Need to login?</p>
-        <nuxt-link
+        <NuxtLink
           to="/account/login"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
         >
           Sign in
-        </nuxt-link>
+        </NuxtLink>
       </div>
       <p
         v-if="errorMessage"

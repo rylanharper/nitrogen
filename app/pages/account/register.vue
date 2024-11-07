@@ -11,22 +11,10 @@ const customer = reactive({
   acceptsMarketing: false
 });
 
-// Refs
+// State
 const confirmPassword = ref('');
 const errorMessage = ref('');
 const isLoading = ref(false);
-
-// Password toggle
-const showPassword = ref(false);
-const showConfirmPassword = ref(false);
-
-function togglePassword() {
-  showPassword.value = !showPassword.value;
-}
-
-function toggleConfirmPassword() {
-  showConfirmPassword.value = !showConfirmPassword.value;
-}
 
 // Register
 const formCompleted = computed(
@@ -79,6 +67,19 @@ async function handleRegister() {
   } finally {
     isLoading.value = false;
   }
+}
+
+// State
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
+
+// Actions
+function togglePassword() {
+  showPassword.value = !showPassword.value;
+}
+
+function toggleConfirmPassword() {
+  showConfirmPassword.value = !showConfirmPassword.value;
 }
 
 // SEO
@@ -218,12 +219,12 @@ useHead({
       </form>
       <div class="flex flex-col mb-10">
         <p class="normal-case">Have an account?</p>
-        <nuxt-link
+        <NuxtLink
           to="/account/login"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
         >
           Login
-        </nuxt-link>
+        </NuxtLink>
       </div>
       <p
         v-if="errorMessage"

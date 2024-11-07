@@ -19,6 +19,12 @@ const pages = [
 const currentPath = computed(() => route.path);
 const selectedPage = ref(currentPath.value);
 
+// Actions
+async function logout() {
+  await authStore.logout();
+  await navigateTo('/account/login');
+}
+
 async function navigateToSelectedPage() {
   if (selectedPage.value !== 'logout') {
     await navigateTo(selectedPage.value);
@@ -44,12 +50,6 @@ function updateSelectedPage() {
 watch(currentPath, () => {
   updateSelectedPage();
 });
-
-// Logout
-async function logout() {
-  await authStore.logout();
-  await navigateTo('/account/login');
-}
 </script>
 
 <template>
@@ -64,15 +64,15 @@ async function logout() {
         </h2>
       </div>
       <nav class="hidden lg:flex lg:flex-col lg:gap-1">
-        <nuxt-link
+        <NuxtLink
           to="/account"
           class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
           :class="{ 'text-black bg-zinc-100': route.path === '/account' }"
         >
           <Icon name="ph:globe" class="h-5 w-5 shrink-0" />
           Dashboard
-        </nuxt-link>
-        <nuxt-link
+        </NuxtLink>
+        <NuxtLink
           to="/account/orders"
           class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
           :class="{
@@ -81,15 +81,15 @@ async function logout() {
         >
           <Icon name="ph:tag" class="h-5 w-5 shrink-0" />
           Orders
-        </nuxt-link>
-        <nuxt-link
+        </NuxtLink>
+        <NuxtLink
           to="/account/addresses"
           class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
           :class="{'text-black bg-zinc-100': route.path === '/account/addresses' || route.path.includes('/account/addresses/')}"
         >
           <Icon name="ph:map-pin" class="h-5 w-5 shrink-0" />
           Addresses
-        </nuxt-link>
+        </NuxtLink>
         <button
           @click="logout"
           class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"

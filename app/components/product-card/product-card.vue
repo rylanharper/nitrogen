@@ -13,16 +13,16 @@ const { getColorOption } = useProductHelpers();
 const options = computed(() => props.product?.options);
 const colorOption = computed(() => getColorOption(options.value));
 const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name);
-const mediaItems = computed(() => flattenNodeConnection(props.product.media))
+const mediaItems = computed(() => flattenConnection(props.product.media))
 </script>
 
 <template>
-  <nuxt-link
+  <NuxtLink
     :to="`/products/${product.handle}`"
     class="relative flex flex-col gap-4"
   >
-    <product-card-tags :product="product" />
-    <product-card-media :mediaItems="mediaItems" />
+    <ProductCardTags :product="product" />
+    <ProductCardMedia :mediaItems="mediaItems" />
     <div class="flex flex-col">
       <div class="mb-2">
         <h2 v-if="product.title">{{ product.title }}</h2>
@@ -30,10 +30,10 @@ const mediaItems = computed(() => flattenNodeConnection(props.product.media))
           {{ colorOptionName }}
         </h3>
       </div>
-      <price-display
+      <PriceDisplay
         :price="product.priceRange.minVariantPrice"
-        :compareAtPriceRange="product.compareAtPriceRange.minVariantPrice"
+        :compare-at-price-range="product.compareAtPriceRange.minVariantPrice"
       />
     </div>
-  </nuxt-link>
+  </NuxtLink>
 </template>

@@ -2,24 +2,12 @@
 // Stores
 const authStore = useAuthStore();
 
-// Refs
+// State
 const resetUrl = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 const errorMessage = ref('');
 const isLoading = ref(false);
-
-// Password toggle
-const showPassword = ref(false);
-const showConfirmPassword = ref(false);
-
-function togglePassword() {
-  showPassword.value = !showPassword.value;
-}
-
-function toggleConfirmPassword() {
-  showConfirmPassword.value = !showConfirmPassword.value;
-}
 
 // Get the reset URL
 onBeforeMount(() => {
@@ -66,6 +54,19 @@ async function handleReset() {
   } finally {
     isLoading.value = false;
   }
+}
+
+// State
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
+
+// Actions
+function togglePassword() {
+  showPassword.value = !showPassword.value;
+}
+
+function toggleConfirmPassword() {
+  showConfirmPassword.value = !showConfirmPassword.value;
 }
 
 // SEO
@@ -138,12 +139,12 @@ useHead({
           </button>
         </div>
         <div class="flex mb-5">
-          <nuxt-link
+          <NuxtLink
             :to="{ name: 'account-recover' }"
             class="max-w-fit normal-case transition duration-200 ease hover:text-zinc-500"
           >
             Forgot Password?
-          </nuxt-link>
+          </NuxtLink>
         </div>
         <button
           type="submit"

@@ -10,7 +10,7 @@ const props = defineProps<{
 // Stores
 const authStore = useAuthStore();
 
-// Refs
+// State
 const isLoading = ref(false);
 
 // Computed
@@ -63,12 +63,12 @@ async function handleAddressDelete(addressId: string) {
         </div>
       </div>
       <div class="flex gap-3">
-        <nuxt-link
+        <NuxtLink
           :to="`/account/addresses/edit?id=${encodeURIComponent(address.id)}}`"
           class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
         >
           Edit Address
-        </nuxt-link>
+        </NuxtLink>
         <button
           @click="handleAddressDelete(address.id)"
           class="flex items-center justify-center p-2 px-4 text-normalize text-red-600 bg-red-50 border border-red-300 rounded-md transition duration-200 ease-in-out hover:bg-red-100"
@@ -77,12 +77,12 @@ async function handleAddressDelete(addressId: string) {
         </button>
       </div>
     </div>
-    <nuxt-link
+    <NuxtLink
       :to="{ name: 'account-addresses-add' }"
       class="flex items-center justify-center gap-2 h-[8.45rem] text-normalize bg-line-pattern border border-dashed border-zinc-300 rounded-lg transition duration-200 ease-in-out hover:bg-zinc-50"
     >
       <Icon name="ph:map-pin-plus" class="h-6 w-6 shrink-0" />
       Add New Addresses
-    </nuxt-link>
+    </NuxtLink>
   </div>
 </template>

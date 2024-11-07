@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { VideoFragment, MediaImageFragment } from '@@/types/shopify';
+import type { EmblaCarouselType } from 'embla-carousel';
 import emblaCarouselVue from 'embla-carousel-vue';
 
 // Props
 const props = defineProps<{
-  mediaItems: Array<VideoFragment | MediaImageFragment>;
+  productMedia: Array<VideoFragment | MediaImageFragment>;
 }>();
 
 // Check if media item is a video
@@ -18,42 +19,54 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
 };
 
 // Embla carousel setup
-const [emblaRef, emblaAPI] = emblaCarouselVue({ loop: true });
+const [emblaRef, emblaApi] = emblaCarouselVue({ loop: true });
 
-// Next/prev
-const scrollNext = () => emblaAPI?.value?.scrollNext();
-const scrollPrev = () => emblaAPI?.value?.scrollPrev();
+// State
+const selectedIndex = ref<number>(0);
+const canScrollNext = ref(false);
+const canScrollPrev = ref(false);
 
-// Watchers
-const activeSlide = ref(0)
+// Next/prev actions
+function scrollPrev() {
+  emblaApi.value?.scrollPrev();
+};
 
-// Watchers
-watch(
-  () => emblaAPI.value,
-  (emblaAPIValue) => {
-    if (!emblaAPIValue) return;
+function scrollNext() {
+  emblaApi.value?.scrollNext();
+};
 
-    // Set active slide
-    activeSlide.value = emblaAPIValue.selectedScrollSnap();
+// ScrollTo method
+function scrollTo(index: number) {
+  emblaApi.value?.scrollTo(index);
+};
 
-    // Update active slide
-    emblaAPIValue.on('select', () => {
-      activeSlide.value = emblaAPIValue.selectedScrollSnap();
-    });
+// Embla event handlers
+function onSelect(api: EmblaCarouselType) {
+  canScrollNext.value = api?.canScrollNext() || false;
+  canScrollPrev.value = api?.canScrollPrev() || false;
+  selectedIndex.value = api?.selectedScrollSnap() || 0;
+};
+
+onMounted(() => {
+  if (!emblaApi.value) {
+    return;
   }
-);
+
+  emblaApi.value?.on('select', onSelect);
+  emblaApi.value?.on('reInit', onSelect);
+});
 </script>
 
 <template>
   <div ref="emblaRef" class="relative overflow-hidden lg:hidden">
     <div class="flex">
       <div
-        v-for="(media, index) in mediaItems"
+        v-for="media in productMedia"
         :key="media.id"
         class="flex-[0_0_100%] aspect-square"
       >
-        <shopify-video v-if="isMediaVideo(media)" :video="media" />
-        <shopify-image
+        <ShopifyVideo v-if="isMediaVideo(media)" :video="media" />
+        <ShopifyImage
           v-else-if="isMediaImage(media)"
           :image="media.image"
           :alt="media.image?.altText || ''"
@@ -61,11 +74,11 @@ watch(
       </div>
     </div>
     <div class="absolute flex items-center justify-center gap-2 w-full p-2 bottom-0">
-      <div v-for="(item, index) in mediaItems" :key="index">
+      <div v-for="(_, index) in productMedia" :key="index">
         <button
-          @click="emblaAPI?.scrollTo(index)"
+          @click="scrollTo(index)"
           class="h-2 w-2 rounded-full border border-black"
-          :class="{ 'bg-black': index === activeSlide }"
+          :class="{ 'bg-black': index === selectedIndex }"
         />
       </div>
     </div>

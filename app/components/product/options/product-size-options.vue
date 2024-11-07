@@ -10,7 +10,7 @@ const props = defineProps<{
 const { getSizeOption, isSizeSoldOut } = useProductHelpers()
 
 // Computed
-const variants = computed(() => flattenNodeConnection(props.product.variants))
+const variants = computed(() => flattenConnection(props.product.variants))
 const isSizeOption = computed(() => getSizeOption(props.product.options))
 
 // Get size options
@@ -26,11 +26,11 @@ const productSizes = computed(() => {
 })
 
 // Emits
-const emit = defineEmits(['selectSizeOption'])
+const emit = defineEmits(['selectSize'])
 
 // Emit events
 function selectSizeOption(size: string) {
-  emit('selectSizeOption', size)
+  emit('selectSize', size)
 }
 </script>
 

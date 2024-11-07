@@ -10,10 +10,17 @@ const props = defineProps<{
 const cartStore = useCartStore();
 
 // Computed
-const merchandise = computed(() => props.line.merchandise)
-const variantId = computed(() => formatVariantId(props.line.merchandise.id))
+const merchandise = computed(() => props.line.merchandise);
+const variantId = computed(() => formatVariantId(props.line.merchandise.id));
 
-// Update line quantity
+// Filter default option name/value
+const selectedOptions = computed(() => {
+  return merchandise.value.selectedOptions.filter(
+    (option) => !(option.name === 'Title' && option.value === 'Default Title')
+  );
+});
+
+// Actions
 async function updateLineQuantity(line: CartLineFragment, newQuantity: number) {
   if (newQuantity <= 0) {
     await removeLineFromCart(line.id);
@@ -29,7 +36,6 @@ async function updateLineQuantity(line: CartLineFragment, newQuantity: number) {
   }
 }
 
-// Remove line
 async function removeLineFromCart(lineId: string) {
   await cartStore.removeFromCart([lineId]);
 }
@@ -37,25 +43,25 @@ async function removeLineFromCart(lineId: string) {
 
 <template>
   <div class="flex items-center gap-6 pb-4 my-4 border-b border-zinc-300">
-    <nuxt-link
+    <NuxtLink
       :to="`/products/${merchandise.product.handle}?variant=${variantId}`"
       class="w-28 aspect-square shrink-0 border border-transparent transition duration-200 ease-in-out hover:border-zinc-300"
     >
-      <shopify-image
+      <ShopifyImage
         :image="merchandise.product.featuredImage"
         :alt="merchandise.product.title"
       />
-    </nuxt-link>
-    <div class="flex flex-col justify-between flex-1 gap-6 h-full">
+    </NuxtLink>
+    <div class="flex flex-col justify-between flex-1 gap-6 min-h-[100px]">
       <div class="flex justify-between">
         <div>
           <h3 class="mb-1.5">{{ merchandise.product.title }}</h3>
-          <p v-for="option in merchandise.selectedOptions" :key="option.name">
+          <p v-for="option in selectedOptions" :key="option.name">
             {{ option.name }}: {{ option.value }}
           </p>
         </div>
         <div>
-          <price-display :price="line.cost.totalAmount" />
+          <PriceDisplay :price="line.cost.totalAmount" />
         </div>
       </div>
       <div class="flex justify-between">

@@ -2,7 +2,7 @@
 // Stores
 const authStore = useAuthStore();
 
-// Refs
+// State
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
@@ -43,9 +43,10 @@ async function handleLogin() {
   }
 }
 
-// Password toggle
+// State
 const showPassword = ref(false);
 
+// Actions
 function togglePassword() {
   showPassword.value = !showPassword.value;
 }
@@ -108,12 +109,12 @@ useHead({
           </button>
         </div>
         <div class="flex mb-5">
-          <nuxt-link
+          <NuxtLink
             :to="{ name: 'account-recover' }"
             class="max-w-fit normal-case transition duration-200 ease hover:text-zinc-500"
           >
             Forgot Password?
-          </nuxt-link>
+          </NuxtLink>
         </div>
         <button
           type="submit"
@@ -125,12 +126,12 @@ useHead({
       </form>
       <div class="flex flex-col mb-10">
         <p class="normal-case">New to Yeren?</p>
-        <nuxt-link
+        <NuxtLink
           to="/account/register"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
         >
           Create an account
-        </nuxt-link>
+        </NuxtLink>
       </div>
       <p
         v-if="errorMessage"

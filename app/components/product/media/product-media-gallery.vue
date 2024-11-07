@@ -3,14 +3,14 @@ import type { VideoFragment, MediaImageFragment } from '@@/types/shopify';
 
 // Props
 const props = defineProps<{
-  mediaItems: Array<VideoFragment | MediaImageFragment>;
+  productMedia: Array<VideoFragment | MediaImageFragment>;
 }>();
 
 // Emits
 const emit = defineEmits(['openLightbox']);
 
 // Emit events
-const handleMediaClick = (index: number) => {
+function openLightbox(index: number) {
   emit('openLightbox', index);
 };
 
@@ -28,13 +28,13 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
 <template>
   <div class="hidden gap-4 lg:grid">
     <div
-      v-for="(media, index) in mediaItems"
+      v-for="(media, index) in productMedia"
       :key="media.id"
-      @click="handleMediaClick(index)"
+      @click="openLightbox(index)"
       class="aspect-square cursor-zoom-in"
     >
-      <shopify-video v-if="isMediaVideo(media)" :video="media" />
-      <shopify-image
+      <ShopifyVideo v-if="isMediaVideo(media)" :video="media" />
+      <ShopifyImage
         v-else-if="isMediaImage(media)"
         :image="media.image"
         :alt="media.image?.altText || ''"

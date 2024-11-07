@@ -2,7 +2,7 @@
 // Stores
 const appStore = useAppStore();
 
-// Toggles
+// Actions
 function toggleShopMenu() {
   appStore.toggleMobileMenu();
 }
@@ -22,15 +22,15 @@ function toggleSearchMenu() {
 
 <template>
   <header class="sticky top-0 left-0 w-full z-[100] bg-white border-b border-zinc-200">
-    <nav-desktop
-      @toggleCartDrawer="toggleCartDrawer"
-      @toggleLocaleModal="toggleLocaleModal"
-      @toggleSearchMenu="toggleSearchMenu"
+    <NavDesktop
+      @toggle-cart-drawer="toggleCartDrawer"
+      @toggle-locale-modal="toggleLocaleModal"
+      @toggle-search-menu="toggleSearchMenu"
     />
-    <nav-mobile
-      @toggleCartDrawer="toggleCartDrawer"
-      @toggleSearchMenu="toggleSearchMenu"
-      @toggleShopMenu="toggleShopMenu"
+    <NavMobile
+      @toggle-cart-drawer="toggleCartDrawer"
+      @toggle-search-menu="toggleSearchMenu"
+      @toggle-shop-menu="toggleShopMenu"
     />
   </header>
 </template>

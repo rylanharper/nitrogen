@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify';
 
-// Route data
+// Props
 const props = defineProps<{
   product: ProductFragment;
   relatedProducts: ProductFragment[];
 }>();
 
-// Router
+// Route data
 const route = useRoute();
 const router = useRouter();
 
@@ -15,25 +15,30 @@ const router = useRouter();
 const appStore = useAppStore();
 const cartStore = useCartStore();
 
-// Computed
-const variants = computed(() => flattenNodeConnection(props.product.variants));
-
 // State
 const selectedSize = ref('');
 const currentVariant = ref<ProductVariantFragment | undefined>(undefined);
 const isLoading = ref(false);
 
-// Select size
-function selectSizeOption(size: string) {
-  selectedSize.value = size;
-}
+// Computed
+const variants = computed(() => flattenConnection(props.product.variants));
 
-// Size options
-const sizeOptionNames = ['Size', 'Length'];
+const addToCartText = computed(() => {
+  if (variants.value.length === 1) {
+    return currentVariant.value?.availableForSale ? 'Add to Cart' : 'Sold Out';
+  }
+  if (!selectedSize.value) return 'Select Size';
+  if (currentVariant.value?.availableForSale) return 'Add to Cart';
 
-// Set selected size and current variant from URL
+  return 'Sold Out';
+});
+
 onMounted(() => {
-  const variantId = route.query.variant as string | undefined;
+  const variantId = route.query.variant as string;
+  const sizeOptionNames = ['Size', 'Length'];
+
+  // If only one variant exists, set it as the current variant
+  if (variants.value.length === 1) return (currentVariant.value = variants.value[0]);
 
   // If a variant ID is provided in the URL
   if (variantId) {
@@ -51,13 +56,10 @@ onMounted(() => {
         selectedSize.value = sizeOption.value;
       }
     }
-    // If only one variant exists, set it as the current variant
-  } else if (variants.value.length === 1) {
-    currentVariant.value = variants.value.find((variant) => variant.availableForSale) ?? variants.value[0];
   }
 });
 
-// Update URL to add variant ID
+// Update URL variantId
 function updateUrlParams(variant: ProductVariantFragment | undefined) {
   const query = { ...route.query };
 
@@ -70,32 +72,15 @@ function updateUrlParams(variant: ProductVariantFragment | undefined) {
   router.replace({ query });
 }
 
-// Watchers
-watch(selectedSize, (size) => {
-  currentVariant.value = variants.value.find((variant) =>
-    variant.selectedOptions.every(({ name, value }) =>
-      sizeOptionNames.includes(name) ? value === size : true
-    )
-  );
-});
+// Actions
+function selectSize(size: string) {
+  selectedSize.value = size;
+}
 
-watch(currentVariant, (newVariant) => {
-  updateUrlParams(newVariant);
-});
-
-// Add-to-cart text
-const addToCartText = computed(() => {
-  if (!selectedSize.value) return 'Select Size';
-  if (!currentVariant.value?.availableForSale) return 'Sold Out';
-  return 'Add to Cart';
-});
-
-// Open drawer
 function openDrawer() {
   appStore.cartDrawerOpen = true;
 }
 
-// Add to cart
 async function addToCart() {
   if (!currentVariant.value) return;
   isLoading.value = true;
@@ -115,23 +100,37 @@ async function addToCart() {
     isLoading.value = false;
   }
 }
+
+// Watchers
+watch(selectedSize, (size) => {
+  const sizeOptionNames = ['Size', 'Length'];
+  return currentVariant.value = variants.value.find((variant) =>
+    variant.selectedOptions.every(({ name, value }) =>
+      sizeOptionNames.includes(name) ? value === size : true
+    )
+  );
+});
+
+watch(currentVariant, (newVariant) => {
+  updateUrlParams(newVariant);
+});
 </script>
 
 <template>
   <div class="relative lg:sticky lg:top-[calc(var(--header-height)+1px)]">
     <div class="flex flex-col gap-5 w-full lg:md:max-w-lg lg:pt-20 lg:mx-auto">
-      <product-header
+      <ProductHeader
         :product="product"
         :currentVariant="currentVariant"
       />
-      <product-color-options
+      <ProductColorOptions
         :product="product"
         :relatedProducts="relatedProducts"
       />
-      <product-size-options
+      <ProductSizeOptions
         :product="product"
         :selectedSize="selectedSize"
-        @selectSizeOption="selectSizeOption"
+        @select-size="selectSize"
       />
       <button
         @click="addToCart"

@@ -23,10 +23,10 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
       v-for="(media, index) in mediaItems.slice(0, 2)"
       :key="media.id"
       class="absolute size-full transition-opacity ease-in-out"
-      :class="{ 'opacity-0 hover:opacity-100': index === 1 }"
+      :class="{ 'opacity-0 lg:hover:opacity-100': index === 1 }"
     >
-      <shopify-video v-if="isMediaVideo(media)" :video="media" />
-      <shopify-image
+      <ShopifyVideo v-if="isMediaVideo(media)" :video="media" />
+      <ShopifyImage
         v-else-if="isMediaImage(media)"
         :image="media.image"
         :alt="media.image?.altText || ''"

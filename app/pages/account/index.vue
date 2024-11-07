@@ -23,8 +23,8 @@ const { data: customerData } = await useAsyncData(
 
 // Computed data
 const customer = computed(() => customerData.value);
-const orders = computed(() => flattenNodeConnection(customer.value?.orders));
-const addresses = computed(() => flattenNodeConnection(customer.value?.addresses));
+const orders = computed(() => flattenConnection(customer.value?.orders));
+const addresses = computed(() => flattenConnection(customer.value?.addresses));
 const defaultAddress = computed(() => customer.value?.defaultAddress);
 
 // SEO
@@ -49,14 +49,14 @@ definePageMeta({
           Recent Orders
         </h2>
         <div v-if="orders.length">
-          <account-orders :orders="orders.slice(0, 3)" />
+          <AccountOrders :orders="orders.slice(0, 3)" />
           <div class="flex px-6 lg:px-0">
-            <nuxt-link
+            <NuxtLink
               to="/account/orders"
               class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
             >
               View All Orders
-            </nuxt-link>
+            </NuxtLink>
           </div>
         </div>
         <div v-else class="flex items-center gap-2 px-6 lg:p-0">
@@ -69,27 +69,25 @@ definePageMeta({
           Saved Addresses
         </h2>
         <div v-if="addresses?.length" class="px-6 lg:px-0">
-          <account-address
-            :defaultAddress="defaultAddress"
+          <AccountAddress
+            :default-address="defaultAddress"
             :addresses="addresses"
           />
         </div>
         <div v-else class="flex flex-col px-6 normal-case lg:p-0">
           <p class="normal-case">You have no saved shipping address.</p>
-          <nuxt-link
+          <NuxtLink
             to="/account/addresses/add"
             class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
           >
             Add Your Address
-          </nuxt-link>
+          </NuxtLink>
         </div>
       </div>
     </div>
   </section>
-  <section
-    v-else
-    class="flex flex-col items-center justify-center inset-0 size-full"
-  >
+  <section v-else class="flex items-center self-start p-6 gap-2">
+    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
     <p class="normal-case">No customer data found.</p>
   </section>
 </template>

@@ -128,7 +128,7 @@ const productTypeOptions = computed(() => {
   return Array.from(allProductTypes).sort();
 });
 
-// Clear all filters, except search query
+// Actions
 function clearAllFilters() {
   const query = { ...route.query };
 
@@ -144,7 +144,6 @@ function clearAllFilters() {
   });
 }
 
-// Close filter
 function closeFilter() {
   appStore.filterMenuOpen = false;
 }
@@ -162,26 +161,26 @@ if (escape) {
 </script>
 
 <template>
-  <filter-menu-mobile
-    :sizeOptions="sizeOptions"
-    :colorOptions="colorOptions"
-    :productTypeOptions="productTypeOptions"
-    :sortOptions="sortOptions"
-    :activeFilterCount="activeFilterCount"
-    @closeFilter="closeFilter"
-    @setSortOption="setSortOption"
-    @setFilterOption="setFilterOption"
-    @clearAllFilters="clearAllFilters"
+  <FilterMenuMobile
+    :color-options="colorOptions"
+    :size-options="sizeOptions"
+    :product-type-options="productTypeOptions"
+    :sort-options="sortOptions"
+    :active-filter-count="activeFilterCount"
+    @close-filter="closeFilter"
+    @set-sort-option="setSortOption"
+    @set-filter-option="setFilterOption"
+    @clear-all-filters="clearAllFilters"
   />
-  <filter-menu-desktop
-    :colorOptions="colorOptions"
-    :sizeOptions="sizeOptions"
-    :productTypeOptions="productTypeOptions"
-    :sortOptions="sortOptions"
-    :activeFilterCount="activeFilterCount"
-    @closeFilter="closeFilter"
-    @setSortOption="setSortOption"
-    @setFilterOption="setFilterOption"
-    @clearAllFilters="clearAllFilters"
+  <FilterMenuDesktop
+    :color-options="colorOptions"
+    :size-options="sizeOptions"
+    :product-type-options="productTypeOptions"
+    :sort-options="sortOptions"
+    :active-filter-count="activeFilterCount"
+    @close-filter="closeFilter"
+    @set-sort-option="setSortOption"
+    @set-filter-option="setFilterOption"
+    @clear-all-filters="clearAllFilters"
   />
 </template>

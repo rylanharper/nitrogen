@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify';
 
+// Props
 const props = defineProps<{
   product: ProductFragment;
   currentVariant: ProductVariantFragment | undefined;
@@ -12,9 +13,9 @@ const props = defineProps<{
     <h1 class="normal-case tracking-tight leading-none">
       {{ product.title }}
     </h1>
-    <price-display
+    <PriceDisplay
       :price="currentVariant?.price ?? product.priceRange.minVariantPrice"
-      :compareAtPriceRange="currentVariant?.compareAtPrice ?? product.compareAtPriceRange.minVariantPrice"
+      :compare-at-price-range="currentVariant?.compareAtPrice ?? product.compareAtPriceRange.minVariantPrice"
     />
   </div>
 </template>

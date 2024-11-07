@@ -10,7 +10,7 @@ const navLinks = [
 // Stores
 const appStore = useAppStore();
 
-// Close menu
+// Actions
 function closeMenu() {
   appStore.mobileMenuOpen = false;
 }
@@ -27,18 +27,18 @@ watch(
 </script>
 
 <template>
-  <transition name="clip" mode="out-in" appear>
+  <Transition name="clip" mode="out-in" appear>
     <aside v-if="appStore.mobileMenuOpen" class="fixed inset-0 z-[80] size-full bg-white">
       <div class="flex flex-col size-full px-6">
         <div class="flex flex-col flex-1 mt-16 overflow-y-scroll overflow-x-hidden no-scrollbar">
-          <nuxt-link
+          <NuxtLink
             v-for="link in navLinks"
             :key="link.label"
             :to="link.path"
             class="py-1 normal-case text-xl tracking-tight"
           >
             {{ link.label }}
-          </nuxt-link>
+          </NuxtLink>
         </div>
         <div class="flex flex-col my-4">
           <button
@@ -50,13 +50,13 @@ watch(
         </div>
       </div>
     </aside>
-  </transition>
-  <transition name="fade" mode="out-in" appear>
+  </Transition>
+  <Transition name="fade" mode="out-in" appear>
     <div
       v-if="appStore.mobileMenuOpen"
       class="fixed inset-0 z-[50] pointer-events-auto bg-black/50"
     />
-  </transition>
+  </Transition>
 </template>
 
 <style lang="css" scoped>

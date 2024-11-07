@@ -10,9 +10,6 @@ const props = defineProps<{
 // Stores
 const appStore = useAppStore();
 
-// Refs
-const input = ref<HTMLInputElement | null>(null);
-
 // Suggested links
 const defaulSearchLinks = [
   { label: 'Mens tops', path: '/' },
@@ -20,22 +17,25 @@ const defaulSearchLinks = [
   { label: 'Womens Pants', path: '/' }
 ];
 
+// State
+const input = ref<HTMLInputElement | null>(null);
+
 // Emits
 const emit = defineEmits([
-  'closeSearch',
-  'setDebouncedQuery',
-  'handleSearchSubmit'
+  'debounceQuery',
+  'submitQuery',
+  'closeSearch'
 ]);
 
 // Emit events
-function handleInput(event: Event) {
+function setQuery(event: Event) {
   const target = event.target as HTMLInputElement;
-  emit('setDebouncedQuery', target.value);
+  emit('debounceQuery', target.value);
 }
 
-function handleKeyDown(event: KeyboardEvent) {
+function onKeyDown(event: KeyboardEvent) {
   if (event.key === 'Enter') {
-    emit('handleSearchSubmit');
+    emit('submitQuery');
   }
 }
 
@@ -73,7 +73,7 @@ watch(
 </script>
 
 <template>
-  <transition name="slider" mode="out-in" appear>
+  <Transition name="slider" mode="out-in" appear>
     <aside
       v-if="appStore.searchMenuOpen"
       class="hidden fixed top-0 left-0 z-[80] w-full bg-white lg:flex lg:min-h-[400px]"
@@ -84,8 +84,8 @@ watch(
             ref="input"
             type="text"
             name="searchInput"
-            @input="handleInput"
-            @keydown="handleKeyDown"
+            @input="setQuery"
+            @keydown="onKeyDown"
             placeholder="Search products"
             autocapitalize="off"
             autocomplete="off"
@@ -106,7 +106,7 @@ watch(
           <div class="flex flex-col gap-4">
             <h3 class="text-sm">Suggestions</h3>
             <div v-if="searchQuery.length && products?.length" class="flex flex-col">
-              <nuxt-link
+              <NuxtLink
                 v-for="product in productsWithOptions"
                 :key="product.id"
                 :to="`/products/${product.handle}`"
@@ -116,30 +116,30 @@ watch(
                   {{ product.title }} ({{ product.colorOptionName }})
                 </p>
                 <span v-else>{{ product?.title }}</span>
-              </nuxt-link>
+              </NuxtLink>
             </div>
             <div v-else class="flex flex-col">
-              <nuxt-link
+              <NuxtLink
                 v-for="link in defaulSearchLinks"
                 :key="link.label"
                 :to="link.path"
                 class="max-w-fit normal-case truncate ... hover:text-gray-500"
               >
                 {{ link.label }}
-              </nuxt-link>
+              </NuxtLink>
             </div>
           </div>
           <div v-if="searchQuery.length && products?.length" class="flex flex-col gap-4">
             <h3 class="text-sm">Products</h3>
             <div class="grid grid-cols-2 gap-8 w-full">
-              <nuxt-link
+              <NuxtLink
                 v-for="product in productsWithOptions"
                 :key="product.id"
                 :to="`/products/${product.handle}`"
                 class="flex gap-4"
               >
                 <div class="w-24 aspect-square shrink-0">
-                  <shopify-image
+                  <ShopifyImage
                     :image="product.featuredImage"
                     :alt="product.featuredImage?.altText || product.title"
                   />
@@ -151,25 +151,25 @@ watch(
                       {{ product.colorOptionName }}
                     </h3>
                   </div>
-                  <price-display
+                  <PriceDisplay
                     :price="product.priceRange?.minVariantPrice"
                     :compareAtPriceRange="product.compareAtPriceRange?.minVariantPrice"
                   />
                 </div>
-              </nuxt-link>
+              </NuxtLink>
             </div>
           </div>
         </div>
       </div>
     </aside>
-  </transition>
-  <transition name="fade" mode="out-in" appear>
+  </Transition>
+  <Transition name="fade" mode="out-in" appear>
     <div
       v-if="appStore.searchMenuOpen"
       @click="closeSearch"
       class="hidden fixed inset-0 z-[50] pointer-events-auto bg-black/50 lg:flex"
     />
-  </transition>
+  </Transition>
 </template>
 
 <style lang="css" scoped>

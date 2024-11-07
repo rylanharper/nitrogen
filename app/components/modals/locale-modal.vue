@@ -10,14 +10,9 @@ const shopStore = useShopStore();
 const countries = shopStore.locale?.availableCountries;
 const countryCode = shopStore.locale?.country?.isoCode;
 
-// Refs
+// State
 const countryLocale = ref<CountryCode>(countryCode);
 const isLoading = ref(false);
-
-// Close modal
-function closeModal() {
-  appStore.localeModalOpen = false;
-}
 
 // Update localization
 async function updateLocalization() {
@@ -32,6 +27,11 @@ async function updateLocalization() {
     isLoading.value = false;
     closeModal();
   }
+}
+
+// Actions
+function closeModal() {
+  appStore.localeModalOpen = false;
 }
 
 // Watchers
@@ -57,7 +57,7 @@ if (escape) {
 </script>
 
 <template>
-  <transition name="scale-in" mode="out-in" appear>
+  <Transition name="scale-in" mode="out-in" appear>
     <div
       v-if="appStore.localeModalOpen"
       class="fixed left-[50%] top-[50%] w-full max-w-xl translate-x-[-50%] translate-y-[-50%] p-6 z-[200] bg-white"
@@ -101,14 +101,14 @@ if (escape) {
         <Icon name="ph:x" class="h-5 w-5 shrink-0" />
       </button>
     </div>
-  </transition>
-  <transition name="fade" mode="out-in" appear>
+  </Transition>
+  <Transition name="fade" mode="out-in" appear>
     <section
       v-if="appStore.localeModalOpen"
       @click="closeModal"
       class="fixed inset-0 z-[150] pointer-events-auto bg-black/50"
     />
-  </transition>
+  </Transition>
 </template>
 
 <style lang="css" scoped>

@@ -20,26 +20,26 @@ const emit = defineEmits([
     <div class="grid grid-flow-col justify-start items-center">
       <button
         @click="$emit('toggleShopMenu')"
-        class="p-2 text-normalize bg-transparent rounded-full"
+        class="flex p-2 text-normalize bg-transparent rounded-full"
       >
         Menu
       </button>
     </div>
     <div class="flex items-center">
-      <nuxt-link to="/" id="logo" class="p-2 bg-transparent rounded-full">
+      <NuxtLink to="/" id="logo" class="p-2 bg-transparent rounded-full">
         Nitrogen
-      </nuxt-link>
+      </NuxtLink>
     </div>
     <div class="grid grid-flow-col justify-end items-center">
       <button
         @click="$emit('toggleSearchMenu')"
-        class="p-2 text-normalize bg-transparent rounded-full"
+        class="flex p-2 text-normalize bg-transparent rounded-full"
       >
         <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0" />
       </button>
       <button
         @click="$emit('toggleCartDrawer')"
-        class="p-2 text-normalize bg-transparent rounded-full"
+        class="flex p-2 text-normalize bg-transparent rounded-full"
       >
         Cart ({{ cartTotalItems }})
       </button>

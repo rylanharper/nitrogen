@@ -41,7 +41,7 @@ function clearAllFilters() {
 </script>
 
 <template>
-  <transition name="slider" mode="out-in" appear>
+  <Transition name="slider" mode="out-in" appear>
     <aside
       v-if="appStore.filterMenuOpen"
       class="fixed top-0 right-0 z-[200] size-full bg-white md:max-w-[450px] lg:hidden"
@@ -74,7 +74,7 @@ function clearAllFilters() {
                     :key="index"
                     @click="setSortOption(option.value)"
                     :class="{ 'underline': route.query.sort === option.value || (option.value === null && !route.query.sort) }"
-                    class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
+                    class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                   >
                     {{ option.label }}
                   </button>
@@ -96,7 +96,7 @@ function clearAllFilters() {
                     :key="index"
                     @click="setFilterOption('color', color)"
                     :class="{ 'underline': (route.query.color as string)?.split(',').includes(color) }"
-                    class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
+                    class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                   >
                     {{ color }}
                   </button>
@@ -118,7 +118,7 @@ function clearAllFilters() {
                     :key="index"
                     @click="setFilterOption('size', size)"
                     :class="{ 'underline': (route.query.size as string)?.split(',').includes(size) }"
-                    class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
+                    class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                   >
                     {{ size }}
                   </button>
@@ -140,7 +140,7 @@ function clearAllFilters() {
                     :key="index"
                     @click="setFilterOption('productType', type)"
                     :class="{ 'underline': (route.query.productType as string)?.split(',').includes(type) }"
-                    class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
+                    class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                   >
                     {{ type }}
                   </button>
@@ -167,14 +167,14 @@ function clearAllFilters() {
         </div>
       </div>
     </aside>
-  </transition>
-  <transition name="fade" mode="out-in" appear>
+  </Transition>
+  <Transition name="fade" mode="out-in" appear>
     <div
       v-if="appStore.filterMenuOpen"
       @click="closeFilter"
       class="fixed inset-0 z-[150] pointer-events-auto bg-black/50 lg:hidden"
     />
-  </transition>
+  </Transition>
 </template>
 
 <style lang="css" scoped>

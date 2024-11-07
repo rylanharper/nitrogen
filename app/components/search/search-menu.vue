@@ -8,40 +8,41 @@ import type {
 const appStore = useAppStore();
 const shopStore = useShopStore();
 
-// Refs
+// State
 const searchQuery = ref('');
 const searchResults = ref<ProductFragment[]>([]);
 
 // Shopify
 const shopify = useShopify();
 
-// Debounce search query
-const setDebouncedQuery = useDebounceFn(async (query: string) => {
+// Debounce query
+async function handleSearch(query: string) {
   searchQuery.value = query;
 
   if (searchQuery.value) {
     const searchVars: PredictiveSearchQueryVariables = {
       query,
       country: shopStore.buyerCountryCode,
-      language: shopStore.buyerLanguageCode
+      language: shopStore.buyerLanguageCode,
     };
 
     try {
-      const result = await shopify.search.predictive(searchVars);
-      searchResults.value = result?.products || [];
+      const response = await shopify.search.predictive(searchVars);
+      searchResults.value = response?.products || [];
     } catch (error) {
-      console.error('Error fetching search results:', error);
+      console.error('Error fetching predictive search data.', error);
     }
   }
-}, 300);
+}
 
-// Close search
+const debounceQuery = useDebounceFn(handleSearch, 300);
+
+// Actions
 function closeSearch() {
   appStore.searchMenuOpen = false;
 }
 
-// Handle keydown event
-async function handleSearchSubmit() {
+async function submitQuery() {
   if (searchQuery.value) {
     await navigateTo({
       path: '/search',
@@ -83,18 +84,18 @@ if (escape) {
 </script>
 
 <template>
-  <search-menu-desktop
+  <SearchMenuDesktop
     :products="searchResults"
-    :searchQuery="searchQuery"
-    @closeSearch="closeSearch"
-    @setDebouncedQuery="setDebouncedQuery"
-    @handleSearchSubmit="handleSearchSubmit"
+    :search-query="searchQuery"
+    @close-search="closeSearch"
+    @debounce-query="debounceQuery"
+    @submit-query="submitQuery"
   />
-  <search-menu-mobile
+  <SearchMenuMobile
     :products="searchResults"
-    :searchQuery="searchQuery"
-    @closeSearch="closeSearch"
-    @setDebouncedQuery="setDebouncedQuery"
-    @handleSearchSubmit="handleSearchSubmit"
+    :search-query="searchQuery"
+    @close-search="closeSearch"
+    @debounce-query="debounceQuery"
+    @submit-query="submitQuery"
   />
 </template>

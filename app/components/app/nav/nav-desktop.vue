@@ -30,23 +30,23 @@ const emit = defineEmits([
 <template>
   <nav class="hidden grid-cols-[1fr_max-content_1fr] min-h-[--header-height] px-4 lg:grid">
     <div class="grid grid-flow-col justify-start items-center">
-      <nuxt-link
+      <NuxtLink
         v-for="link in navLinksLeft"
         :key="link.label"
         :to="link.path"
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
       >
         {{ link.label }}
-      </nuxt-link>
+      </NuxtLink>
     </div>
     <div class="flex items-center">
-      <nuxt-link
+      <NuxtLink
         to="/"
         id="logo"
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
       >
         Nitrogen
-      </nuxt-link>
+      </NuxtLink>
     </div>
     <div class="grid grid-flow-col justify-end items-center">
       <button
@@ -55,14 +55,14 @@ const emit = defineEmits([
       >
         {{ countryCode }} / {{ currencySymbol }}
       </button>
-      <nuxt-link
+      <NuxtLink
         v-for="link in navLinksRight"
         :key="link.label"
         :to="link.path"
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
       >
         {{ link.label }}
-      </nuxt-link>
+      </NuxtLink>
       <button
         @click="$emit('toggleSearchMenu')"
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"

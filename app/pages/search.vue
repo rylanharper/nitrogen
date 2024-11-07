@@ -13,15 +13,14 @@ const shopStore = useShopStore();
 // Helpers
 const { getSearchSortValuesFromUrl, getFilterValuesFromUrl } = useCollectionHelpers();
 
-// Sort query
+// Sort params/values
 const sortParam = computed(() => route.query.sort as string | null);
 const sortValues = computed(() => getSearchSortValuesFromUrl(sortParam.value));
 
-// Filter query
+// Filter params/values
 const filterParam = computed(() => route.query);
-const filters = computed(() => getFilterValuesFromUrl(filterParam.value));
+const filterValues = computed(() => getFilterValuesFromUrl(filterParam.value));
 
-// Active options
 const activeFilterOptions = computed(() => {
   const filters: { name: string; value: string }[] = [];
 
@@ -40,36 +39,13 @@ const activeFilterOptions = computed(() => {
   return filters;
 });
 
-// Remove active option
-function removeActiveFilterOption(filterName: string, filterValue: string) {
-  const query = { ...route.query };
-
-  if (filterName === 'sort') {
-    delete query.sort;
-  } else {
-    const currentValues = (route.query[filterName] as string)?.split(',') || [];
-    const newValues = currentValues.filter((value) => value !== filterValue);
-
-    if (newValues.length > 0) {
-      query[filterName] = newValues.join(',');
-    } else {
-      delete query[filterName];
-    }
-  }
-
-  router.replace({
-    path: route.path,
-    query
-  });
-}
-
 // Shopify
 const shopify = useShopify();
 
 // Fetch data
 const searchVars = computed<SearchProductsQueryVariables>(() => ({
   searchTerm: searchTerm.value,
-  filters: filters.value,
+  filters: filterValues.value,
   sortKey: sortValues.value.sortKey,
   reverse: sortValues.value.reverse,
   country: shopStore.buyerCountryCode,
@@ -94,10 +70,32 @@ const { data: filterData } = await useAsyncData(
 
 // Computed data
 const search = computed(() => searchData?.value);
-const filterOptions = computed(() => flattenNodeConnection(filterData.value));
-const products = computed(() => flattenNodeConnection(search.value));
+const filterProducts = computed(() => flattenConnection(filterData.value));
+const products = computed(() => flattenConnection(search.value));
 
-// Toggles
+// Actions
+function removeActiveFilterOption(filterName: string, filterValue: string) {
+  const query = { ...route.query };
+
+  if (filterName === 'sort') {
+    delete query.sort;
+  } else {
+    const currentValues = (route.query[filterName] as string)?.split(',') || [];
+    const newValues = currentValues.filter((value) => value !== filterValue);
+
+    if (newValues.length > 0) {
+      query[filterName] = newValues.join(',');
+    } else {
+      delete query[filterName];
+    }
+  }
+
+  router.replace({
+    path: route.path,
+    query
+  });
+}
+
 function toggleFilter() {
   appStore.toggleFilterMenu();
 }
@@ -115,7 +113,7 @@ useHead(() => ({
 </script>
 
 <template>
-  <section v-if="search && products" class="relative flex flex-col px-6">
+  <section v-if="products" class="relative flex flex-col px-6">
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
@@ -150,7 +148,7 @@ useHead(() => ({
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
       <div v-for="product in products" :key="product.id">
-        <product-card :product="product" />
+        <ProductCard :product="product" />
       </div>
     </div>
     <div v-else class="flex items-center gap-2">
@@ -158,8 +156,9 @@ useHead(() => ({
       <p class="normal-case">There are no matching products.</p>
     </div>
   </section>
-  <section v-else class="flex items-center justify-center inset-0 size-full">
-    <p class="normal-case">No collection data found.</p>
+  <section v-else class="flex items-center p-6 gap-2">
+    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
+    <p class="normal-case">No search data found.</p>
   </section>
-  <filter-menu v-if="filterOptions" :products="filterOptions" />
+  <FilterMenu v-if="filterProducts" :products="filterProducts" />
 </template>

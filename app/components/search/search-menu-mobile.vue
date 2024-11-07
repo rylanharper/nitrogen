@@ -10,25 +10,25 @@ const props = defineProps<{
 // Stores
 const appStore = useAppStore();
 
-// Refs
+// State
 const input = ref<HTMLInputElement | null>(null);
 
 // Emits
 const emit = defineEmits([
-  'closeSearch',
-  'setDebouncedQuery',
-  'handleSearchSubmit'
+  'debounceQuery',
+  'submitQuery',
+  'closeSearch'
 ]);
 
 // Emit events
-function handleInput(event: Event) {
+function setQuery(event: Event) {
   const target = event.target as HTMLInputElement;
-  emit('setDebouncedQuery', target.value);
+  emit('debounceQuery', target.value);
 }
 
-function handleKeyDown(event: KeyboardEvent) {
+function onKeyDown(event: KeyboardEvent) {
   if (event.key === 'Enter') {
-    emit('handleSearchSubmit');
+    emit('submitQuery');
   }
 }
 
@@ -66,7 +66,7 @@ watch(
 </script>
 
 <template>
-  <transition name="slider" mode="out-in" appear>
+  <Transition name="slider" mode="out-in" appear>
     <aside
       v-if="appStore.searchMenuOpen"
       class="fixed inset-0 z-[200] size-full bg-white lg:hidden"
@@ -77,8 +77,8 @@ watch(
             ref="input"
             type="text"
             name="searchInput"
-            @input="handleInput"
-            @keydown="handleKeyDown"
+            @input="setQuery"
+            @keydown="onKeyDown"
             placeholder="Search products"
             autocapitalize="off"
             autocomplete="off"
@@ -97,14 +97,14 @@ watch(
         </div>
         <div class="flex flex-col flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
           <div v-if="searchQuery.length && products?.length" class="grid grid-cols-2 gap-x-4 gap-y-8 w-full">
-            <nuxt-link
+            <NuxtLink
               v-for="product in productsWithOptions"
               :key="product.id"
               :to="`/products/${product.handle}`"
               class="flex gap-4"
             >
               <div class="size-24 aspect-square shrink-0">
-                <shopify-image
+                <ShopifyImage
                   :image="product.featuredImage"
                   :alt="product.featuredImage?.altText || product.title"
                 />
@@ -116,23 +116,23 @@ watch(
                     {{ product.colorOptionName }}
                   </h3>
                 </div>
-                <price-display
+                <PriceDisplay
                   :price="product.priceRange?.minVariantPrice"
                   :compareAtPriceRange="product.compareAtPriceRange?.minVariantPrice"
                 />
               </div>
-            </nuxt-link>
+            </NuxtLink>
           </div>
         </div>
       </div>
     </aside>
-  </transition>
-  <transition name="fade" mode="out-in" appear>
+  </Transition>
+  <Transition name="fade" mode="out-in" appear>
     <div
       v-if="appStore.searchMenuOpen"
       class="fixed inset-0 z-[150] pointer-events-auto bg-black/50 lg:hidden"
     />
-  </transition>
+  </Transition>
 </template>
 
 <style lang="css" scoped>

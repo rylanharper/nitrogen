@@ -23,7 +23,7 @@ const { data: customerData } = await useAsyncData(
 
 // Computed data
 const customer = computed(() => customerData.value);
-const addresses = computed(() => flattenNodeConnection(customer.value?.addresses));
+const addresses = computed(() => flattenConnection(customer.value?.addresses));
 const defaultAddress = computed(() => customer.value?.defaultAddress);
 
 // SEO
@@ -47,26 +47,24 @@ definePageMeta({
         Addresses
       </h2>
       <div v-if="addresses?.length">
-        <account-address
-          :defaultAddress="defaultAddress"
+        <AccountAddress
+          :default-address="defaultAddress"
           :addresses="addresses"
         />
       </div>
       <div v-else class="flex flex-col px-6 normal-case lg:p-0">
         <p class="normal-case">You have no saved shipping address.</p>
-        <nuxt-link
+        <NuxtLink
           :to="{ name: 'account-addresses-add' }"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
         >
           Add Your Address
-        </nuxt-link>
+        </NuxtLink>
       </div>
     </div>
   </section>
-  <section
-    v-else
-    class="flex flex-col items-center justify-center inset-0 size-full"
-  >
+  <section v-else class="flex items-center self-start p-6 gap-2">
+    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
     <p class="normal-case">No customer data found.</p>
   </section>
 </template>

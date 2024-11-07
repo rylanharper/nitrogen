@@ -55,13 +55,12 @@ const sortedColors = computed(() => {
 // State
 const colorName = ref(defaultColor.value);
 
-// Update color name
-const updateColorName = (name: string | undefined) => {
+// Actions
+function updateColorName(name: string | undefined) {
   colorName.value = name;
 };
 
-// Reset color name
-const resetColorName = () => {
+function resetColorName() {
   colorName.value = defaultColor.value;
 };
 </script>
@@ -70,7 +69,7 @@ const resetColorName = () => {
   <div v-if="isColorOption" class="flex flex-col gap-2">
     <span>color: {{ colorName }}</span>
     <div class="flex flex-wrap gap-2">
-      <nuxt-link
+      <NuxtLink
         v-for="color in sortedColors"
         :key="color.handle"
         :to="`/products/${color.handle}`"
