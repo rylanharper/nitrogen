@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  experimental:  {
+  experimental: {
     payloadExtraction: true,
     defaults: {
       nuxtLink: {
@@ -39,7 +39,9 @@ export default defineNuxtConfig({
 
   icon: {
     mode: 'svg',
-    clientBundle: { scan: true }
+    clientBundle: {
+      scan: true
+    }
   },
 
   fonts: {
