@@ -22,9 +22,9 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     shopify: {
-      shop: process.env.SHOPIFY_STOREFRONT,
-      token: process.env.SHOPIFY_ACCESS_TOKEN,
-      version: process.env.SHOPIFY_API_VERSION
+      storefront: '',
+      accessToken: '',
+      apiVersion: ''
     }
   },
 

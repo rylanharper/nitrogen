@@ -38,9 +38,9 @@ Before using Nitrogen, you must configure your Shopify store as follows:
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
 ```ini
-SHOPIFY_STOREFRONT=
-SHOPIFY_ACCESS_TOKEN=
-SHOPIFY_API_VERSION=
+NUXT_SHOPIFY_STOREFRONT=
+NUXT_SHOPIFY_ACCESS_TOKEN=
+NUXT_SHOPIFY_API_VERSION=
 ```
 
 > [!WARNING]
