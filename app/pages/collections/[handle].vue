@@ -107,7 +107,7 @@ useHead({
 </script>
 
 <template>
-  <section v-if="collection" class="relative flex flex-col px-6">
+  <section v-if="collection" class="relative flex flex-col px-6 mb-20">
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">

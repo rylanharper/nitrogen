@@ -39,7 +39,7 @@ definePageMeta({
 <template>
   <section
     v-if="customer"
-    class="relative flex flex-col lg:col-span-2 2xl:col-span-1"
+    class="relative flex flex-col lg:col-span-2 2xl:col-span-1 mb-20"
   >
     <div class="flex flex-col gap-6 lg:mt-6 lg:px-8">
       <h2 class="px-6 normal-case text-xl tracking-tight leading-none lg:p-0">

@@ -62,7 +62,7 @@ useHead({
 </script>
 
 <template>
-  <section v-if="product" class="relative grid gap-10 lg:grid-cols-2 lg:gap-0">
+  <section v-if="product" class="relative grid gap-10 lg:grid-cols-2 lg:gap-0 mb-20">
     <div class="flex flex-col">
       <ProductMediaGallery
         :product-media="productMedia"

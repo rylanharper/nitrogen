@@ -106,7 +106,7 @@ definePageMeta({
 <template>
   <section
     v-if="customer && address"
-    class="relative flex flex-col lg:col-span-2 2xl:col-span-1"
+    class="relative flex flex-col lg:col-span-2 2xl:col-span-1 mb-20"
   >
     <div class="flex flex-col px-6 lg:mt-6 lg:px-8 lg:max-w-lg">
       <h2 class="normal-case text-xl tracking-tight leading-none">

@@ -41,7 +41,7 @@ definePageMeta({
 <template>
   <section
     v-if="customer"
-    class="relative flex flex-col lg:col-span-2 2xl:col-span-1"
+    class="relative flex flex-col lg:col-span-2 2xl:col-span-1 mb-20"
   >
     <div class="flex flex-col gap-10 lg:mt-6 lg:px-8">
       <div class="flex flex-col gap-6">
