@@ -114,7 +114,7 @@ const product = computed(() => productData.value)
 
 ### With `Pinia`
 
-Ideal for working with actions in your stores:
+Ideal for working with actions in your Pinia stores:
 
 ```js
 // Shopify
