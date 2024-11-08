@@ -61,10 +61,10 @@ const colorOptions = computed(() => {
 
 ### Metafields
 
-Nitrogen uses a custom `related_products` metafield (list type) to display related products on your product pages. This metafield allows you to reference the full data of related products, which is ideal for managing matching color swatches, media, and more. This metafield can be seen in the main [`product.ts`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/server/graphql/queries/product.ts) GraphQL query:
+Nitrogen uses a custom `matching_colors` metafield (product reference list type) to handle product swatch colors on product pages. This metafield allows access to the full data of referenced products, which is ideal for checking availability, option names/values, media, and more. This metafield can be seen in the main [`product.ts`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/server/graphql/queries/product.ts) GraphQL query:
 
 ```ts
-related_products: metafield(namespace: "custom", key: "related_products") {
+matching_colors: metafield(namespace: "custom", key: "matching_colors") {
   references(first: 10) {
     edges {
       node {
@@ -75,10 +75,10 @@ related_products: metafield(namespace: "custom", key: "related_products") {
 }
 ```
 
-You can create additional product reference metafields by copying this query structure and changing the key name. This enables you to build features like:
+You can create additional product reference metafield lists by copying this query structure and changing the key name. This enables you to build features like:
 
-- 🏷️ Similar products with `similar_products`
-- 📸 "Styled with" collections using `styled_with`
+- 🏷️ Related products with `related_products`
+- 📸 "Styled with" product lists using `styled_with`
 - 🔄 Custom merchandising groups via `frequently_bought_together`
 
 ## 🧩 Nuxt Setup
