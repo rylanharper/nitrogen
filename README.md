@@ -21,19 +21,27 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 > [!NOTE]
 > Nitrogen provides a solid foundation for headless Shopify development in Nuxt, but comes with opinionated choices regarding project structure and organization. Feel free to customize the queries, functions, pages, and components to match your project's specific needs!
 
-### Shopify
+## 🛍️ Shopify Setup
 
 Before using Nitrogen, you must configure your Shopify store as follows:
 
-1. Within your Shopify admin dashboard, create a custom app and configure the necessary Storefront API permissions needed for your project. Enable all Storefront API access scopes to keep things simple. Once the app is created, retrieve your storefront API access token to use in the project’s environment variables.
+### API Permissions
 
-2. To support international currencies and localized experiences, enable Markets within your Shopify admin dashboard. Navigate to `Settings` > `Markets` > `Preferences` and configure your global currencies. This ensures that customers can see prices in their local currency and switch markets if needed.
+Within your Shopify admin dashboard, create a custom app and configure the necessary Storefront API permissions needed for your project. Enable all Storefront API access scopes to keep things simple. Once the app is created, retrieve your storefront API access token to use in the project’s environment variables.
 
-3. To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app and set up basic filters. This template uses the availability, product type, size, and color filter options. You'll likely need to remove some default filter options, or you can add more filters if needed.
+### Localization
 
-4. Additionally, you'll want to add a custom `related_products` metafield to display related products on your product pages. This metafield allows you to reference the full data of related products, which is ideal for managing matching color swatches, media, and more.
+To support international currencies and localized experiences, enable Markets within your Shopify admin dashboard. Navigate to `Settings` > `Markets` > `Preferences` and configure your global currency markets. This ensures that customers can see prices in their local currency and switch markets if needed.
 
-### Nuxt
+### Filtering Products
+
+To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app and set up basic filters. This template uses the `availability`, `productType`, `size`, and `color` filter options. You'll likely need to remove some default filter options within the filter admin settings, or you can add more filters if needed. To customize filter options, you will need edit the [`getFilterValuesFromUrl`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/app/composables/use-collection-helpers.ts#L83) function within the [`use-collection-helpers.ts`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/app/composables/use-collection-helpers.ts) composable and add or remove filters needed for your project.
+
+### Metafields
+
+Additionally, you'll want to add a custom `related_products` metafield (list type) to display related products on your product pages. This metafield allows you to reference the full data of related products, which is ideal for managing matching color swatches, media, and more. This metafield can be been in the main [`product.ts`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/server/graphql/queries/product.ts) GraphQL query.
+
+## 🧩 Nuxt Setup
 
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
