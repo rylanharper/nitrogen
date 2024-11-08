@@ -102,7 +102,7 @@ NUXT_SHOPIFY_API_VERSION=
 
 ## 🏓 Basic Usage
 
-Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while offering a strongly-typed interface for executing GraphQL operations.
+Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
 ### GraphQL Operations
 
