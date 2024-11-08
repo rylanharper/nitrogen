@@ -35,11 +35,51 @@ To support international currencies and localized experiences, enable Markets wi
 
 ### Filtering Products
 
-To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app and set up basic filters. This template uses the `availability`, `color`, `size`, and `productType` filter options. You'll likely need to remove some default filter options within the filter admin settings, or you can add more filters if needed. To customize filter options, you will need edit the [`getFilterValuesFromUrl`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/app/composables/use-collection-helpers.ts#L83) function within the [`use-collection-helpers.ts`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/app/composables/use-collection-helpers.ts) composable and add or remove filters needed for your project.
+To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app and set up basic filters. This template uses the `availability`, `color`, `size`, and `productType` filter options. You'll likely need to remove some default filter options within the filter admin settings, or you can add more filters if needed.
+
+To modify the available filter options, you'll need to update two files:
+
+1. Update the [`getFilterValuesFromUrl`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/app/composables/use-collection-helpers.ts#L83) composable function to define your filter options
+2. Modify the [`filter-menu.vue`](https://github.com/rylanharper/Nitrogen/blob/master/app/components/filter/filter-menu.vue) component to include your filter mapping functions
+
+For example, here's how a filter map function works for color options:
+
+```ts
+const colorOptions = computed(() => {
+  const colorOptionNames = ['Color', 'Colour'];
+  const allColors = new Set(
+    props.products
+      .flatMap((product) => product.options)
+      .filter((option) => colorOptionNames.includes(option.name))
+      .flatMap((option) => option.optionValues)
+      .map((value) => value.name)
+  );
+
+  return Array.from(allColors).sort();
+});
+```
 
 ### Metafields
 
-Additionally, you'll want to add a custom `related_products` metafield (list type) to display related products on your product pages. This metafield allows you to reference the full data of related products, which is ideal for managing matching color swatches, media, and more. This metafield can be seen in the main [`product.ts`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/server/graphql/queries/product.ts) GraphQL query.
+Nitrogen uses a custom `related_products` metafield (list type) to display related products on your product pages. This metafield allows you to reference the full data of related products, which is ideal for managing matching color swatches, media, and more. This metafield can be seen in the main [`product.ts`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/server/graphql/queries/product.ts) GraphQL query:
+
+```ts
+related_products: metafield(namespace: "custom", key: "related_products") {
+  references(first: 10) {
+    edges {
+      node {
+        ...Product
+      }
+    }
+  }
+}
+```
+
+You can create additional product reference metafields by copying this query structure and changing the key name. This enables you to build features like:
+
+- Color swatch coordination with `matching_colors`
+- "Styled with" collections using `styled_with`
+- Custom merchandising groups via `frequently_bought_together`
 
 ## 🧩 Nuxt Setup
 
@@ -62,7 +102,7 @@ NUXT_SHOPIFY_API_VERSION=
 
 ## 🏓 Basic Usage
 
-Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while offering strongly-typed interface for executing GraphQL operations.
+Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while offering a strongly-typed interface for executing GraphQL operations.
 
 ### GraphQL Operations
 
@@ -91,7 +131,7 @@ await shopify.product.get({ handle: 'example-product' })
 
 Perfect for reactive data fetching in pages or components:
 
-```js
+```ts
 // Shopify
 const shopify = useShopify();
 
@@ -116,7 +156,7 @@ const product = computed(() => productData.value)
 
 Ideal for working with actions in your Pinia stores:
 
-```js
+```ts
 // Shopify
 const shopify = useShopify();
 
