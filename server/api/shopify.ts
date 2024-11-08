@@ -10,11 +10,11 @@ export default defineEventHandler(async (event: H3Event) => {
   const { query, variables } = await readBody(event);
 
   return await $fetch(
-    `https://${options.shop}.myshopify.com/api/${options.version}/graphql.json`,
+    `https://${options.storefront}.myshopify.com/api/${options.apiVersion}/graphql.json`,
     {
       method: 'POST',
       headers: {
-        'X-Shopify-Storefront-Access-Token': options.token,
+        'X-Shopify-Storefront-Access-Token': options.accessToken,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ query, variables })
