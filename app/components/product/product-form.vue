@@ -4,7 +4,7 @@ import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify';
 // Props
 const props = defineProps<{
   product: ProductFragment;
-  relatedProducts: ProductFragment[];
+  matchingColors: ProductFragment[];
 }>();
 
 // Route data
@@ -121,15 +121,15 @@ watch(currentVariant, (newVariant) => {
     <div class="flex flex-col gap-5 w-full lg:md:max-w-lg lg:pt-20 lg:mx-auto">
       <ProductHeader
         :product="product"
-        :currentVariant="currentVariant"
+        :current-variant="currentVariant"
       />
       <ProductColorOptions
         :product="product"
-        :relatedProducts="relatedProducts"
+        :matching-colors="matchingColors"
       />
       <ProductSizeOptions
         :product="product"
-        :selectedSize="selectedSize"
+        :selected-size="selectedSize"
         @select-size="selectSize"
       />
       <button

@@ -28,9 +28,9 @@ const { data: productData } = await useAsyncData(
 const product = computed(() => productData.value);
 const productMedia = computed(() => flattenConnection(product.value?.media));
 
-// Get related products (if any)
-const relatedProducts = computed(() => {
-  const references = product.value?.related_products?.references;
+// Matching color references (if any)
+const matchingColors = computed(() => {
+  const references = product.value?.matching_colors?.references;
   return references ? flattenConnection(references) : [];
 });
 
@@ -75,7 +75,7 @@ useHead({
     <div class="flex flex-col px-6">
       <ProductForm
         :product="product"
-        :related-products="relatedProducts"
+        :matching-colors="matchingColors"
       />
     </div>
   </section>

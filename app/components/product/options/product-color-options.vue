@@ -4,7 +4,7 @@ import type { ProductFragment } from '@@/types/shopify';
 // Props
 const props = defineProps<{
   product: ProductFragment;
-  relatedProducts: ProductFragment[];
+  matchingColors: ProductFragment[];
 }>();
 
 // Route data
@@ -31,24 +31,24 @@ const mainProductColor = computed(() => {
   };
 });
 
-const relatedProductColors = computed(() => {
-  return props.relatedProducts.map((relatedProduct) => {
-    const options = relatedProduct.options;
+const matchingProductColors = computed(() => {
+  return props.matchingColors.map((product) => {
+    const options = product.options;
     const colorOption = getColorOption(options);
 
     return {
       name: colorOption?.optionValues[0]?.name,
       color: colorOption?.optionValues[0]?.swatch?.color,
       image: colorOption?.optionValues[0]?.swatch?.image?.previewImage,
-      handle: relatedProduct.handle,
-      isAvailable: relatedProduct.availableForSale
+      handle: product.handle,
+      isAvailable: product.availableForSale
     };
   });
 });
 
 // Combine all colors, sort alphabetically
 const sortedColors = computed(() => {
-  const allColors = [mainProductColor.value, ...relatedProductColors.value];
+  const allColors = [mainProductColor.value, ...matchingProductColors.value];
   return allColors.sort((a, b) => a.name.localeCompare(b.name));
 });
 

@@ -9,7 +9,7 @@ export const PRODUCT = gql`
   ) @inContext(country: $country, language: $language) {
     product (handle: $handle) {
       ...Product
-      related_products: metafield(namespace: "custom", key: "related_products") {
+      matching_colors: metafield(namespace: "custom", key: "matching_colors") {
         references(first: 10) {
           edges {
             node {
