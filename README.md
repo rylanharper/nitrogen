@@ -77,9 +77,9 @@ related_products: metafield(namespace: "custom", key: "related_products") {
 
 You can create additional product reference metafields by copying this query structure and changing the key name. This enables you to build features like:
 
-- Color swatch coordination with `matching_colors`
-- "Styled with" collections using `styled_with`
-- Custom merchandising groups via `frequently_bought_together`
+- 🏷️ Similar products with `similar_products`
+- 📸 "Styled with" collections using `styled_with`
+- 🔄 Custom merchandising groups via `frequently_bought_together`
 
 ## 🧩 Nuxt Setup
 
