@@ -46,9 +46,9 @@ Additionally, you'll want to add a custom `related_products` metafield (list typ
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
 ```ini
-SHOPIFY_STOREFRONT=
-SHOPIFY_ACCESS_TOKEN=
-SHOPIFY_API_VERSION=
+NUXT_SHOPIFY_STOREFRONT=
+NUXT_SHOPIFY_ACCESS_TOKEN=
+NUXT_SHOPIFY_API_VERSION=
 ```
 
 > [!WARNING]
@@ -62,7 +62,7 @@ SHOPIFY_API_VERSION=
 
 ## 🏓 Basic Usage
 
-Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while exposing a typesafe interface for executing GraphQL operations.
+Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while offering strongly-typed interface for executing GraphQL operations.
 
 ### GraphQL Operations
 
