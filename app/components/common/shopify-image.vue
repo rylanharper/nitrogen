@@ -8,6 +8,7 @@ const props = defineProps<{
 }>();
 
 // Computed
+// eslint-disable-next-line vue/return-in-computed-property
 const srcset = computed(() => {
   if (props.image.url.includes('cdn.shopify.com')) {
     const sizes = [640, 768, 1280, 1536, 1920, 2240];
@@ -28,6 +29,6 @@ const srcset = computed(() => {
       class="absolute size-full inset-0 object-cover"
       loading="lazy"
       decoding="async"
-    />
+    >
   </figure>
 </template>

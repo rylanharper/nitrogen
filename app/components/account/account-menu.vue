@@ -20,22 +20,22 @@ const currentPath = computed(() => route.path);
 const selectedPage = ref(currentPath.value);
 
 // Actions
-async function logout() {
+const logout = async () => {
   await authStore.logout();
   await navigateTo('/account/login');
-}
+};
 
-async function navigateToSelectedPage() {
+const navigateToSelectedPage = async () => {
   if (selectedPage.value !== 'logout') {
     await navigateTo(selectedPage.value);
   } else {
     logout();
   }
-}
+};
 
 // Watch if the user navigates to sub-address paths
 // If so, update the `currentPath` to match `/account/addresses`
-function updateSelectedPage() {
+const updateSelectedPage = () => {
   const addressPaths = [
     '/account/addresses',
     '/account/addresses/add',
@@ -45,7 +45,7 @@ function updateSelectedPage() {
   selectedPage.value = addressPaths.includes(currentPath.value)
     ? '/account/addresses'
     : currentPath.value;
-}
+};
 
 watch(currentPath, () => {
   updateSelectedPage();
@@ -91,8 +91,8 @@ watch(currentPath, () => {
           Addresses
         </NuxtLink>
         <button
-          @click="logout"
           class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+          @click="logout"
         >
           <Icon name="ph:sign-out" class="h-5 w-5 shrink-0" />
           Logout
@@ -101,10 +101,10 @@ watch(currentPath, () => {
       <nav class="relative flex lg:hidden">
         <select
           id="navigation"
-          name="SelectCountry"
           v-model="selectedPage"
-          @change="navigateToSelectedPage"
+          name="SelectCountry"
           class="flex w-full py-2 px-4 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-black focus:outline focus:outline-1 focus:outline-black"
+          @change="navigateToSelectedPage"
         >
           <option
             v-for="page in pages"

@@ -5,13 +5,11 @@ import localization from '@@/server/operations/localization';
 import product from '@@/server/operations/product';
 import search from '@@/server/operations/search';
 
-export function useShopify() {
-  return {
-    cart,
-    collection,
-    customer,
-    localization,
-    product,
-    search
-  };
-}
+export const useShopify = () => ({
+  cart,
+  collection,
+  customer,
+  localization,
+  product,
+  search
+});

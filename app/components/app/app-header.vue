@@ -3,21 +3,21 @@
 const appStore = useAppStore();
 
 // Actions
-function toggleShopMenu() {
+const toggleShopMenu = () => {
   appStore.toggleMobileMenu();
-}
+};
 
-function toggleCartDrawer() {
+const toggleCartDrawer = () => {
   appStore.toggleCartDrawer();
-}
+};
 
-function toggleLocaleModal() {
+const toggleLocaleModal = () => {
   appStore.toggleLocaleModal();
-}
+};
 
-function toggleSearchMenu() {
+const toggleSearchMenu = () => {
   appStore.toggleSearchMenu();
-}
+};
 </script>
 
 <template>

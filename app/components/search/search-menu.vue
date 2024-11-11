@@ -16,7 +16,7 @@ const searchResults = ref<ProductFragment[]>([]);
 const shopify = useShopify();
 
 // Debounce query
-async function handleSearch(query: string) {
+const handleSearch = async (query: string) => {
   searchQuery.value = query;
 
   if (searchQuery.value) {
@@ -33,16 +33,16 @@ async function handleSearch(query: string) {
       console.error('Error fetching predictive search data.', error);
     }
   }
-}
+};
 
 const debounceQuery = useDebounceFn(handleSearch, 300);
 
 // Actions
-function closeSearch() {
+const closeSearch = () => {
   appStore.searchMenuOpen = false;
-}
+};
 
-async function submitQuery() {
+const submitQuery = async () => {
   if (searchQuery.value) {
     await navigateTo({
       path: '/search',
@@ -51,7 +51,7 @@ async function submitQuery() {
 
     closeSearch();
   }
-}
+};
 
 // Watchers
 const route = useRoute();

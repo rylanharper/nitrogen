@@ -1,12 +1,13 @@
 import { gql } from 'graphql-tag';
-import { PRICE_RANGE_FRAGMENT } from './priceRange';
+
 import { IMAGE_FRAGMENT } from './image';
 import { MEDIA_IMAGE_FRAGMENT } from './mediaImage';
 import { MODEL_3D_FRAGMENT } from './model3d';
-import { VIDEO_FRAGMENT } from './video';
+import { PRICE_RANGE_FRAGMENT } from './priceRange';
 import { PRODUCT_OPTION_FRAGMENT } from './productOption';
-import { SELLING_PLAN_GROUP_FRAGMENT } from './sellingPlanGroup';
 import { PRODUCT_VARIANT_FRAGMENT } from './productVariant';
+import { SELLING_PLAN_GROUP_FRAGMENT } from './sellingPlanGroup';
+import { VIDEO_FRAGMENT } from './video';
 
 export const PRODUCT_FRAGMENT = gql`
   fragment Product on Product {

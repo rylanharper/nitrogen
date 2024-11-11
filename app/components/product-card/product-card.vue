@@ -22,7 +22,7 @@ const mediaItems = computed(() => flattenConnection(props.product.media))
     class="relative flex flex-col gap-4"
   >
     <ProductCardTags :product="product" />
-    <ProductCardMedia :mediaItems="mediaItems" />
+    <ProductCardMedia :media-items="mediaItems" />
     <div class="flex flex-col">
       <div class="mb-2">
         <h2 v-if="product.title">{{ product.title }}</h2>

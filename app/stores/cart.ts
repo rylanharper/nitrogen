@@ -1,6 +1,3 @@
-import { defineStore } from 'pinia';
-
-// Types
 import type {
   CountryCode,
   LanguageCode,
@@ -10,6 +7,10 @@ import type {
   CartLineUpdateInput,
   CartBuyerIdentityInput
 } from '@@/types/shopify';
+
+import { defineStore } from 'pinia';
+
+// Types
 
 type CartOptionalInput = {
   country?: CountryCode;

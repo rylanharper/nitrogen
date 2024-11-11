@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag';
+
 import { IMAGE_FRAGMENT } from './image';
 
 export const PRODUCT_OPTION_FRAGMENT = gql`

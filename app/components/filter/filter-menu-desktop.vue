@@ -22,21 +22,21 @@ const emit = defineEmits([
   'clearAllFilters'
 ]);
 
-function closeFilter() {
+const closeFilter = () => {
   emit('closeFilter');
-}
+};
 
-function setSortOption(sortValue: string | null) {
+const setSortOption = (sortValue: string | null) => {
   emit('setSortOption', sortValue);
-}
+};
 
-function setFilterOption(filterName: string, filterValue: string) {
+const setFilterOption = (filterName: string, filterValue: string) => {
   emit('setFilterOption', filterName, filterValue);
-}
+};
 
-function clearAllFilters() {
+const clearAllFilters = () => {
   emit('clearAllFilters');
-}
+};
 </script>
 
 <template>
@@ -49,8 +49,8 @@ function clearAllFilters() {
         <div class="absolute top-0 right-0 px-6 py-4">
           <button
             type="button"
-            @click="closeFilter"
             class="flex ring-1 ring-offset-2 ring-transparent rounded-sm focus:ring-black"
+            @click="closeFilter"
           >
             <Icon name="ph:x" class="h-5 w-5 shrink-0" />
           </button>
@@ -60,11 +60,11 @@ function clearAllFilters() {
             <h3 class="mb-5">Sort By</h3>
             <div class="flex flex-col">
               <button
-                v-for="(option, index) in sortOptions"
+                v-for="(option, index) in props.sortOptions"
                 :key="index"
-                @click="setSortOption(option.value)"
                 :class="{ 'underline': route.query.sort === option.value || (option.value === null && !route.query.sort) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
+                @click="setSortOption(option.value)"
               >
                 {{ option.label }}
               </button>
@@ -74,11 +74,11 @@ function clearAllFilters() {
             <h3 class="mb-5">Color</h3>
             <div class="flex flex-col">
               <button
-                v-for="(color, index) in colorOptions"
+                v-for="(color, index) in props.colorOptions"
                 :key="index"
-                @click="setFilterOption('color', color)"
                 :class="{ 'underline': (route.query.color as string)?.split(',').includes(color) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
+                @click="setFilterOption('color', color)"
               >
                 {{ color }}
               </button>
@@ -88,11 +88,11 @@ function clearAllFilters() {
             <h3 class="mb-5">Size</h3>
             <div class="flex flex-col">
               <button
-                v-for="(size, index) in sizeOptions"
+                v-for="(size, index) in props.sizeOptions"
                 :key="index"
-                @click="setFilterOption('size', size)"
                 :class="{ 'underline': (route.query.size as string)?.split(',').includes(size) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
+                @click="setFilterOption('size', size)"
               >
                 {{ size }}
               </button>
@@ -102,11 +102,11 @@ function clearAllFilters() {
             <h3 class="mb-5">Style</h3>
             <div class="flex flex-col">
               <button
-                v-for="(type, index) in productTypeOptions"
+                v-for="(type, index) in props.productTypeOptions"
                 :key="index"
-                @click="setFilterOption('productType', type)"
                 :class="{ 'underline': (route.query.productType as string)?.split(',').includes(type) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
+                @click="setFilterOption('productType', type)"
               >
                 {{ type }}
               </button>
@@ -117,15 +117,15 @@ function clearAllFilters() {
           <div class="flex gap-4">
             <button
               type="button"
-              @click="clearAllFilters"
               class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+              @click="clearAllFilters"
             >
-              Clear All Filters ({{ activeFilterCount }})
+              Clear All Filters ({{ props.activeFilterCount }})
             </button>
             <button
               type="button"
-              @click="closeFilter"
               class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+              @click="closeFilter"
             >
               View Products
             </button>
@@ -137,8 +137,8 @@ function clearAllFilters() {
   <Transition name="fade" mode="out-in" appear>
     <div
       v-if="appStore.filterMenuOpen"
-      @click="closeFilter"
       class="hidden fixed inset-0 z-[150] pointer-events-auto bg-black/50 lg:flex"
+      @click="closeFilter"
     />
   </Transition>
 </template>

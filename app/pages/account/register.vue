@@ -26,7 +26,7 @@ const formCompleted = computed(
 );
 const isAuth = computed(() => authStore.isAuthenticated);
 
-async function handleRegister() {
+const handleRegister = async () => {
   errorMessage.value = '';
   isLoading.value = true;
 
@@ -62,25 +62,25 @@ async function handleRegister() {
     } else {
       errorMessage.value = 'Something went wrong. Please try to register again or login instead.';
     }
-  } catch (error) {
+  } catch (_error) {
     errorMessage.value = 'An error occurred. Please try again later.';
   } finally {
     isLoading.value = false;
   }
-}
+};
 
 // State
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 
 // Actions
-function togglePassword() {
+const togglePassword = () => {
   showPassword.value = !showPassword.value;
-}
+};
 
-function toggleConfirmPassword() {
+const toggleConfirmPassword = () => {
   showConfirmPassword.value = !showConfirmPassword.value;
-}
+};
 
 // SEO
 useHead({
@@ -95,58 +95,58 @@ useHead({
         Register
       </h1>
       <form
-        @submit.prevent="handleRegister"
         class="flex flex-col my-6"
         novalidate
+        @submit.prevent="handleRegister"
       >
         <div class="relative w-full mb-2.5">
           <input
             id="firstName"
+            v-model="customer.firstName"
             name="firstName"
             type="text"
-            v-model="customer.firstName"
             placeholder="First Name"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="lastName"
+            v-model="customer.lastName"
             name="lastName"
             type="text"
-            v-model="customer.lastName"
             placeholder="Last Name"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="email"
+            v-model="customer.email"
             name="email"
             type="email"
-            v-model="customer.email"
             placeholder="Email Address"
             autocapitalize="off"
             autocomplete="email"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="password"
+            v-model="customer.password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
-            v-model="customer.password"
             placeholder="Password"
             autocapitalize="off"
             autocomplete="off"
@@ -154,11 +154,11 @@ useHead({
             minLength="8"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
           <button
             type="button"
-            @click="togglePassword"
             class="absolute inset-y-0 end-0 flex items-center px-3"
+            @click="togglePassword"
           >
             <Icon
               name="ph:eye"
@@ -170,9 +170,9 @@ useHead({
         <div class="relative w-full mb-2.5">
           <input
             id="passwordConfirm"
+            v-model="confirmPassword"
             name="passwordConfirm"
             :type="showConfirmPassword ? 'text' : 'password'"
-            v-model="confirmPassword"
             placeholder="Confirm Password"
             autocapitalize="off"
             autocomplete="off"
@@ -180,11 +180,11 @@ useHead({
             minLength="{8}"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
           <button
             type="button"
-            @click="toggleConfirmPassword"
             class="absolute inset-y-0 end-0 flex items-center px-3"
+            @click="toggleConfirmPassword"
           >
             <Icon
               name="ph:eye"
@@ -197,11 +197,11 @@ useHead({
           <div class="relative mr-2.5">
             <input
               id="acceptsMarketing"
+              v-model="customer.acceptsMarketing"
               name="acceptsMarketing"
               type="checkbox"
-              v-model="customer.acceptsMarketing"
               class="peer flex h-5 w-5 border border-zinc-400 appearance-none rounded-md cursor-pointer checked:border-black"
-            />
+            >
             <Icon
               name="ph:check-bold"
               class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 h-3 w-3 shrink-0 opacity-0 text-black pointer-events-none peer-checked:opacity-100"

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { VideoFragment, MediaImageFragment } from '@@/types/shopify';
 import type { EmblaCarouselType } from 'embla-carousel';
+
 import emblaCarouselVue from 'embla-carousel-vue';
 
 // Props
@@ -9,11 +10,13 @@ const props = defineProps<{
 }>();
 
 // Check if media item is a video
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isMediaVideo = (media: any): media is VideoFragment => {
   return media?.mediaContentType === 'VIDEO';
 };
 
 // Check if media item is an image
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isMediaImage = (media: any): media is MediaImageFragment => {
   return media?.mediaContentType === 'IMAGE';
 };
@@ -27,25 +30,25 @@ const canScrollNext = ref(false);
 const canScrollPrev = ref(false);
 
 // Next/prev actions
-function scrollPrev() {
+const scrollPrev = () => {
   emblaApi.value?.scrollPrev();
-};
+};;
 
-function scrollNext() {
+const scrollNext = () => {
   emblaApi.value?.scrollNext();
-};
+};;
 
 // ScrollTo method
-function scrollTo(index: number) {
+const scrollTo = (index: number) => {
   emblaApi.value?.scrollTo(index);
-};
+};;
 
 // Embla event handlers
-function onSelect(api: EmblaCarouselType) {
+const onSelect = (api: EmblaCarouselType) => {
   canScrollNext.value = api?.canScrollNext() || false;
   canScrollPrev.value = api?.canScrollPrev() || false;
   selectedIndex.value = api?.selectedScrollSnap() || 0;
-};
+};;
 
 onMounted(() => {
   if (!emblaApi.value) {
@@ -61,7 +64,7 @@ onMounted(() => {
   <div ref="emblaRef" class="relative overflow-hidden lg:hidden">
     <div class="flex">
       <div
-        v-for="media in productMedia"
+        v-for="media in props.productMedia"
         :key="media.id"
         class="flex-[0_0_100%] aspect-square"
       >
@@ -76,21 +79,21 @@ onMounted(() => {
     <div class="absolute flex items-center justify-center gap-2 w-full p-2 bottom-0">
       <div v-for="(_, index) in productMedia" :key="index">
         <button
-          @click="scrollTo(index)"
           class="h-2 w-2 rounded-full border border-black"
           :class="{ 'bg-black': index === selectedIndex }"
+          @click="scrollTo(index)"
         />
       </div>
     </div>
     <button
-      @click="scrollPrev"
       class="absolute flex items-center justify-center z-10 p-2 top-0 left-0 h-full"
+      @click="scrollPrev"
     >
       <Icon name="ph:caret-left" class="h-5 w-5 shrink-0" />
     </button>
     <button
-      @click="scrollNext"
       class="absolute flex items-center justify-center z-10 p-2 top-0 right-0 h-full"
+      @click="scrollNext"
     >
       <Icon name="ph:caret-right" class="h-5 w-5 shrink-0" />
     </button>

@@ -10,16 +10,18 @@ const props = defineProps<{
 const emit = defineEmits(['openLightbox']);
 
 // Emit events
-function openLightbox(index: number) {
+const openLightbox = (index: number) => {
   emit('openLightbox', index);
 };
 
 // Check if media item is a video
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isMediaVideo = (media: any): media is VideoFragment => {
   return media?.mediaContentType === 'VIDEO';
 };
 
 // Check if media item is an image
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isMediaImage = (media: any): media is MediaImageFragment => {
   return media?.mediaContentType === 'IMAGE';
 };
@@ -28,10 +30,10 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
 <template>
   <div class="hidden gap-4 lg:grid">
     <div
-      v-for="(media, index) in productMedia"
+      v-for="(media, index) in props.productMedia"
       :key="media.id"
-      @click="openLightbox(index)"
       class="aspect-square cursor-zoom-in"
+      @click="openLightbox(index)"
     >
       <ShopifyVideo v-if="isMediaVideo(media)" :video="media" />
       <ShopifyImage

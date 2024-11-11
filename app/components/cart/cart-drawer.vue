@@ -8,9 +8,9 @@ const cartTotalItems = computed(() => cartStore.lineItemsCount);
 const lineItems = computed(() => flattenConnection(cartStore.lineItems));
 
 // Actions
-function closeDrawer() {
+const closeDrawer = () => {
   appStore.cartDrawerOpen = false;
-}
+};
 
 // Watchers
 const route = useRoute();
@@ -44,8 +44,8 @@ if (escape) {
         <div class="flex justify-between items-center py-3 border-b border-zinc-300 lg:py-4">
           <h2>Your Cart ({{ cartTotalItems }})</h2>
           <button
-            @click="closeDrawer"
             class="flex ring-1 ring-transparent ring-offset-2 rounded-sm focus:ring-black"
+            @click="closeDrawer"
           >
             <Icon name="ph:x" class="h-5 w-5 shrink-0" />
           </button>
@@ -61,8 +61,8 @@ if (escape) {
             Your cart is empty
           </p>
           <button
-            @click="closeDrawer"
             class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+            @click="closeDrawer"
           >
             Back to Store
           </button>
@@ -73,8 +73,8 @@ if (escape) {
   <Transition name="fade" mode="out-in" appear>
     <div
       v-if="appStore.cartDrawerOpen"
-      @click="closeDrawer"
       class="fixed inset-0 z-[150] pointer-events-auto bg-black/50"
+      @click="closeDrawer"
     />
   </Transition>
 </template>

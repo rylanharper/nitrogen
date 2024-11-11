@@ -1,6 +1,7 @@
 import { gql } from 'graphql-tag';
-import { LANGUAGE_FRAGMENT } from '../fragments/language';
+
 import { COUNTRY_FRAGMENT } from '../fragments/country';
+import { LANGUAGE_FRAGMENT } from '../fragments/language';
 
 export const LOCALIZATION = gql`
   query localization(

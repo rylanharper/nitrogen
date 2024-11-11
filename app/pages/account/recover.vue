@@ -11,7 +11,7 @@ const isLoading = ref(false);
 // Recover
 const formCompleted = computed(() => email.value);
 
-async function handleRecover() {
+const handleRecover = async () => {
   errorMessage.value = '';
   successMessage.value = '';
   isLoading.value = true;
@@ -31,12 +31,12 @@ async function handleRecover() {
   try {
     await authStore.recover(email.value);
     successMessage.value = 'Success! Please check your email for instructions on how to reset your password.';
-  } catch (error) {
+  } catch (_error) {
     errorMessage.value = 'An error occurred. Please try again later.';
   } finally {
     isLoading.value = false;
   }
-}
+};
 
 // SEO
 useHead({
@@ -51,23 +51,23 @@ useHead({
         Forgot password?
       </h1>
       <form
-        @submit.prevent="handleRecover"
         class="flex flex-col my-6"
         novalidate
+        @submit.prevent="handleRecover"
       >
         <div class="relative w-full mb-2.5">
           <input
             id="email"
+            v-model="email"
             name="email"
             type="email"
-            v-model="email"
             placeholder="Email Address"
             autocapitalize="off"
             autocomplete="email"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <p class="mb-5 normal-case leading-snug text-pretty">
           If your email is in our system, you will receive an email with

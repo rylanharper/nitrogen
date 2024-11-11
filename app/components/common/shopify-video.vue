@@ -18,11 +18,11 @@ const props = defineProps<{
       muted
     >
       <source
-        v-for="source in video.sources"
+        v-for="source in props.video.sources"
         :key="source.url"
         :src="source.url"
         :type="source.mimeType"
-      />
+      >
     </video>
   </figure>
 </template>

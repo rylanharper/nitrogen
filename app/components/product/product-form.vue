@@ -60,7 +60,7 @@ onMounted(() => {
 });
 
 // Update URL variantId
-function updateUrlParams(variant: ProductVariantFragment | undefined) {
+const updateUrlParams = (variant: ProductVariantFragment | undefined) => {
   const query = { ...route.query };
 
   if (variant) {
@@ -70,18 +70,18 @@ function updateUrlParams(variant: ProductVariantFragment | undefined) {
   }
 
   router.replace({ query });
-}
+};
 
 // Actions
-function selectSize(size: string) {
+const selectSize = (size: string) => {
   selectedSize.value = size;
-}
+};
 
-function openDrawer() {
+const openDrawer = () => {
   appStore.cartDrawerOpen = true;
-}
+};
 
-async function addToCart() {
+const addToCart = async () => {
   if (!currentVariant.value) return;
   isLoading.value = true;
 
@@ -99,7 +99,7 @@ async function addToCart() {
   } finally {
     isLoading.value = false;
   }
-}
+};
 
 // Watchers
 watch(selectedSize, (size) => {
@@ -133,9 +133,9 @@ watch(currentVariant, (newVariant) => {
         @select-size="selectSize"
       />
       <button
-        @click="addToCart"
         :disabled="isLoading || !currentVariant || !currentVariant.availableForSale"
         class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200 disabled:opacity-60 disabled:hover:bg-zinc-100"
+        @click="addToCart"
       >
         {{ isLoading ? 'Adding...' : addToCartText }}
       </button>

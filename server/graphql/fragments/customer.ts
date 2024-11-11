@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag';
+
 import { MAILING_ADDRESS_FRAGMENT } from './mailingAddress';
 import { ORDER_FRAGMENT } from './order';
 

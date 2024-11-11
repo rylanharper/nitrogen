@@ -1,7 +1,8 @@
 import { gql } from 'graphql-tag';
+
 import { FILTER_FRAGMENT } from '../fragments/filter';
-import { PRODUCT_FRAGMENT } from '../fragments/product';
 import { PAGE_INFO_FRAGMENT } from '../fragments/pageInfo';
+import { PRODUCT_FRAGMENT } from '../fragments/product';
 
 export const SEARCH = gql`
   query searchProducts(

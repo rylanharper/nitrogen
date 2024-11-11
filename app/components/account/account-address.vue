@@ -23,7 +23,7 @@ const filteredAddresses = computed(() => [
 const shopify = useShopify();
 
 // Delete address
-async function handleAddressDelete(addressId: string) {
+const handleAddressDelete = async (addressId: string) => {
   isLoading.value = true
 
   try {
@@ -38,7 +38,7 @@ async function handleAddressDelete(addressId: string) {
   } finally {
     isLoading.value = false;
   }
-}
+};
 </script>
 
 <template>
@@ -70,8 +70,8 @@ async function handleAddressDelete(addressId: string) {
           Edit Address
         </NuxtLink>
         <button
-          @click="handleAddressDelete(address.id)"
           class="flex items-center justify-center p-2 px-4 text-normalize text-red-600 bg-red-50 border border-red-300 rounded-md transition duration-200 ease-in-out hover:bg-red-100"
+          @click="handleAddressDelete(address.id)"
         >
           Delete Address
         </button>

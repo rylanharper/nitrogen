@@ -56,13 +56,13 @@ const sortedColors = computed(() => {
 const colorName = ref(defaultColor.value);
 
 // Actions
-function updateColorName(name: string | undefined) {
+const updateColorName = (name: string | undefined) => {
   colorName.value = name;
-};
+};;
 
-function resetColorName() {
+const resetColorName = () => {
   colorName.value = defaultColor.value;
-};
+};;
 </script>
 
 <template>
@@ -83,7 +83,7 @@ function resetColorName() {
             : 'text-black'
         ]"
         :style="{ background: color.color }"
-        :ariaLabel="`Color Option ${color.name}`"
+        :aria-label="`Color Option ${color.name}`"
         @mouseenter="updateColorName(color.name)"
         @mouseleave="resetColorName"
       />

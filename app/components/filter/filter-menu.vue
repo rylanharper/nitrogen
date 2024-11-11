@@ -38,7 +38,7 @@ const sortOptions = computed(() => {
 });
 
 // Set sort option
-function setSortOption(sortValue: string | null) {
+const setSortOption = (sortValue: string | null) => {
   const query = { ...route.query };
 
   if (sortValue) {
@@ -51,10 +51,10 @@ function setSortOption(sortValue: string | null) {
     path: route.path,
     query
   });
-}
+};
 
 // Set filter option
-function setFilterOption(filterName: string, filterValue: string) {
+const setFilterOption = (filterName: string, filterValue: string) => {
   const query = { ...route.query };
   const currentValues = (route.query[filterName] as string)?.split(',') || [];
 
@@ -65,6 +65,7 @@ function setFilterOption(filterName: string, filterValue: string) {
   if (newValues.length > 0) {
     query[filterName] = newValues.join(',');
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete query[filterName];
   }
 
@@ -72,7 +73,7 @@ function setFilterOption(filterName: string, filterValue: string) {
     path: route.path,
     query
   });
-}
+};
 
 // Active filter count
 const activeFilterCount = computed(() => {
@@ -129,11 +130,12 @@ const productTypeOptions = computed(() => {
 });
 
 // Actions
-function clearAllFilters() {
+const clearAllFilters = () => {
   const query = { ...route.query };
 
   Object.keys(query).forEach((key) => {
     if (key !== 'q') {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete query[key];
     }
   });
@@ -142,11 +144,11 @@ function clearAllFilters() {
     path: route.path,
     query
   });
-}
+};
 
-function closeFilter() {
+const closeFilter = () => {
   appStore.filterMenuOpen = false;
-}
+};
 
 // Watchers
 const { escape } = useMagicKeys();

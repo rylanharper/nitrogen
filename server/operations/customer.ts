@@ -1,4 +1,4 @@
-import {
+import type {
   CustomerQuery,
   CustomerQueryVariables,
   CustomerAccessTokenCreateMutation,
@@ -23,10 +23,6 @@ import {
   CustomerDefaultAddressUpdateMutationVariables
 } from '@@/types/shopify';
 
-import { query } from '../utils/client';
-
-import { CUSTOMER } from '../graphql/queries/customer';
-
 import {
   CUSTOMER_ACCESS_TOKEN_CREATE,
   CUSTOMER_ACCESS_TOKEN_DELETE,
@@ -39,6 +35,10 @@ import {
   CUSTOMER_ADDRESS_UPDATE,
   CUSTOMER_DEFAULT_ADDRESS_UPDATE
 } from '../graphql/mutations/customer';
+import { CUSTOMER } from '../graphql/queries/customer';
+import { query } from '../utils/client';
+
+
 
 /**
  * Fetches customer data based on the provided customer token.
@@ -46,12 +46,12 @@ import {
  * @returns A Promise resolving to the customer data
  * @see https://shopify.dev/docs/api/storefront/2024-07/queries/customer
  */
-async function get(
+const get = async (
   options: CustomerQueryVariables
-): Promise<CustomerQuery['customer']> {
+): Promise<CustomerQuery['customer']> => {
   const response = await query(CUSTOMER, options);
   return response.data?.customer;
-};
+};;
 
 /**
  * Creates a customer access token for login.
@@ -59,12 +59,12 @@ async function get(
  * @returns A Promise resolving to the customer access token
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerAccessTokenCreate
  */
-async function createAccessToken(
+const createAccessToken = async (
   options: CustomerAccessTokenCreateMutationVariables
-): Promise<CustomerAccessTokenCreateMutation['customerAccessTokenCreate']> {
+): Promise<CustomerAccessTokenCreateMutation['customerAccessTokenCreate']> => {
   const response = await query(CUSTOMER_ACCESS_TOKEN_CREATE, options);
   return response.data?.customerAccessTokenCreate;
-}
+};
 
 /**
  * Deletes a customer access token.
@@ -72,12 +72,12 @@ async function createAccessToken(
  * @returns A Promise resolving to the deletion status
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerAccessTokenDelete
  */
-async function deleteAccessToken(
+const deleteAccessToken = async (
   options: CustomerAccessTokenDeleteMutationVariables
-): Promise<CustomerAccessTokenDeleteMutation['customerAccessTokenDelete']> {
+): Promise<CustomerAccessTokenDeleteMutation['customerAccessTokenDelete']> => {
   const response = await query(CUSTOMER_ACCESS_TOKEN_DELETE, options);
   return response.data?.customerAccessTokenDelete;
-}
+};
 
 /**
  * Creates a new customer account.
@@ -85,12 +85,12 @@ async function deleteAccessToken(
  * @returns A Promise resolving to the created customer data
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerCreate
  */
-async function create(
+const create = async (
   options: CustomerCreateMutationVariables
-): Promise<CustomerCreateMutation['customerCreate']> {
+): Promise<CustomerCreateMutation['customerCreate']> => {
   const response = await query(CUSTOMER_CREATE, options);
   return response.data?.customerCreate;
-}
+};
 
 /**
  * Sends a customer recovery email to reset their password.
@@ -98,12 +98,12 @@ async function create(
  * @returns A Promise resolving to the recovery status
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerRecover
  */
-async function recover(
+const recover = async (
   options: CustomerRecoverMutationVariables
-): Promise<CustomerRecoverMutation> {
+): Promise<CustomerRecoverMutation> => {
   const response = await query(CUSTOMER_RECOVER, options);
   return response.data?.customerRecover;
-}
+};
 
 /**
  * Resets the customer's password.
@@ -111,12 +111,12 @@ async function recover(
  * @returns A Promise resolving to the reset status
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerReset
  */
-async function reset(
+const reset = async (
   options: CustomerResetMutationVariables
-): Promise<CustomerResetMutation['customerReset']> {
+): Promise<CustomerResetMutation['customerReset']> => {
   const response = await query(CUSTOMER_RESET, options);
   return response.data?.customerReset;
-}
+};
 
 /**
  * Resets a customer's password using a reset URL.
@@ -124,12 +124,12 @@ async function reset(
  * @returns A Promise resolving to the password reset status
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerResetByUrl
  */
-async function resetByUrl(
+const resetByUrl = async (
   options: CustomerResetByUrlMutationVariables
-): Promise<CustomerResetByUrlMutation['customerResetByUrl']> {
+): Promise<CustomerResetByUrlMutation['customerResetByUrl']> => {
   const response = await query(CUSTOMER_RESET_BY_URL, options);
   return response.data?.customerResetByUrl;
-}
+};
 
 /**
  * Creates a new customer address.
@@ -137,12 +137,12 @@ async function resetByUrl(
  * @returns A Promise resolving to the newly created customer address
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerAddressCreate
  */
-async function createAddress(
+const createAddress = async (
   options: CustomerAddressCreateMutationVariables
-): Promise<CustomerAddressCreateMutation['customerAddressCreate']> {
+): Promise<CustomerAddressCreateMutation['customerAddressCreate']> => {
   const response = await query(CUSTOMER_ADDRESS_CREATE, options);
   return response.data?.customerAddressCreate;
-}
+};
 
 /**
  * Deletes a customer address.
@@ -150,12 +150,12 @@ async function createAddress(
  * @returns A Promise resolving to the deletion status
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerAddressDelete
  */
-async function deleteAddress(
+const deleteAddress = async (
   options: CustomerAddressDeleteMutationVariables
-): Promise<CustomerAddressDeleteMutation['customerAddressDelete']> {
+): Promise<CustomerAddressDeleteMutation['customerAddressDelete']> => {
   const response = await query(CUSTOMER_ADDRESS_DELETE, options);
   return response.data?.customerAddressDelete;
-}
+};
 
 /**
  * Updates an existing customer address.
@@ -163,12 +163,12 @@ async function deleteAddress(
  * @returns A Promise resolving to the updated customer address
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerAddressUpdate
  */
-async function updateAddress(
+const updateAddress = async (
   options: CustomerAddressUpdateMutationVariables
-): Promise<CustomerAddressUpdateMutation['customerAddressUpdate']> {
+): Promise<CustomerAddressUpdateMutation['customerAddressUpdate']> => {
   const response = await query(CUSTOMER_ADDRESS_UPDATE, options);
   return response.data?.customerAddressUpdate;
-}
+};
 
 /**
  * Updates the customer's default address.
@@ -176,12 +176,12 @@ async function updateAddress(
  * @returns A Promise resolving to the customer update status
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerDefaultAddressUpdate
  */
-async function updateDefaultAddress(
+const updateDefaultAddress = async (
   options: CustomerDefaultAddressUpdateMutationVariables
-): Promise<CustomerDefaultAddressUpdateMutation['customerDefaultAddressUpdate']> {
+): Promise<CustomerDefaultAddressUpdateMutation['customerDefaultAddressUpdate']> => {
   const response = await query(CUSTOMER_DEFAULT_ADDRESS_UPDATE, options);
   return response.data?.customerDefaultAddressUpdate;
-}
+};
 
 export default {
   get,

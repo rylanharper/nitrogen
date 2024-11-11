@@ -4,7 +4,7 @@ import type {
   ProductFilter
 } from '@@/types/shopify';
 
-export function useCollectionHelpers() {
+export const useCollectionHelpers = () => {
   /**
    * Extracts the collection sort values from the URL query.
    * @param sortParam - The sort parameter from the URL
@@ -81,6 +81,7 @@ export function useCollectionHelpers() {
    * @returns An array of filters to apply to the collection
    */
   const getFilterValuesFromUrl = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     query: Record<string, any>
   ): ProductFilter[] => {
     const filters: ProductFilter[] = [];
@@ -93,7 +94,9 @@ export function useCollectionHelpers() {
 
     if (query.color) {
       const colorValues = query.color.split(',');
-      colorValues.forEach((color) => {
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      colorValues.forEach((color: any) => {
         filters.push({
           variantOption: {
             name: 'Color',
@@ -163,4 +166,4 @@ export function useCollectionHelpers() {
     getFilterValuesFromUrl,
     sortLetterAndNumberSizes
   };
-}
+};

@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag';
+
 import { PRODUCT_FRAGMENT } from '../fragments/product';
 
 export const PRODUCT = gql`

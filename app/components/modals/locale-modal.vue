@@ -14,8 +14,13 @@ const countryCode = shopStore.locale?.country?.isoCode;
 const countryLocale = ref<CountryCode>(countryCode);
 const isLoading = ref(false);
 
+// Actions
+const closeModal = () => {
+  appStore.localeModalOpen = false;
+};
+
 // Update localization
-async function updateLocalization() {
+const updateLocalization = async () => {
   isLoading.value = true;
 
   try {
@@ -27,12 +32,7 @@ async function updateLocalization() {
     isLoading.value = false;
     closeModal();
   }
-}
-
-// Actions
-function closeModal() {
-  appStore.localeModalOpen = false;
-}
+};
 
 // Watchers
 const route = useRoute();
@@ -63,12 +63,12 @@ if (escape) {
       class="fixed left-[50%] top-[50%] w-full max-w-xl translate-x-[-50%] translate-y-[-50%] p-6 z-[200] bg-white"
     >
       <h2 class="text-center">Select Country</h2>
-      <form @submit.prevent="updateLocalization" class="flex flex-col my-6">
+      <form class="flex flex-col my-6" @submit.prevent="updateLocalization">
         <div class="relative w-full mb-2.5">
           <select
             id="country"
-            name="countryLocale"
             v-model="countryLocale"
+            name="countryLocale"
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-black focus:outline focus:outline-1 focus:outline-black"
           >
             <option
@@ -95,8 +95,8 @@ if (escape) {
         Shop in your local currency · Enjoy local shipping rates at checkout
       </p>
       <button
-        @click="closeModal"
         class="flex absolute top-2 right-2 ring-1 ring-transparent ring-offset-2 rounded-sm focus:ring-black"
+        @click="closeModal"
       >
         <Icon name="ph:x" class="h-5 w-5 shrink-0" />
       </button>
@@ -105,8 +105,8 @@ if (escape) {
   <Transition name="fade" mode="out-in" appear>
     <section
       v-if="appStore.localeModalOpen"
-      @click="closeModal"
       class="fixed inset-0 z-[150] pointer-events-auto bg-black/50"
+      @click="closeModal"
     />
   </Transition>
 </template>

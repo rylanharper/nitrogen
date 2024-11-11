@@ -29,9 +29,9 @@ const productSizes = computed(() => {
 const emit = defineEmits(['selectSize'])
 
 // Emit events
-function selectSizeOption(size: string) {
+const selectSizeOption = (size: string) => {
   emit('selectSize', size)
-}
+};
 </script>
 
 <template>
@@ -47,7 +47,6 @@ function selectSizeOption(size: string) {
       <button
         v-for="size in productSizes"
         :key="size.id"
-        @click="selectSizeOption(size.name)"
         class="relative flex items-center justify-center p-2 px-4 text-normalize bg-white border rounded-md overflow-hidden transition duration-200 ease-in-out"
         :class="[
           props.selectedSize === size.name
@@ -58,6 +57,7 @@ function selectSizeOption(size: string) {
             : 'text-black'
         ]"
         :aria-label="`Size Option ${size.name}`"
+        @click="selectSizeOption(size.name)"
       >
         {{ size.name }}
       </button>

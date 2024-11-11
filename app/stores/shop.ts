@@ -1,11 +1,12 @@
-import { defineStore } from 'pinia';
-
-// Types
 import type {
   CountryCode,
   LanguageCode,
   LocalizationQuery
 } from '@@/types/shopify';
+
+import { defineStore } from 'pinia';
+
+// Types
 
 // Interface
 interface shopState {

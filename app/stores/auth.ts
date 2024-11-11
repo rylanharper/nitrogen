@@ -1,12 +1,13 @@
-import { defineStore } from 'pinia';
-
-// Types
 import type {
   CustomerQuery,
   CustomerQueryVariables,
   CustomerAccessTokenCreateInput,
   CustomerCreateInput
 } from '@@/types/shopify';
+
+import { defineStore } from 'pinia';
+
+// Types
 
 // Interface
 interface AuthState {
@@ -137,7 +138,7 @@ export const useAuthStore = defineStore('@yeren/auth', {
      * @param password - The new password
      * @param resetUrl - The reset password URL
      */
-    async reset(password: string, resetUrl: any) {
+    async reset(password: string, resetUrl: string) {
       try {
         const response = await shopify.customer.resetByUrl({
           password: password,

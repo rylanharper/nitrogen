@@ -1,8 +1,9 @@
 import { gql } from 'graphql-tag';
-import { IMAGE_FRAGMENT } from '../fragments/image';
+
 import { FILTER_FRAGMENT } from '../fragments/filter';
-import { PRODUCT_FRAGMENT } from '../fragments/product';
+import { IMAGE_FRAGMENT } from '../fragments/image';
 import { PAGE_INFO_FRAGMENT } from '../fragments/pageInfo';
+import { PRODUCT_FRAGMENT } from '../fragments/product';
 
 export const COLLECTION = gql`
   query collection(

@@ -1,4 +1,4 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware((to) => {
   const isAuth = useAuthStore().isAuthenticated;
   const secureRoutes = ['account', 'account/orders', 'account/addresses'];
 

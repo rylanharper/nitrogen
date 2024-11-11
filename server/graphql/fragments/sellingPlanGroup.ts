@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag';
+
 import { SELLING_PLAN_FRAGMENT } from './sellingPlan';
 
 export const SELLING_PLAN_GROUP_FRAGMENT = gql`

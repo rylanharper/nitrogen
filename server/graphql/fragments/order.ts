@@ -1,6 +1,7 @@
 import { gql } from 'graphql-tag';
-import { MONEY_FRAGMENT } from './money';
+
 import { MAILING_ADDRESS_FRAGMENT } from './mailingAddress';
+import { MONEY_FRAGMENT } from './money';
 import { PRODUCT_VARIANT_FRAGMENT } from './productVariant';
 
 export const ORDER_FRAGMENT = gql`

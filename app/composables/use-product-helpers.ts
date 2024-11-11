@@ -5,7 +5,7 @@ import type {
   ProductVariantFragment
 } from '@@/types/shopify';
 
-export function useProductHelpers() {
+export const useProductHelpers = () => {
   /**
    * Checks if a product is considered new based on its creation date.
    * @param date - The creation date of the product
@@ -87,4 +87,4 @@ export function useProductHelpers() {
     getSizeOption,
     isSizeSoldOut
   };
-}
+};

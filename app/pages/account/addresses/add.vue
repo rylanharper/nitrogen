@@ -55,7 +55,7 @@ const formCompleted = computed(
     address.zip
 );
 
-async function handleNewAddress() {
+const handleNewAddress = async () => {
   errorMessage.value = '';
   isLoading.value = true;
 
@@ -85,12 +85,12 @@ async function handleNewAddress() {
     } else {
       errorMessage.value = 'Failed to create address. Please try again.';
     }
-  } catch (error) {
+  } catch (_error) {
     errorMessage.value = 'An error occurred. Please try again later.';
   } finally {
     isLoading.value = false;
   }
-}
+};
 
 // SEO
 useHead({
@@ -113,156 +113,156 @@ definePageMeta({
         Add Address
       </h2>
       <form
-        @submit.prevent="handleNewAddress"
         class="flex flex-col my-6"
         novalidate
+        @submit.prevent="handleNewAddress"
       >
         <div class="relative w-full mb-2.5">
           <input
             id="firstName"
+            v-model="address.firstName"
             name="firstName"
             type="text"
-            v-model="address.firstName"
             placeholder="First Name"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="lastName"
+            v-model="address.lastName"
             name="lastName"
             type="text"
-            v-model="address.lastName"
             placeholder="Last Name"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="address1"
+            v-model="address.address1"
             name="address1"
             type="text"
-            v-model="address.address1"
             placeholder="Street Address"
             autocapitalize="off"
             autocomplete="address-line1"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="address2"
+            v-model="address.address2"
             name="address2"
             type="text"
-            v-model="address.address2"
             placeholder="Suite/Apt (Optional)"
             autocapitalize="off"
             autocomplete="address-line2"
             autocorrect="off"
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="city"
+            v-model="address.city"
             name="city"
             type="text"
-            v-model="address.city"
             placeholder="City"
             autocapitalize="off"
             autocomplete="address-level2"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="country"
+            v-model="address.country"
             name="country"
             type="text"
-            v-model="address.country"
             placeholder="Country"
             autocapitalize="off"
             autocomplete="country"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="province"
+            v-model="address.province"
             name="province"
             type="text"
-            v-model="address.province"
             placeholder="Province"
             autocapitalize="off"
             autocomplete="address-level1"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="zip"
+            v-model="address.zip"
             name="zip"
             type="text"
-            v-model="address.zip"
             placeholder="ZIP / Postal Code"
             autocapitalize="off"
             autocomplete="postal-code"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="phone"
+            v-model="address.phone"
             name="phone"
             type="text"
-            v-model="address.phone"
             placeholder="Phone (Optional)"
             autocapitalize="off"
             autocomplete="tel"
             autocorrect="off"
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="company"
+            v-model="address.company"
             name="company"
             type="text"
-            v-model="address.company"
             placeholder="Company (Optional)"
             autocapitalize="off"
             autocomplete="organization"
             autocorrect="off"
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="flex items-center mb-5">
           <div class="relative mr-2.5">
             <input
               id="defaultAddress"
+              v-model="defaultAddress"
               name="defaultAddress"
               type="checkbox"
-              v-model="defaultAddress"
               class="peer flex h-5 w-5 border border-zinc-400 appearance-none rounded-md cursor-pointer checked:border-black"
-            />
+            >
             <Icon
               name="ph:check-bold"
               class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 h-3 w-3 shrink-0 opacity-0 text-black pointer-events-none peer-checked:opacity-100"

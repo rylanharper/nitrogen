@@ -7,11 +7,13 @@ const props = defineProps<{
 }>();
 
 // Check if media item is a video
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isMediaVideo = (media: any): media is VideoFragment => {
   return media?.mediaContentType === 'VIDEO';
 };
 
 // Check if media item is an image
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isMediaImage = (media: any): media is MediaImageFragment => {
   return media?.mediaContentType === 'IMAGE';
 };
@@ -20,7 +22,7 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
 <template>
   <div class="relative overflow-hidden aspect-square">
     <div
-      v-for="(media, index) in mediaItems.slice(0, 2)"
+      v-for="(media, index) in props.mediaItems.slice(0, 2)"
       :key="media.id"
       class="absolute size-full transition-opacity ease-in-out"
       :class="{ 'opacity-0 lg:hover:opacity-100': index === 1 }"

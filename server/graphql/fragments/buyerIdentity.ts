@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag';
+
 import { CUSTOMER_FRAGMENT } from './customer';
 
 export const BUYER_IDENTITY_FRAGMENT = gql`

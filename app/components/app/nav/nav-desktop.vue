@@ -41,8 +41,8 @@ const emit = defineEmits([
     </div>
     <div class="flex items-center">
       <NuxtLink
-        to="/"
         id="logo"
+        to="/"
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
       >
         Nitrogen
@@ -50,8 +50,8 @@ const emit = defineEmits([
     </div>
     <div class="grid grid-flow-col justify-end items-center">
       <button
-        @click="$emit('toggleLocaleModal')"
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+        @click="emit('toggleLocaleModal')"
       >
         {{ countryCode }} / {{ currencySymbol }}
       </button>
@@ -64,14 +64,14 @@ const emit = defineEmits([
         {{ link.label }}
       </NuxtLink>
       <button
-        @click="$emit('toggleSearchMenu')"
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+        @click="emit('toggleSearchMenu')"
       >
         Search
       </button>
       <button
-        @click="$emit('toggleCartDrawer')"
         class="px-2.5 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+        @click="emit('toggleCartDrawer')"
       >
         Cart ({{ cartTotalItems }})
       </button>

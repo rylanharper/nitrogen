@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag';
+
 import { CART_FRAGMENT } from '../fragments/cart';
 
 export const CART_CREATE = gql`

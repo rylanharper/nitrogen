@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag';
+
 import { MONEY_FRAGMENT } from './money';
 
 export const SELLING_PLAN_FRAGMENT = gql`

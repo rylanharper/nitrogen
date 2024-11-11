@@ -1,11 +1,11 @@
-import {
+import type {
   ProductQuery,
   ProductQueryVariables
 } from '@@/types/shopify';
 
+import { PRODUCT } from '../graphql/queries/product';
 import { query } from '../utils/client';
 
-import { PRODUCT } from '../graphql/queries/product';
 
 /**
  * Fetches a product based on the given options.
@@ -13,12 +13,12 @@ import { PRODUCT } from '../graphql/queries/product';
  * @returns A Promise resolving to the product details
  * @see https://shopify.dev/docs/api/storefront/2024-07/queries/product
  */
-async function get(
+const get = async (
   options: ProductQueryVariables
-): Promise<ProductQuery['product']> {
+): Promise<ProductQuery['product']> => {
   const response = await query(PRODUCT, options);
   return response.data?.product;
-}
+};
 
 export default {
   get

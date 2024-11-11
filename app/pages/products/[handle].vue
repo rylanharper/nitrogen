@@ -39,12 +39,12 @@ const mediaIndex = ref<number>(0);
 const isLightboxOpen = ref(false);
 
 // Actions
-function openLightbox(index: number) {
+const openLightbox = (index: number) => {
   mediaIndex.value = index;
   isLightboxOpen.value = true;
-};
+};;
 
-function closeLightbox() {
+const closeLightbox = () => {
   isLightboxOpen.value = false;
 };
 
@@ -62,6 +62,7 @@ useHead({
 </script>
 
 <template>
+  <div>
   <section v-if="product" class="relative grid gap-10 lg:grid-cols-2 lg:gap-0 mb-20">
     <div class="flex flex-col">
       <ProductMediaGallery
@@ -89,4 +90,5 @@ useHead({
     :product-media="productMedia"
     @close-lightbox="closeLightbox"
   />
+  </div>
 </template>

@@ -12,7 +12,7 @@ const isLoading = ref(false);
 const formCompleted = computed(() => email.value && password.value);
 const isAuth = computed(() => authStore.isAuthenticated);
 
-async function handleLogin() {
+const handleLogin = async () => {
   errorMessage.value = '';
   isLoading.value = true;
 
@@ -36,20 +36,20 @@ async function handleLogin() {
     } else {
       errorMessage.value = 'Something went wrong. Please try to sign in again or create a new account.';
     }
-  } catch (error) {
+  } catch (_error) {
     errorMessage.value = 'An error occurred. Please try again later.';
   } finally {
     isLoading.value = false;
   }
-}
+};
 
 // State
 const showPassword = ref(false);
 
 // Actions
-function togglePassword() {
+const togglePassword = () => {
   showPassword.value = !showPassword.value;
-}
+};
 
 // SEO
 useHead({
@@ -64,30 +64,30 @@ useHead({
         Login
       </h1>
       <form
-        @submit.prevent="handleLogin"
         class="flex flex-col my-6"
         novalidate
+        @submit.prevent="handleLogin"
       >
         <div class="relative w-full mb-2.5">
           <input
             id="email"
+            v-model="email"
             name="email"
             type="email"
-            v-model="email"
             placeholder="Email Address"
             autocapitalize="off"
             autocomplete="email"
             autocorrect="off"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
         </div>
         <div class="relative w-full mb-2.5">
           <input
             id="password"
+            v-model="password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
-            v-model="password"
             placeholder="Password"
             autocapitalize="off"
             autocomplete="off"
@@ -95,11 +95,11 @@ useHead({
             minLength="{8}"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
-          />
+          >
           <button
             type="button"
-            @click="togglePassword"
             class="absolute inset-y-0 end-0 flex items-center px-3"
+            @click="togglePassword"
           >
             <Icon
               name="ph:eye"

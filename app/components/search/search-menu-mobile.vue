@@ -21,20 +21,20 @@ const emit = defineEmits([
 ]);
 
 // Emit events
-function setQuery(event: Event) {
+const setQuery = (event: Event) => {
   const target = event.target as HTMLInputElement;
   emit('debounceQuery', target.value);
-}
+};
 
-function onKeyDown(event: KeyboardEvent) {
+const onKeyDown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
     emit('submitQuery');
   }
-}
+};
 
-function closeSearch() {
+const closeSearch = () => {
   emit('closeSearch');
-}
+};
 
 // Helpers
 const { getColorOption } = useProductHelpers();
@@ -77,20 +77,20 @@ watch(
             ref="input"
             type="text"
             name="searchInput"
-            @input="setQuery"
-            @keydown="onKeyDown"
             placeholder="Search products"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
             class="peer flex w-full py-3 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-none"
-          />
+            @input="setQuery"
+            @keydown="onKeyDown"
+          >
           <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
             <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0" />
           </div>
           <button
-            @click="closeSearch"
             class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black"
+            @click="closeSearch"
           >
             <Icon name="ph:x" class="h-5 w-5 shrink-0" />
           </button>
@@ -118,7 +118,7 @@ watch(
                 </div>
                 <PriceDisplay
                   :price="product.priceRange?.minVariantPrice"
-                  :compareAtPriceRange="product.compareAtPriceRange?.minVariantPrice"
+                  :compare-at-price-range="product.compareAtPriceRange?.minVariantPrice"
                 />
               </div>
             </NuxtLink>

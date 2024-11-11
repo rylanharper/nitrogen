@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag';
+
 import { MONEY_FRAGMENT } from './money';
 import { PRODUCT_VARIANT_FRAGMENT } from './productVariant';
 

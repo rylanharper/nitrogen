@@ -11,9 +11,9 @@ const navLinks = [
 const appStore = useAppStore();
 
 // Actions
-function closeMenu() {
+const closeMenu = () => {
   appStore.mobileMenuOpen = false;
-}
+};
 
 // Watchers
 const route = useRoute();
@@ -42,8 +42,8 @@ watch(
         </div>
         <div class="flex flex-col my-4">
           <button
-            @click="closeMenu"
             class="flex items-center justify-center p-2 text-normalize bg-transparent border border-zinc-300 rounded-md"
+            @click="closeMenu"
           >
             Close Menu
           </button>

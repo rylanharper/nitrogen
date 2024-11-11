@@ -1,6 +1,7 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
-import { storefrontApiSchema } from './codegen.schema';
+
 import { customerAccountApiCustomScalars } from './codegen.helpers';
+import { storefrontApiSchema } from './codegen.schema';
 
 const config: CodegenConfig = {
   schema: storefrontApiSchema,
