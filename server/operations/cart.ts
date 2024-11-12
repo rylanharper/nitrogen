@@ -28,7 +28,7 @@ import {
 /**
  * Fetches a cart based on the provided cart ID.
  * @param options - The variables for the cart query (cart ID)
- * @returns A Promise resolving to the cart details
+ * @returns A Promise resolving to the cart data
  * @see https://shopify.dev/docs/api/storefront/2024-07/queries/cart
  */
 async function get(
