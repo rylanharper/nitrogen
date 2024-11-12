@@ -24,9 +24,16 @@ const { data: productData } = await useAsyncData(
   { watch: [productVars] }
 );
 
+const { data: recommendationData } = await useAsyncData(
+  `recommended-${handle.value}`,
+  () => shopify.product.recommended(productVars.value),
+  { watch: [productVars], lazy: true }
+);
+
 // Computed data
 const product = computed(() => productData.value);
 const productMedia = computed(() => flattenConnection(product.value?.media));
+const productRecommendations = computed(() => recommendationData.value?.slice(0, 4) || []);
 
 // Matching color references (if any)
 const matchingColors = computed(() => {
@@ -62,20 +69,27 @@ useHead({
 </script>
 
 <template>
-  <section v-if="product" class="relative grid gap-10 lg:grid-cols-2 lg:gap-0 mb-20">
-    <div class="flex flex-col">
-      <ProductMediaGallery
-        :product-media="productMedia"
-        @open-lightbox="openLightbox"
-      />
-      <ProductMediaCarousel
-        :product-media="productMedia"
-      />
+  <section v-if="product" class="relative flex flex-col mb-20">
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-0 mb-20">
+      <div>
+        <ProductMediaGallery
+          :product-media="productMedia"
+          @open-lightbox="openLightbox"
+        />
+        <ProductMediaCarousel
+          :product-media="productMedia"
+        />
+      </div>
+      <div class="px-6">
+        <ProductForm
+          :product="product"
+          :matching-colors="matchingColors"
+        />
+      </div>
     </div>
-    <div class="flex flex-col px-6">
-      <ProductForm
-        :product="product"
-        :matching-colors="matchingColors"
+    <div class="px-6">
+      <ProductRecommendations
+        :products="productRecommendations"
       />
     </div>
   </section>
