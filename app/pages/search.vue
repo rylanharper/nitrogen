@@ -144,7 +144,7 @@ useHead(() => ({
       </div>
     </div>
     <div
-      v-if="products.length"
+      v-if="products && products.length"
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
       <div v-for="product in products" :key="product.id">
