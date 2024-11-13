@@ -4,17 +4,6 @@ export default defineNuxtConfig({
     compatibilityVersion: 4
   },
 
-  experimental: {
-    defaults: {
-      nuxtLink: {
-        prefetchOn: {
-          visibility: false,
-          interaction: true
-        }
-      }
-    }
-  },
-
   devtools: {
     enabled: true
   },
