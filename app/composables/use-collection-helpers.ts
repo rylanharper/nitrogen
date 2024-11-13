@@ -94,7 +94,6 @@ export const useCollectionHelpers = () => {
 
     if (query.color) {
       const colorValues = query.color.split(',');
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       colorValues.forEach((color: any) => {
         filters.push({
@@ -108,7 +107,8 @@ export const useCollectionHelpers = () => {
 
     if (query.size) {
       const sizeValues = query.size.split(',');
-      sizeValues.forEach((size) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      sizeValues.forEach((size: any) => {
         filters.push({
           variantOption: {
             name: 'Size',
@@ -120,7 +120,8 @@ export const useCollectionHelpers = () => {
 
     if (query.productType) {
       const productTypeValues = query.productType.split(',');
-      productTypeValues.forEach((productType) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      productTypeValues.forEach((productType: any) => {
         filters.push({
           productType: productType
         });
