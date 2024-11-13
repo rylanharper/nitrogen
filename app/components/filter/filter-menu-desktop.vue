@@ -43,7 +43,7 @@ const clearAllFilters = () => {
   <Transition name="slider" mode="out-in" appear>
     <aside
       v-if="appStore.filterMenuOpen"
-      class="hidden fixed top-0 z-[200] w-full bg-white lg:flex"
+      class="hidden fixed top-0 left-0 z-[200] w-full bg-white lg:flex"
     >
       <div class="relative flex flex-col justify-between gap-20 w-full px-6 py-4">
         <div class="absolute top-0 right-0 px-6 py-4">
