@@ -35,7 +35,7 @@ To enable product filtering, install the [Shopify Search & Discovery](https://ap
 To modify the available filter options, you'll need to update two files:
 
 1. Update the [`getFilterValuesFromUrl`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/app/composables/use-collection-helpers.ts#L83) composable function to define your filter options
-2. Modify the [`filter-menu.vue`](https://github.com/rylanharper/Nitrogen/blob/master/app/components/filter/filter-menu.vue) component to include your filter mapping functions
+2. Edit the [`filter-menu.vue`](https://github.com/rylanharper/Nitrogen/blob/master/app/components/filter/filter-menu.vue) component to include your filter mapping functions
 
 For example, here's how a filter map function works for color options:
 
@@ -76,7 +76,7 @@ You can create additional product reference metafield lists by copying this quer
 - 📸 "Styled with" product lists using `styled_with`
 - 🔄 Custom merchandising groups via `frequently_bought_together`
 
-## 🧩 Nuxt Setup
+## 🚀 Nuxt Setup
 
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
@@ -95,7 +95,7 @@ NUXT_SHOPIFY_API_VERSION=
 2. Generate your project types using `pnpm codgen`
 3. Start the development server using `pnpm run dev`
 
-## 🏓 Basic Usage
+## 🛠️ Basic Usage
 
 Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
