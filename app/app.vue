@@ -23,15 +23,15 @@ useHead({
 
 <template>
   <div id="app" class="flex flex-col">
-    <app-header />
-    <cart-drawer />
-    <mobile-menu />
-    <search-menu />
-    <locale-modal />
+    <AppHeader />
+    <CartDrawer />
+    <MobileMenu />
+    <SearchMenu />
+    <LocaleModal />
     <main role="main" class="flex-1 min-h-svh">
-      <nuxt-layout>
-        <nuxt-page />
-      </nuxt-layout>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
     </main>
   </div>
 </template>
