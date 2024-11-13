@@ -16,11 +16,6 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 - 🌐 Shop localization
 - 💪 Strongly typed
 
-## 🚀 Get Started
-
-> [!NOTE]
-> Nitrogen provides a solid foundation for headless Shopify development in Nuxt, but comes with opinionated choices regarding project structure and organization. Feel free to customize the queries, functions, pages, and components to match your project's specific needs!
-
 ## 🛍️ Shopify Setup
 
 Before using Nitrogen, you must configure your Shopify store as follows:
