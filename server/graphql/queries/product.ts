@@ -23,3 +23,16 @@ export const PRODUCT = gql`
   }
   ${PRODUCT_FRAGMENT}
 `;
+
+export const RECOMMENDED_PRODUCTS = gql`
+  query ProductRecommendations(
+    $handle: String
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    recommended: productRecommendations(productHandle: $handle) {
+      ...Product
+    }
+  }
+  ${PRODUCT_FRAGMENT}
+`;

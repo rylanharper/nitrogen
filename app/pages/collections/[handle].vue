@@ -108,54 +108,51 @@ useHead({
 </script>
 
 <template>
-  <div>
-    <section v-if="collection" class="relative flex flex-col px-6 mb-20">
-      <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
-        <div class="col-start-1 flex justify-start items-center">
-          <h1 class="normal-case text-xl tracking-tight leading-none">
-            {{ collection.title }} ({{ products.length }})
-          </h1>
-        </div>
-        <div class="hidden lg:flex">
-          <div v-if="activeFilterOptions.length" class="flex flex-wrap gap-2">
-            <div v-for="option in activeFilterOptions" :key="option.value">
-              <button
-                class="flex items-center justify-center p-2 px-4 gap-2.5 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-red-50 hover:text-red-600 hover:border-red-500"
-                @click="removeActiveFilterOption(option.name, option.value)"
-              >
-                {{ option.value }}
-                <Icon name="ph:x" class="h-4 w-4 shrink-0" />
-              </button>
-            </div>
+  <section v-if="collection" class="flex flex-col px-6">
+    <FilterMenu
+      v-if="filterProducts"
+      :products="filterProducts"
+    />
+    <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
+      <div class="col-start-1 flex justify-start items-center">
+        <h1 class="normal-case text-xl tracking-tight leading-none">
+          {{ collection.title }} ({{ products.length }})
+        </h1>
+      </div>
+      <div class="hidden lg:flex">
+        <div v-if="activeFilterOptions.length" class="flex flex-wrap gap-2">
+          <div v-for="option in activeFilterOptions" :key="option.value">
+            <button
+              class="flex items-center justify-center p-2 px-4 gap-2.5 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-red-50 hover:text-red-600 hover:border-red-500"
+              @click="removeActiveFilterOption(option.name, option.value)"
+            >
+              {{ option.value }}
+              <Icon name="ph:x" class="h-4 w-4 shrink-0" />
+            </button>
           </div>
-          <span v-else class="invisible" />
         </div>
-        <div class="col-start-3 flex justify-end items-center">
-          <button
-            class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
-            @click="toggleFilter"
-          >
-            Filter & Sort
-          </button>
-        </div>
+        <span v-else class="invisible" />
       </div>
-      <div
-        v-if="products.length"
-        class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
-      >
-        <div v-for="product in products" :key="product.id">
-          <ProductCard :product="product" />
-        </div>
+      <div class="col-start-3 flex justify-end items-center">
+        <button
+          class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+          @click="toggleFilter"
+        >
+          Filter & Sort
+        </button>
       </div>
-      <div v-else class="flex items-center gap-2">
-        <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
-        <p class="normal-case">There are no matching products.</p>
+    </div>
+    <div
+      v-if="products && products.length"
+      class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
+    >
+      <div v-for="product in products" :key="product.id">
+        <ProductCard :product="product" />
       </div>
-    </section>
-    <section v-else class="flex items-center p-6 gap-2">
-      <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
-      <p class="normal-case">No collection data found.</p>
-    </section>
-    <FilterMenu v-if="filterProducts" :products="filterProducts" />
-  </div>
+    </div>
+  </section>
+  <section v-else class="flex items-center gap-2 p-6">
+    <Icon name="ph:warning-circle" class="h-5 w-5 shrink-0" />
+    <p class="normal-case">No collection data found.</p>
+  </section>
 </template>

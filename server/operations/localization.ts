@@ -6,7 +6,6 @@ import type {
 import { LOCALIZATION } from '../graphql/queries/localization';
 import { query } from '../utils/client';
 
-
 /**
  * Fetches localization data such as country and language settings.
  * @param options - The variables for the localization query (country, language)

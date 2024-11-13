@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@nuxt/fonts": "^0.10.2",
-    "@nuxt/icon": "^1.6.1",
+    "@nuxt/icon": "^1.7.2",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@pinia/nuxt": "0.7.0",
     "@vueuse/core": "^11.2.0",

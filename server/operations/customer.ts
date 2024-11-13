@@ -38,8 +38,6 @@ import {
 import { CUSTOMER } from '../graphql/queries/customer';
 import { query } from '../utils/client';
 
-
-
 /**
  * Fetches customer data based on the provided customer token.
  * @param options - The variables for the customer query (access token)
