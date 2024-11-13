@@ -46,7 +46,7 @@ definePageMeta({
       <h2 class="normal-case text-xl tracking-tight leading-none lg:p-0">
         Addresses
       </h2>
-      <div v-if="addresses?.length">
+      <div v-if="addresses && addresses?.length">
         <AccountAddress
           :default-address="defaultAddress"
           :addresses="addresses"

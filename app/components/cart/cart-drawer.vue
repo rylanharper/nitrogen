@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import type { CartLineFragment } from '@@/types/shopify';
+
 // Stores
 const appStore = useAppStore();
 const cartStore = useCartStore();
 
 // Computed
 const cartTotalItems = computed(() => cartStore.lineItemsCount);
-const lineItems = computed(() => flattenConnection(cartStore.lineItems));
+const lineItems = computed(() => flattenConnection(cartStore.lineItems) as CartLineFragment[]);
 
 // Actions
 const closeDrawer = () => {

@@ -49,7 +49,7 @@ const matchingProductColors = computed(() => {
 // Combine all colors, sort alphabetically
 const sortedColors = computed(() => {
   const allColors = [mainProductColor.value, ...matchingProductColors.value];
-  return allColors.sort((a, b) => a.name.localeCompare(b.name));
+  return allColors.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
 });
 
 // State

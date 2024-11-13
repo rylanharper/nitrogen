@@ -48,7 +48,7 @@ definePageMeta({
         <h2 class="px-6 normal-case text-xl tracking-tight leading-none lg:p-0">
           Recent Orders
         </h2>
-        <div v-if="orders.length">
+        <div v-if="orders && orders.length">
           <AccountOrders :orders="orders.slice(0, 3)" />
           <div class="flex px-6 lg:px-0">
             <NuxtLink
@@ -68,7 +68,7 @@ definePageMeta({
         <h2 class="px-6 normal-case text-xl tracking-tight leading-none lg:p-0">
           Saved Addresses
         </h2>
-        <div v-if="addresses?.length" class="px-6 lg:px-0">
+        <div v-if="addresses && addresses?.length" class="px-6 lg:px-0">
           <AccountAddress
             :default-address="defaultAddress"
             :addresses="addresses"

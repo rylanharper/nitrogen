@@ -3,14 +3,14 @@ import type { VideoFragment } from '@@/types/shopify';
 
 // Props
 const props = defineProps<{
-  video: VideoFragment;
+  video: VideoFragment | null | undefined;
 }>();
 </script>
 
 <template>
   <figure class="relative size-full bg-gray-100">
     <video
-      :poster="video.previewImage?.url ?? ''"
+      :poster="video?.previewImage?.url ?? ''"
       class="absolute size-full inset-0 object-cover"
       playsinline
       autoplay
@@ -18,7 +18,7 @@ const props = defineProps<{
       muted
     >
       <source
-        v-for="source in props.video.sources"
+        v-for="source in props.video?.sources"
         :key="source.url"
         :src="source.url"
         :type="source.mimeType"

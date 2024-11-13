@@ -61,7 +61,10 @@ if (escape) {
         class="aspect-square cursor-zoom-out"
         @click="closeLightbox"
       >
-        <ShopifyVideo v-if="isMediaVideo(media)" :video="media" />
+        <ShopifyVideo
+          v-if="isMediaVideo(media)"
+          :video="media"
+        />
         <ShopifyImage
           v-else-if="isMediaImage(media)"
           :image="media.image"

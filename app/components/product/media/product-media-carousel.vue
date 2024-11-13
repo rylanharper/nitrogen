@@ -68,7 +68,10 @@ onMounted(() => {
         :key="media.id"
         class="flex-[0_0_100%] aspect-square"
       >
-        <ShopifyVideo v-if="isMediaVideo(media)" :video="media" />
+        <ShopifyVideo
+          v-if="isMediaVideo(media)"
+          :video="media"
+        />
         <ShopifyImage
           v-else-if="isMediaImage(media)"
           :image="media.image"

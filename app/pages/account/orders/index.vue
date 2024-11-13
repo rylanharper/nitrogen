@@ -45,7 +45,7 @@ definePageMeta({
       <h2 class="px-6 normal-case text-xl tracking-tight leading-none lg:p-0">
         Orders
       </h2>
-      <div v-if="orders?.length">
+      <div v-if="orders && orders?.length">
         <AccountOrders :orders="orders" />
       </div>
       <div v-else class="flex items-center gap-2 px-6 lg:p-0">
