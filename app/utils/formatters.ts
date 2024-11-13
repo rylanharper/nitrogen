@@ -13,10 +13,10 @@ export const formatDateByLocale = (locale: string, d: Date | string): string => 
  * Formats an image URL to include a specified width.
  * @param src - The original image URL
  * @param width - The desired width to include in the URL
- * @returns The formatted image URL with the specified width or the original URL if no match is found
+ * @returns The formatted image URL or an empty string if undefined
  */
-export const formatSizeUrl = (src: string, width: number): string => {
-  if (!src) return src || '';
+export const formatSizeUrl = (src: string | undefined, width: number): string => {
+  if (!src) return '';
 
   const match = src.match(/\.(webp|jpg|jpeg|gif|png|bmp|bitmap|tiff|tif)(\?v=\d+)?$/i);
 
