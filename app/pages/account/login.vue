@@ -125,7 +125,7 @@ useHead({
         </button>
       </form>
       <div class="flex flex-col mb-10">
-        <p class="normal-case">New to Yeren?</p>
+        <p class="normal-case">New to Nitrogen?</p>
         <NuxtLink
           to="/account/register"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"

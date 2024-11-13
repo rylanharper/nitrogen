@@ -17,7 +17,7 @@ interface shopState {
 const shopify = useShopify();
 
 // Store
-export const useShopStore = defineStore('@yeren/shop', {
+export const useShopStore = defineStore('@nitrogen/shop', {
   state: (): shopState => ({
     locale: {
       availableCountries: [],

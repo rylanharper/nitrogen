@@ -19,7 +19,7 @@ interface AuthState {
 const shopify = useShopify();
 
 // Store
-export const useAuthStore = defineStore('@yeren/auth', {
+export const useAuthStore = defineStore('@nitrogen/auth', {
   state: (): AuthState => ({
     accessToken: '',
     customer: null

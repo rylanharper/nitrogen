@@ -26,7 +26,7 @@ interface CartState {
 const shopify = useShopify();
 
 // Store
-export const useCartStore = defineStore('@yeren/cart', {
+export const useCartStore = defineStore('@nitrogen/cart', {
   state: (): CartState => ({
     cart: null
   }),

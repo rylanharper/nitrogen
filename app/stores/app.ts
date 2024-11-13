@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 // Store
-export const useAppStore = defineStore('@yeren/app', {
+export const useAppStore = defineStore('@nitrogen/app', {
   state: () => {
     return {
       cartDrawerOpen: false,
