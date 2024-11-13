@@ -7,6 +7,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck",
     "codegen": "graphql-codegen --config codegen.ts",
     "dev:codegen": "graphql-codegen --config codegen.ts --watch",
     "lint": "eslint ."
