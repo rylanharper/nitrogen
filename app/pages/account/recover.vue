@@ -31,16 +31,18 @@ const handleRecover = async () => {
   try {
     await authStore.recover(email.value);
     successMessage.value = 'Success! Please check your email for instructions on how to reset your password.';
-  } catch (_error) {
+  }
+  catch (_error) {
     errorMessage.value = 'An error occurred. Please try again later.';
-  } finally {
+  }
+  finally {
     isLoading.value = false;
   }
 };
 
 // SEO
 useHead({
-  title: 'Recover'
+  title: 'Recover',
 });
 </script>
 
@@ -82,7 +84,9 @@ useHead({
         </button>
       </form>
       <div class="flex flex-col mb-10">
-        <p class="normal-case">Need to login?</p>
+        <p class="normal-case">
+          Need to login?
+        </p>
         <NuxtLink
           to="/account/login"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"

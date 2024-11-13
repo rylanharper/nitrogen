@@ -2,7 +2,7 @@ import type {
   ProductQuery,
   ProductQueryVariables,
   ProductRecommendationsQuery,
-  ProductRecommendationsQueryVariables
+  ProductRecommendationsQueryVariables,
 } from '@@/types/shopify';
 
 import { PRODUCT, RECOMMENDED_PRODUCTS } from '../graphql/queries/product';
@@ -15,7 +15,7 @@ import { query } from '../utils/client';
  * @see https://shopify.dev/docs/api/storefront/2024-07/queries/product
  */
 const get = async (
-  options: ProductQueryVariables
+  options: ProductQueryVariables,
 ): Promise<ProductQuery['product']> => {
   const response = await query(PRODUCT, options);
   return response.data?.product;
@@ -28,7 +28,7 @@ const get = async (
  * @see https://shopify.dev/docs/api/storefront/2024-10/queries/productRecommendations
  */
 async function recommended(
-  options: ProductRecommendationsQueryVariables
+  options: ProductRecommendationsQueryVariables,
 ): Promise<ProductRecommendationsQuery['recommended']> {
   const response = await query(RECOMMENDED_PRODUCTS, options);
   return response.data?.recommended;
@@ -36,5 +36,5 @@ async function recommended(
 
 export default {
   get,
-  recommended
+  recommended,
 };

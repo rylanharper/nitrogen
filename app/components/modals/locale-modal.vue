@@ -26,9 +26,11 @@ const updateLocalization = async () => {
   try {
     await cartStore.attachBuyer({ countryCode: countryLocale.value });
     await shopStore.getLocalization(countryLocale.value);
-  } catch (error) {
+  }
+  catch (error) {
     console.error('An error occurred. Please try again later.', error);
-  } finally {
+  }
+  finally {
     isLoading.value = false;
     closeModal();
   }
@@ -44,7 +46,7 @@ watch(
     if (appStore.localeModalOpen) {
       closeModal();
     }
-  }
+  },
 );
 
 if (escape) {
@@ -57,13 +59,22 @@ if (escape) {
 </script>
 
 <template>
-  <Transition name="scale-in" mode="out-in" appear>
+  <Transition
+    name="scale-in"
+    mode="out-in"
+    appear
+  >
     <div
       v-if="appStore.localeModalOpen"
       class="fixed left-[50%] top-[50%] w-full max-w-xl translate-x-[-50%] translate-y-[-50%] p-6 z-[200] bg-white"
     >
-      <h2 class="text-center">Select Country</h2>
-      <form class="flex flex-col my-6" @submit.prevent="updateLocalization">
+      <h2 class="text-center">
+        Select Country
+      </h2>
+      <form
+        class="flex flex-col my-6"
+        @submit.prevent="updateLocalization"
+      >
         <div class="relative w-full mb-2.5">
           <select
             id="country"
@@ -80,7 +91,10 @@ if (escape) {
             </option>
           </select>
           <span class="absolute inset-y-0 end-0 flex items-center pointer-events-none px-2.5">
-            <Icon name="ph:caret-up-down" class="h-4 w-4 shrink-0" />
+            <Icon
+              name="ph:caret-up-down"
+              class="h-4 w-4 shrink-0"
+            />
           </span>
         </div>
         <button
@@ -98,11 +112,18 @@ if (escape) {
         class="flex absolute top-2 right-2 ring-1 ring-transparent ring-offset-2 rounded-sm focus:ring-black"
         @click="closeModal"
       >
-        <Icon name="ph:x" class="h-5 w-5 shrink-0" />
+        <Icon
+          name="ph:x"
+          class="h-5 w-5 shrink-0"
+        />
       </button>
     </div>
   </Transition>
-  <Transition name="fade" mode="out-in" appear>
+  <Transition
+    name="fade"
+    mode="out-in"
+    appear
+  >
     <section
       v-if="appStore.localeModalOpen"
       class="fixed inset-0 z-[150] pointer-events-auto bg-black/50"

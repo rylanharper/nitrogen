@@ -35,7 +35,10 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
       class="aspect-square cursor-zoom-in"
       @click="openLightbox(index)"
     >
-      <ShopifyVideo v-if="isMediaVideo(media)" :video="media" />
+      <ShopifyVideo
+        v-if="isMediaVideo(media)"
+        :video="media"
+      />
       <ShopifyImage
         v-else-if="isMediaImage(media)"
         :image="media.image"

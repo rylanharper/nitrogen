@@ -1,7 +1,7 @@
 import type {
   CountryCode,
   LanguageCode,
-  LocalizationQuery
+  LocalizationQuery,
 } from '@@/types/shopify';
 
 import { defineStore } from 'pinia';
@@ -23,12 +23,12 @@ export const useShopStore = defineStore('@yeren/shop', {
       availableCountries: [],
       availableLanguages: [],
       country: {
-        isoCode: 'US'
+        isoCode: 'US',
       },
       language: {
-        isoCode: 'EN'
-      }
-    }
+        isoCode: 'EN',
+      },
+    },
   }),
 
   actions: {
@@ -41,7 +41,7 @@ export const useShopStore = defineStore('@yeren/shop', {
       try {
         const response = await shopify.localization.get({
           country: newCountryCode ?? this.locale.country.isoCode,
-          language: newLanguageCode ?? this.locale.language.isoCode
+          language: newLanguageCode ?? this.locale.language.isoCode,
         });
 
         if (response) {
@@ -50,20 +50,21 @@ export const useShopStore = defineStore('@yeren/shop', {
           this.locale.country = response.country;
           this.locale.language = response.language;
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot get localization data from Shopify', error);
       }
-    }
+    },
   },
 
   getters: {
-    buyerCountryCode: (state) => state.locale?.country?.isoCode,
-    buyerCurrencyCode: (state) => state.locale?.country?.currency?.isoCode,
-    buyerCurrencySymbol: (state) => state.locale?.country?.currency?.symbol,
-    buyerLanguageCode: (state) => state.locale?.language?.isoCode
+    buyerCountryCode: state => state.locale?.country?.isoCode,
+    buyerCurrencyCode: state => state.locale?.country?.currency?.isoCode,
+    buyerCurrencySymbol: state => state.locale?.country?.currency?.symbol,
+    buyerLanguageCode: state => state.locale?.language?.isoCode,
   },
 
   persist: {
-    pick: ['locale.country', 'locale.language']
-  }
+    pick: ['locale.country', 'locale.language'],
+  },
 });

@@ -10,7 +10,7 @@ import type {
   CartLinesUpdateMutation,
   CartLinesUpdateMutationVariables,
   CartBuyerIdentityUpdateMutation,
-  CartBuyerIdentityUpdateMutationVariables
+  CartBuyerIdentityUpdateMutationVariables,
 } from '@@/types/shopify';
 
 import {
@@ -18,7 +18,7 @@ import {
   CART_LINES_ADD,
   CART_LINES_REMOVE,
   CART_LINES_UPDATE,
-  CART_BUYER_IDENTITY_UPDATE
+  CART_BUYER_IDENTITY_UPDATE,
 } from '../graphql/mutations/cart';
 import { CART } from '../graphql/queries/cart';
 import { query } from '../utils/client';
@@ -30,11 +30,11 @@ import { query } from '../utils/client';
  * @see https://shopify.dev/docs/api/storefront/2024-07/queries/cart
  */
 const get = async (
-  options: CartQueryVariables
+  options: CartQueryVariables,
 ): Promise<CartQuery['cart']> => {
   const response = await query(CART, options);
   return response.data?.cart;
-};;
+}; ;
 
 /**
  * Creates a new cart.
@@ -43,7 +43,7 @@ const get = async (
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/cartCreate
  */
 const create = async (
-  options: CartCreateMutationVariables
+  options: CartCreateMutationVariables,
 ): Promise<CartCreateMutation['cartCreate']> => {
   const response = await query(CART_CREATE, options);
   return response.data?.cartCreate;
@@ -56,7 +56,7 @@ const create = async (
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/cartLinesAdd
  */
 const addLines = async (
-  options: CartLinesAddMutationVariables
+  options: CartLinesAddMutationVariables,
 ): Promise<CartLinesAddMutation['cartLinesAdd']> => {
   const response = await query(CART_LINES_ADD, options);
   return response.data?.cartLinesAdd;
@@ -69,7 +69,7 @@ const addLines = async (
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/cartLinesRemove
  */
 const removeLines = async (
-  options: CartLinesRemoveMutationVariables
+  options: CartLinesRemoveMutationVariables,
 ): Promise<CartLinesRemoveMutation['cartLinesRemove']> => {
   const response = await query(CART_LINES_REMOVE, options);
   return response.data?.cartLinesRemove;
@@ -82,7 +82,7 @@ const removeLines = async (
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/cartLinesUpdate
  */
 const updateLines = async (
-  options: CartLinesUpdateMutationVariables
+  options: CartLinesUpdateMutationVariables,
 ): Promise<CartLinesUpdateMutation['cartLinesUpdate']> => {
   const response = await query(CART_LINES_UPDATE, options);
   return response.data?.cartLinesUpdate;
@@ -95,7 +95,7 @@ const updateLines = async (
  * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/cartBuyerIdentityUpdate
  */
 const updateBuyerIdentity = async (
-  options: CartBuyerIdentityUpdateMutationVariables
+  options: CartBuyerIdentityUpdateMutationVariables,
 ): Promise<CartBuyerIdentityUpdateMutation['cartBuyerIdentityUpdate']> => {
   const response = await query(CART_BUYER_IDENTITY_UPDATE, options);
   return response.data?.cartBuyerIdentityUpdate;
@@ -107,5 +107,5 @@ export default {
   addLines,
   removeLines,
   updateLines,
-  updateBuyerIdentity
+  updateBuyerIdentity,
 };

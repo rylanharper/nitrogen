@@ -29,7 +29,8 @@ const activeFilterOptions = computed(() => {
 
     if (name === 'sort') {
       filters.push({ name, value: value as string });
-    } else {
+    }
+    else {
       (value as string).split(',').forEach((filterValue) => {
         filters.push({ name, value: filterValue });
       });
@@ -49,23 +50,23 @@ const collectionVars = computed<CollectionQueryVariables>(() => ({
   sortKey: sortValues.value.sortKey,
   reverse: sortValues.value.reverse,
   country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode
+  language: shopStore.buyerLanguageCode,
 }));
 
 const { data: collectionData } = await useAsyncData(
   `collection-${handle.value}`,
   () => shopify.collection.get(collectionVars.value),
-  { watch: [collectionVars] }
+  { watch: [collectionVars] },
 );
 
 const filterVars = computed<CollectionQueryVariables>(() => ({
-  handle: handle.value
+  handle: handle.value,
 }));
 
 const { data: filterData } = await useAsyncData(
   `collection-filter-${handle.value}`,
   () => shopify.collection.get(filterVars.value),
-  { watch: [filterVars], lazy: true }
+  { watch: [filterVars], lazy: true },
 );
 
 // Computed data
@@ -79,13 +80,15 @@ const removeActiveFilterOption = (filterName: string, filterValue: string) => {
 
   if (filterName === 'sort') {
     delete query.sort;
-  } else {
+  }
+  else {
     const currentValues = (route.query[filterName] as string)?.split(',') || [];
-    const newValues = currentValues.filter((value) => value !== filterValue);
+    const newValues = currentValues.filter(value => value !== filterValue);
 
     if (newValues.length > 0) {
       query[filterName] = newValues.join(',');
-    } else {
+    }
+    else {
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete query[filterName];
     }
@@ -93,7 +96,7 @@ const removeActiveFilterOption = (filterName: string, filterValue: string) => {
 
   router.replace({
     path: route.path,
-    query
+    query,
   });
 };
 
@@ -103,12 +106,15 @@ const toggleFilter = () => {
 
 // SEO
 useHead({
-  title: collection.value?.title
+  title: collection.value?.title,
 });
 </script>
 
 <template>
-  <section v-if="collection" class="flex flex-col px-6">
+  <section
+    v-if="collection"
+    class="flex flex-col px-6"
+  >
     <FilterMenu
       v-if="filterProducts"
       :products="filterProducts"
@@ -120,18 +126,30 @@ useHead({
         </h1>
       </div>
       <div class="hidden lg:flex">
-        <div v-if="activeFilterOptions.length" class="flex flex-wrap gap-2">
-          <div v-for="option in activeFilterOptions" :key="option.value">
+        <div
+          v-if="activeFilterOptions.length"
+          class="flex flex-wrap gap-2"
+        >
+          <div
+            v-for="option in activeFilterOptions"
+            :key="option.value"
+          >
             <button
               class="flex items-center justify-center p-2 px-4 gap-2.5 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-red-50 hover:text-red-600 hover:border-red-500"
               @click="removeActiveFilterOption(option.name, option.value)"
             >
               {{ option.value }}
-              <Icon name="ph:x" class="h-4 w-4 shrink-0" />
+              <Icon
+                name="ph:x"
+                class="h-4 w-4 shrink-0"
+              />
             </button>
           </div>
         </div>
-        <span v-else class="invisible" />
+        <span
+          v-else
+          class="invisible"
+        />
       </div>
       <div class="col-start-3 flex justify-end items-center">
         <button
@@ -146,13 +164,24 @@ useHead({
       v-if="products && products.length"
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
-      <div v-for="product in products" :key="product.id">
+      <div
+        v-for="product in products"
+        :key="product.id"
+      >
         <ProductCard :product="product" />
       </div>
     </div>
   </section>
-  <section v-else class="flex items-center gap-2 p-6">
-    <Icon name="ph:warning-circle" class="h-5 w-5 shrink-0" />
-    <p class="normal-case">No collection data found.</p>
+  <section
+    v-else
+    class="flex items-center gap-2 p-6"
+  >
+    <Icon
+      name="ph:warning-circle"
+      class="h-5 w-5 shrink-0"
+    />
+    <p class="normal-case">
+      No collection data found.
+    </p>
   </section>
 </template>

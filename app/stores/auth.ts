@@ -2,7 +2,7 @@ import type {
   CustomerQuery,
   CustomerQueryVariables,
   CustomerAccessTokenCreateInput,
-  CustomerCreateInput
+  CustomerCreateInput,
 } from '@@/types/shopify';
 
 import { defineStore } from 'pinia';
@@ -22,7 +22,7 @@ const shopify = useShopify();
 export const useAuthStore = defineStore('@yeren/auth', {
   state: (): AuthState => ({
     accessToken: '',
-    customer: null
+    customer: null,
   }),
 
   actions: {
@@ -33,14 +33,15 @@ export const useAuthStore = defineStore('@yeren/auth', {
     async createToken(input: CustomerAccessTokenCreateInput) {
       try {
         const response = await shopify.customer.createAccessToken({
-          input: input
+          input: input,
         });
 
         if (response?.customerAccessToken) {
           this.accessToken = response.customerAccessToken.accessToken;
           await this.getCustomer();
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot create customer token', error);
       }
     },
@@ -50,7 +51,7 @@ export const useAuthStore = defineStore('@yeren/auth', {
     async getCustomer() {
       try {
         const response = await shopify.customer.get({
-          customerAccessToken: this.accessToken
+          customerAccessToken: this.accessToken,
         });
 
         if (response) {
@@ -58,13 +59,14 @@ export const useAuthStore = defineStore('@yeren/auth', {
             id: response.id,
             email: response.email,
             firstName: response.firstName,
-            lastName: response.lastName
+            lastName: response.lastName,
             // Add more if needed...
           };
 
           this.customer = customerInfo;
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot get customer data', error);
       }
     },
@@ -75,16 +77,17 @@ export const useAuthStore = defineStore('@yeren/auth', {
     async createCustomer(input: CustomerCreateInput) {
       try {
         const response = await shopify.customer.create({
-          input: input
+          input: input,
         });
 
         if (response?.customer) {
           await this.createToken({
             email: input.email,
-            password: input.password
+            password: input.password,
           });
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot create new customer', error);
       }
     },
@@ -97,9 +100,10 @@ export const useAuthStore = defineStore('@yeren/auth', {
       try {
         await this.createToken({
           email: email,
-          password: password
+          password: password,
         });
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot login customer', error);
       }
     },
@@ -109,14 +113,15 @@ export const useAuthStore = defineStore('@yeren/auth', {
     async logout() {
       try {
         const response = await shopify.customer.deleteAccessToken({
-          customerAccessToken: this.accessToken
+          customerAccessToken: this.accessToken,
         });
 
         if (response?.deletedAccessToken) {
           this.accessToken = '';
           this.customer = null;
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot logout customer', error);
       }
     },
@@ -127,9 +132,10 @@ export const useAuthStore = defineStore('@yeren/auth', {
     async recover(email: string) {
       try {
         await shopify.customer.recover({
-          email: email
+          email: email,
         });
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot reccover password', error);
       }
     },
@@ -142,24 +148,25 @@ export const useAuthStore = defineStore('@yeren/auth', {
       try {
         const response = await shopify.customer.resetByUrl({
           password: password,
-          resetUrl: resetUrl
+          resetUrl: resetUrl,
         });
 
         if (response?.customerAccessToken) {
           this.accessToken = response.customerAccessToken.accessToken;
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot reset password', error);
       }
-    }
+    },
   },
 
   getters: {
-    isAuthenticated: (state) => !!state.accessToken,
-    currentToken: (state) => state.accessToken ?? ''
+    isAuthenticated: state => !!state.accessToken,
+    currentToken: state => state.accessToken ?? '',
   },
 
   persist: {
-    pick: ['accessToken', 'customer']
-  }
+    pick: ['accessToken', 'customer'],
+  },
 });

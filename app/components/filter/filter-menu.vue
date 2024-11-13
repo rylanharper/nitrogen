@@ -20,7 +20,7 @@ const { sortLetterAndNumberSizes } = useCollectionHelpers();
 const searchSortOptions = [
   { label: 'Relevance', value: null },
   { label: 'Price: Low to High', value: 'price-low-high' },
-  { label: 'Price: High to Low', value: 'price-high-low' }
+  { label: 'Price: High to Low', value: 'price-high-low' },
 ];
 
 const collectionSortOptions = [
@@ -28,7 +28,7 @@ const collectionSortOptions = [
   { label: 'Price: Low to High', value: 'price-low-high' },
   { label: 'Price: High to Low', value: 'price-high-low' },
   { label: 'Best Selling', value: 'best-selling' },
-  { label: 'New Arrivals', value: 'newest' }
+  { label: 'New Arrivals', value: 'newest' },
 ];
 
 const sortOptions = computed(() => {
@@ -43,13 +43,14 @@ const setSortOption = (sortValue: string | null) => {
 
   if (sortValue) {
     query.sort = sortValue;
-  } else {
+  }
+  else {
     delete query.sort;
   }
 
   router.replace({
     path: route.path,
-    query
+    query,
   });
 };
 
@@ -59,19 +60,20 @@ const setFilterOption = (filterName: string, filterValue: string) => {
   const currentValues = (route.query[filterName] as string)?.split(',') || [];
 
   const newValues = currentValues.includes(filterValue)
-    ? currentValues.filter((value) => value !== filterValue)
+    ? currentValues.filter(value => value !== filterValue)
     : [...currentValues, filterValue];
 
   if (newValues.length > 0) {
     query[filterName] = newValues.join(',');
-  } else {
+  }
+  else {
     // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete query[filterName];
   }
 
   router.replace({
     path: route.path,
-    query
+    query,
   });
 };
 
@@ -84,7 +86,8 @@ const activeFilterCount = computed(() => {
 
     if (name === 'sort') {
       count += 1;
-    } else {
+    }
+    else {
       count += (value as string).split(',').length;
     }
   });
@@ -97,10 +100,10 @@ const colorOptions = computed(() => {
   const colorOptionNames = ['Color', 'Colour'];
   const allColors = new Set(
     props.products
-      .flatMap((product) => product.options)
-      .filter((option) => colorOptionNames.includes(option.name))
-      .flatMap((option) => option.optionValues)
-      .map((value) => value.name)
+      .flatMap(product => product.options)
+      .filter(option => colorOptionNames.includes(option.name))
+      .flatMap(option => option.optionValues)
+      .map(value => value.name),
   );
 
   return Array.from(allColors).sort();
@@ -111,10 +114,10 @@ const sizeOptions = computed(() => {
   const sizeOptionNames = ['Size', 'Length'];
   const allSizes = new Set(
     props.products
-      .flatMap((product) => product.options)
-      .filter((option) => sizeOptionNames.includes(option.name))
-      .flatMap((option) => option.optionValues)
-      .map((value) => value.name)
+      .flatMap(product => product.options)
+      .filter(option => sizeOptionNames.includes(option.name))
+      .flatMap(option => option.optionValues)
+      .map(value => value.name),
   );
 
   return sortLetterAndNumberSizes(Array.from(allSizes));
@@ -123,7 +126,7 @@ const sizeOptions = computed(() => {
 // ProductType options
 const productTypeOptions = computed(() => {
   const allProductTypes = new Set(
-    props.products.map((product) => product.productType)
+    props.products.map(product => product.productType),
   );
 
   return Array.from(allProductTypes).sort();
@@ -142,7 +145,7 @@ const clearAllFilters = () => {
 
   router.replace({
     path: route.path,
-    query
+    query,
   });
 };
 

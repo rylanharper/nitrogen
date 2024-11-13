@@ -13,7 +13,7 @@ const { getColorOption } = useProductHelpers();
 const options = computed(() => props.product?.options);
 const colorOption = computed(() => getColorOption(options.value));
 const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name);
-const mediaItems = computed(() => flattenConnection(props.product.media))
+const mediaItems = computed(() => flattenConnection(props.product.media));
 </script>
 
 <template>
@@ -25,8 +25,13 @@ const mediaItems = computed(() => flattenConnection(props.product.media))
     <ProductCardMedia :media-items="mediaItems" />
     <div class="flex flex-col">
       <div class="mb-2">
-        <h2 v-if="product.title">{{ product.title }}</h2>
-        <h3 v-if="colorOption" class="normal-case">
+        <h2 v-if="product.title">
+          {{ product.title }}
+        </h2>
+        <h3
+          v-if="colorOption"
+          class="normal-case"
+        >
           {{ colorOptionName }}
         </h3>
       </div>

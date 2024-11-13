@@ -13,7 +13,7 @@ const pages = [
   { label: 'Dashboard', path: '/account' },
   { label: 'Orders', path: '/account/orders' },
   { label: 'Addresses', path: '/account/addresses' },
-  { label: 'Logout', path: 'logout' }
+  { label: 'Logout', path: 'logout' },
 ];
 
 const currentPath = computed(() => route.path);
@@ -28,7 +28,8 @@ const logout = async () => {
 const navigateToSelectedPage = async () => {
   if (selectedPage.value !== 'logout') {
     await navigateTo(selectedPage.value);
-  } else {
+  }
+  else {
     logout();
   }
 };
@@ -39,7 +40,7 @@ const updateSelectedPage = () => {
   const addressPaths = [
     '/account/addresses',
     '/account/addresses/add',
-    '/account/addresses/edit'
+    '/account/addresses/edit',
   ];
 
   selectedPage.value = addressPaths.includes(currentPath.value)
@@ -69,32 +70,44 @@ watch(currentPath, () => {
           class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
           :class="{ 'text-black bg-zinc-100': route.path === '/account' }"
         >
-          <Icon name="ph:globe" class="h-5 w-5 shrink-0" />
+          <Icon
+            name="ph:globe"
+            class="h-5 w-5 shrink-0"
+          />
           Dashboard
         </NuxtLink>
         <NuxtLink
           to="/account/orders"
           class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
           :class="{
-            'text-black bg-zinc-100': route.path === '/account/orders'
+            'text-black bg-zinc-100': route.path === '/account/orders',
           }"
         >
-          <Icon name="ph:tag" class="h-5 w-5 shrink-0" />
+          <Icon
+            name="ph:tag"
+            class="h-5 w-5 shrink-0"
+          />
           Orders
         </NuxtLink>
         <NuxtLink
           to="/account/addresses"
           class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
-          :class="{'text-black bg-zinc-100': route.path === '/account/addresses' || route.path.includes('/account/addresses/')}"
+          :class="{ 'text-black bg-zinc-100': route.path === '/account/addresses' || route.path.includes('/account/addresses/') }"
         >
-          <Icon name="ph:map-pin" class="h-5 w-5 shrink-0" />
+          <Icon
+            name="ph:map-pin"
+            class="h-5 w-5 shrink-0"
+          />
           Addresses
         </NuxtLink>
         <button
           class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
           @click="logout"
         >
-          <Icon name="ph:sign-out" class="h-5 w-5 shrink-0" />
+          <Icon
+            name="ph:sign-out"
+            class="h-5 w-5 shrink-0"
+          />
           Logout
         </button>
       </nav>
@@ -116,7 +129,10 @@ watch(currentPath, () => {
           </option>
         </select>
         <span class="absolute inset-y-0 end-0 flex items-center pointer-events-none px-3">
-          <Icon name="ph:caret-up-down" class="h-4 w-4 shrink-0" />
+          <Icon
+            name="ph:caret-up-down"
+            class="h-4 w-4 shrink-0"
+          />
         </span>
       </nav>
     </div>

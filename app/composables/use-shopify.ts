@@ -11,5 +11,5 @@ export const useShopify = () => ({
   customer,
   localization,
   product,
-  search
+  search,
 });

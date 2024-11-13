@@ -1,4 +1,4 @@
-import type { DocumentNode} from 'graphql';
+import type { DocumentNode } from 'graphql';
 
 import { print } from 'graphql';
 
@@ -13,6 +13,6 @@ export const query = (query: DocumentNode, variables = {}) => {
 
   return $fetch('/api/shopify', {
     method: 'POST',
-    body: { query: serializedQuery, variables }
+    body: { query: serializedQuery, variables },
   });
 };

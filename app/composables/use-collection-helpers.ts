@@ -1,7 +1,7 @@
 import type {
   ProductCollectionSortKeys,
   SearchSortKeys,
-  ProductFilter
+  ProductFilter,
 } from '@@/types/shopify';
 
 export const useCollectionHelpers = () => {
@@ -11,7 +11,7 @@ export const useCollectionHelpers = () => {
    * @returns An object containing the sort key and whether the sort should be reversed
    */
   const getCollectionSortValuesFromUrl = (
-    sortParam: string | null
+    sortParam: string | null,
   ): {
     sortKey: ProductCollectionSortKeys;
     reverse: boolean;
@@ -20,27 +20,27 @@ export const useCollectionHelpers = () => {
       case 'price-high-low':
         return {
           sortKey: 'PRICE',
-          reverse: true
+          reverse: true,
         };
       case 'price-low-high':
         return {
           sortKey: 'PRICE',
-          reverse: false
+          reverse: false,
         };
       case 'best-selling':
         return {
           sortKey: 'BEST_SELLING',
-          reverse: false
+          reverse: false,
         };
       case 'newest':
         return {
           sortKey: 'CREATED',
-          reverse: true
+          reverse: true,
         };
       default:
         return {
           sortKey: 'MANUAL',
-          reverse: false
+          reverse: false,
         };
     }
   };
@@ -51,7 +51,7 @@ export const useCollectionHelpers = () => {
    * @returns An object containing the sort key and whether the sort should be reversed
    */
   const getSearchSortValuesFromUrl = (
-    sortParam: string | null
+    sortParam: string | null,
   ): {
     sortKey: SearchSortKeys;
     reverse: boolean;
@@ -60,17 +60,17 @@ export const useCollectionHelpers = () => {
       case 'price-high-low':
         return {
           sortKey: 'PRICE',
-          reverse: true
+          reverse: true,
         };
       case 'price-low-high':
         return {
           sortKey: 'PRICE',
-          reverse: false
+          reverse: false,
         };
       default:
         return {
           sortKey: 'RELEVANCE',
-          reverse: false
+          reverse: false,
         };
     }
   };
@@ -82,13 +82,13 @@ export const useCollectionHelpers = () => {
    */
   const getFilterValuesFromUrl = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    query: Record<string, any>
+    query: Record<string, any>,
   ): ProductFilter[] => {
     const filters: ProductFilter[] = [];
 
     if (query.color || query.size || query.productType) {
       filters.push({
-        available: true
+        available: true,
       });
     }
 
@@ -100,8 +100,8 @@ export const useCollectionHelpers = () => {
         filters.push({
           variantOption: {
             name: 'Color',
-            value: color
-          }
+            value: color,
+          },
         });
       });
     }
@@ -112,8 +112,8 @@ export const useCollectionHelpers = () => {
         filters.push({
           variantOption: {
             name: 'Size',
-            value: size
-          }
+            value: size,
+          },
         });
       });
     }
@@ -122,7 +122,7 @@ export const useCollectionHelpers = () => {
       const productTypeValues = query.productType.split(',');
       productTypeValues.forEach((productType) => {
         filters.push({
-          productType: productType
+          productType: productType,
         });
       });
     }
@@ -164,6 +164,6 @@ export const useCollectionHelpers = () => {
     getCollectionSortValuesFromUrl,
     getSearchSortValuesFromUrl,
     getFilterValuesFromUrl,
-    sortLetterAndNumberSizes
+    sortLetterAndNumberSizes,
   };
 };

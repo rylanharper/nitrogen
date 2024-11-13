@@ -15,19 +15,19 @@ const shopify = useShopify();
 const productVars = computed<ProductQueryVariables>(() => ({
   handle: handle.value,
   country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode
+  language: shopStore.buyerLanguageCode,
 }));
 
 const { data: productData } = await useAsyncData(
   `product-${handle.value}`,
   () => shopify.product.get(productVars.value),
-  { watch: [productVars] }
+  { watch: [productVars] },
 );
 
 const { data: recommendationData } = await useAsyncData(
   `recommended-${handle.value}`,
   () => shopify.product.recommended(productVars.value),
-  { watch: [productVars], lazy: true }
+  { watch: [productVars], lazy: true },
 );
 
 // Computed data
@@ -49,7 +49,7 @@ const isLightboxOpen = ref(false);
 const openLightbox = (index: number) => {
   mediaIndex.value = index;
   isLightboxOpen.value = true;
-};;
+}; ;
 
 const closeLightbox = () => {
   isLightboxOpen.value = false;
@@ -64,12 +64,15 @@ watch(isLightboxOpen, (isOpen) => {
 
 // SEO
 useHead({
-  title: product.value?.title
+  title: product.value?.title,
 });
 </script>
 
 <template>
-  <section v-if="product" class="flex flex-col mb-20">
+  <section
+    v-if="product"
+    class="flex flex-col mb-20"
+  >
     <ProductMediaLightbox
       v-if="isLightboxOpen"
       :media-index="mediaIndex"
@@ -97,8 +100,16 @@ useHead({
       <ProductRecommendations :products="productRecommendations" />
     </div>
   </section>
-  <section v-else class="flex items-center gap-2 p-6">
-    <Icon name="ph:warning-circle" class="h-5 w-5 shrink-0" />
-    <p class="normal-case">No Product data found.</p>
+  <section
+    v-else
+    class="flex items-center gap-2 p-6"
+  >
+    <Icon
+      name="ph:warning-circle"
+      class="h-5 w-5 shrink-0"
+    />
+    <p class="normal-case">
+      No Product data found.
+    </p>
   </section>
 </template>

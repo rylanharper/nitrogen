@@ -17,7 +17,7 @@ const input = ref<HTMLInputElement | null>(null);
 const emit = defineEmits([
   'debounceQuery',
   'submitQuery',
-  'closeSearch'
+  'closeSearch',
 ]);
 
 // Emit events
@@ -49,9 +49,9 @@ const productsWithOptions = computed(() =>
     return {
       ...product,
       colorOption,
-      colorOptionName
+      colorOptionName,
     };
-  })
+  }),
 );
 
 // Watchers
@@ -61,12 +61,16 @@ watch(
     nextTick(() => {
       input.value?.focus();
     });
-  }
+  },
 );
 </script>
 
 <template>
-  <Transition name="slider" mode="out-in" appear>
+  <Transition
+    name="slider"
+    mode="out-in"
+    appear
+  >
     <aside
       v-if="appStore.searchMenuOpen"
       class="fixed inset-0 z-[200] size-full bg-white lg:hidden"
@@ -86,17 +90,26 @@ watch(
             @keydown="onKeyDown"
           >
           <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
-            <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0" />
+            <Icon
+              name="ph:magnifying-glass"
+              class="h-5 w-5 shrink-0"
+            />
           </div>
           <button
             class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black"
             @click="closeSearch"
           >
-            <Icon name="ph:x" class="h-5 w-5 shrink-0" />
+            <Icon
+              name="ph:x"
+              class="h-5 w-5 shrink-0"
+            />
           </button>
         </div>
         <div class="flex flex-col flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
-          <div v-if="searchQuery.length && products?.length" class="grid grid-cols-2 gap-x-4 gap-y-8 w-full">
+          <div
+            v-if="searchQuery.length && products?.length"
+            class="grid grid-cols-2 gap-x-4 gap-y-8 w-full"
+          >
             <NuxtLink
               v-for="product in productsWithOptions"
               :key="product.id"
@@ -111,8 +124,13 @@ watch(
               </div>
               <div class="flex flex-col flex-1">
                 <div class="mb-1">
-                  <h2 v-if="product.title">{{ product.title }}</h2>
-                  <h3 v-if="product.colorOption" class="normal-case">
+                  <h2 v-if="product.title">
+                    {{ product.title }}
+                  </h2>
+                  <h3
+                    v-if="product.colorOption"
+                    class="normal-case"
+                  >
                     {{ product.colorOptionName }}
                   </h3>
                 </div>
@@ -127,7 +145,11 @@ watch(
       </div>
     </aside>
   </Transition>
-  <Transition name="fade" mode="out-in" appear>
+  <Transition
+    name="fade"
+    mode="out-in"
+    appear
+  >
     <div
       v-if="appStore.searchMenuOpen"
       class="fixed inset-0 z-[150] pointer-events-auto bg-black/50 lg:hidden"

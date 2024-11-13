@@ -19,7 +19,7 @@ const emit = defineEmits([
   'closeFilter',
   'setSortOption',
   'setFilterOption',
-  'clearAllFilters'
+  'clearAllFilters',
 ]);
 
 const closeFilter = () => {
@@ -40,7 +40,11 @@ const clearAllFilters = () => {
 </script>
 
 <template>
-  <Transition name="slider" mode="out-in" appear>
+  <Transition
+    name="slider"
+    mode="out-in"
+    appear
+  >
     <aside
       v-if="appStore.filterMenuOpen"
       class="hidden fixed top-0 z-[200] w-full bg-white lg:flex"
@@ -52,17 +56,22 @@ const clearAllFilters = () => {
             class="flex ring-1 ring-offset-2 ring-transparent rounded-sm focus:ring-black"
             @click="closeFilter"
           >
-            <Icon name="ph:x" class="h-5 w-5 shrink-0" />
+            <Icon
+              name="ph:x"
+              class="h-5 w-5 shrink-0"
+            />
           </button>
         </div>
         <div class="grid grid-cols-4 gap-10">
           <div>
-            <h3 class="mb-5">Sort By</h3>
+            <h3 class="mb-5">
+              Sort By
+            </h3>
             <div class="flex flex-col">
               <button
                 v-for="(option, index) in props.sortOptions"
                 :key="index"
-                :class="{ 'underline': route.query.sort === option.value || (option.value === null && !route.query.sort) }"
+                :class="{ underline: route.query.sort === option.value || (option.value === null && !route.query.sort) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
                 @click="setSortOption(option.value)"
               >
@@ -71,12 +80,14 @@ const clearAllFilters = () => {
             </div>
           </div>
           <div>
-            <h3 class="mb-5">Color</h3>
+            <h3 class="mb-5">
+              Color
+            </h3>
             <div class="flex flex-col">
               <button
                 v-for="(color, index) in props.colorOptions"
                 :key="index"
-                :class="{ 'underline': (route.query.color as string)?.split(',').includes(color) }"
+                :class="{ underline: (route.query.color as string)?.split(',').includes(color) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
                 @click="setFilterOption('color', color)"
               >
@@ -85,12 +96,14 @@ const clearAllFilters = () => {
             </div>
           </div>
           <div>
-            <h3 class="mb-5">Size</h3>
+            <h3 class="mb-5">
+              Size
+            </h3>
             <div class="flex flex-col">
               <button
                 v-for="(size, index) in props.sizeOptions"
                 :key="index"
-                :class="{ 'underline': (route.query.size as string)?.split(',').includes(size) }"
+                :class="{ underline: (route.query.size as string)?.split(',').includes(size) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
                 @click="setFilterOption('size', size)"
               >
@@ -99,12 +112,14 @@ const clearAllFilters = () => {
             </div>
           </div>
           <div>
-            <h3 class="mb-5">Style</h3>
+            <h3 class="mb-5">
+              Style
+            </h3>
             <div class="flex flex-col">
               <button
                 v-for="(type, index) in props.productTypeOptions"
                 :key="index"
-                :class="{ 'underline': (route.query.productType as string)?.split(',').includes(type) }"
+                :class="{ underline: (route.query.productType as string)?.split(',').includes(type) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
                 @click="setFilterOption('productType', type)"
               >
@@ -134,7 +149,11 @@ const clearAllFilters = () => {
       </div>
     </aside>
   </Transition>
-  <Transition name="fade" mode="out-in" appear>
+  <Transition
+    name="fade"
+    mode="out-in"
+    appear
+  >
     <div
       v-if="appStore.filterMenuOpen"
       class="hidden fixed inset-0 z-[150] pointer-events-auto bg-black/50 lg:flex"

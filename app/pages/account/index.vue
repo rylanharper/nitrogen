@@ -12,13 +12,13 @@ const shopify = useShopify();
 const customerVars = computed<CustomerQueryVariables>(() => ({
   customerAccessToken: authStore.accessToken,
   country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode
+  language: shopStore.buyerLanguageCode,
 }));
 
 const { data: customerData } = await useAsyncData(
   'customer-data',
   () => shopify.customer.get(customerVars.value),
-  { watch: [customerVars] }
+  { watch: [customerVars] },
 );
 
 // Computed data
@@ -29,12 +29,12 @@ const defaultAddress = computed(() => customer.value?.defaultAddress);
 
 // SEO
 useHead({
-  title: 'Account'
+  title: 'Account',
 });
 
 // Meta
 definePageMeta({
-  layout: 'account'
+  layout: 'account',
 });
 </script>
 
@@ -59,23 +59,39 @@ definePageMeta({
             </NuxtLink>
           </div>
         </div>
-        <div v-else class="flex items-center gap-2 px-6 lg:p-0">
-          <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
-          <p class="normal-case">You haven&apos;t placed any orders yet.</p>
+        <div
+          v-else
+          class="flex items-center gap-2 px-6 lg:p-0"
+        >
+          <Icon
+            name="ph:seal-warning"
+            class="h-5 w-5 shrink-0"
+          />
+          <p class="normal-case">
+            You haven&apos;t placed any orders yet.
+          </p>
         </div>
       </div>
       <div class="flex flex-col gap-6">
         <h2 class="px-6 normal-case text-xl tracking-tight leading-none lg:p-0">
           Saved Addresses
         </h2>
-        <div v-if="addresses?.length" class="px-6 lg:px-0">
+        <div
+          v-if="addresses?.length"
+          class="px-6 lg:px-0"
+        >
           <AccountAddress
             :default-address="defaultAddress"
             :addresses="addresses"
           />
         </div>
-        <div v-else class="flex flex-col px-6 normal-case lg:p-0">
-          <p class="normal-case">You have no saved shipping address.</p>
+        <div
+          v-else
+          class="flex flex-col px-6 normal-case lg:p-0"
+        >
+          <p class="normal-case">
+            You have no saved shipping address.
+          </p>
           <NuxtLink
             to="/account/addresses/add"
             class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
@@ -86,8 +102,16 @@ definePageMeta({
       </div>
     </div>
   </section>
-  <section v-else class="flex items-center self-start p-6 gap-2">
-    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
-    <p class="normal-case">No customer data found.</p>
+  <section
+    v-else
+    class="flex items-center self-start p-6 gap-2"
+  >
+    <Icon
+      name="ph:seal-warning"
+      class="h-5 w-5 shrink-0"
+    />
+    <p class="normal-case">
+      No customer data found.
+    </p>
   </section>
 </template>

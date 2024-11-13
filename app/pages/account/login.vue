@@ -33,12 +33,15 @@ const handleLogin = async () => {
 
     if (isAuth.value) {
       await navigateTo('/account');
-    } else {
+    }
+    else {
       errorMessage.value = 'Something went wrong. Please try to sign in again or create a new account.';
     }
-  } catch (_error) {
+  }
+  catch (_error) {
     errorMessage.value = 'An error occurred. Please try again later.';
-  } finally {
+  }
+  finally {
     isLoading.value = false;
   }
 };
@@ -53,7 +56,7 @@ const togglePassword = () => {
 
 // SEO
 useHead({
-  title: 'Login'
+  title: 'Login',
 });
 </script>
 
@@ -125,7 +128,9 @@ useHead({
         </button>
       </form>
       <div class="flex flex-col mb-10">
-        <p class="normal-case">New to Yeren?</p>
+        <p class="normal-case">
+          New to Yeren?
+        </p>
         <NuxtLink
           to="/account/register"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"

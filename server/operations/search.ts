@@ -2,12 +2,11 @@ import type {
   SearchProductsQuery,
   SearchProductsQueryVariables,
   PredictiveSearchQuery,
-  PredictiveSearchQueryVariables
+  PredictiveSearchQueryVariables,
 } from '@@/types/shopify';
 
 import { SEARCH, PREDICTIVE_SEARCH } from '../graphql/queries/search';
 import { query } from '../utils/client';
-
 
 /**
  * Executes a product search based on the given options.
@@ -16,7 +15,7 @@ import { query } from '../utils/client';
  * @see https://shopify.dev/docs/api/storefront/2024-07/queries/search
  */
 const products = async (
-  options: SearchProductsQueryVariables
+  options: SearchProductsQueryVariables,
 ): Promise<SearchProductsQuery['search']> => {
   const response = await query(SEARCH, options);
   return response.data?.search;
@@ -29,7 +28,7 @@ const products = async (
  * @see https://shopify.dev/docs/api/storefront/2024-07/queries/predictiveSearch
  */
 const predictive = async (
-  options: PredictiveSearchQueryVariables
+  options: PredictiveSearchQueryVariables,
 ): Promise<PredictiveSearchQuery['predictiveSearch']> => {
   const response = await query(PREDICTIVE_SEARCH, options);
   return response.data?.predictiveSearch;
@@ -37,5 +36,5 @@ const predictive = async (
 
 export default {
   products,
-  predictive
+  predictive,
 };

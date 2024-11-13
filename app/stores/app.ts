@@ -8,7 +8,7 @@ export const useAppStore = defineStore('@yeren/app', {
       mobileMenuOpen: false,
       localeModalOpen: false,
       filterMenuOpen: false,
-      searchMenuOpen: false
+      searchMenuOpen: false,
     };
   },
 
@@ -42,6 +42,6 @@ export const useAppStore = defineStore('@yeren/app', {
      */
     toggleSearchMenu(state?: boolean) {
       this.searchMenuOpen = state ?? !this.searchMenuOpen;
-    }
-  }
+    },
+  },
 });

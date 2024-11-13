@@ -13,7 +13,7 @@ const headers = [
   { label: 'Order No.' },
   { label: 'Date' },
   { label: 'Status' },
-  { label: 'Total' }
+  { label: 'Total' },
 ];
 </script>
 
@@ -32,7 +32,10 @@ const headers = [
         </tr>
       </thead>
       <tbody class="divide-y divide-zinc-300">
-        <tr v-for="order in props.orders" :key="order.id">
+        <tr
+          v-for="order in props.orders"
+          :key="order.id"
+        >
           <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
             <NuxtLink
               :to="order.statusUrl"
@@ -41,7 +44,10 @@ const headers = [
               class="flex items-center gap-2 whitespace-nowrap"
             >
               {{ order.lineItems?.edges[0]?.node.title }}
-              <Icon name="ph:arrow-up-right" class="h-4 w-4 shrink-0 text-zinc-400"/>
+              <Icon
+                name="ph:arrow-up-right"
+                class="h-4 w-4 shrink-0 text-zinc-400"
+              />
             </NuxtLink>
           </td>
           <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
@@ -66,7 +72,10 @@ const headers = [
             </span>
           </td>
           <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
-            <PriceDisplay class="price" :price="order.currentTotalPrice" />
+            <PriceDisplay
+              class="price"
+              :price="order.currentTotalPrice"
+            />
           </td>
         </tr>
       </tbody>

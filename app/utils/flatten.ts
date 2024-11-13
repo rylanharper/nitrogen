@@ -7,7 +7,7 @@ export const flattenConnection = <T>(
   connection?: {
     edges?: { node: T }[];
     nodes?: T[];
-  }
+  },
 ): T[] => {
   if (connection?.edges) {
     return connection.edges.map(({ node }) => node);

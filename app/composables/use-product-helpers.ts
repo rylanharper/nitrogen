@@ -2,7 +2,7 @@ import type {
   ProductFragment,
   MoneyFragment,
   ProductOptionFragment,
-  ProductVariantFragment
+  ProductVariantFragment,
 } from '@@/types/shopify';
 
 export const useProductHelpers = () => {
@@ -14,8 +14,8 @@ export const useProductHelpers = () => {
    */
   const isNewItem = (date: string, daysOld = 30) => {
     return (
-      new Date(date).valueOf() >
-      new Date().setDate(new Date().getDate() - daysOld).valueOf()
+      new Date(date).valueOf()
+        > new Date().setDate(new Date().getDate() - daysOld).valueOf()
     );
   };
 
@@ -46,7 +46,7 @@ export const useProductHelpers = () => {
    */
   const getColorOption = (optionInput: ProductOptionFragment[]) => {
     const colorOptionNames = ['Color', 'Colour'];
-    return optionInput.find((option) => colorOptionNames.includes(option.name)) ?? null;
+    return optionInput.find(option => colorOptionNames.includes(option.name)) ?? null;
   };
 
   /**
@@ -56,7 +56,7 @@ export const useProductHelpers = () => {
    */
   const getSizeOption = (optionInput: ProductOptionFragment[]) => {
     const sizeOptionNames = ['Size', 'Length'];
-    return optionInput.find((option) => sizeOptionNames.includes(option.name)) ?? null;
+    return optionInput.find(option => sizeOptionNames.includes(option.name)) ?? null;
   };
 
   /**
@@ -67,16 +67,16 @@ export const useProductHelpers = () => {
    */
   const isSizeSoldOut = (
     variants: ProductVariantFragment[],
-    sizeValue: string
+    sizeValue: string,
   ) => {
     const sizeOptionNames = ['Size', 'Length'];
-    const sizeVariants = variants.filter((variant) =>
-      variant.selectedOptions.some((option) =>
-        sizeOptionNames.includes(option.name) && option.value === sizeValue
-      )
+    const sizeVariants = variants.filter(variant =>
+      variant.selectedOptions.some(option =>
+        sizeOptionNames.includes(option.name) && option.value === sizeValue,
+      ),
     );
 
-    return sizeVariants.every((variant) => !variant.availableForSale);
+    return sizeVariants.every(variant => !variant.availableForSale);
   };
 
   return {
@@ -85,6 +85,6 @@ export const useProductHelpers = () => {
     isOnSale,
     getColorOption,
     getSizeOption,
-    isSizeSoldOut
+    isSizeSoldOut,
   };
 };

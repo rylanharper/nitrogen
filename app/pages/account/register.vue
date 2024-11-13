@@ -8,7 +8,7 @@ const customer = reactive({
   lastName: '',
   email: '',
   password: '',
-  acceptsMarketing: false
+  acceptsMarketing: false,
 });
 
 // State
@@ -19,10 +19,10 @@ const isLoading = ref(false);
 // Register
 const formCompleted = computed(
   () =>
-    customer.firstName &&
-    customer.lastName &&
-    customer.email &&
-    customer.password
+    customer.firstName
+    && customer.lastName
+    && customer.email
+    && customer.password,
 );
 const isAuth = computed(() => authStore.isAuthenticated);
 
@@ -59,12 +59,15 @@ const handleRegister = async () => {
 
     if (isAuth.value) {
       await navigateTo('/account');
-    } else {
+    }
+    else {
       errorMessage.value = 'Something went wrong. Please try to register again or login instead.';
     }
-  } catch (_error) {
+  }
+  catch (_error) {
     errorMessage.value = 'An error occurred. Please try again later.';
-  } finally {
+  }
+  finally {
     isLoading.value = false;
   }
 };
@@ -84,7 +87,7 @@ const toggleConfirmPassword = () => {
 
 // SEO
 useHead({
-  title: 'Register'
+  title: 'Register',
 });
 </script>
 
@@ -207,7 +210,9 @@ useHead({
               class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 h-3 w-3 shrink-0 opacity-0 text-black pointer-events-none peer-checked:opacity-100"
             />
           </div>
-          <p class="normal-case">Subscribe to Newsletter?</p>
+          <p class="normal-case">
+            Subscribe to Newsletter?
+          </p>
         </div>
         <button
           type="submit"
@@ -218,7 +223,9 @@ useHead({
         </button>
       </form>
       <div class="flex flex-col mb-10">
-        <p class="normal-case">Have an account?</p>
+        <p class="normal-case">
+          Have an account?
+        </p>
         <NuxtLink
           to="/account/login"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"

@@ -13,12 +13,12 @@ import { query } from '../utils/client';
  * @see https://shopify.dev/docs/api/storefront/2024-07/queries/localization
  */
 export const get = async (
-  options: LocalizationQueryVariables
+  options: LocalizationQueryVariables,
 ): Promise<LocalizationQuery['localization']> => {
   const response = await query(LOCALIZATION, options);
   return response.data?.localization;
 };
 
 export default {
-  get
+  get,
 };

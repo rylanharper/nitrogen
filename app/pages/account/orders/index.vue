@@ -12,13 +12,13 @@ const shopify = useShopify();
 const customerVars = computed<CustomerQueryVariables>(() => ({
   customerAccessToken: authStore.accessToken,
   country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode
+  language: shopStore.buyerLanguageCode,
 }));
 
 const { data: customerData } = await useAsyncData(
   'customer-data',
   () => shopify.customer.get(customerVars.value),
-  { watch: [customerVars] }
+  { watch: [customerVars] },
 );
 
 // Computed data
@@ -27,12 +27,12 @@ const orders = computed(() => flattenConnection(customer.value?.orders));
 
 // SEO
 useHead({
-  title: 'Orders'
+  title: 'Orders',
 });
 
 // Meta
 definePageMeta({
-  layout: 'account'
+  layout: 'account',
 });
 </script>
 
@@ -48,14 +48,30 @@ definePageMeta({
       <div v-if="orders?.length">
         <AccountOrders :orders="orders" />
       </div>
-      <div v-else class="flex items-center gap-2 px-6 lg:p-0">
-        <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
-        <p class="normal-case">You haven&apos;t placed any orders yet.</p>
+      <div
+        v-else
+        class="flex items-center gap-2 px-6 lg:p-0"
+      >
+        <Icon
+          name="ph:seal-warning"
+          class="h-5 w-5 shrink-0"
+        />
+        <p class="normal-case">
+          You haven&apos;t placed any orders yet.
+        </p>
       </div>
     </div>
   </section>
-  <section v-else class="flex items-center self-start p-6 gap-2">
-    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
-    <p class="normal-case">No customer data found.</p>
+  <section
+    v-else
+    class="flex items-center self-start p-6 gap-2"
+  >
+    <Icon
+      name="ph:seal-warning"
+      class="h-5 w-5 shrink-0"
+    />
+    <p class="normal-case">
+      No customer data found.
+    </p>
   </section>
 </template>

@@ -21,9 +21,9 @@ export const formatSizeUrl = (src: string, width: number): string => {
   const match = src.match(/\.(webp|jpg|jpeg|gif|png|bmp|bitmap|tiff|tif)(\?v=\d+)?$/i);
 
   if (match) {
-    const prefix = src.split(match[0])
-    const suffix = match[0]
-    const size = `${width}x`
+    const prefix = src.split(match[0]);
+    const suffix = match[0];
+    const size = `${width}x`;
 
     return `${prefix[0]}_${size}${suffix}`;
   };
@@ -44,7 +44,7 @@ export const formatCurrency = (amount: string | number, currencyCode: string = '
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currencyCode,
-    minimumFractionDigits: 2
+    minimumFractionDigits: 2,
   })
     .format(numericAmount)
     .replace(/\.00/g, '');

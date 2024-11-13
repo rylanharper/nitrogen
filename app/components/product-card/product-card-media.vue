@@ -27,7 +27,10 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
       class="absolute size-full transition-opacity ease-in-out"
       :class="{ 'opacity-0 lg:hover:opacity-100': index === 1 }"
     >
-      <ShopifyVideo v-if="isMediaVideo(media)" :video="media" />
+      <ShopifyVideo
+        v-if="isMediaVideo(media)"
+        :video="media"
+      />
       <ShopifyImage
         v-else-if="isMediaImage(media)"
         :image="media.image"

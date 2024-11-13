@@ -19,7 +19,7 @@ const emit = defineEmits([
   'closeFilter',
   'setSortOption',
   'setFilterOption',
-  'clearAllFilters'
+  'clearAllFilters',
 ]);
 
 // Emit events
@@ -41,7 +41,11 @@ const clearAllFilters = () => {
 </script>
 
 <template>
-  <Transition name="slider" mode="out-in" appear>
+  <Transition
+    name="slider"
+    mode="out-in"
+    appear
+  >
     <aside
       v-if="appStore.filterMenuOpen"
       class="fixed top-0 right-0 z-[200] size-full bg-white md:max-w-[450px] lg:hidden"
@@ -54,7 +58,10 @@ const clearAllFilters = () => {
             class="flex ring-1 ring-offset-2 ring-transparent rounded-sm focus:ring-black"
             @click="closeFilter"
           >
-            <Icon name="ph:x" class="h-5 w-5 shrink-0" />
+            <Icon
+              name="ph:x"
+              class="h-5 w-5 shrink-0"
+            />
           </button>
         </div>
         <div class="flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
@@ -72,7 +79,7 @@ const clearAllFilters = () => {
                   <button
                     v-for="(option, index) in props.sortOptions"
                     :key="index"
-                    :class="{ 'underline': route.query.sort === option.value || (option.value === null && !route.query.sort) }"
+                    :class="{ underline: route.query.sort === option.value || (option.value === null && !route.query.sort) }"
                     class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                     @click="setSortOption(option.value)"
                   >
@@ -94,7 +101,7 @@ const clearAllFilters = () => {
                   <button
                     v-for="(color, index) in props.colorOptions"
                     :key="index"
-                    :class="{ 'underline': (route.query.color as string)?.split(',').includes(color) }"
+                    :class="{ underline: (route.query.color as string)?.split(',').includes(color) }"
                     class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                     @click="setFilterOption('color', color)"
                   >
@@ -116,7 +123,7 @@ const clearAllFilters = () => {
                   <button
                     v-for="(size, index) in props.sizeOptions"
                     :key="index"
-                    :class="{ 'underline': (route.query.size as string)?.split(',').includes(size) }"
+                    :class="{ underline: (route.query.size as string)?.split(',').includes(size) }"
                     class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                     @click="setFilterOption('size', size)"
                   >
@@ -138,7 +145,7 @@ const clearAllFilters = () => {
                   <button
                     v-for="(type, index) in props.productTypeOptions"
                     :key="index"
-                    :class="{ 'underline': (route.query.productType as string)?.split(',').includes(type) }"
+                    :class="{ underline: (route.query.productType as string)?.split(',').includes(type) }"
                     class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                     @click="setFilterOption('productType', type)"
                   >
@@ -168,7 +175,11 @@ const clearAllFilters = () => {
       </div>
     </aside>
   </Transition>
-  <Transition name="fade" mode="out-in" appear>
+  <Transition
+    name="fade"
+    mode="out-in"
+    appear
+  >
     <div
       v-if="appStore.filterMenuOpen"
       class="fixed inset-0 z-[150] pointer-events-auto bg-black/50 lg:hidden"

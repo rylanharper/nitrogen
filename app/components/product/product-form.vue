@@ -43,13 +43,13 @@ onMounted(() => {
   // If a variant ID is provided in the URL
   if (variantId) {
     const urlVariant = variants.value.find(
-      (variant) => formatVariantId(variant.id) === variantId
+      variant => formatVariantId(variant.id) === variantId,
     );
 
     // If the URL variant is found, set the selected size
     if (urlVariant) {
-      const sizeOption = urlVariant.selectedOptions.find((option) =>
-        sizeOptionNames.includes(option.name)
+      const sizeOption = urlVariant.selectedOptions.find(option =>
+        sizeOptionNames.includes(option.name),
       );
 
       if (sizeOption) {
@@ -65,7 +65,8 @@ const updateUrlParams = (variant: ProductVariantFragment | undefined) => {
 
   if (variant) {
     query.variant = formatVariantId(variant.id);
-  } else {
+  }
+  else {
     delete query.variant;
   }
 
@@ -89,14 +90,16 @@ const addToCart = async () => {
     await cartStore.addToCart([
       {
         merchandiseId: currentVariant.value.id,
-        quantity: 1
-      }
+        quantity: 1,
+      },
     ]);
 
     openDrawer();
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Failed to add item to cart', error);
-  } finally {
+  }
+  finally {
     isLoading.value = false;
   }
 };
@@ -104,10 +107,10 @@ const addToCart = async () => {
 // Watchers
 watch(selectedSize, (size) => {
   const sizeOptionNames = ['Size', 'Length'];
-  return currentVariant.value = variants.value.find((variant) =>
+  return currentVariant.value = variants.value.find(variant =>
     variant.selectedOptions.every(({ name, value }) =>
-      sizeOptionNames.includes(name) ? value === size : true
-    )
+      sizeOptionNames.includes(name) ? value === size : true,
+    ),
   );
 });
 

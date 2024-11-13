@@ -22,7 +22,7 @@ watch(
     if (appStore.cartDrawerOpen) {
       closeDrawer();
     }
-  }
+  },
 );
 
 if (escape) {
@@ -35,7 +35,11 @@ if (escape) {
 </script>
 
 <template>
-  <Transition name="slider" mode="out-in" appear>
+  <Transition
+    name="slider"
+    mode="out-in"
+    appear
+  >
     <aside
       v-if="appStore.cartDrawerOpen"
       class="fixed top-0 right-0 z-[200] size-full bg-white md:max-w-[450px]"
@@ -47,16 +51,29 @@ if (escape) {
             class="flex ring-1 ring-transparent ring-offset-2 rounded-sm focus:ring-black"
             @click="closeDrawer"
           >
-            <Icon name="ph:x" class="h-5 w-5 shrink-0" />
+            <Icon
+              name="ph:x"
+              class="h-5 w-5 shrink-0"
+            />
           </button>
         </div>
-        <div v-if="lineItems?.length" class="flex flex-col size-full">
+        <div
+          v-if="lineItems?.length"
+          class="flex flex-col size-full"
+        >
           <div class="flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
-            <CartLine v-for="line in lineItems" :key="line.id" :line="line" />
+            <CartLine
+              v-for="line in lineItems"
+              :key="line.id"
+              :line="line"
+            />
           </div>
           <CartSummary />
         </div>
-        <div v-else class="flex flex-col justify-center items-center flex-1">
+        <div
+          v-else
+          class="flex flex-col justify-center items-center flex-1"
+        >
           <p class="mb-3 normal-case text-xl tracking-tight leading-none text-center">
             Your cart is empty
           </p>
@@ -70,7 +87,11 @@ if (escape) {
       </div>
     </aside>
   </Transition>
-  <Transition name="fade" mode="out-in" appear>
+  <Transition
+    name="fade"
+    mode="out-in"
+    appear
+  >
     <div
       v-if="appStore.cartDrawerOpen"
       class="fixed inset-0 z-[150] pointer-events-auto bg-black/50"

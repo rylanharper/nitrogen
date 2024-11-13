@@ -13,7 +13,7 @@ export const storefrontApiSchema: CodegenConfig['schema'] = {
     {
       headers: {
         'X-Shopify-Storefront-Access-Token': process.env.NUXT_SHOPIFY_ACCESS_TOKEN,
-        'content-type': 'application/json'
-      }
-    }
+        'content-type': 'application/json',
+      },
+    },
 };

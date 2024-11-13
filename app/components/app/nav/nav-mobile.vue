@@ -11,7 +11,7 @@ const cartTotalItems = computed(() => cartStore.lineItemsCount);
 const emit = defineEmits([
   'toggleShopMenu',
   'toggleSearchMenu',
-  'toggleCartDrawer'
+  'toggleCartDrawer',
 ]);
 </script>
 
@@ -26,7 +26,11 @@ const emit = defineEmits([
       </button>
     </div>
     <div class="flex items-center">
-      <NuxtLink id="logo" to="/" class="p-2 bg-transparent rounded-full">
+      <NuxtLink
+        id="logo"
+        to="/"
+        class="p-2 bg-transparent rounded-full"
+      >
         Nitrogen
       </NuxtLink>
     </div>
@@ -35,7 +39,10 @@ const emit = defineEmits([
         class="flex p-2 text-normalize bg-transparent rounded-full"
         @click="emit('toggleSearchMenu')"
       >
-        <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0" />
+        <Icon
+          name="ph:magnifying-glass"
+          class="h-5 w-5 shrink-0"
+        />
       </button>
       <button
         class="flex p-2 text-normalize bg-transparent rounded-full"

@@ -14,7 +14,7 @@ const srcset = computed(() => {
     const sizes = [640, 768, 1280, 1536, 1920, 2240];
 
     return sizes
-      .map((width) => `${formatSizeUrl(props.image.url, width)} ${width}w`)
+      .map(width => `${formatSizeUrl(props.image.url, width)} ${width}w`)
       .join(', ');
   }
 });

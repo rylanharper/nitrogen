@@ -12,13 +12,13 @@ const shopify = useShopify();
 const customerVars = computed<CustomerQueryVariables>(() => ({
   customerAccessToken: authStore.accessToken,
   country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode
+  language: shopStore.buyerLanguageCode,
 }));
 
 const { data: customerData } = await useAsyncData(
   'customer-data',
   () => shopify.customer.get(customerVars.value),
-  { watch: [customerVars] }
+  { watch: [customerVars] },
 );
 
 // Computed data
@@ -28,12 +28,12 @@ const defaultAddress = computed(() => customer.value?.defaultAddress);
 
 // SEO
 useHead({
-  title: 'Addresses'
+  title: 'Addresses',
 });
 
 // Meta
 definePageMeta({
-  layout: 'account'
+  layout: 'account',
 });
 </script>
 
@@ -52,8 +52,13 @@ definePageMeta({
           :addresses="addresses"
         />
       </div>
-      <div v-else class="flex flex-col px-6 normal-case lg:p-0">
-        <p class="normal-case">You have no saved shipping address.</p>
+      <div
+        v-else
+        class="flex flex-col px-6 normal-case lg:p-0"
+      >
+        <p class="normal-case">
+          You have no saved shipping address.
+        </p>
         <NuxtLink
           :to="{ name: 'account-addresses-add' }"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
@@ -63,8 +68,16 @@ definePageMeta({
       </div>
     </div>
   </section>
-  <section v-else class="flex items-center self-start p-6 gap-2">
-    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
-    <p class="normal-case">No customer data found.</p>
+  <section
+    v-else
+    class="flex items-center self-start p-6 gap-2"
+  >
+    <Icon
+      name="ph:seal-warning"
+      class="h-5 w-5 shrink-0"
+    />
+    <p class="normal-case">
+      No customer data found.
+    </p>
   </section>
 </template>

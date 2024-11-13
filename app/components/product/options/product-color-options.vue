@@ -27,7 +27,7 @@ const mainProductColor = computed(() => {
     color: colorOption?.optionValues[0]?.swatch?.color,
     image: colorOption?.optionValues[0]?.swatch?.image?.previewImage,
     handle: props.product.handle,
-    isAvailable: props.product.availableForSale
+    isAvailable: props.product.availableForSale,
   };
 });
 
@@ -41,7 +41,7 @@ const matchingProductColors = computed(() => {
       color: colorOption?.optionValues[0]?.swatch?.color,
       image: colorOption?.optionValues[0]?.swatch?.image?.previewImage,
       handle: product.handle,
-      isAvailable: product.availableForSale
+      isAvailable: product.availableForSale,
     };
   });
 });
@@ -58,15 +58,18 @@ const colorName = ref(defaultColor.value);
 // Actions
 const updateColorName = (name: string | undefined) => {
   colorName.value = name;
-};;
+}; ;
 
 const resetColorName = () => {
   colorName.value = defaultColor.value;
-};;
+}; ;
 </script>
 
 <template>
-  <div v-if="isColorOption" class="flex flex-col gap-2">
+  <div
+    v-if="isColorOption"
+    class="flex flex-col gap-2"
+  >
     <span>color: {{ colorName }}</span>
     <div class="flex flex-wrap gap-2">
       <NuxtLink
@@ -80,7 +83,7 @@ const resetColorName = () => {
             : 'outline-gray-200',
           !color.isAvailable
             ? 'text-zinc-400 after:h-px after:w-[150%] after:-rotate-[28deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-zinc-300'
-            : 'text-black'
+            : 'text-black',
         ]"
         :style="{ background: color.color }"
         :aria-label="`Color Option ${color.name}`"

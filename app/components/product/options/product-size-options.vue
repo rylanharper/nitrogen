@@ -1,45 +1,51 @@
 <script setup lang="ts">
-import type { ProductFragment } from '@@/types/shopify'
+import type { ProductFragment } from '@@/types/shopify';
 
 const props = defineProps<{
-  product: ProductFragment,
-  selectedSize: string
-}>()
+  product: ProductFragment;
+  selectedSize: string;
+}>();
 
 // Helpers
-const { getSizeOption, isSizeSoldOut } = useProductHelpers()
+const { getSizeOption, isSizeSoldOut } = useProductHelpers();
 
 // Computed
-const variants = computed(() => flattenConnection(props.product.variants))
-const isSizeOption = computed(() => getSizeOption(props.product.options))
+const variants = computed(() => flattenConnection(props.product.variants));
+const isSizeOption = computed(() => getSizeOption(props.product.options));
 
 // Get size options
 const productSizes = computed(() => {
-  const sizeOption = getSizeOption(props.product.options)
-  const sizeOptions = sizeOption?.optionValues || []
+  const sizeOption = getSizeOption(props.product.options);
+  const sizeOptions = sizeOption?.optionValues || [];
 
-  return sizeOptions.map((option) => ({
+  return sizeOptions.map(option => ({
     id: option.id,
     name: option.name,
-    isSoldOut: isSizeSoldOut(variants.value, option.name)
-  }))
-})
+    isSoldOut: isSizeSoldOut(variants.value, option.name),
+  }));
+});
 
 // Emits
-const emit = defineEmits(['selectSize'])
+const emit = defineEmits(['selectSize']);
 
 // Emit events
 const selectSizeOption = (size: string) => {
-  emit('selectSize', size)
+  emit('selectSize', size);
 };
 </script>
 
 <template>
-  <div v-if="isSizeOption" class="flex flex-col gap-2">
+  <div
+    v-if="isSizeOption"
+    class="flex flex-col gap-2"
+  >
     <div class="flex items-center justify-between">
       <span>Select Size</span>
       <button class="flex items-center justify-center gap-1.5 normal-case hover:text-gray-500">
-        <Icon name="ph:ruler" class="h-5 w-5 shrink-0" />
+        <Icon
+          name="ph:ruler"
+          class="h-5 w-5 shrink-0"
+        />
         Size Guide
       </button>
     </div>
@@ -54,7 +60,7 @@ const selectSizeOption = (size: string) => {
             : 'border-zinc-300 hover:bg-zinc-200',
           size.isSoldOut
             ? 'text-zinc-400 after:h-px after:w-[150%] after:-rotate-[18deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-zinc-300'
-            : 'text-black'
+            : 'text-black',
         ]"
         :aria-label="`Size Option ${size.name}`"
         @click="selectSizeOption(size.name)"

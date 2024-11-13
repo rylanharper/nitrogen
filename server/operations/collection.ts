@@ -1,6 +1,6 @@
 import type {
   CollectionQuery,
-  CollectionQueryVariables
+  CollectionQueryVariables,
 } from '@@/types/shopify';
 
 import { COLLECTION } from '../graphql/queries/collection';
@@ -13,12 +13,12 @@ import { query } from '../utils/client';
  * @see https://shopify.dev/docs/api/storefront/2024-07/queries/collection
  */
 const get = async (
-  options: CollectionQueryVariables
+  options: CollectionQueryVariables,
 ): Promise<CollectionQuery['collection']> => {
   const response = await query(COLLECTION, options);
   return response.data?.collection;
 };
 
 export default {
-  get
+  get,
 };

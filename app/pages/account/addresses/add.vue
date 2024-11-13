@@ -12,13 +12,13 @@ const shopify = useShopify();
 const customerVars = computed<CustomerQueryVariables>(() => ({
   customerAccessToken: authStore.accessToken,
   country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode
+  language: shopStore.buyerLanguageCode,
 }));
 
 const { data: customerData } = await useAsyncData(
   'customer-data',
   () => shopify.customer.get(customerVars.value),
-  { watch: [customerVars] }
+  { watch: [customerVars] },
 );
 
 // Computed data
@@ -35,7 +35,7 @@ const address = reactive<MailingAddressInput>({
   province: '',
   zip: '',
   phone: '',
-  company: ''
+  company: '',
 });
 
 // State
@@ -46,13 +46,13 @@ const defaultAddress = ref(false);
 // Add address
 const formCompleted = computed(
   () =>
-    address.firstName &&
-    address.lastName &&
-    address.address1 &&
-    address.city &&
-    address.country &&
-    address.province &&
-    address.zip
+    address.firstName
+    && address.lastName
+    && address.address1
+    && address.city
+    && address.country
+    && address.province
+    && address.zip,
 );
 
 const handleNewAddress = async () => {
@@ -68,7 +68,7 @@ const handleNewAddress = async () => {
   try {
     const response = await shopify.customer.createAddress({
       address: { ...address },
-      customerAccessToken: authStore.accessToken
+      customerAccessToken: authStore.accessToken,
     });
 
     const newId = response?.customerAddress?.id;
@@ -76,30 +76,33 @@ const handleNewAddress = async () => {
     if (defaultAddress.value && newId) {
       await shopify.customer.updateDefaultAddress({
         addressId: newId,
-        customerAccessToken: authStore.accessToken
+        customerAccessToken: authStore.accessToken,
       });
     }
 
     if (response?.customerAddress) {
       await navigateTo('/account/addresses');
-    } else {
+    }
+    else {
       errorMessage.value = 'Failed to create address. Please try again.';
     }
-  } catch (_error) {
+  }
+  catch (_error) {
     errorMessage.value = 'An error occurred. Please try again later.';
-  } finally {
+  }
+  finally {
     isLoading.value = false;
   }
 };
 
 // SEO
 useHead({
-  title: 'Add Address'
+  title: 'Add Address',
 });
 
 // Layouts
 definePageMeta({
-  layout: 'account'
+  layout: 'account',
 });
 </script>
 
@@ -268,7 +271,9 @@ definePageMeta({
               class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 h-3 w-3 shrink-0 opacity-0 text-black pointer-events-none peer-checked:opacity-100"
             />
           </div>
-          <p class="normal-case">Set as default address</p>
+          <p class="normal-case">
+            Set as default address
+          </p>
         </div>
         <button
           type="submit"
@@ -279,7 +284,9 @@ definePageMeta({
         </button>
       </form>
       <div class="flex flex-col mb-10">
-        <p class="normal-case">Don&apos;t want to add a new address?</p>
+        <p class="normal-case">
+          Don&apos;t want to add a new address?
+        </p>
         <NuxtLink
           to="/account"
           class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
@@ -295,8 +302,16 @@ definePageMeta({
       </p>
     </div>
   </section>
-  <section v-else class="flex items-center self-start p-6 gap-2">
-    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
-    <p class="normal-case">No customer data found.</p>
+  <section
+    v-else
+    class="flex items-center self-start p-6 gap-2"
+  >
+    <Icon
+      name="ph:seal-warning"
+      class="h-5 w-5 shrink-0"
+    />
+    <p class="normal-case">
+      No customer data found.
+    </p>
   </section>
 </template>

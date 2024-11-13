@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {
   PredictiveSearchQueryVariables,
-  ProductFragment
+  ProductFragment,
 } from '@@/types/shopify';
 
 // Stores
@@ -29,7 +29,8 @@ const handleSearch = async (query: string) => {
     try {
       const response = await shopify.search.predictive(searchVars);
       searchResults.value = response?.products || [];
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Error fetching predictive search data.', error);
     }
   }
@@ -46,7 +47,7 @@ const submitQuery = async () => {
   if (searchQuery.value) {
     await navigateTo({
       path: '/search',
-      query: { q: searchQuery.value }
+      query: { q: searchQuery.value },
     });
 
     closeSearch();
@@ -64,14 +65,14 @@ watch(
       searchQuery.value = '';
       searchResults.value = [];
     }
-  }
+  },
 );
 
 watch(
   () => route.path,
   () => {
     closeSearch();
-  }
+  },
 );
 
 if (escape) {

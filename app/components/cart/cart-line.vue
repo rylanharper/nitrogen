@@ -16,7 +16,7 @@ const variantId = computed(() => formatVariantId(props.line.merchandise.id));
 // Filter default option name/value
 const selectedOptions = computed(() => {
   return merchandise.value.selectedOptions.filter(
-    (option) => !(option.name === 'Title' && option.value === 'Default Title')
+    option => !(option.name === 'Title' && option.value === 'Default Title'),
   );
 });
 
@@ -28,14 +28,15 @@ const removeLineFromCart = async (lineId: string) => {
 const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) => {
   if (newQuantity <= 0) {
     await removeLineFromCart(line.id);
-  } else {
+  }
+  else {
     const quantityAvailable = Math.min(newQuantity, 10);
 
     await cartStore.updateCart([
       {
         id: line.id,
-        quantity: quantityAvailable
-      }
+        quantity: quantityAvailable,
+      },
     ]);
   }
 };
@@ -55,8 +56,13 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
     <div class="flex flex-col justify-between flex-1 gap-6 min-h-[100px]">
       <div class="flex justify-between">
         <div>
-          <h3 class="mb-1.5">{{ merchandise.product.title }}</h3>
-          <p v-for="option in selectedOptions" :key="option.name">
+          <h3 class="mb-1.5">
+            {{ merchandise.product.title }}
+          </h3>
+          <p
+            v-for="option in selectedOptions"
+            :key="option.name"
+          >
             {{ option.name }}: {{ option.value }}
           </p>
         </div>
@@ -70,14 +76,20 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
             class="flex items-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 ease-in-out hover:lg:border-black"
             @click="updateLineQuantity(line, line.quantity - 1)"
           >
-            <Icon name="ph:minus" class="h-3 w-3 shrink-0" />
+            <Icon
+              name="ph:minus"
+              class="h-3 w-3 shrink-0"
+            />
           </button>
           <span>{{ line.quantity }}</span>
           <button
             class="flex items-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 ease-in-out hover:lg:border-black"
             @click="updateLineQuantity(line, line.quantity + 1)"
           >
-            <Icon name="ph:plus" class="h-3 w-3 shrink-0" />
+            <Icon
+              name="ph:plus"
+              class="h-3 w-3 shrink-0"
+            />
           </button>
         </div>
         <button

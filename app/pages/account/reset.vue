@@ -46,12 +46,15 @@ const handleReset = async () => {
 
     if (isAuth.value) {
       await navigateTo('/account');
-    } else {
+    }
+    else {
       errorMessage.value = 'Something went wrong. Please try to sign in again or create a new account.';
     }
-  } catch (_error) {
+  }
+  catch (_error) {
     errorMessage.value = 'An error occurred. Please try again later.';
-  } finally {
+  }
+  finally {
     isLoading.value = false;
   }
 };
@@ -71,7 +74,7 @@ const toggleConfirmPassword = () => {
 
 // SEO
 useHead({
-  title: 'Reset'
+  title: 'Reset',
 });
 </script>
 

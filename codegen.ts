@@ -15,10 +15,10 @@ const config: CodegenConfig = {
         defaultScalarType: 'unknown',
         useImplementingTypes: true,
         enumsAsTypes: true,
-        scalars: customerAccountApiCustomScalars
-      }
-    }
-  }
+        scalars: customerAccountApiCustomScalars,
+      },
+    },
+  },
 };
 
 export default config;

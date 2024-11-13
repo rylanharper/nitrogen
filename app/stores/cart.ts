@@ -5,7 +5,7 @@ import type {
   CartInput,
   CartLineInput,
   CartLineUpdateInput,
-  CartBuyerIdentityInput
+  CartBuyerIdentityInput,
 } from '@@/types/shopify';
 
 import { defineStore } from 'pinia';
@@ -28,7 +28,7 @@ const shopify = useShopify();
 // Store
 export const useCartStore = defineStore('@yeren/cart', {
   state: (): CartState => ({
-    cart: null
+    cart: null,
   }),
 
   actions: {
@@ -41,13 +41,14 @@ export const useCartStore = defineStore('@yeren/cart', {
       try {
         const response = await shopify.cart.create({
           input: input,
-          ...optionalParams
+          ...optionalParams,
         });
 
         if (response?.cart) {
           this.cart = response.cart;
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('No cart returned from cartCreate mutation', error);
       }
     },
@@ -64,13 +65,14 @@ export const useCartStore = defineStore('@yeren/cart', {
       try {
         const response = await shopify.cart.get({
           id: this.cart.id,
-          ...optionalParams
+          ...optionalParams,
         });
 
         if (response) {
           this.cart = response;
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('No cart retrieved from cart query', error);
       }
     },
@@ -89,13 +91,14 @@ export const useCartStore = defineStore('@yeren/cart', {
         const response = await shopify.cart.addLines({
           cartId: this.cart.id,
           lines: lines,
-          ...optionalParams
+          ...optionalParams,
         });
 
         if (response?.cart) {
           this.cart = response.cart;
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot add item to cart', error);
       }
     },
@@ -114,13 +117,14 @@ export const useCartStore = defineStore('@yeren/cart', {
         const response = await shopify.cart.removeLines({
           cartId: this.cart.id,
           lineIds: lineIds,
-          ...optionalParams
+          ...optionalParams,
         });
 
         if (response?.cart) {
           this.cart = response.cart;
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot remove item from cart', error);
       }
     },
@@ -139,13 +143,14 @@ export const useCartStore = defineStore('@yeren/cart', {
         const response = await shopify.cart.updateLines({
           cartId: this.cart.id,
           lines: lines,
-          ...optionalParams
+          ...optionalParams,
         });
 
         if (response?.cart) {
           this.cart = response.cart;
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot update cart item', error);
       }
     },
@@ -164,27 +169,28 @@ export const useCartStore = defineStore('@yeren/cart', {
         const response = await shopify.cart.updateBuyerIdentity({
           cartId: this.cart.id,
           buyerIdentity: buyerIdentity,
-          ...optionalParams
+          ...optionalParams,
         });
 
         if (response?.cart) {
           this.cart = response.cart;
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Cannot update cart buyer identity', error);
       }
-    }
+    },
   },
 
   getters: {
-    buyerCountryCode: (state) => state.cart?.buyerIdentity?.countryCode,
-    checkoutUrl: (state) => state.cart?.checkoutUrl,
-    subtotalAmount: (state) => state.cart?.cost?.subtotalAmount,
-    lineItems: (state) => state.cart?.lines,
-    lineItemsCount: (state) => state.cart?.totalQuantity
+    buyerCountryCode: state => state.cart?.buyerIdentity?.countryCode,
+    checkoutUrl: state => state.cart?.checkoutUrl,
+    subtotalAmount: state => state.cart?.cost?.subtotalAmount,
+    lineItems: state => state.cart?.lines,
+    lineItemsCount: state => state.cart?.totalQuantity,
   },
 
   persist: {
-    pick: ['cart']
-  }
+    pick: ['cart'],
+  },
 });

@@ -32,23 +32,23 @@ const canScrollPrev = ref(false);
 // Next/prev actions
 const scrollPrev = () => {
   emblaApi.value?.scrollPrev();
-};;
+}; ;
 
 const scrollNext = () => {
   emblaApi.value?.scrollNext();
-};;
+}; ;
 
 // ScrollTo method
 const scrollTo = (index: number) => {
   emblaApi.value?.scrollTo(index);
-};;
+}; ;
 
 // Embla event handlers
 const onSelect = (api: EmblaCarouselType) => {
   canScrollNext.value = api?.canScrollNext() || false;
   canScrollPrev.value = api?.canScrollPrev() || false;
   selectedIndex.value = api?.selectedScrollSnap() || 0;
-};;
+}; ;
 
 onMounted(() => {
   if (!emblaApi.value) {
@@ -61,14 +61,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="emblaRef" class="relative overflow-hidden lg:hidden">
+  <div
+    ref="emblaRef"
+    class="relative overflow-hidden lg:hidden"
+  >
     <div class="flex">
       <div
         v-for="media in props.productMedia"
         :key="media.id"
         class="flex-[0_0_100%] aspect-square"
       >
-        <ShopifyVideo v-if="isMediaVideo(media)" :video="media" />
+        <ShopifyVideo
+          v-if="isMediaVideo(media)"
+          :video="media"
+        />
         <ShopifyImage
           v-else-if="isMediaImage(media)"
           :image="media.image"
@@ -77,7 +83,10 @@ onMounted(() => {
       </div>
     </div>
     <div class="absolute flex items-center justify-center gap-2 w-full p-2 bottom-0">
-      <div v-for="(_, index) in productMedia" :key="index">
+      <div
+        v-for="(_, index) in productMedia"
+        :key="index"
+      >
         <button
           class="h-2 w-2 rounded-full border border-black"
           :class="{ 'bg-black': index === selectedIndex }"
@@ -89,13 +98,19 @@ onMounted(() => {
       class="absolute flex items-center justify-center z-10 p-2 top-0 left-0 h-full"
       @click="scrollPrev"
     >
-      <Icon name="ph:caret-left" class="h-5 w-5 shrink-0" />
+      <Icon
+        name="ph:caret-left"
+        class="h-5 w-5 shrink-0"
+      />
     </button>
     <button
       class="absolute flex items-center justify-center z-10 p-2 top-0 right-0 h-full"
       @click="scrollNext"
     >
-      <Icon name="ph:caret-right" class="h-5 w-5 shrink-0" />
+      <Icon
+        name="ph:caret-right"
+        class="h-5 w-5 shrink-0"
+      />
     </button>
   </div>
 </template>

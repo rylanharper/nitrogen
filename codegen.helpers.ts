@@ -9,7 +9,7 @@ export const storefrontApiCustomScalars = {
   HTML: 'string',
   URL: 'string',
   Color: 'string',
-  UnsignedInt64: 'string'
+  UnsignedInt64: 'string',
 };
 
 /**
@@ -23,5 +23,5 @@ export const customerAccountApiCustomScalars = {
   HTML: 'string',
   ISO8601DateTime: 'string',
   URL: 'string',
-  UnsignedInt64: 'string'
+  UnsignedInt64: 'string',
 };

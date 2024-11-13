@@ -3,11 +3,11 @@
 const navLinksLeft = [
   { label: 'Shop', path: '/collections/latest' },
   { label: 'Catalog', path: '/collections/latest' },
-  { label: 'About', path: '/collections/latest' }
+  { label: 'About', path: '/collections/latest' },
 ];
 
 const navLinksRight = [
-  { label: 'Account', path: '/account' }
+  { label: 'Account', path: '/account' },
 ];
 
 // Stores
@@ -23,7 +23,7 @@ const cartTotalItems = computed(() => cartStore.lineItemsCount);
 const emit = defineEmits([
   'toggleLocaleModal',
   'toggleSearchMenu',
-  'toggleCartDrawer'
+  'toggleCartDrawer',
 ]);
 </script>
 

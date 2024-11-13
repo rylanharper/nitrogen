@@ -1,4 +1,4 @@
-import type { H3Event } from 'h3'
+import type { H3Event } from 'h3';
 
 /**
  * Handles requests to the Shopify GraphQL API through an API proxy.
@@ -15,9 +15,9 @@ export default defineEventHandler(async (event: H3Event) => {
       method: 'POST',
       headers: {
         'X-Shopify-Storefront-Access-Token': options.accessToken,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ query, variables })
-    }
+      body: JSON.stringify({ query, variables }),
+    },
   );
 });
