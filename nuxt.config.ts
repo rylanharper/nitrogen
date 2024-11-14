@@ -37,6 +37,13 @@ export default defineNuxtConfig({
     '@nuxt/icon'
   ],
 
+  icon: {
+    mode: 'svg',
+    clientBundle: {
+      scan: true
+    }
+  },
+
   fonts: {
     defaults: {
       weights: [400, 500, 600]
