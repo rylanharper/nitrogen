@@ -12,7 +12,7 @@ export const useProductHelpers = () => {
    * @param daysOld - Number of days to consider a product new (default: 30)
    * @returns A boolean indicating if the product is new
    */
-  const isNewItem = (date: string, daysOld = 30) => {
+  const isNewItem = (date: string, daysOld = 30): boolean => {
     return (
       new Date(date).valueOf() >
       new Date().setDate(new Date().getDate() - daysOld).valueOf()
@@ -24,7 +24,7 @@ export const useProductHelpers = () => {
    * @param product - The product object containing availability information
    * @returns A boolean indicating if the product is sold out
    */
-  const isSoldOut = (product: ProductFragment) => {
+  const isSoldOut = (product: ProductFragment): boolean => {
     return !product.availableForSale;
   };
 
@@ -34,7 +34,7 @@ export const useProductHelpers = () => {
    * @param compareAtPrice - The original price of the product
    * @returns A boolean indicating if the product is on sale
    */
-  const isOnSale = (price: MoneyFragment, compareAtPrice: MoneyFragment) => {
+  const isOnSale = (price: MoneyFragment, compareAtPrice: MoneyFragment): boolean => {
     if (compareAtPrice.amount > price.amount) return true;
     return false;
   };
@@ -44,7 +44,7 @@ export const useProductHelpers = () => {
    * @param optionInput - Array of product options
    * @returns The color option if found, null otherwise
    */
-  const getColorOption = (optionInput: ProductOptionFragment[]) => {
+  const getColorOption = (optionInput: ProductOptionFragment[]): ProductOptionFragment | null => {
     const colorOptionNames = ['Color', 'Colour'];
     return optionInput.find((option) => colorOptionNames.includes(option.name)) ?? null;
   };
@@ -54,13 +54,13 @@ export const useProductHelpers = () => {
    * @param optionInput - Array of product options
    * @returns The size option if found, null otherwise
    */
-  const getSizeOption = (optionInput: ProductOptionFragment[]) => {
+  const getSizeOption = (optionInput: ProductOptionFragment[]): ProductOptionFragment | null => {
     const sizeOptionNames = ['Size', 'Length'];
     return optionInput.find((option) => sizeOptionNames.includes(option.name)) ?? null;
   };
 
   /**
-   * Checks if a specific size of a product is sold out across all variants.
+   * Checks if a specific size is sold out across all variants.
    * @param variants - Array of product variants
    * @param sizeValue - The size value to check
    * @returns A boolean indicating if the size is sold out
@@ -68,7 +68,7 @@ export const useProductHelpers = () => {
   const isSizeSoldOut = (
     variants: ProductVariantFragment[],
     sizeValue: string
-  ) => {
+  ): boolean => {
     const sizeOptionNames = ['Size', 'Length'];
     const sizeVariants = variants.filter((variant) =>
       variant.selectedOptions.some((option) =>
@@ -79,12 +79,33 @@ export const useProductHelpers = () => {
     return sizeVariants.every((variant) => !variant.availableForSale);
   };
 
+  /**
+   * Checks if a specific color is sold out across all variants.
+   * @param variants - Array of product variants
+   * @param colorValue - The color value to check
+   * @returns A boolean indicating if the color is sold out
+   */
+  const isColorSoldOut = (
+    variants: ProductVariantFragment[],
+    colorValue: string
+  ): boolean => {
+    const colorOptionNames = ['Color', 'Colour'];
+    const colorVariants = variants.filter((variant) =>
+      variant.selectedOptions.some((option) =>
+        colorOptionNames.includes(option.name) && option.value === colorValue
+      )
+    );
+
+    return colorVariants.every((variant) => !variant.availableForSale);
+  };
+
   return {
     isNewItem,
     isSoldOut,
     isOnSale,
     getColorOption,
     getSizeOption,
-    isSizeSoldOut
+    isSizeSoldOut,
+    isColorSoldOut
   };
 };

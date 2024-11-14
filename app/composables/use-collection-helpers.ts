@@ -10,9 +10,7 @@ export const useCollectionHelpers = () => {
    * @param sortParam - The sort parameter from the URL
    * @returns An object containing the sort key and whether the sort should be reversed
    */
-  const getCollectionSortValuesFromUrl = (
-    sortParam: string | null
-  ): {
+  const getCollectionSortValuesFromUrl = (sortParam: string | null): {
     sortKey: ProductCollectionSortKeys;
     reverse: boolean;
   } => {
@@ -50,9 +48,7 @@ export const useCollectionHelpers = () => {
    * @param sortParam - The sort parameter from the URL
    * @returns An object containing the sort key and whether the sort should be reversed
    */
-  const getSearchSortValuesFromUrl = (
-    sortParam: string | null
-  ): {
+  const getSearchSortValuesFromUrl = (sortParam: string | null): {
     sortKey: SearchSortKeys;
     reverse: boolean;
   } => {
@@ -80,9 +76,7 @@ export const useCollectionHelpers = () => {
    * @param query - The URL query object containing potential filter values
    * @returns An array of filters to apply to the collection
    */
-  const getFilterValuesFromUrl = (
-    query: Record<string, any>
-  ): ProductFilter[] => {
+  const getFilterValuesFromUrl = (query: Record<string, any>): ProductFilter[] => {
     const filters: ProductFilter[] = [];
 
     if (query.color || query.size || query.productType) {
@@ -132,7 +126,7 @@ export const useCollectionHelpers = () => {
    * @param sizes - The array of size strings to sort
    * @returns The sorted array of sizes
    */
-  const sortLetterAndNumberSizes = (sizes: string[]) => {
+  const sortLetterAndNumberSizes = (sizes: string[]): string[] => {
     const letterSizes = ['One Size', 'OS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
     const letterSizeMap = new Map(letterSizes.map((size, index) => [size, index]));
 
