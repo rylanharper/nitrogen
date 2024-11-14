@@ -16,13 +16,11 @@ const closeLightbox = () => {
 };;
 
 // Check if media item is a video
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isMediaVideo = (media: any): media is VideoFragment => {
   return media?.mediaContentType === 'VIDEO';
 };
 
 // Check if media item is an image
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isMediaImage = (media: any): media is MediaImageFragment => {
   return media?.mediaContentType === 'IMAGE';
 };

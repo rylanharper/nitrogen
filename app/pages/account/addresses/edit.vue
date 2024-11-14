@@ -106,7 +106,6 @@ watchEffect(() => {
     if (currentAddress) {
       for (const key in address) {
         if (key in currentAddress) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (address as any)[key] = (currentAddress as any)[key];
         }
       }

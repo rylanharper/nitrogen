@@ -86,7 +86,6 @@ const removeActiveFilterOption = (filterName: string, filterValue: string) => {
     if (newValues.length > 0) {
       query[filterName] = newValues.join(',');
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete query[filterName];
     }
   }

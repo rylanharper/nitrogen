@@ -81,7 +81,6 @@ export const useCollectionHelpers = () => {
    * @returns An array of filters to apply to the collection
    */
   const getFilterValuesFromUrl = (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     query: Record<string, any>
   ): ProductFilter[] => {
     const filters: ProductFilter[] = [];
@@ -94,7 +93,6 @@ export const useCollectionHelpers = () => {
 
     if (query.color) {
       const colorValues = query.color.split(',');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       colorValues.forEach((color: any) => {
         filters.push({
           variantOption: {
@@ -107,7 +105,6 @@ export const useCollectionHelpers = () => {
 
     if (query.size) {
       const sizeValues = query.size.split(',');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       sizeValues.forEach((size: any) => {
         filters.push({
           variantOption: {
@@ -120,7 +117,6 @@ export const useCollectionHelpers = () => {
 
     if (query.productType) {
       const productTypeValues = query.productType.split(',');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       productTypeValues.forEach((productType: any) => {
         filters.push({
           productType: productType

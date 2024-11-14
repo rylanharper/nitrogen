@@ -65,7 +65,6 @@ const setFilterOption = (filterName: string, filterValue: string) => {
   if (newValues.length > 0) {
     query[filterName] = newValues.join(',');
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete query[filterName];
   }
 
@@ -135,7 +134,6 @@ const clearAllFilters = () => {
 
   Object.keys(query).forEach((key) => {
     if (key !== 'q') {
-      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete query[key];
     }
   });
