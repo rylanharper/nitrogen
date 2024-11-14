@@ -1,12 +1,6 @@
-import { createConfigForNuxt } from '@nuxt/eslint-config/flat';
+import withNuxt from './.nuxt/eslint.config.mjs'
 
-export default createConfigForNuxt({
-  features: {
-    typescript: {
-      strict: true
-    }
-  }
-})
+export default withNuxt()
   .prepend({
     ignores: ['**/types']
   })
@@ -28,6 +22,18 @@ export default createConfigForNuxt({
       ]
     }
   })
+  .override('nuxt/vue/rules', {
+    rules: {
+      'vue/max-attributes-per-line': ['warn', {
+        'singleline': {
+          'max': 3
+        },
+        'multiline': {
+          'max': 1
+        }
+      }]
+    }
+  })
   .override('nuxt/typescript/rules', {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
@@ -46,4 +52,4 @@ export default createConfigForNuxt({
         }
       ]
     }
-  });
+  })
