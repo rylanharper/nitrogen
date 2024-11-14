@@ -22,18 +22,6 @@ export default withNuxt()
       ]
     }
   })
-  .override('nuxt/vue/rules', {
-    rules: {
-      'vue/max-attributes-per-line': ['warn', {
-        'singleline': {
-          'max': 3
-        },
-        'multiline': {
-          'max': 1
-        }
-      }]
-    }
-  })
   .override('nuxt/typescript/rules', {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
