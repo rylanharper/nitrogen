@@ -25,7 +25,11 @@ export default createConfigForNuxt({
             order: 'asc'
           }
         }
-      ],
+      ]
+    }
+  })
+  .override('nuxt/typescript/rules', {
+    rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off'
     }
