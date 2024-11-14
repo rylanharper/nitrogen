@@ -25,7 +25,9 @@ export default createConfigForNuxt({
             order: 'asc'
           }
         }
-      ]
+      ],
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-dynamic-delete': 'off'
     }
   })
   .append({
