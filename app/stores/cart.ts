@@ -11,7 +11,6 @@ import type {
 import { defineStore } from 'pinia';
 
 // Types
-
 type CartOptionalInput = {
   country?: CountryCode;
   language?: LanguageCode;

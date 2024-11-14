@@ -7,8 +7,6 @@ import type {
 
 import { defineStore } from 'pinia';
 
-// Types
-
 // Interface
 interface AuthState {
   accessToken: CustomerQueryVariables['customerAccessToken'];

@@ -6,8 +6,6 @@ import type {
 
 import { defineStore } from 'pinia';
 
-// Types
-
 // Interface
 interface shopState {
   locale: LocalizationQuery['localization'];
