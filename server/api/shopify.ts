@@ -1,4 +1,4 @@
-import type { H3Event } from 'h3'
+import type { H3Event } from 'h3';
 
 /**
  * Handles requests to the Shopify GraphQL API through an API proxy.

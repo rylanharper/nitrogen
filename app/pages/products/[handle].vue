@@ -76,7 +76,7 @@ useHead({
       :product-media="productMedia"
       @close-lightbox="closeLightbox"
     />
-    <div class="grid gap-10 lg:grid-cols-2 lg:gap-0 mb-20">
+    <div class="grid gap-10 mb-10 lg:grid-cols-2 lg:gap-0 lg:mb-20">
       <div>
         <ProductMediaGallery
           :product-media="productMedia"

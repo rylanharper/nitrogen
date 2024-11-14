@@ -6,4 +6,4 @@ export const LANGUAGE_FRAGMENT = gql`
     isoCode
     name
   }
-`
+`;

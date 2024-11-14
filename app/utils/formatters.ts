@@ -21,9 +21,9 @@ export const formatSizeUrl = (src: string | undefined, width: number): string =>
   const match = src.match(/\.(webp|jpg|jpeg|gif|png|bmp|bitmap|tiff|tif)(\?v=\d+)?$/i);
 
   if (match) {
-    const prefix = src.split(match[0])
-    const suffix = match[0]
-    const size = `${width}x`
+    const prefix = src.split(match[0]);
+    const suffix = match[0];
+    const size = `${width}x`;
 
     return `${prefix[0]}_${size}${suffix}`;
   };
