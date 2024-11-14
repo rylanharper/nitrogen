@@ -15,7 +15,7 @@ import { query } from '../utils/client';
 const get = async (
   options: CollectionQueryVariables
 ): Promise<CollectionQuery['collection']> => {
-  const response = await query(COLLECTION, options);
+  const response = await query(COLLECTION, options) as { data?: CollectionQuery };
   return response.data?.collection;
 };
 

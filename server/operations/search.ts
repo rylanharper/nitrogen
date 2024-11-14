@@ -18,7 +18,7 @@ import { query } from '../utils/client';
 const products = async (
   options: SearchProductsQueryVariables
 ): Promise<SearchProductsQuery['search']> => {
-  const response = await query(SEARCH, options);
+  const response = await query(SEARCH, options) as { data: SearchProductsQuery };
   return response.data?.search;
 };
 
@@ -31,7 +31,7 @@ const products = async (
 const predictive = async (
   options: PredictiveSearchQueryVariables
 ): Promise<PredictiveSearchQuery['predictiveSearch']> => {
-  const response = await query(PREDICTIVE_SEARCH, options);
+  const response = await query(PREDICTIVE_SEARCH, options) as { data?: PredictiveSearchQuery };
   return response.data?.predictiveSearch;
 };
 

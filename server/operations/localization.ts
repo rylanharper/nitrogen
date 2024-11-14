@@ -15,7 +15,7 @@ import { query } from '../utils/client';
 export const get = async (
   options: LocalizationQueryVariables
 ): Promise<LocalizationQuery['localization']> => {
-  const response = await query(LOCALIZATION, options);
+  const response = await query(LOCALIZATION, options) as { data: LocalizationQuery };
   return response.data?.localization;
 };
 
