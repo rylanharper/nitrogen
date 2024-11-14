@@ -9,7 +9,6 @@ export default defineNuxtConfig({
   },
 
   experimental: {
-    payloadExtraction: true,
     defaults: {
       nuxtLink: {
         prefetchOn: {
@@ -33,16 +32,10 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/tailwindcss',
     '@vueuse/nuxt',
+    '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxt/icon'
   ],
-
-  icon: {
-    mode: 'svg',
-    clientBundle: {
-      scan: true
-    }
-  },
 
   fonts: {
     defaults: {
