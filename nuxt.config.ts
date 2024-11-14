@@ -8,6 +8,18 @@ export default defineNuxtConfig({
     enabled: true
   },
 
+  experimental: {
+    payloadExtraction: true,
+    defaults: {
+      nuxtLink: {
+        prefetchOn: {
+          visibility: false,
+          interaction: true
+        }
+      }
+    }
+  },
+
   runtimeConfig: {
     shopify: {
       storefront: '',
