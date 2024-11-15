@@ -78,6 +78,12 @@ export const PRODUCT_FRAGMENT = gql`
         }
       }
     }
+    details: metafield(namespace: "custom", key: "details") {
+      value
+    }
+    shipping: metafield(namespace: "custom", key: "shipping") {
+      value
+    }
   }
   ${PRICE_RANGE_FRAGMENT}
   ${IMAGE_FRAGMENT}
