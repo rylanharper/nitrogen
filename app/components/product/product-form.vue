@@ -139,6 +139,11 @@ watch(currentVariant, (newVariant) => {
       >
         {{ isLoading ? 'Adding...' : addToCartText }}
       </button>
+      <ProductDetails
+        :description="product.descriptionHtml"
+        :details="product.details?.value"
+        :shipping="product.shipping?.value"
+      />
     </div>
   </div>
 </template>
