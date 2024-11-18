@@ -14,7 +14,6 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 - 👕 Collection and product pages
 - 🔮 Metafield integration
 - 🔍 Search functionality
-- 🎠 Embla Carousel
 - 🌐 Shop localization
 - 💪 Strongly typed
 
@@ -38,18 +37,6 @@ To modify the available filter options, you'll need to update two files:
 
 1. Update the [`getFilterValuesFromUrl`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/app/composables/use-collection-helpers.ts#L83) helper function to define your filter options.
 2. Edit the [`filter-menu.vue`](https://github.com/rylanharper/Nitrogen/blob/master/app/components/filter/filter-menu.vue) component to include (or remove) filter mapping functions.
-
-For example, here's how a map function works for `productType` filter options:
-
-```ts
-const productTypeOptions = computed(() => {
-  const allProductTypes = new Set(
-    props.products.map((product) => product.productType)
-  );
-
-  return Array.from(allProductTypes).sort();
-});
-```
 
 ### Metafields
 
