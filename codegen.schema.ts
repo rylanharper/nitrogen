@@ -9,7 +9,7 @@ if (!process.env.NUXT_SHOPIFY_STOREFRONT || !process.env.NUXT_SHOPIFY_API_VERSIO
 }
 
 export const storefrontApiSchema: CodegenConfig['schema'] = {
-  [`https://${process.env.NUXT_SHOPIFY_STOREFRONT}.myshopify.com/api/${process.env.NUXT_SHOPIFY_API_VERSION}/graphql.json`]:
+  [`${process.env.NUXT_SHOPIFY_STOREFRONT}/api/${process.env.NUXT_SHOPIFY_API_VERSION}/graphql.json`]:
     {
       headers: {
         'X-Shopify-Storefront-Access-Token': process.env.NUXT_SHOPIFY_ACCESS_TOKEN,
