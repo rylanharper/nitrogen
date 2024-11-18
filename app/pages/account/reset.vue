@@ -2,18 +2,16 @@
 // Stores
 const authStore = useAuthStore();
 
+// Route data
+const route = useRoute();
+const customerId = route.query.id as string;
+const resetToken = route.query.token as string;
+
 // State
-const resetUrl = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 const errorMessage = ref('');
 const isLoading = ref(false);
-
-// Get the reset URL
-onBeforeMount(() => {
-  const url = new URL(document.URL);
-  resetUrl.value = url.href;
-});
 
 // Register
 const formCompleted = computed(() => password.value && confirmPassword.value);
@@ -41,13 +39,19 @@ const handleReset = async () => {
     return;
   }
 
+  if (!customerId || !resetToken) {
+    errorMessage.value = 'Invalid reset link. Please request a new password reset.';
+    isLoading.value = false;
+    return;
+  }
+
   try {
-    await authStore.reset(password.value, resetUrl.value);
+    await authStore.reset(customerId, password.value, resetToken);
 
     if (isAuth.value) {
       await navigateTo('/account');
     } else {
-      errorMessage.value = 'Something went wrong. Please try to sign in again or create a new account.';
+      errorMessage.value = 'Something went wrong. Please try to sign in again or request a new reset link.';
     }
   } catch (_error) {
     errorMessage.value = 'An error occurred. Please try again later.';
@@ -71,7 +75,7 @@ const toggleConfirmPassword = () => {
 
 // SEO
 useHead({
-  title: 'Reset'
+  title: 'Reset Password'
 });
 </script>
 
@@ -96,7 +100,7 @@ useHead({
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
-            minLength="{8}"
+            minLength="8"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
           >
@@ -122,7 +126,7 @@ useHead({
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
-            minLength="{8}"
+            minLength="8"
             required
             class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
           >
@@ -151,7 +155,7 @@ useHead({
           :disabled="isLoading"
           class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
         >
-          {{ isLoading === true ? 'Working...' : 'Create account' }}
+          {{ isLoading ? 'Working...' : 'Reset Password' }}
         </button>
       </form>
       <p

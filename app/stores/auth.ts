@@ -132,19 +132,24 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
       }
     },
     /**
-     * Resets a customer’s password with the reset password URL.
+     * Resets a customer's password using their ID, new password, and reset token.
+     * @param id - The customer's ID
      * @param password - The new password
-     * @param resetUrl - The reset password URL
+     * @param resetToken - The reset token from the URL
      */
-    async reset(password: string, resetUrl: string) {
+    async reset(id: string, password: string, resetToken: string) {
       try {
-        const response = await shopify.customer.resetByUrl({
-          password: password,
-          resetUrl: resetUrl
+        const response = await shopify.customer.reset({
+          id: `gid://shopify/Customer/${id}`,
+          input: {
+            password,
+            resetToken
+          }
         });
 
         if (response?.customerAccessToken) {
           this.accessToken = response.customerAccessToken.accessToken;
+          await this.getCustomer();
         }
       } catch (error) {
         console.error('Cannot reset password', error);
