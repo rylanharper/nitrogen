@@ -90,7 +90,7 @@ You can create additional reference metafields by copying the [`matching_colors`
 - 📸 "Styled with" lists using `styled_with`
 - 📦 Curated product bundles via `product_bundles`
 
-## ✳️ Nuxt Setup
+## ⚡️ Nuxt Setup
 
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
@@ -109,7 +109,7 @@ NUXT_SHOPIFY_API_VERSION=your-storefront-access-token
 2. Generate your project types using `pnpm codgen`
 3. Start the development server using `pnpm run dev`
 
-## 🐬 Basic Usage
+## 🛠️ Basic Usage
 
 Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
@@ -195,6 +195,6 @@ If you have any questions, encounter issues, or have suggestions for improvement
 
 - Post an issue: Use the [Issues tab](https://github.com/rylanharper/Nitrogen/issues) to report bugs or request new features.
 - Start a discussion: Share ideas or ask for help in the [Discussions tab](https://github.com/rylanharper/Nitrogen/discussions).
-- Contribute improvements: If you’d like to contribute, fork the repository, make your changes, and submit a pull request for review.
+- Contribute: If you’d like to contribute, fork the repository, make your changes, and submit a pull request for review.
 
 I actively monitor this repository and will do my best to respond quickly. Community feedback and contributions are always appreciated!
