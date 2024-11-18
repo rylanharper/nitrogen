@@ -16,7 +16,7 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 - 🌐 Shop localization
 - 💪 Strongly typed
 
-## 🛍️ Shopify Setup
+## 💎 Shopify Setup
 
 Before using Nitrogen, you must configure your Shopify store as follows:
 
@@ -35,55 +35,42 @@ To enable product filtering, install the [Shopify Search & Discovery](https://ap
 To modify the available filter options, you'll need to update two files:
 
 1. Update the [`getFilterValuesFromUrl`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/app/composables/use-collection-helpers.ts#L83) composable function to define your filter options
-2. Edit the [`filter-menu.vue`](https://github.com/rylanharper/Nitrogen/blob/master/app/components/filter/filter-menu.vue) component to include your filter mapping functions
+2. Edit the [`filter-menu.vue`](https://github.com/rylanharper/Nitrogen/blob/master/app/components/filter/filter-menu.vue) component to include (or remove) filter mapping functions
 
-For example, here's how a filter map function works for color options:
+For example, here's how a map function works for `productType` filter options:
 
 ```ts
-const colorOptions = computed(() => {
-  const colorOptionNames = ['Color', 'Colour'];
-  const allColors = new Set(
-    props.products
-      .flatMap((product) => product.options)
-      .filter((option) => colorOptionNames.includes(option.name))
-      .flatMap((option) => option.optionValues)
-      .map((value) => value.name)
+const productTypeOptions = computed(() => {
+  const allProductTypes = new Set(
+    props.products.map((product) => product.productType)
   );
 
-  return Array.from(allColors).sort();
+  return Array.from(allProductTypes).sort();
 });
 ```
 
 ### Metafields
 
-Nitrogen uses a custom `matching_colors` metafield (product reference list type) to handle product swatch colors on product pages. This metafield allows access to the full data of referenced products, which is ideal for checking availability, option names/values, media, and more. This metafield can be seen in the main [`product.ts`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/server/graphql/queries/product.ts) GraphQL query:
+Nitrogen uses the following product metafields to make working with Shopify data easier:
 
-```ts
-matching_colors: metafield(namespace: "custom", key: "matching_colors") {
-  references(first: 10) {
-    edges {
-      node {
-        ...Product
-      }
-    }
-  }
-}
-```
+1. `matching_colors`: This is a product reference list metafield that handles product swatch colors on product pages. This metafield allows access to the full data of referenced products, which is ideal for checking availability, option names/values, media, and more.
+2. `details`: This is a richtext metafield that provides additional product information, such as specifications, materials, or care instructions.
+3. `shipping`: This is a richtext metafield used to display shipping-specific details, such as delivery timelines, shipping restrictions, or policies.
 
-You can create additional product reference metafield lists by copying this query structure and changing the key name. This enables you to build features like:
+You can create additional product reference metafield lists by copying the [`matching_colors`](https://github.com/rylanharper/Nitrogen/blob/2f39c405ce5d9a707f319e024d2c0b923d2299ce/server/graphql/queries/product.ts#L13) query structure and changing the key name. This enables you to build features like:
 
-- 🏷️ Related products with `related_products`
-- 📸 "Styled with" product lists using `styled_with`
-- 🔄 Custom merchandising groups via `frequently_bought_together`
+- 🛍️ Related products with `related_products`
+- 📸 "Styled with" lists using `styled_with`
+- 📦 Curated product bundles via `product_bundles`
 
-## 🚀 Nuxt Setup
+## 🏛️ Nuxt Setup
 
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
 ```ini
-NUXT_SHOPIFY_STOREFRONT=
-NUXT_SHOPIFY_ACCESS_TOKEN=
-NUXT_SHOPIFY_API_VERSION=
+NUXT_SHOPIFY_STOREFRONT=http://your-shop-name.myshopify.com
+NUXT_SHOPIFY_ACCESS_TOKEN=2024-07
+NUXT_SHOPIFY_API_VERSION=your-storefront-access-token
 ```
 
 > [!WARNING]
@@ -95,7 +82,7 @@ NUXT_SHOPIFY_API_VERSION=
 2. Generate your project types using `pnpm codgen`
 3. Start the development server using `pnpm run dev`
 
-## 🛠️ Basic Usage
+## 🏓 Basic Usage
 
 Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
