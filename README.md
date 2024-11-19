@@ -12,7 +12,6 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 - 👤 Full customer account functionality
 - 🗂️ Collection/search filters and sort
 - 👕 Collection and product pages
-- 🔮 Metafield integration
 - 🔍 Search functionality
 - 🌐 Shop localization
 - 💪 Strongly typed
@@ -23,74 +22,38 @@ Before using Nitrogen, you must configure your Shopify store as follows:
 
 ### API Permissions
 
-Within your Shopify admin dashboard, create a custom app and configure the necessary Storefront API permissions needed for your project. Enable all Storefront API access scopes to keep things simple. Once the app is created, retrieve your storefront API access token to use in the project’s environment variables.
+Within your Shopify admin dashboard, navigate to `Settings` → `Apps and Sales Channels` → `Develop Apps` and create a custom app. Name it "Headless Storefront" so it's clear what it's being used for and configure the necessary Storefront API permissions needed for your project. To keep things simple, enable all Storefront API access scopes. Once the app is created, retrieve your storefront API access token to use in the project’s environment variables.
 
 ### Localization
 
-To support international currencies and localized experiences, enable Markets within your Shopify admin dashboard. Navigate to `Settings` > `Markets` > `Preferences` and configure your global currency markets. This ensures that customers can see prices in their local currency and switch markets if needed.
+To support international currencies and localized experiences, enable Markets within your Shopify admin dashboard. Navigate to `Settings` → `Markets` → `Preferences` and configure your global currency markets. This allows customers to view prices in their local currency and switch between markets.
 
 ### Filtering Products
 
-To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app and set up basic filters. This template uses the `availability`, `color`, `size`, and `productType` filter options. You'll likely need to remove some default filter options within the filter admin settings, or you can add more filters if needed.
-
-To modify the available filter options, you'll need to update two files:
-
-1. Update the [`getFilterValuesFromUrl`](https://github.com/rylanharper/Nitrogen/blob/4119b6b3edfea0afb87eebba50bcfe77882cfc9a/app/composables/use-collection-helpers.ts#L83) helper function to define your filter options.
-2. Edit the [`filter-menu.vue`](https://github.com/rylanharper/Nitrogen/blob/master/app/components/filter/filter-menu.vue) component to include (or remove) filter mapping functions.
-
-For example, here's how a map function works for `productType` filter options:
-
-```ts
-const productTypeOptions = computed(() => {
-  const allProductTypes = new Set(
-    props.products.map((product) => product.productType)
-  );
-
-  return Array.from(allProductTypes).sort();
-});
-```
+To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app and set up basic filters. Once this is installed, navigate to `Shopify Search & Discovery` → `Filters`. You'll likely need to remove some default filter options within the filter admin settings, or you can add more filters if needed. This template uses the `availability`, `color`, `size`, and `productType` filter options.
 
 ### Metafields
 
-Nitrogen uses the following product metafields to make working with Shopify data easier:
+This template uses metafields to make working with Shopify easier. To enable product metafields, naviagte to `Settings` → `Custom Data` → `Products` and add the following product metafield definitions:
 
-1. `matching_colors`: A product reference list metafield that handles product swatch colors on product pages. This metafield allows access to the full data of referenced products, which is ideal for checking availability, option names/values, media, and more.
-
-```ts
-matching_colors: metafield(namespace: "custom", key: "matching_colors") {
-  references(first: 10) {
-    edges {
-      node {
-        ...Product
-      }
-    }
-  }
-}
-```
-
+1. `matching_colors`: A product reference list metafield that handles product swatch colors. This metafield allows access to the full data of referenced products, which is ideal for checking availability, option names/values, media, and more.
 2. `details`: A rich-text metafield designed to display additional product details, such as specifications, materials, or care instructions. Perfect for enhancing product descriptions with structured content.
-
-```ts
-details: metafield(namespace: "custom", key: "details") {
-  value
-}
-```
-
 3. `shipping`: A rich-text metafield for sharing shipping-specific information, like delivery timelines, restrictions, or return policies.
 
-```ts
-shipping: metafield(namespace: "custom", key: "shipping") {
-  value
-}
+To create additional reference metafield lists, copy the [`matching_colors`](https://github.com/rylanharper/Nitrogen/blob/2f39c405ce5d9a707f319e024d2c0b923d2299ce/server/graphql/queries/product.ts#L13) query structure and change the key name to match your specific metafield reference name.
+
+### Customer Accounts
+
+In order to setup customer account functionality, make sure that all API permissions under `Customers` are enabled within your main "Headless Storefront" app. Next, navigate to `Notifications` → `Customer Notifications` → `Customer Account Password Reset` and edit the code. You'll want to find the "Reset your password" button and replace the `<a>` tag with the following:
+
+```html
+{% assign url_parts = customer.reset_password_url  | split: '/' %}
+<a href="https://your-site-domain.com/account/reset?id={{url_parts[5]}}&token={{url_parts[6]}}" class="button__text">Reset your password</a>
 ```
 
-You can create additional reference metafields by copying the [`matching_colors`](https://github.com/rylanharper/Nitrogen/blob/2f39c405ce5d9a707f319e024d2c0b923d2299ce/server/graphql/queries/product.ts#L13) query structure and changing the key name. This enables you to build features like:
+This redirects password reset emails to your custom domain while maintaining the necessary security parameters. Remember to replace `your-site-domain.com` with your actual domain name.
 
-- 🏷️ Related products with `related_products`
-- 📸 "Styled with" lists using `styled_with`
-- 📦 Curated product bundles via `product_bundles`
-
-## ⚡️ Nuxt Setup
+## ✳️ Nuxt Setup
 
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
@@ -109,7 +72,7 @@ NUXT_SHOPIFY_API_VERSION=your-storefront-access-token
 2. Generate your project types using `pnpm codgen`
 3. Start the development server using `pnpm run dev`
 
-## 🛠️ Basic Usage
+## ⚡ Basic Usage
 
 Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
