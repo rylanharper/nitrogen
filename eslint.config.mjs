@@ -4,6 +4,12 @@ export default withNuxt()
   .prepend({
     ignores: ['**/types']
   })
+  .override('nuxt/typescript/rules', {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-dynamic-delete': 'off'
+    }
+  })
   .override('nuxt/import/rules', {
     rules: {
       'import/order': [
@@ -20,12 +26,6 @@ export default withNuxt()
           }
         }
       ]
-    }
-  })
-  .override('nuxt/typescript/rules', {
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-dynamic-delete': 'off'
     }
   })
   .append({
