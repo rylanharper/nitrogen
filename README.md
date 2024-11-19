@@ -30,7 +30,7 @@ To support international currencies and localized experiences, enable Markets wi
 
 ### Filtering Products
 
-To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app and set up basic filters. Once this is installed, navigate to `Apps` → `Shopify Search & Discovery` → `Filters`. You'll likely need to remove some default filter options within the filter admin settings, or you can add more filters if needed. This template uses the `availability`, `color`, `size`, and `productType` filter options.
+To enable product filters, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app. Once this is installed, navigate to `Apps` → `Shopify Search & Discovery` → `Filters` and set up basic filter options. You'll likely need to remove some default options, or add more if needed. This template uses the `availability`, `color`, `size`, and `productType` filter options.
 
 ### Metafields
 
