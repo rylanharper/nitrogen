@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CollectionQueryVariables } from '@@/types/shopify';
+import type { CollectionQueryVariables, ProductFragment } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -21,6 +21,7 @@ const sortValues = computed(() => getCollectionSortValuesFromUrl(sortParam.value
 const filterParam = computed(() => route.query);
 const filterValues = computed(() => getFilterValuesFromUrl(filterParam.value));
 
+// Helpers
 const activeFilterOptions = computed(() => {
   const filters: { name: string; value: string }[] = [];
 
@@ -65,13 +66,13 @@ const filterVars = computed<CollectionQueryVariables>(() => ({
 const { data: filterData } = await useAsyncData(
   `collection-filter-${handle.value}`,
   () => shopify.collection.get(filterVars.value),
-  { watch: [filterVars], lazy: true }
+  { watch: [filterVars], lazy: true, deep: false }
 );
 
 // Computed data
 const collection = computed(() => collectionData?.value);
-const filterProducts = computed(() => flattenConnection(filterData.value?.products));
-const products = computed(() => flattenConnection(collection.value?.products));
+const filterProducts = computed(() => flattenConnection(filterData.value?.products) as ProductFragment[]);
+const products = computed(() => flattenConnection(collection.value?.products) as ProductFragment[]);
 
 // Actions
 const removeActiveFilterOption = (filterName: string, filterValue: string) => {

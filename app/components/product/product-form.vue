@@ -10,6 +10,7 @@ const props = defineProps<{
 // Route data
 const route = useRoute();
 const router = useRouter();
+const variantId = computed(() => route.query.variant as string);
 
 // Stores
 const appStore = useAppStore();
@@ -33,33 +34,42 @@ const addToCartText = computed(() => {
   return 'Sold Out';
 });
 
-onMounted(() => {
-  const variantId = route.query.variant as string;
+// Helpers
+const getInitialVariant = () => {
+  if (variants.value.length === 1) return variants.value[0];
+
+  if (variantId.value) {
+    return variants.value.find(
+      (variant) => formatVariantId(variant.id) === variantId.value
+    );
+  }
+
+  return undefined;
+};
+
+const setInitialVariant = () => {
+  const initialVariant = getInitialVariant();
   const sizeOptionNames = ['Size', 'Length'];
 
-  // If only one variant exists, set it as the current variant
-  if (variants.value.length === 1) return (currentVariant.value = variants.value[0]);
+  if (initialVariant) {
+    currentVariant.value = initialVariant;
 
-  // If a variant ID is provided in the URL
-  if (variantId) {
-    const urlVariant = variants.value.find(
-      (variant) => formatVariantId(variant.id) === variantId
+    // Set selected size if applicable
+    const sizeOption = initialVariant.selectedOptions.find((option) =>
+      sizeOptionNames.includes(option.name)
     );
 
-    // If the URL variant is found, set the selected size
-    if (urlVariant) {
-      const sizeOption = urlVariant.selectedOptions.find((option) =>
-        sizeOptionNames.includes(option.name)
-      );
+    if (sizeOption) {
+      selectedSize.value = sizeOption.value;
+    }
 
-      if (sizeOption) {
-        selectedSize.value = sizeOption.value;
-      }
+    // Update URL for single variant products
+    if (variants.value.length === 1) {
+      updateUrlParams(initialVariant);
     }
   }
-});
+};
 
-// Update URL variantId
 const updateUrlParams = (variant: ProductVariantFragment | undefined) => {
   const query = { ...route.query };
 
@@ -102,9 +112,17 @@ const addToCart = async () => {
 };
 
 // Watchers
+watch(
+  () => props.product,
+  () => {
+    setInitialVariant();
+  },
+  { immediate: true }
+);
+
 watch(selectedSize, (size) => {
   const sizeOptionNames = ['Size', 'Length'];
-  return currentVariant.value = variants.value.find((variant) =>
+  currentVariant.value = variants.value.find((variant) =>
     variant.selectedOptions.every(({ name, value }) =>
       sizeOptionNames.includes(name) ? value === size : true
     )

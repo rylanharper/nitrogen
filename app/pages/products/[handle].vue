@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProductQueryVariables } from '@@/types/shopify';
+import type { ProductQueryVariables, ProductFragment } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -38,7 +38,7 @@ const productRecommendations = computed(() => recommendationData.value?.slice(0,
 // Matching color references (if any)
 const matchingColors = computed(() => {
   const references = product.value?.matching_colors?.references;
-  return references ? flattenConnection(references) : [];
+  return references ? flattenConnection(references) as ProductFragment[] : [];
 });
 
 // State

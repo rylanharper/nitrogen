@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SearchProductsQueryVariables } from '@@/types/shopify';
+import type { SearchProductsQueryVariables, ProductFragment } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -21,6 +21,7 @@ const sortValues = computed(() => getSearchSortValuesFromUrl(sortParam.value));
 const filterParam = computed(() => route.query);
 const filterValues = computed(() => getFilterValuesFromUrl(filterParam.value));
 
+// Helpers
 const activeFilterOptions = computed(() => {
   const filters: { name: string; value: string }[] = [];
 
@@ -65,13 +66,13 @@ const filterVars = computed<SearchProductsQueryVariables>(() => ({
 const { data: filterData } = await useAsyncData(
   `search-filter-${searchTerm.value}`,
   () => shopify.search.products(filterVars.value),
-  { watch: [filterVars], lazy: true }
+  { watch: [filterVars], lazy: true, deep: false }
 );
 
 // Computed data
 const search = computed(() => searchData?.value);
-const filterProducts = computed(() => flattenConnection(filterData.value));
-const products = computed(() => flattenConnection(search.value));
+const filterProducts = computed(() => flattenConnection(filterData.value) as ProductFragment[]);
+const products = computed(() => flattenConnection(search.value) as ProductFragment[]);
 
 // Actions
 const removeActiveFilterOption = (filterName: string, filterValue: string) => {

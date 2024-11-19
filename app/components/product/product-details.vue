@@ -17,7 +17,7 @@ const renderNode = (node: any): string => {
   // Handle links
   if (node.type === 'link') {
     const childContent = node.children?.map(renderNode).join('') || '';
-    return `<a href="${node.url}" class="underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500">${childContent}</a>`;
+    return `<a href="${node.url}" class="normal-case underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500">${childContent}</a>`;
   }
 
   // Handle paragraphs
