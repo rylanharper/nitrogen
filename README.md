@@ -30,7 +30,7 @@ To support international currencies and localized experiences, enable Markets wi
 
 ### Filtering Products
 
-To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app and set up basic filters. Once this is installed, navigate to `Shopify Search & Discovery` → `Filters`. You'll likely need to remove some default filter options within the filter admin settings, or you can add more filters if needed. This template uses the `availability`, `color`, `size`, and `productType` filter options.
+To enable product filtering, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app and set up basic filters. Once this is installed, navigate to `Apps` → `Shopify Search & Discovery` → `Filters`. You'll likely need to remove some default filter options within the filter admin settings, or you can add more filters if needed. This template uses the `availability`, `color`, `size`, and `productType` filter options.
 
 ### Metafields
 
@@ -39,8 +39,6 @@ This template uses metafields to make working with Shopify easier. To enable pro
 1. `matching_colors`: A product reference list metafield that handles product swatch colors. This metafield allows access to the full data of referenced products, which is ideal for checking availability, option names/values, media, and more.
 2. `details`: A rich-text metafield designed to display additional product details, such as specifications, materials, or care instructions. Perfect for enhancing product descriptions with structured content.
 3. `shipping`: A rich-text metafield for sharing shipping-specific information, like delivery timelines, restrictions, or return policies.
-
-To create additional reference metafield lists, copy the [`matching_colors`](https://github.com/rylanharper/Nitrogen/blob/2f39c405ce5d9a707f319e024d2c0b923d2299ce/server/graphql/queries/product.ts#L13) query structure and change the key name to match your specific metafield reference name.
 
 ### Customer Accounts
 
@@ -51,7 +49,7 @@ In order to setup customer account functionality, make sure that all API permiss
 <a href="https://your-site-domain.com/account/reset?id={{url_parts[5]}}&token={{url_parts[6]}}" class="button__text">Reset your password</a>
 ```
 
-This redirects password reset emails to your custom domain while maintaining the necessary security parameters. Remember to replace `your-site-domain.com` with your actual domain name.
+This will redirect password reset emails to your custom domain while maintaining the necessary security parameters. Remember to replace `your-site-domain.com` with your actual domain name.
 
 ## ✳️ Nuxt Setup
 
