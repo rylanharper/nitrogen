@@ -56,7 +56,7 @@ This will redirect password reset emails to your custom domain while maintaining
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
 ```ini
-NUXT_SHOPIFY_STOREFRONT=http://your-shop-name.myshopify.com
+NUXT_SHOPIFY_STOREFRONT=https://your-shop-name.myshopify.com
 NUXT_SHOPIFY_ACCESS_TOKEN=2024-07
 NUXT_SHOPIFY_API_VERSION=your-storefront-access-token
 ```
