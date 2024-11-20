@@ -83,9 +83,10 @@ const handleNewAddress = async () => {
     if (response?.customerAddress) {
       await navigateTo('/account/addresses');
     } else {
-      errorMessage.value = 'Failed to create address. Please try again.';
+      errorMessage.value = 'Failed to create address. Please verify your address details and try again.';
     }
-  } catch (_error) {
+  } catch (error) {
+    console.error('Error during address creation:', error);
     errorMessage.value = 'An error occurred. Please try again later.';
   } finally {
     isLoading.value = false;

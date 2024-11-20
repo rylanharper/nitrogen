@@ -31,7 +31,8 @@ const handleRecover = async () => {
   try {
     await authStore.recover(email.value);
     successMessage.value = 'Success! Please check your email for instructions on how to reset your password.';
-  } catch (_error) {
+  } catch (error) {
+    console.error('Error during password recovery:', error);
     errorMessage.value = 'An error occurred. Please try again later.';
   } finally {
     isLoading.value = false;

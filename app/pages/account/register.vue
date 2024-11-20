@@ -60,9 +60,10 @@ const handleRegister = async () => {
     if (isAuth.value) {
       await navigateTo('/account');
     } else {
-      errorMessage.value = 'Something went wrong. Please try to register again or login instead.';
+      errorMessage.value = 'Authentication failed. Please try to login instead.';
     }
-  } catch (_error) {
+  } catch (error) {
+    console.error('Error during account registration:', error);
     errorMessage.value = 'An error occurred. Please try again later.';
   } finally {
     isLoading.value = false;

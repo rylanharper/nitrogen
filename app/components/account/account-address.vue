@@ -11,6 +11,7 @@ const props = defineProps<{
 const authStore = useAuthStore();
 
 // State
+const errorMessage = ref('');
 const isLoading = ref(false);
 
 // Computed
@@ -34,7 +35,8 @@ const handleAddressDelete = async (addressId: string) => {
 
     reloadNuxtApp();
   } catch (error) {
-    console.error('An error occurred. Please try again later.', error);
+    console.error('Error during address deletion:', error);
+    errorMessage.value = 'We couldn’t delete your address. Please try again later.';
   } finally {
     isLoading.value = false;
   }

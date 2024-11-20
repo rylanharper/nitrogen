@@ -34,9 +34,10 @@ const handleLogin = async () => {
     if (isAuth.value) {
       await navigateTo('/account');
     } else {
-      errorMessage.value = 'Something went wrong. Please try to sign in again or create a new account.';
+      errorMessage.value = 'Authentication failed. Please try to sign in again.';
     }
-  } catch (_error) {
+  } catch (error) {
+    console.error('Error during account login:', error);
     errorMessage.value = 'An error occurred. Please try again later.';
   } finally {
     isLoading.value = false;

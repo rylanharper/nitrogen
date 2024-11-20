@@ -12,6 +12,7 @@ const countryCode = shopStore.locale?.country?.isoCode;
 
 // State
 const countryLocale = ref<CountryCode>(countryCode);
+const errorMessage = ref('');
 const isLoading = ref(false);
 
 // Actions
@@ -27,7 +28,8 @@ const updateLocalization = async () => {
     await cartStore.attachBuyer({ countryCode: countryLocale.value });
     await shopStore.getLocalization(countryLocale.value);
   } catch (error) {
-    console.error('An error occurred. Please try again later.', error);
+    console.error('Error during localization sync:', error);
+    errorMessage.value = 'We couldn’t update the store to your region. Please try again later.';
   } finally {
     isLoading.value = false;
     closeModal();
