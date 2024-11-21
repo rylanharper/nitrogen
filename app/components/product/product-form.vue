@@ -23,7 +23,6 @@ const isLoading = ref(false);
 
 // Computed
 const variants = computed(() => flattenConnection(props.product.variants));
-
 const addToCartText = computed(() => {
   if (variants.value.length === 1) {
     return currentVariant.value?.availableForSale ? 'Add to Cart' : 'Sold Out';
@@ -35,41 +34,6 @@ const addToCartText = computed(() => {
 });
 
 // Helpers
-const getInitialVariant = () => {
-  if (variants.value.length === 1) return variants.value[0];
-
-  if (variantId.value) {
-    return variants.value.find(
-      (variant) => formatVariantId(variant.id) === variantId.value
-    );
-  }
-
-  return undefined;
-};
-
-const setInitialVariant = () => {
-  const initialVariant = getInitialVariant();
-  const sizeOptionNames = ['Size', 'Length'];
-
-  if (initialVariant) {
-    currentVariant.value = initialVariant;
-
-    // Set selected size if applicable
-    const sizeOption = initialVariant.selectedOptions.find((option) =>
-      sizeOptionNames.includes(option.name)
-    );
-
-    if (sizeOption) {
-      selectedSize.value = sizeOption.value;
-    }
-
-    // Update URL for single variant products
-    if (variants.value.length === 1) {
-      updateUrlParams(initialVariant);
-    }
-  }
-};
-
 const updateUrlParams = (variant: ProductVariantFragment | undefined) => {
   const query = { ...route.query };
 
@@ -105,13 +69,43 @@ const addToCart = async () => {
 
     openDrawer();
   } catch (error) {
-    console.error('Failed to add item to cart', error);
+    console.error('Failed to add item to cart:', error);
   } finally {
     isLoading.value = false;
   }
 };
 
+// Constants
+const sizeOptionNames = ['Size', 'Length'];
+
 // Watchers
+const getInitialVariant = () => {
+  if (variants.value.length === 1) return variants.value[0];
+  if (variantId.value) {
+    return variants.value.find((variant) => formatVariantId(variant.id) === variantId.value);
+  }
+
+  return undefined;
+};
+
+const setInitialVariant = () => {
+  const initialVariant = getInitialVariant();
+
+  if (initialVariant) {
+    currentVariant.value = initialVariant;
+
+    const sizeOption = initialVariant.selectedOptions.find((option) =>
+      sizeOptionNames.includes(option.name)
+    );
+
+    if (sizeOption) {
+      selectedSize.value = sizeOption.value;
+    }
+
+    updateUrlParams(initialVariant);
+  }
+};
+
 watch(
   () => props.product,
   () => {
@@ -120,12 +114,14 @@ watch(
   { immediate: true }
 );
 
+const isMatchingVariant = (variant: ProductVariantFragment, size: string) =>
+  variant.selectedOptions.every(({ name, value }) =>
+    sizeOptionNames.includes(name) ? value === size : true
+  );
+
 watch(selectedSize, (size) => {
-  const sizeOptionNames = ['Size', 'Length'];
   currentVariant.value = variants.value.find((variant) =>
-    variant.selectedOptions.every(({ name, value }) =>
-      sizeOptionNames.includes(name) ? value === size : true
-    )
+    isMatchingVariant(variant, size)
   );
 });
 
