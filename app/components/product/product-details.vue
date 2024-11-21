@@ -75,7 +75,7 @@ const shippingContent = computed(() => parseContent(props.shipping));
       <div class="h-0 overflow-hidden group-open:h-auto">
         <div class="flex flex-col pb-4">
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <div v-if="props.description" v-html="props.description" />
+          <article v-if="props.description" v-html="props.description" />
           <p v-else class="normal-case text-gray-500">Description not available.</p>
         </div>
       </div>
@@ -91,7 +91,7 @@ const shippingContent = computed(() => parseContent(props.shipping));
       <div class="h-0 overflow-hidden group-open:h-auto">
         <div class="flex flex-col pb-4">
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <div v-if="detailsContent" v-html="detailsContent" />
+          <article v-if="detailsContent" v-html="detailsContent" />
           <p v-else class="normal-case text-gray-500">Details not available.</p>
         </div>
       </div>
@@ -107,7 +107,7 @@ const shippingContent = computed(() => parseContent(props.shipping));
       <div class="h-0 overflow-hidden group-open:h-auto">
         <div class="flex flex-col">
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <div v-if="shippingContent" v-html="shippingContent" />
+          <article v-if="shippingContent" v-html="shippingContent" />
           <p v-else class="normal-case text-gray-500">Shipping information not available.</p>
         </div>
       </div>
@@ -116,7 +116,7 @@ const shippingContent = computed(() => parseContent(props.shipping));
 </template>
 
 <style lang="css" scoped>
-:deep(p, p *) {
+:deep(article *, p *, p) {
   @apply normal-case;
 }
 
