@@ -6,8 +6,7 @@ import product from '@@/server/operations/product';
 import search from '@@/server/operations/search';
 
 /**
- * Provides access to GraphQL operations.
- * @returns An object with the Shopify operations (cart, collection, customer, etc.)
+ * Provides access to Shopify GraphQL operations.
  */
 export const useShopify = () => ({
   cart,

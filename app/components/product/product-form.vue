@@ -23,6 +23,8 @@ const isLoading = ref(false);
 
 // Computed
 const variants = computed(() => flattenConnection(props.product.variants));
+
+// Add-to-cart button text
 const addToCartText = computed(() => {
   if (variants.value.length === 1) {
     return currentVariant.value?.availableForSale ? 'Add to Cart' : 'Sold Out';
@@ -33,8 +35,8 @@ const addToCartText = computed(() => {
   return 'Sold Out';
 });
 
-// Helpers
-const updateUrlParams = (variant: ProductVariantFragment | undefined) => {
+// Attach current variant ID to URL
+const setVariantId = (variant: ProductVariantFragment | undefined) => {
   const query = { ...route.query };
 
   if (variant) {
@@ -102,7 +104,7 @@ const setInitialVariant = () => {
       selectedSize.value = sizeOption.value;
     }
 
-    updateUrlParams(initialVariant);
+    setVariantId(initialVariant);
   }
 };
 
@@ -126,7 +128,7 @@ watch(selectedSize, (size) => {
 });
 
 watch(currentVariant, (newVariant) => {
-  updateUrlParams(newVariant);
+  setVariantId(newVariant);
 });
 </script>
 

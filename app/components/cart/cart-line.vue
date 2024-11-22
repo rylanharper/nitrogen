@@ -13,10 +13,10 @@ const cartStore = useCartStore();
 const merchandise = computed(() => props.line.merchandise);
 const variantId = computed(() => formatVariantId(props.line.merchandise.id));
 
-// Filter default option name/value
+// Filter out default option name/value
 const selectedOptions = computed(() => {
   return merchandise.value.selectedOptions.filter(
-    (option) => !(option.name === 'Title' && option.value === 'Default Title')
+    (option) => option.name !== 'Title' && option.value !== 'Default Title'
   );
 });
 

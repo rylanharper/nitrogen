@@ -21,7 +21,7 @@ const handleSearch = async (query: string) => {
 
   if (searchQuery.value) {
     const searchVars: PredictiveSearchQueryVariables = {
-      query,
+      query: searchQuery.value,
       country: shopStore.buyerCountryCode,
       language: shopStore.buyerLanguageCode,
     };

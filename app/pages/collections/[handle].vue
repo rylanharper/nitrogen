@@ -21,7 +21,7 @@ const sortValues = computed(() => getCollectionSortValuesFromUrl(sortParam.value
 const filterParam = computed(() => route.query);
 const filterValues = computed(() => getFilterValuesFromUrl(filterParam.value));
 
-// Helpers
+// Get active filter options from the URL
 const activeFilterOptions = computed(() => {
   const filters: { name: string; value: string }[] = [];
 
