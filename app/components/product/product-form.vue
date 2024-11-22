@@ -35,7 +35,7 @@ const addToCartText = computed(() => {
   return 'Sold Out';
 });
 
-// Attach current variant ID to URL
+// Set current variant ID to URL
 const setVariantId = (variant: ProductVariantFragment | undefined) => {
   const query = { ...route.query };
 

@@ -37,7 +37,7 @@ const sortOptions = computed(() => {
     : collectionSortOptions;
 });
 
-// Set sort option
+// Set sort option to URL
 const setSortOption = (sortValue: string | null) => {
   const query = { ...route.query };
 
@@ -53,7 +53,7 @@ const setSortOption = (sortValue: string | null) => {
   });
 };
 
-// Set filter option
+// Set filter option to URL
 const setFilterOption = (filterName: string, filterValue: string) => {
   const query = { ...route.query };
   const currentValues = (route.query[filterName] as string)?.split(',') || [];
