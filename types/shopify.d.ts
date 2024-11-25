@@ -7959,6 +7959,10 @@ export type CollectionQueryVariables = Exact<{
   handle?: InputMaybe<Scalars['String']['input']>;
   country?: InputMaybe<CountryCode>;
   language?: InputMaybe<LanguageCode>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  startCursor?: InputMaybe<Scalars['String']['input']>;
+  endCursor?: InputMaybe<Scalars['String']['input']>;
   filters?: InputMaybe<Array<ProductFilter> | ProductFilter>;
   sortKey?: InputMaybe<ProductCollectionSortKeys>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
@@ -8006,6 +8010,10 @@ export type SearchProductsQueryVariables = Exact<{
   searchTerm: Scalars['String']['input'];
   country?: InputMaybe<CountryCode>;
   language?: InputMaybe<LanguageCode>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  startCursor?: InputMaybe<Scalars['String']['input']>;
+  endCursor?: InputMaybe<Scalars['String']['input']>;
   filters?: InputMaybe<Array<ProductFilter> | ProductFilter>;
   sortKey?: InputMaybe<SearchSortKeys>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
