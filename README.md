@@ -10,8 +10,9 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 - 🛒 Cart functionality
 - 🔒 User authentication, with password reset
 - 👤 Full customer account functionality
-- 🗂️ Collection/search filters and sort
-- 👕 Collection and product pages
+- 🕹️ Collection/search pages, with pagination
+- 🗂️ Collection/search filter and sort functionality
+- 👕 Product pages, with metafields
 - 🔍 Search functionality
 - 🌐 Shop localization
 - 💪 Strongly typed
