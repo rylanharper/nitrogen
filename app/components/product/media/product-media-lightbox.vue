@@ -29,8 +29,10 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
 const mediaRefs = ref<(HTMLElement | null)[]>([]);
 
 onMounted(() => {
-  const selectedItem = mediaRefs.value[props.mediaIndex];
-  selectedItem?.scrollIntoView();
+  nextTick(() => {
+    const selectedItem = mediaRefs.value[props.mediaIndex];
+    selectedItem?.scrollIntoView();
+  })
 });
 
 // Watchers
