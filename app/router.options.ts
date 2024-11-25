@@ -40,10 +40,8 @@ export default <RouterConfig>{
 
     return new Promise((resolve) => {
       nuxtApp.hooks.hookOnce('page:finish', () => {
-        nextTick(() => {
-          requestAnimationFrame(() => {
-            resolve(calculatePosition(to, savedPosition, 'instant'));
-          });
+        requestAnimationFrame(() => {
+          resolve(calculatePosition(to, savedPosition, 'instant'));
         });
       });
     });
