@@ -11,7 +11,7 @@ const props = defineProps<{
 // eslint-disable-next-line vue/return-in-computed-property
 const srcset = computed(() => {
   if (props.image?.url.includes('cdn.shopify.com')) {
-    const sizes = [400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200];
+    const sizes = [400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000];
 
     return sizes
       .map((width) => `${formatSizeUrl(props.image?.url, width)} ${width}w`)
