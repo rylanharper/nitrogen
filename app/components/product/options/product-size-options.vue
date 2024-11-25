@@ -37,7 +37,7 @@ const selectSizeOption = (size: string) => {
 <template>
   <div v-if="isSizeOption" class="flex flex-col gap-2">
     <div class="flex items-center justify-between">
-      <span>Select Size</span>
+      <span>Size</span>
       <button class="flex items-center justify-center gap-1.5 normal-case hover:text-gray-500">
         <Icon name="ph:ruler" class="h-5 w-5 shrink-0" />
         Size Guide

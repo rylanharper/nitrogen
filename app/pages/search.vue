@@ -21,7 +21,7 @@ const sortValues = computed(() => getSearchSortValuesFromUrl(sortParam.value));
 const filterParam = computed(() => route.query);
 const filterValues = computed(() => getFilterValuesFromUrl(filterParam.value));
 
-// Get active filter options from the URL
+// Get active filters from URL
 const activeFilterOptions = computed(() => {
   const filters: { name: string; value: string }[] = [];
   const excludedParams = ['q', 'limit'];
