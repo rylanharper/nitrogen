@@ -10,6 +10,10 @@ export const COLLECTION = gql`
     $handle: String
     $country: CountryCode
     $language: LanguageCode
+    $first: Int
+    $last: Int
+    $startCursor: String
+    $endCursor: String
     $filters: [ProductFilter!]
     $sortKey: ProductCollectionSortKeys
     $reverse: Boolean
@@ -26,7 +30,10 @@ export const COLLECTION = gql`
       trackingParameters
       updatedAt
       products(
-        first: 250
+        first: $first
+        last: $last
+        before: $startCursor
+        after: $endCursor
         filters: $filters
         sortKey: $sortKey
         reverse: $reverse

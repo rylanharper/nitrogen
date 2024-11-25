@@ -24,9 +24,10 @@ const filterValues = computed(() => getFilterValuesFromUrl(filterParam.value));
 // Get active filter options from the URL
 const activeFilterOptions = computed(() => {
   const filters: { name: string; value: string }[] = [];
+  const excludedParams = ['q', 'limit'];
 
   Object.entries(route.query).forEach(([name, value]) => {
-    if (!value || name === 'q') return;
+    if (!value || excludedParams.includes(name)) return;
 
     if (name === 'sort') {
       filters.push({ name, value: value as string });
@@ -40,12 +41,17 @@ const activeFilterOptions = computed(() => {
   return filters;
 });
 
+// State
+const limit = 12;
+const itemsPerPage = ref(Number(route.query.limit) || limit);
+
 // Shopify
 const shopify = useShopify();
 
 // Fetch data
 const collectionVars = computed<CollectionQueryVariables>(() => ({
   handle: handle.value,
+  first: itemsPerPage.value,
   filters: filterValues.value,
   sortKey: sortValues.value.sortKey,
   reverse: sortValues.value.reverse,
@@ -60,7 +66,8 @@ const { data: collectionData } = await useAsyncData(
 );
 
 const filterVars = computed<CollectionQueryVariables>(() => ({
-  handle: handle.value
+  handle: handle.value,
+  first: 250
 }));
 
 const { data: filterData } = await useAsyncData(
@@ -74,7 +81,21 @@ const collection = computed(() => collectionData?.value);
 const filterProducts = computed(() => flattenConnection(filterData.value?.products) as ProductFragment[]);
 const products = computed(() => flattenConnection(collection.value?.products) as ProductFragment[]);
 
+// Check for products
+const hasMoreProducts = computed(() =>
+  collection.value?.products?.pageInfo?.hasNextPage || false
+);
+
 // Actions
+const loadMoreProducts = () => {
+  const productLimit = itemsPerPage.value += limit;
+
+  router.replace({
+    path: route.path,
+    query: { ...route.query, limit: productLimit }
+  });
+};
+
 const removeActiveFilterOption = (filterName: string, filterValue: string) => {
   const query = { ...route.query };
 
@@ -108,7 +129,7 @@ useHead({
 </script>
 
 <template>
-  <section v-if="collection" class="flex flex-col px-6">
+  <section v-if="collection" class="flex flex-col px-6 mb-20">
     <FilterMenu
       v-if="filterProducts"
       :products="filterProducts"
@@ -116,7 +137,7 @@ useHead({
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
-          {{ collection.title }} ({{ products.length }})
+          {{ collection.title }} ({{ filterProducts.length }})
         </h1>
       </div>
       <div class="hidden lg:flex">
@@ -149,6 +170,14 @@ useHead({
       <div v-for="product in products" :key="product.id">
         <ProductCard :product="product" />
       </div>
+    </div>
+    <div v-if="hasMoreProducts" class="flex justify-center">
+      <button
+        class="p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-100 disabled:opacity-50"
+        @click="loadMoreProducts"
+      >
+        See More Products
+      </button>
     </div>
   </section>
   <section v-else class="flex items-center gap-2 p-6">

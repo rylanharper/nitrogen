@@ -77,9 +77,10 @@ const setFilterOption = (filterName: string, filterValue: string) => {
 // Active filter count
 const activeFilterCount = computed(() => {
   let count = 0;
+  const excludedFilters = ['q', 'limit'];
 
   Object.entries(route.query).forEach(([name, value]) => {
-    if (!value || name === 'q') return;
+    if (!value || excludedFilters.includes(name)) return;
 
     if (name === 'sort') {
       count += 1;
@@ -130,10 +131,11 @@ const productTypeOptions = computed(() => {
 
 // Actions
 const clearAllFilters = () => {
+  const excludedFilters = ['q', 'limit'];
   const query = { ...route.query };
 
   Object.keys(query).forEach((key) => {
-    if (key !== 'q') {
+    if (!excludedFilters.includes(key)) {
       delete query[key];
     }
   });

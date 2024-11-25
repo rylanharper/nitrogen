@@ -9,13 +9,20 @@ export const SEARCH = gql`
     $searchTerm: String!
     $country: CountryCode
     $language: LanguageCode
+    $first: Int
+    $last: Int
+    $startCursor: String
+    $endCursor: String
     $filters: [ProductFilter!]
     $sortKey: SearchSortKeys
     $reverse: Boolean
   ) @inContext(country: $country, language: $language) {
     search(
-      first: 250
       query: $searchTerm
+      first: $first
+      last: $last
+      before: $startCursor
+      after: $endCursor
       productFilters: $filters
       sortKey: $sortKey
       reverse: $reverse
