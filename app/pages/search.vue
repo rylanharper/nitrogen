@@ -81,7 +81,7 @@ const search = computed(() => searchData?.value);
 const filterProducts = computed(() => flattenConnection(filterData.value) as ProductFragment[]);
 const products = computed(() => flattenConnection(search.value) as ProductFragment[]);
 
-// Check for products
+// Check for more products
 const hasMoreProducts = computed(() =>
   search.value?.pageInfo?.hasNextPage || false
 );

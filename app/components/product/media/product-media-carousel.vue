@@ -19,7 +19,7 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
   return media?.mediaContentType === 'IMAGE';
 };
 
-// Embla carousel setup
+// Embla setup
 const [emblaRef, emblaApi] = emblaCarouselVue({ loop: true });
 
 // State

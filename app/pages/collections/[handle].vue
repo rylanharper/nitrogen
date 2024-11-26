@@ -81,7 +81,7 @@ const collection = computed(() => collectionData?.value);
 const filterProducts = computed(() => flattenConnection(filterData.value?.products) as ProductFragment[]);
 const products = computed(() => flattenConnection(collection.value?.products) as ProductFragment[]);
 
-// Check for products
+// Check for more products
 const hasMoreProducts = computed(() =>
   collection.value?.products?.pageInfo?.hasNextPage || false
 );

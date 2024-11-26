@@ -35,7 +35,7 @@ const product = computed(() => productData.value);
 const productMedia = computed(() => flattenConnection(product.value?.media));
 const productRecommendations = computed(() => recommendationData.value?.slice(0, 4) || []);
 
-// Matching color references (if any)
+// Check for matching color references
 const matchingColors = computed(() => {
   const references = product.value?.matching_colors?.references;
   return references ? flattenConnection(references) as ProductFragment[] : [];
