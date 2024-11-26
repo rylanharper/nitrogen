@@ -37,7 +37,60 @@ const sortOptions = computed(() => {
     : collectionSortOptions;
 });
 
-// Set sort option to URL
+// Get active filter count from URL
+const activeFilterCount = computed(() => {
+  let count = 0;
+  const excludedFilters = ['q', 'limit'];
+
+  Object.entries(route.query).forEach(([name, value]) => {
+    if (!value || excludedFilters.includes(name)) return;
+
+    if (name === 'sort') {
+      count += 1;
+    } else {
+      count += (value as string).split(',').length;
+    }
+  });
+
+  return count;
+});
+
+// Options
+const colorOptions = computed(() => {
+  const colorOptionNames = ['Color', 'Colour'];
+  const allColors = new Set(
+    props.products
+      .flatMap((product) => product.options)
+      .filter((option) => colorOptionNames.includes(option.name))
+      .flatMap((option) => option.optionValues)
+      .map((value) => value.name)
+  );
+
+  return Array.from(allColors).sort();
+});
+
+const sizeOptions = computed(() => {
+  const sizeOptionNames = ['Size', 'Length'];
+  const allSizes = new Set(
+    props.products
+      .flatMap((product) => product.options)
+      .filter((option) => sizeOptionNames.includes(option.name))
+      .flatMap((option) => option.optionValues)
+      .map((value) => value.name)
+  );
+
+  return sortLetterAndNumberSizes(Array.from(allSizes));
+});
+
+const productTypeOptions = computed(() => {
+  const allProductTypes = new Set(
+    props.products.map((product) => product.productType)
+  );
+
+  return Array.from(allProductTypes).sort();
+});
+
+// Actions
 const setSortOption = (sortValue: string | null) => {
   const query = { ...route.query };
 
@@ -53,7 +106,6 @@ const setSortOption = (sortValue: string | null) => {
   });
 };
 
-// Set filter option to URL
 const setFilterOption = (filterName: string, filterValue: string) => {
   const query = { ...route.query };
   const currentValues = (route.query[filterName] as string)?.split(',') || [];
@@ -74,62 +126,6 @@ const setFilterOption = (filterName: string, filterValue: string) => {
   });
 };
 
-// Active filter count
-const activeFilterCount = computed(() => {
-  let count = 0;
-  const excludedFilters = ['q', 'limit'];
-
-  Object.entries(route.query).forEach(([name, value]) => {
-    if (!value || excludedFilters.includes(name)) return;
-
-    if (name === 'sort') {
-      count += 1;
-    } else {
-      count += (value as string).split(',').length;
-    }
-  });
-
-  return count;
-});
-
-// Color Options
-const colorOptions = computed(() => {
-  const colorOptionNames = ['Color', 'Colour'];
-  const allColors = new Set(
-    props.products
-      .flatMap((product) => product.options)
-      .filter((option) => colorOptionNames.includes(option.name))
-      .flatMap((option) => option.optionValues)
-      .map((value) => value.name)
-  );
-
-  return Array.from(allColors).sort();
-});
-
-// Size options
-const sizeOptions = computed(() => {
-  const sizeOptionNames = ['Size', 'Length'];
-  const allSizes = new Set(
-    props.products
-      .flatMap((product) => product.options)
-      .filter((option) => sizeOptionNames.includes(option.name))
-      .flatMap((option) => option.optionValues)
-      .map((value) => value.name)
-  );
-
-  return sortLetterAndNumberSizes(Array.from(allSizes));
-});
-
-// ProductType options
-const productTypeOptions = computed(() => {
-  const allProductTypes = new Set(
-    props.products.map((product) => product.productType)
-  );
-
-  return Array.from(allProductTypes).sort();
-});
-
-// Actions
 const clearAllFilters = () => {
   const excludedFilters = ['q', 'limit'];
   const query = { ...route.query };
