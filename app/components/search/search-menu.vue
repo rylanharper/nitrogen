@@ -17,21 +17,24 @@ const shopify = useShopify();
 
 // Debounce query
 const handleSearch = async (query: string) => {
-  searchQuery.value = query;
+  searchQuery.value = query.trim();
 
-  if (searchQuery.value) {
-    const searchVars: PredictiveSearchQueryVariables = {
-      query: searchQuery.value,
-      country: shopStore.buyerCountryCode,
-      language: shopStore.buyerLanguageCode,
-    };
+  const searchVars: PredictiveSearchQueryVariables = {
+    query: searchQuery.value,
+    country: shopStore.buyerCountryCode,
+    language: shopStore.buyerLanguageCode,
+  };
 
-    try {
-      const response = await shopify.search.predictive(searchVars);
-      searchResults.value = response?.products || [];
-    } catch (error) {
-      console.error('Error fetching predictive search data.', error);
+  try {
+    const response = await shopify.search.predictive(searchVars);
+
+    if (!response) {
+      throw new Error('No predictive search data found.');
     }
+
+    searchResults.value = response.products;
+  } catch (error) {
+    console.error('Error fetching predictive search data:', error);
   }
 };
 
