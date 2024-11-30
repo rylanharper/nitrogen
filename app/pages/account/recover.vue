@@ -33,7 +33,10 @@ const handleRecover = async () => {
     successMessage.value = 'Success! Please check your email for instructions on how to reset your password.';
   } catch (error) {
     console.error('Error during password recovery:', error);
-    errorMessage.value = 'An error occurred. Please try again later.';
+
+    if (error instanceof Error) {
+      errorMessage.value = `${error.message}. Please try again later.`;
+    }
   } finally {
     isLoading.value = false;
   }

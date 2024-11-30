@@ -34,12 +34,17 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
           input: input
         });
 
+        if (response?.customerUserErrors?.length) {
+          throw new Error(response?.customerUserErrors[0]?.message);
+        }
+
         if (response?.customerAccessToken) {
           this.accessToken = response.customerAccessToken.accessToken;
           await this.getCustomer();
         }
       } catch (error) {
-        console.error('Cannot create customer token', error);
+        console.error('Cannot create customer token:', error);
+        throw error;
       }
     },
     /**
@@ -51,19 +56,22 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
           customerAccessToken: this.accessToken
         });
 
-        if (response) {
-          const customerInfo = {
-            id: response.id,
-            email: response.email,
-            firstName: response.firstName,
-            lastName: response.lastName
-            // Add more if needed...
-          };
-
-          this.customer = customerInfo;
+        if (!response) {
+          throw new Error('Customer data not found.');
         }
+
+        const customerInfo = {
+          id: response.id,
+          email: response.email,
+          firstName: response.firstName,
+          lastName: response.lastName
+          // Add more if needed...
+        };
+
+        this.customer = customerInfo;
       } catch (error) {
-        console.error('Cannot get customer data', error);
+        console.error('No data retrieved from customer query:', error);
+        throw error;
       }
     },
     /**
@@ -76,6 +84,10 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
           input: input
         });
 
+        if (response?.customerUserErrors?.length) {
+          throw new Error(response?.customerUserErrors[0]?.message);
+        }
+
         if (response?.customer) {
           await this.createToken({
             email: input.email,
@@ -83,7 +95,8 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
           });
         }
       } catch (error) {
-        console.error('Cannot create new customer', error);
+        console.error('Cannot create new customer:', error);
+        throw error;
       }
     },
     /**
@@ -92,14 +105,10 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
      * @param password - The customer's password
      */
     async login(email: string, password: string) {
-      try {
-        await this.createToken({
-          email: email,
-          password: password
-        });
-      } catch (error) {
-        console.error('Cannot login customer', error);
-      }
+      await this.createToken({
+        email: email,
+        password: password
+      });
     },
     /**
      * Logs out the customer, deletes the customer access token.
@@ -110,12 +119,17 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
           customerAccessToken: this.accessToken
         });
 
+        if (response?.userErrors?.length) {
+          throw new Error(response?.userErrors[0]?.message);
+        }
+
         if (response?.deletedAccessToken) {
           this.accessToken = '';
           this.customer = null;
         }
       } catch (error) {
-        console.error('Cannot logout customer', error);
+        console.error('Cannot logout customer:', error);
+        throw error;
       }
     },
     /**
@@ -124,11 +138,18 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
      */
     async recover(email: string) {
       try {
-        await shopify.customer.recover({
+        const response = await shopify.customer.recover({
           email: email
         });
+
+        if (response?.customerUserErrors?.length) {
+          throw new Error(response?.customerUserErrors[0]?.message);
+        }
+
+        return response;
       } catch (error) {
-        console.error('Cannot reccover password', error);
+        console.error('Cannot reccover password:', error);
+        throw error;
       }
     },
     /**
@@ -147,12 +168,17 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
           }
         });
 
+        if (response?.customerUserErrors?.length) {
+          throw new Error(response?.customerUserErrors[0]?.message);
+        }
+
         if (response?.customerAccessToken) {
           this.accessToken = response.customerAccessToken.accessToken;
           await this.getCustomer();
         }
       } catch (error) {
-        console.error('Cannot reset password', error);
+        console.error('Cannot reset password:', error);
+        throw error;
       }
     }
   },

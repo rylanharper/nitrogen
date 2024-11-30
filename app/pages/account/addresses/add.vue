@@ -71,9 +71,13 @@ const handleNewAddress = async () => {
       customerAccessToken: authStore.accessToken
     });
 
+    if (response?.customerUserErrors?.length) {
+      throw new Error(response?.customerUserErrors[0]?.message);
+    }
+
     const newId = response?.customerAddress?.id;
 
-    if (defaultAddress.value && newId) {
+    if (newId && defaultAddress.value) {
       await shopify.customer.updateDefaultAddress({
         addressId: newId,
         customerAccessToken: authStore.accessToken
@@ -87,7 +91,10 @@ const handleNewAddress = async () => {
     }
   } catch (error) {
     console.error('Error during address creation:', error);
-    errorMessage.value = 'An error occurred. Please try again later.';
+
+    if (error instanceof Error) {
+      errorMessage.value = `${error.message}. Please try again later.`;
+    }
   } finally {
     isLoading.value = false;
   }

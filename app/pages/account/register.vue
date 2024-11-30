@@ -64,7 +64,10 @@ const handleRegister = async () => {
     }
   } catch (error) {
     console.error('Error during account registration:', error);
-    errorMessage.value = 'An error occurred. Please try again later.';
+
+    if (error instanceof Error) {
+      errorMessage.value = `${error.message}. Please try again later.`;
+    }
   } finally {
     isLoading.value = false;
   }

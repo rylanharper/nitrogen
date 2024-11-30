@@ -43,11 +43,16 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           ...optionalParams
         });
 
+        if (response?.userErrors?.length) {
+          throw new Error(response?.userErrors[0]?.message);
+        }
+
         if (response?.cart) {
           this.cart = response.cart;
         }
       } catch (error) {
-        console.error('No cart returned from cartCreate mutation', error);
+        console.error('No cart returned from cartCreate mutation:', error);
+        throw error;
       }
     },
     /**
@@ -66,11 +71,14 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           ...optionalParams
         });
 
-        if (response) {
-          this.cart = response;
+        if (!response) {
+          throw new Error('Cart data not found.');
         }
+
+        this.cart = response;
       } catch (error) {
-        console.error('No cart retrieved from cart query', error);
+        console.error('No data retrieved from cart query:', error);
+        throw error;
       }
     },
     /**
@@ -91,11 +99,16 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           ...optionalParams
         });
 
+        if (response?.userErrors?.length) {
+          throw new Error(response?.userErrors[0]?.message);
+        }
+
         if (response?.cart) {
           this.cart = response.cart;
         }
       } catch (error) {
-        console.error('Cannot add item to cart', error);
+        console.error('Cannot add item to cart:', error);
+        throw error;
       }
     },
     /**
@@ -116,11 +129,16 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           ...optionalParams
         });
 
+        if (response?.userErrors?.length) {
+          throw new Error(response?.userErrors[0]?.message);
+        }
+
         if (response?.cart) {
           this.cart = response.cart;
         }
       } catch (error) {
-        console.error('Cannot remove item from cart', error);
+        console.error('Cannot remove item from cart:', error);
+        throw error;
       }
     },
     /**
@@ -141,11 +159,16 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           ...optionalParams
         });
 
+        if (response?.userErrors?.length) {
+          throw new Error(response?.userErrors[0]?.message);
+        }
+
         if (response?.cart) {
           this.cart = response.cart;
         }
       } catch (error) {
-        console.error('Cannot update cart item', error);
+        console.error('Cannot update cart item:', error);
+        throw error;
       }
     },
     /**
@@ -166,11 +189,16 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           ...optionalParams
         });
 
+        if (response?.userErrors?.length) {
+          throw new Error(response?.userErrors[0]?.message);
+        }
+
         if (response?.cart) {
           this.cart = response.cart;
         }
       } catch (error) {
         console.error('Cannot update cart buyer identity', error);
+        throw error;
       }
     }
   },

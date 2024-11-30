@@ -76,6 +76,10 @@ const handleUpdateAddress = async () => {
       id: decodeURIComponent(urlQuery.id as string)
     });
 
+    if (response?.customerUserErrors?.length) {
+      throw new Error(response?.customerUserErrors[0]?.message);
+    }
+
     if (defaultAddress.value) {
       await shopify.customer.updateDefaultAddress({
         addressId: decodeURIComponent(urlQuery.id as string),
@@ -90,7 +94,10 @@ const handleUpdateAddress = async () => {
     }
   } catch (error) {
     console.error('Error during customer account update:', error);
-    errorMessage.value = 'An error occurred. Please try again later.';
+
+    if (error instanceof Error) {
+      errorMessage.value = `${error.message}. Please try again later.`;
+    }
   } finally {
     isLoading.value = false;
   }
