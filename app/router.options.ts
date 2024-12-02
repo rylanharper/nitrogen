@@ -8,7 +8,7 @@ import { useNuxtApp } from '#app/nuxt';
 
 /**
  * Enhanced router configuration for improved scroll behavior in Nuxt 3.
- * Temporary solution until the official PR is merged.
+ * This is a temporary fix until the official PR is merged.
  * @see https://github.com/nuxt/nuxt/pull/24960
  */
 function calculatePosition(
