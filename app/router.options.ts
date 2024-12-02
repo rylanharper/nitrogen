@@ -1,10 +1,16 @@
 import type { RouteLocationNormalized } from '#vue-router';
 import type { RouterConfig } from 'nuxt/schema';
 
+import { nextTick } from 'vue';
 import { START_LOCATION } from 'vue-router';
 
 import { useNuxtApp } from '#app/nuxt';
 
+/**
+ * Enhanced router configuration for improved scroll behavior in Nuxt 3.
+ * Temporary solution until the official PR is merged.
+ * @see https://github.com/nuxt/nuxt/pull/24960
+ */
 function calculatePosition(
   to: RouteLocationNormalized,
   savedPosition: ScrollToOptions | null,
@@ -40,8 +46,10 @@ export default <RouterConfig>{
 
     return new Promise((resolve) => {
       nuxtApp.hooks.hookOnce('page:finish', () => {
-        requestAnimationFrame(() => {
-          resolve(calculatePosition(to, savedPosition, 'instant'));
+        return nextTick(() => {
+          requestAnimationFrame(() => {
+            resolve(calculatePosition(to, savedPosition, 'instant'));
+          });
         });
       });
     });
