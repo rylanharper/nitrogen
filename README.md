@@ -35,7 +35,7 @@ To enable product filters, install the [Shopify Search & Discovery](https://apps
 
 ### Metafields
 
-This template uses metafields to make working with Shopify easier. To enable product metafields, naviagte to `Settings` → `Custom Data` → `Products` and add the following product metafield definitions:
+This template uses metafields to make working with Shopify easier. To enable product metafields, navigate to `Settings` → `Custom Data` → `Products` and add the following product metafield definitions:
 
 1. `matching_colors`: A product reference list metafield that handles product swatch colors. This metafield allows access to the full data of referenced products, which is ideal for checking availability, option names/values, media, and more.
 2. `details`: A rich-text metafield designed to display additional product details, such as specifications, materials, or care instructions. Perfect for enhancing product descriptions with structured content.
@@ -68,7 +68,7 @@ NUXT_SHOPIFY_API_VERSION=your-storefront-access-token
 ### Development
 
 1. Install dependencies using `pnpm install`
-2. Generate your project types using `pnpm codgen`
+2. Generate your project types using `pnpm codegen`
 3. Start the development server using `pnpm run dev`
 
 ## ⚡ Basic Usage
