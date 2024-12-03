@@ -27,7 +27,7 @@ Within your Shopify admin dashboard, navigate to `Settings` → `Apps and Sales 
 
 ### Localization
 
-To support international currencies and localized experiences, enable Markets within your Shopify admin dashboard. Navigate to `Settings` → `Markets` → `Preferences` and configure your global currency markets. This allows customers to view prices in their local currency and switch between markets.
+To support international currencies and localized experiences, enable Markets within your Shopify admin dashboard. Navigate to `Settings` → `Markets` and configure your global currency markets by either selecting `International` or `Add Market`. This allows customers to view prices in their local currency and switch between markets.
 
 ### Filtering Products
 
