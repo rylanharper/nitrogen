@@ -7,7 +7,7 @@ import { START_LOCATION } from 'vue-router';
 import { useNuxtApp } from '#app/nuxt';
 
 /**
- * Enhanced router configuration for improved scroll behavior in Nuxt 3.
+ * Enhanced router configuration for improved scroll behavior in Nuxt.
  * This is a temporary fix until the official PR is merged.
  * @see https://github.com/nuxt/nuxt/pull/24960
  */
