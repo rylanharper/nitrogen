@@ -17,7 +17,14 @@ const shopify = useShopify();
 
 // Debounce query
 const handleSearch = async (query: string) => {
-  searchQuery.value = query.trim();
+  const trimmedQuery = query.trim();
+
+  if (!trimmedQuery) {
+    searchResults.value = [];
+    return;
+  }
+
+  searchQuery.value = trimmedQuery;
 
   const searchVars: PredictiveSearchQueryVariables = {
     query: searchQuery.value,

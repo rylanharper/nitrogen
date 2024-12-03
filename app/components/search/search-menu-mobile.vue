@@ -36,24 +36,6 @@ const closeSearch = () => {
   emit('closeSearch');
 };
 
-// Helpers
-const { getColorOption } = useProductHelpers();
-
-// Computed
-const productsWithOptions = computed(() =>
-  props.products.map((product) => {
-    const options = product.options;
-    const colorOption = getColorOption(options);
-    const colorOptionName = colorOption?.optionValues[0]?.name;
-
-    return {
-      ...product,
-      colorOption,
-      colorOptionName
-    };
-  })
-);
-
 // Watchers
 watch(
   () => appStore.searchMenuOpen,
@@ -96,32 +78,12 @@ watch(
           </button>
         </div>
         <div class="flex flex-col flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
-          <div v-if="searchQuery.length && products?.length" class="grid grid-cols-2 gap-x-4 gap-y-8 w-full">
-            <NuxtLink
-              v-for="product in productsWithOptions"
+          <div v-if="props.searchQuery.length && props.products?.length" class="grid grid-cols-2 gap-x-4 gap-y-8 w-full">
+            <SuggestedProductCard
+              v-for="product in products"
               :key="product.id"
-              :to="`/products/${product.handle}`"
-              class="flex gap-4"
-            >
-              <div class="size-24 aspect-square shrink-0">
-                <ShopifyImage
-                  :image="product.featuredImage"
-                  :alt="product.featuredImage?.altText || product.title"
-                />
-              </div>
-              <div class="flex flex-col flex-1">
-                <div class="mb-1">
-                  <h2 v-if="product.title">{{ product.title }}</h2>
-                  <h3 v-if="product.colorOption" class="normal-case">
-                    {{ product.colorOptionName }}
-                  </h3>
-                </div>
-                <PriceDisplay
-                  :price="product.priceRange?.minVariantPrice"
-                  :compare-at-price-range="product.compareAtPriceRange?.minVariantPrice"
-                />
-              </div>
-            </NuxtLink>
+              :product="product"
+            />
           </div>
         </div>
       </div>

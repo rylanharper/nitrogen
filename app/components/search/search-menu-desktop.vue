@@ -43,24 +43,6 @@ const closeSearch = () => {
   emit('closeSearch');
 };
 
-// Helpers
-const { getColorOption } = useProductHelpers();
-
-// Computed
-const productsWithOptions = computed(() =>
-  props.products.map((product) => {
-    const options = product.options;
-    const colorOption = getColorOption(options);
-    const colorOptionName = colorOption?.optionValues[0]?.name;
-
-    return {
-      ...product,
-      colorOption,
-      colorOptionName
-    };
-  })
-);
-
 // Watchers
 watch(
   () => appStore.searchMenuOpen,
@@ -105,58 +87,32 @@ watch(
         <div class="grid grid-cols-[280px_1fr] gap-12">
           <div class="flex flex-col gap-4">
             <h3 class="text-sm">Suggestions</h3>
-            <div v-if="searchQuery.length && products?.length" class="flex flex-col">
-              <NuxtLink
-                v-for="product in productsWithOptions"
+            <div v-if="props.searchQuery.length && props.products?.length" class="flex flex-col">
+              <SuggestedLink
+                v-for="product in products"
                 :key="product.id"
-                :to="`/products/${product.handle}`"
-                class="max-w-fit hover:text-gray-500"
-              >
-                <p v-if="product.colorOption" class="normal-case truncate ...">
-                  {{ product.title }} ({{ product.colorOptionName }})
-                </p>
-                <span v-else>{{ product?.title }}</span>
-              </NuxtLink>
+                :product="product"
+              />
             </div>
             <div v-else class="flex flex-col">
               <NuxtLink
                 v-for="link in defaulSearchLinks"
                 :key="link.label"
                 :to="link.path"
-                class="max-w-fit normal-case truncate ... hover:text-gray-500"
+                class="max-w-fit normal-case hover:text-gray-500"
               >
                 {{ link.label }}
               </NuxtLink>
             </div>
           </div>
-          <div v-if="searchQuery.length && products?.length" class="flex flex-col gap-4">
+          <div v-if="props.searchQuery.length && props.products?.length" class="flex flex-col gap-4">
             <h3 class="text-sm">Products</h3>
             <div class="grid grid-cols-2 gap-8 w-full">
-              <NuxtLink
-                v-for="product in productsWithOptions"
+              <SuggestedProductCard
+                v-for="product in products"
                 :key="product.id"
-                :to="`/products/${product.handle}`"
-                class="flex gap-4"
-              >
-                <div class="w-24 aspect-square shrink-0">
-                  <ShopifyImage
-                    :image="product.featuredImage"
-                    :alt="product.featuredImage?.altText || product.title"
-                  />
-                </div>
-                <div class="flex flex-col flex-1">
-                  <div class="mb-1">
-                    <h2 v-if="product.title">{{ product.title }}</h2>
-                    <h3 v-if="product.colorOption" class="normal-case">
-                      {{ product.colorOptionName }}
-                    </h3>
-                  </div>
-                  <PriceDisplay
-                    :price="product.priceRange?.minVariantPrice"
-                    :compare-at-price-range="product.compareAtPriceRange?.minVariantPrice"
-                  />
-                </div>
-              </NuxtLink>
+                :product="product"
+              />
             </div>
           </div>
         </div>
