@@ -23,8 +23,6 @@ const isLoading = ref(false);
 
 // Computed
 const variants = computed(() => flattenConnection(props.product.variants));
-
-// Add-to-cart button text
 const addToCartText = computed(() => {
   if (variants.value.length === 1) {
     return currentVariant.value?.availableForSale ? 'Add to Cart' : 'Sold Out';
@@ -34,19 +32,6 @@ const addToCartText = computed(() => {
 
   return 'Sold Out';
 });
-
-// Set current variant ID to URL
-const setVariantId = (variant: ProductVariantFragment | undefined) => {
-  const query = { ...route.query };
-
-  if (variant) {
-    query.variant = formatVariantId(variant.id);
-  } else {
-    delete query.variant;
-  }
-
-  router.replace({ query });
-};
 
 // Actions
 const selectSize = (size: string) => {
@@ -61,26 +46,22 @@ const addToCart = async () => {
   if (!currentVariant.value) return;
   isLoading.value = true;
 
-  try {
-    await cartStore.addToCart([
-      {
-        merchandiseId: currentVariant.value.id,
-        quantity: 1
-      }
-    ]);
+  await cartStore.addToCart([
+    {
+      merchandiseId: currentVariant.value.id,
+      quantity: 1
+    }
+  ]);
 
-    openDrawer();
-  } catch (error) {
-    console.error('Failed to add item to cart:', error);
-  } finally {
-    isLoading.value = false;
-  }
+  openDrawer();
+  isLoading.value = false;
 };
 
 // Constants
 const sizeOptionNames = ['Size', 'Length'];
 
-// Watchers
+// Functions to get and set the initial variant
+// Updates the URL query based on the selected variant
 const getInitialVariant = () => {
   if (variants.value.length === 1) return variants.value[0];
   if (variantId.value) {
@@ -88,6 +69,18 @@ const getInitialVariant = () => {
   }
 
   return undefined;
+};
+
+const setVariantId = (variant: ProductVariantFragment | undefined) => {
+  const query = { ...route.query };
+
+  if (variant) {
+    query.variant = formatVariantId(variant.id);
+  } else {
+    delete query.variant;
+  }
+
+  router.replace({ query });
 };
 
 const setInitialVariant = () => {
@@ -108,6 +101,7 @@ const setInitialVariant = () => {
   }
 };
 
+// Watchers
 watch(
   () => props.product,
   () => {
@@ -116,14 +110,11 @@ watch(
   { immediate: true }
 );
 
-const isMatchingVariant = (variant: ProductVariantFragment, size: string) =>
-  variant.selectedOptions.every(({ name, value }) =>
-    sizeOptionNames.includes(name) ? value === size : true
-  );
-
 watch(selectedSize, (size) => {
   currentVariant.value = variants.value.find((variant) =>
-    isMatchingVariant(variant, size)
+    variant.selectedOptions.every(({ name, value }) =>
+      sizeOptionNames.includes(name) ? value === size : true
+    )
   );
 });
 
