@@ -65,26 +65,31 @@ const { data: collectionData } = await useAsyncData(
   { watch: [collectionVars] }
 );
 
-const filterVars = computed<CollectionQueryVariables>(() => ({
+const collectionBaseVars = computed<CollectionQueryVariables>(() => ({
   handle: handle.value,
   first: 250
 }));
 
-const { data: filterData } = await useAsyncData(
-  `collection-filter-${handle.value}`,
-  () => shopify.collection.get(filterVars.value),
-  { watch: [filterVars], lazy: true, deep: false }
+const { data: collectionBaseData } = await useAsyncData(
+  `collection-base-${handle.value}`,
+  () => shopify.collection.get(collectionBaseVars.value),
+  { watch: [collectionBaseVars], lazy: true, deep: false }
 );
 
 // Computed data
 const collection = computed(() => collectionData?.value);
-const filterProducts = computed(() => flattenConnection(filterData.value?.products) as ProductFragment[]);
-const products = computed(() => flattenConnection(collection.value?.products) as ProductFragment[]);
+const filteredProducts = computed(() => flattenConnection(collection.value?.products) as ProductFragment[]);
+const allProducts = computed(() => flattenConnection(collectionBaseData.value?.products) as ProductFragment[]);
 
 // Check for more products
 const hasMoreProducts = computed(() =>
   collection.value?.products?.pageInfo?.hasNextPage || false
 );
+
+// Number of products based on filters or without
+const numberOfProducts = computed(() => {
+  return filterValues.value.length ? filteredProducts.value.length : allProducts.value.length;
+});
 
 // Actions
 const loadMoreProducts = () => {
@@ -131,13 +136,13 @@ useHead({
 <template>
   <section v-if="collection" class="flex flex-col px-6 mb-20">
     <FilterMenu
-      v-if="filterProducts"
-      :products="filterProducts"
+      v-if="allProducts"
+      :products="allProducts"
     />
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
-          {{ collection.title }} ({{ filterProducts.length }})
+          {{ collection.title }} ({{ numberOfProducts }})
         </h1>
       </div>
       <div class="hidden lg:flex">
@@ -164,10 +169,10 @@ useHead({
       </div>
     </div>
     <div
-      v-if="products && products.length"
+      v-if="filteredProducts && filteredProducts.length"
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
-      <div v-for="product in products" :key="product.id">
+      <div v-for="product in filteredProducts" :key="product.id">
         <ProductCard :product="product" />
       </div>
     </div>

@@ -65,26 +65,31 @@ const { data: searchData } = await useAsyncData(
   { watch: [searchVars] }
 );
 
-const filterVars = computed<SearchProductsQueryVariables>(() => ({
+const searchBaseVars = computed<SearchProductsQueryVariables>(() => ({
   searchTerm: searchTerm.value,
   first: 250
 }));
 
-const { data: filterData } = await useAsyncData(
+const { data: searchBaseData } = await useAsyncData(
   `search-filter-${searchTerm.value}`,
-  () => shopify.search.products(filterVars.value),
-  { watch: [filterVars], lazy: true, deep: false }
+  () => shopify.search.products(searchBaseVars.value),
+  { watch: [searchBaseVars], lazy: true, deep: false }
 );
 
 // Computed data
 const search = computed(() => searchData?.value);
-const filterProducts = computed(() => flattenConnection(filterData.value) as ProductFragment[]);
-const products = computed(() => flattenConnection(search.value) as ProductFragment[]);
+const filteredProducts = computed(() => flattenConnection(search.value) as ProductFragment[]);
+const allProducts = computed(() => flattenConnection(searchBaseData.value) as ProductFragment[]);
 
 // Check for more products
 const hasMoreProducts = computed(() =>
   search.value?.pageInfo?.hasNextPage || false
 );
+
+// Number of products based on filters or without
+const numberOfProducts = computed(() => {
+  return filterValues.value.length ? filteredProducts.value.length : allProducts.value.length;
+});
 
 // Actions
 const loadMoreProducts = () => {
@@ -125,7 +130,7 @@ const toggleFilter = () => {
 // SEO
 const pageTitle = computed(() =>
   searchTerm.value
-    ? `Search: ${products.value.length} results found for "${searchTerm.value}"`
+    ? `Search: ${numberOfProducts.value} results found for "${searchTerm.value}"`
     : 'Search'
 );
 
@@ -137,13 +142,13 @@ useHead(() => ({
 <template>
   <section v-if="search" class="flex flex-col px-6 mb-20">
     <FilterMenu
-      v-if="filterProducts"
-      :products="filterProducts"
+      v-if="allProducts"
+      :products="allProducts"
     />
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
-          Results for "{{ searchTerm }}" ({{ filterProducts.length }})
+          Results for "{{ searchTerm }}" ({{ numberOfProducts }})
         </h1>
       </div>
       <div class="hidden lg:flex">
@@ -170,10 +175,10 @@ useHead(() => ({
       </div>
     </div>
     <div
-      v-if="products && products.length"
+      v-if="filteredProducts && filteredProducts.length"
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
-      <div v-for="product in products" :key="product.id">
+      <div v-for="product in filteredProducts" :key="product.id">
         <ProductCard :product="product" />
       </div>
     </div>
