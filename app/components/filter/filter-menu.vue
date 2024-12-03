@@ -55,7 +55,7 @@ const activeFilterCount = computed(() => {
   return count;
 });
 
-// Options
+// Define filter options
 const colorOptions = computed(() => {
   const colorOptionNames = ['Color', 'Colour'];
   const allColors = new Set(
@@ -127,8 +127,8 @@ const setFilterOption = (filterName: string, filterValue: string) => {
 };
 
 const clearAllFilters = () => {
-  const excludedFilters = ['q', 'limit'];
   const query = { ...route.query };
+  const excludedFilters = ['q', 'limit'];
 
   Object.keys(query).forEach((key) => {
     if (!excludedFilters.includes(key)) {
