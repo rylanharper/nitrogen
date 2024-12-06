@@ -7,7 +7,7 @@ const props = defineProps<{
 }>();
 
 // Helpers
-const { isNewItem, isSoldOut, isOnSale } = useProductHelpers();
+const { isNewItem, isSoldOut, isOnSale } = useShopifyHelpers();
 
 // Computed
 const NewItem = computed(() => isNewItem(props.product?.publishedAt));

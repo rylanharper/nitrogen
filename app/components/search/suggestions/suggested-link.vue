@@ -7,7 +7,7 @@ const props = defineProps<{
 }>();
 
 // Helpers
-const { getColorOption } = useProductHelpers();
+const { getColorOption } = useShopifyHelpers();
 
 // Computed
 const options = computed(() => props.product?.options);

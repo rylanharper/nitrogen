@@ -7,7 +7,7 @@ const props = defineProps<{
 }>()
 
 // Helpers
-const { getSizeOption, isSizeSoldOut } = useProductHelpers()
+const { getSizeOption, isSizeSoldOut } = useShopifyHelpers()
 
 // Computed
 const variants = computed(() => flattenConnection(props.product.variants))

@@ -8,7 +8,7 @@ const props = defineProps<{
 }>();
 
 // Helpers
-const { isOnSale } = useProductHelpers();
+const { isOnSale } = useShopifyHelpers();
 
 // Computed
 const price = computed(() =>

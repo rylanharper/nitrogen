@@ -12,7 +12,7 @@ const route = useRoute();
 const handle = computed(() => route.params.handle as string);
 
 // Helpers
-const { getColorOption } = useProductHelpers();
+const { getColorOption } = useShopifyHelpers();
 
 // Computed
 const isColorOption = computed(() => getColorOption(props.product.options));

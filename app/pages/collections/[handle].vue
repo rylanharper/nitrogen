@@ -11,15 +11,15 @@ const appStore = useAppStore();
 const shopStore = useShopStore();
 
 // Helpers
-const { getCollectionSortValuesFromUrl, getFilterValuesFromUrl } = useCollectionHelpers();
+const { getCollectionSortValues, getFilterValues } = useShopifyHelpers();
 
 // Sort params/values
 const sortParam = computed(() => route.query.sort as string | null);
-const sortValues = computed(() => getCollectionSortValuesFromUrl(sortParam.value));
+const sortValues = computed(() => getCollectionSortValues(sortParam.value));
 
 // Filter params/values
 const filterParam = computed(() => route.query);
-const filterValues = computed(() => getFilterValuesFromUrl(filterParam.value));
+const filterValues = computed(() => getFilterValues(filterParam.value));
 
 // Get active filters from URL
 const activeFilterOptions = computed(() => {
