@@ -8,17 +8,6 @@ export default defineNuxtConfig({
     enabled: true
   },
 
-  experimental: {
-    defaults: {
-      nuxtLink: {
-        prefetchOn: {
-          visibility: false,
-          interaction: true
-        }
-      }
-    }
-  },
-
   runtimeConfig: {
     shopify: {
       storefront: process.env.NUXT_SHOPIFY_STOREFRONT,
@@ -36,13 +25,6 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/icon'
   ],
-
-  icon: {
-    mode: 'svg',
-    clientBundle: {
-      scan: true
-    }
-  },
 
   fonts: {
     defaults: {
