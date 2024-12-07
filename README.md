@@ -59,8 +59,8 @@ To begin using Nitrogen, you'll need to set up the following environment variabl
 
 ```ini
 NUXT_SHOPIFY_STOREFRONT=https://your-shop-name.myshopify.com
-NUXT_SHOPIFY_ACCESS_TOKEN=2024-07
-NUXT_SHOPIFY_API_VERSION=your-storefront-access-token
+NUXT_SHOPIFY_ACCESS_TOKEN=your-storefront-access-token
+NUXT_SHOPIFY_API_VERSION=2024-07
 ```
 
 > [!WARNING]
