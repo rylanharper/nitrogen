@@ -4,7 +4,7 @@ import type {
 } from '@@/types/shopify';
 
 import { LOCALIZATION } from '../graphql/queries/localization';
-import { query } from '../utils/client';
+import { query } from '../utils/graphql-client';
 
 /**
  * Fetches localization data such as country and language settings.

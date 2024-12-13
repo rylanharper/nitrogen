@@ -6,7 +6,7 @@ import type {
 } from '@@/types/shopify';
 
 import { PRODUCT, RECOMMENDED_PRODUCTS } from '../graphql/queries/product';
-import { query } from '../utils/client';
+import { query } from '../utils/graphql-client';
 
 /**
  * Fetches a product based on the given options.

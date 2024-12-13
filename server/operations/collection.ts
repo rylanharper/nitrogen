@@ -4,7 +4,7 @@ import type {
 } from '@@/types/shopify';
 
 import { COLLECTION } from '../graphql/queries/collection';
-import { query } from '../utils/client';
+import { query } from '../utils/graphql-client';
 
 /**
  * Fetches a collection based on the given options.

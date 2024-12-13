@@ -6,7 +6,7 @@ import type {
 } from '@@/types/shopify';
 
 import { SEARCH, PREDICTIVE_SEARCH } from '../graphql/queries/search';
-import { query } from '../utils/client';
+import { query } from '../utils/graphql-client';
 
 
 /**
