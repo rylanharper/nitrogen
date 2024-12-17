@@ -57,7 +57,7 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
         });
 
         if (!response) {
-          throw new Error('Customer data not found.');
+          throw new Error('No customer data found.');
         }
 
         const customerInfo = {
@@ -84,7 +84,7 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
           input: input
         });
 
-        if (response?.customerUserErrors?.length) {
+        if (!response?.customer?.id) {
           throw new Error(response?.customerUserErrors[0]?.message);
         }
 
