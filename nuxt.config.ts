@@ -13,6 +13,11 @@ export default defineNuxtConfig({
       storefront: process.env.NUXT_SHOPIFY_STOREFRONT,
       accessToken: process.env.NUXT_SHOPIFY_ACCESS_TOKEN,
       apiVersion: process.env.NUXT_SHOPIFY_API_VERSION
+    },
+    klaviyo: {
+      publicApiKey: process.env.NUXT_KLAVIYO_PUBLIC_API_KEY,
+      privateApiKey: process.env.NUXT_KLAVIYO_PRIVATE_API_KEY,
+      apiVersion: process.env.NUXT_KLAVIYO_API_VERSION
     }
   },
 
@@ -25,6 +30,11 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/icon'
   ],
+
+  icon: {
+    mode: 'svg',
+    serverBundle: 'remote'
+  },
 
   fonts: {
     defaults: {
