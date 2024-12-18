@@ -1,10 +1,7 @@
 import type { RouteLocationNormalized } from '#vue-router';
 import type { RouterConfig } from 'nuxt/schema';
 
-import { nextTick } from 'vue';
 import { START_LOCATION } from 'vue-router';
-
-import { useNuxtApp } from '#app/nuxt';
 
 /**
  * Enhanced router configuration for improved scroll behavior in Nuxt.
