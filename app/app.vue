@@ -33,6 +33,7 @@ useHead({
         <NuxtPage />
       </NuxtLayout>
     </main>
+    <AppFooter />
   </div>
 </template>
 

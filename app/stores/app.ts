@@ -6,9 +6,10 @@ export const useAppStore = defineStore('@nitrogen/app', {
     return {
       cartDrawerOpen: false,
       mobileMenuOpen: false,
-      localeModalOpen: false,
       filterMenuOpen: false,
-      searchMenuOpen: false
+      searchMenuOpen: false,
+      localeModalOpen: false,
+      backInStockModalOpen: false
     };
   },
 
@@ -26,12 +27,6 @@ export const useAppStore = defineStore('@nitrogen/app', {
       this.mobileMenuOpen = state ?? !this.mobileMenuOpen;
     },
     /**
-     * Toggles the localization modal.
-     */
-    toggleLocaleModal(state?: boolean) {
-      this.localeModalOpen = state ?? !this.localeModalOpen;
-    },
-    /**
      * Toggles the collection filter menu.
      */
     toggleFilterMenu(state?: boolean) {
@@ -42,6 +37,18 @@ export const useAppStore = defineStore('@nitrogen/app', {
      */
     toggleSearchMenu(state?: boolean) {
       this.searchMenuOpen = state ?? !this.searchMenuOpen;
+    },
+    /**
+     * Toggles the localization modal.
+     */
+    toggleLocaleModal(state?: boolean) {
+      this.localeModalOpen = state ?? !this.localeModalOpen;
+    },
+    /**
+     * Toggles the back-in-stock modal.
+     */
+    toggleBackInStockModal(state?: boolean) {
+      this.backInStockModalOpen = state ?? !this.backInStockModalOpen;
     }
   }
 });

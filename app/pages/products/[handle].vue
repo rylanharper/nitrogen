@@ -33,6 +33,7 @@ const { data: recommendationData } = await useAsyncData(
 // Computed data
 const product = computed(() => productData.value);
 const productMedia = computed(() => flattenConnection(product.value?.media));
+const productVariants = computed(() => flattenConnection(product.value?.variants));
 const productRecommendations = computed(() => recommendationData.value?.slice(0, 4) || []);
 
 // Check for matching color references
@@ -89,6 +90,7 @@ useHead({
       <div class="px-6">
         <ProductForm
           :product="product"
+          :variants="productVariants"
           :matching-colors="matchingColors"
         />
       </div>
