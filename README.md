@@ -14,6 +14,7 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 - 🕹️ Collection filter and sort functionality
 - 👕 Product pages, with metafields
 - 🔍 Search functionality
+- 📫 Klaviyo integration
 - 🌐 Shop localization
 - 🎠 Embla Carousel
 - 💪 Strongly typed
@@ -53,18 +54,38 @@ In order to setup customer account functionality, make sure that all API permiss
 
 This will redirect password reset emails to your custom domain while maintaining the necessary security parameters. Remember to replace `your-site-domain.com` with your actual domain name.
 
+## 📫 Klaviyo Setup
+
+Nitrogen also features Klaviyo integration for email marketing. This is a great way to send product updates, special offers, and back-in-stock notifications to customers.
+
+The template includes two streamlined Klaviyo API proxies: one for general client subscriptions and another for back-in-stock subscriptions. Both are designed to work seamlessly with the latest `2024-10-15` API version while ensuring optimal performance and security.
+
+### API Keys
+
+Within your Shopify admin, install the [Klaviyo: Email Marketing & SMS](https://apps.shopify.com/klaviyo-email-marketing) app and go through the initial setup to connect Klaviyo to your storefront. After you complete this, login to your Klaviyo dashboard and navigate to `Settings` → `Account` → `API Keys`. Here you can find your public API key and also generate your private API Key.
+
+### List IDs
+
+To ensure client subscriptions are directed to the appropriate email list (e.g., your newsletter), you need to assign the newsletter list ID to the listId variable in the [klaviyo-newsletter](https://github.com/rylanharper/Nitrogen/tree/master/server/operations) component. You can locate your newsletter list ID by logging into your Klaviyo dashboard and navigating to `Audience` → `Lists & Segments`. Select your `Newsletter` list, then click on `Settings` to view the List ID.
+
 ## ✳️ Nuxt Setup
 
 To begin using Nitrogen, you'll need to set up the following environment variables:
 
 ```ini
+# Shopify
 NUXT_SHOPIFY_STOREFRONT=https://your-shop-name.myshopify.com
-NUXT_SHOPIFY_ACCESS_TOKEN=your-storefront-access-token
+NUXT_SHOPIFY_ACCESS_TOKEN=your_storefront_access_token
 NUXT_SHOPIFY_API_VERSION=2024-07
+
+# Klaviyo
+NUXT_KLAVIYO_PUBLIC_API_KEY=your_public_api_key
+NUXT_KLAVIYO_PRIVATE_API_KEY=your_private_api_key
+NUXT_KLAVIYO_API_VERSION=2024-10-15
 ```
 
 > [!WARNING]
-> It is strongly recommended that you use the `2024-07` API version or higher. If not, you will not have access to new API features found within this template (this will cause breaking changes).
+> It is strongly recommended that you use the `2024-07` Storefront API version or higher. If not, you will not have access to new API features found within this template (this will cause breaking changes).
 
 ### Development
 
