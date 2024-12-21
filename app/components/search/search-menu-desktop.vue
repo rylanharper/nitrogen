@@ -122,7 +122,7 @@ watch(
   <Transition name="fade" mode="out-in" appear>
     <div
       v-if="appStore.searchMenuOpen"
-      class="hidden fixed inset-0 z-[50] pointer-events-auto bg-black/50 lg:flex"
+      class="hidden fixed inset-0 z-[60] pointer-events-auto bg-black/50 lg:flex"
       @click="closeSearch"
     />
   </Transition>
@@ -144,12 +144,12 @@ watch(
 .fade-enter-active,
 .fade-leave-active {
   @apply opacity-100;
-  @apply transition duration-300 ease-in-out;
+  @apply transition duration-300 ease-out;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   @apply opacity-0;
-  @apply transition duration-300 ease-in-out;
+  @apply transition duration-300 ease-out;
 }
 </style>

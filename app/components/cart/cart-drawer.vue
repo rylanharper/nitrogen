@@ -19,19 +19,15 @@ const route = useRoute();
 const { escape } = useMagicKeys();
 
 watch(
-  () => route.fullPath,
+  () => route.path,
   () => {
-    if (appStore.cartDrawerOpen) {
-      closeDrawer();
-    }
+    closeDrawer();
   }
 );
 
 if (escape) {
   watch(escape, () => {
-    if (appStore.cartDrawerOpen) {
-      closeDrawer();
-    }
+    closeDrawer();
   });
 }
 </script>
@@ -97,12 +93,12 @@ if (escape) {
 .fade-enter-active,
 .fade-leave-active {
   @apply opacity-100;
-  @apply transition duration-300 ease-in-out;
+  @apply transition duration-300 ease-out;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   @apply opacity-0;
-  @apply transition duration-300 ease-in-out;
+  @apply transition duration-300 ease-out;
 }
 </style>

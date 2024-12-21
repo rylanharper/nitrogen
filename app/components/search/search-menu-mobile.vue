@@ -113,12 +113,12 @@ watch(
 .fade-enter-active,
 .fade-leave-active {
   @apply opacity-100;
-  @apply transition duration-300 ease-in-out;
+  @apply transition duration-300 ease-out;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   @apply opacity-0;
-  @apply transition duration-300 ease-in-out;
+  @apply transition duration-300 ease-out;
 }
 </style>

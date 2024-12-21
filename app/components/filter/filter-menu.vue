@@ -151,9 +151,7 @@ const { escape } = useMagicKeys();
 
 if (escape) {
   watch(escape, () => {
-    if (appStore.filterMenuOpen) {
-      closeFilter();
-    }
+    closeFilter();
   });
 }
 </script>

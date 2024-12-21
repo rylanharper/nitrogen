@@ -37,19 +37,15 @@ const route = useRoute();
 const { escape } = useMagicKeys();
 
 watch(
-  () => route.fullPath,
+  () => route.path,
   () => {
-    if (appStore.localeModalOpen) {
-      closeModal();
-    }
+    closeModal();
   }
 );
 
 if (escape) {
   watch(escape, () => {
-    if (appStore.localeModalOpen) {
-      closeModal();
-    }
+    closeModal();
   });
 }
 </script>
@@ -114,25 +110,25 @@ if (escape) {
 .scale-in-leave-active {
   @apply opacity-100;
   @apply transform scale-100;
-  @apply transition duration-200 ease-in-out delay-100;
+  @apply transition duration-200 ease-out delay-100;
 }
 
 .scale-in-enter-from,
 .scale-in-leave-to {
   @apply opacity-0;
   @apply transform scale-[.99];
-  @apply transition duration-200 ease-in-out delay-0;
+  @apply transition duration-200 ease-out delay-0;
 }
 
 .fade-enter-active,
 .fade-leave-active {
   @apply opacity-100;
-  @apply transition duration-200 ease-in-out;
+  @apply transition duration-200 ease-out;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   @apply opacity-0;
-  @apply transition duration-200 ease-in-out;
+  @apply transition duration-200 ease-out;
 }
 </style>

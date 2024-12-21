@@ -49,8 +49,6 @@ const handleSubscribe = async () => {
 // Actions
 const closeModal = () => {
   appStore.backInStockModalOpen = false;
-  errorMessage.value = '';
-  successMessage.value = '';
 };
 
 // Watchers
@@ -58,19 +56,25 @@ const route = useRoute();
 const { escape } = useMagicKeys();
 
 watch(
-  () => route.fullPath,
-  () => {
-    if (appStore.backInStockModalOpen) {
-      closeModal();
+  () => appStore.backInStockModalOpen,
+  (isOpen) => {
+    if (!isOpen) {
+      errorMessage.value = '';
+      successMessage.value = '';
     }
+  }
+);
+
+watch(
+  () => route.path,
+  () => {
+    closeModal();
   }
 );
 
 if (escape) {
   watch(escape, () => {
-    if (appStore.backInStockModalOpen) {
-      closeModal();
-    }
+    closeModal();
   });
 }
 </script>

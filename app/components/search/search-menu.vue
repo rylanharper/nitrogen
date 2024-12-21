@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import type {
-  PredictiveSearchQueryVariables,
-  ProductFragment
-} from '@@/types/shopify';
+import type { ProductFragment } from '@@/types/shopify';
 
 // Stores
 const appStore = useAppStore();
@@ -15,7 +12,7 @@ const searchResults = ref<ProductFragment[]>([]);
 // Shopify
 const shopify = useShopify();
 
-// Debounce query
+// Search
 const handleSearch = async (query: string) => {
   const trimmedQuery = query.trim();
 
@@ -26,25 +23,20 @@ const handleSearch = async (query: string) => {
 
   searchQuery.value = trimmedQuery;
 
-  const searchVars: PredictiveSearchQueryVariables = {
-    query: searchQuery.value,
-    country: shopStore.buyerCountryCode,
-    language: shopStore.buyerLanguageCode,
-  };
-
   try {
-    const response = await shopify.search.predictive(searchVars);
+    const response = await shopify.search.predictive({
+      query: trimmedQuery,
+      country: shopStore.buyerCountryCode,
+      language: shopStore.buyerLanguageCode,
+    });
 
-    if (!response) {
-      throw new Error('No predictive search data found.');
-    }
-
-    searchResults.value = response.products;
+    searchResults.value = response?.products || [];
   } catch (error) {
     console.error('Error fetching predictive search data:', error);
   }
 };
 
+// Debounce query
 const debounceQuery = useDebounceFn(handleSearch, 300);
 
 // Actions
@@ -86,9 +78,7 @@ watch(
 
 if (escape) {
   watch(escape, () => {
-    if (appStore.searchMenuOpen) {
-      closeSearch();
-    }
+    closeSearch();
   });
 }
 </script>

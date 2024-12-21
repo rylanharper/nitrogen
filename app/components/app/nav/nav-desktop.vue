@@ -34,7 +34,7 @@ const emit = defineEmits([
         v-for="link in navLinksLeft"
         :key="link.label"
         :to="link.path"
-        class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+        class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
       >
         {{ link.label }}
       </NuxtLink>
@@ -43,14 +43,14 @@ const emit = defineEmits([
       <NuxtLink
         id="logo"
         to="/"
-        class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+        class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
       >
         Nitrogen
       </NuxtLink>
     </div>
     <div class="grid grid-flow-col justify-end items-center">
       <button
-        class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+        class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
         @click="emit('toggleLocaleModal')"
       >
         {{ countryCode }} / {{ currencySymbol }}
@@ -59,18 +59,18 @@ const emit = defineEmits([
         v-for="link in navLinksRight"
         :key="link.label"
         :to="link.path"
-        class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+        class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
       >
         {{ link.label }}
       </NuxtLink>
       <button
-        class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+        class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
         @click="emit('toggleSearchMenu')"
       >
         Search
       </button>
       <button
-        class="px-2.5 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+        class="px-2.5 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
         @click="emit('toggleCartDrawer')"
       >
         Cart ({{ cartTotalItems }})
