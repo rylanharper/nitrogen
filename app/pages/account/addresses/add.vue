@@ -290,7 +290,7 @@ definePageMeta({
         <p class="normal-case">Don&apos;t want to add a new address?</p>
         <NuxtLink
           to="/account"
-          class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
+          class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
         >
           Go Back
         </NuxtLink>

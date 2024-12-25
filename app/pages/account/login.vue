@@ -115,7 +115,7 @@ useHead({
         <div class="flex mb-5">
           <NuxtLink
             :to="{ name: 'account-recover' }"
-            class="max-w-fit normal-case transition duration-200 ease hover:text-zinc-500"
+            class="max-w-fit normal-case hover:text-gray-500"
           >
             Forgot Password?
           </NuxtLink>
@@ -132,7 +132,7 @@ useHead({
         <p class="normal-case">New to Nitrogen?</p>
         <NuxtLink
           to="/account/register"
-          class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
+          class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
         >
           Create an account
         </NuxtLink>

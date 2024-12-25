@@ -225,7 +225,7 @@ useHead({
         <p class="normal-case">Have an account?</p>
         <NuxtLink
           to="/account/login"
-          class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] transition duration-200 ease-in-out hover:text-zinc-500"
+          class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
         >
           Login
         </NuxtLink>

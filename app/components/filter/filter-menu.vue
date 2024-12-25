@@ -55,7 +55,7 @@ const activeFilterCount = computed(() => {
   return count;
 });
 
-// Define filter options
+// Filter options
 const colorOptions = computed(() => {
   const colorOptionNames = ['Color', 'Colour'];
   const allColors = new Set(

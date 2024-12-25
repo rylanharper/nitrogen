@@ -149,7 +149,7 @@ useHead({
         <div class="flex mb-5">
           <NuxtLink
             :to="{ name: 'account-recover' }"
-            class="max-w-fit normal-case transition duration-200 ease hover:text-zinc-500"
+            class="max-w-fit normal-case hover:text-gray-500"
           >
             Forgot Password?
           </NuxtLink>

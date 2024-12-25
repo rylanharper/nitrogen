@@ -18,9 +18,9 @@ const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name)
 <template>
   <NuxtLink
     :to="`/products/${product.handle}`"
-    class="flex gap-4"
+    class="group flex gap-4"
   >
-    <div class="w-24 aspect-square lg:shrink-0">
+    <div class="aspect-square w-24 h-24 shrink-0 border border-transparent transition duration-200 group-hover:border-zinc-300">
       <ShopifyImage
         :image="product.featuredImage"
         :alt="product.featuredImage?.altText || product.title"

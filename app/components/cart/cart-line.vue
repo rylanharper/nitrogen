@@ -45,7 +45,7 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
   <div class="flex items-center gap-6 pb-4 my-4 border-b border-zinc-300">
     <NuxtLink
       :to="`/products/${merchandise.product.handle}?variant=${variantId}`"
-      class="w-28 aspect-square shrink-0 border border-transparent transition duration-200 ease-in-out hover:border-zinc-300"
+      class="aspect-square w-28 h-28 shrink-0 border border-transparent transition duration-200 hover:border-zinc-300"
     >
       <ShopifyImage
         :image="merchandise.product.featuredImage"
@@ -67,14 +67,14 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
       <div class="flex justify-between">
         <div class="flex items-center gap-4">
           <button
-            class="flex items-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 ease-in-out hover:lg:border-black"
+            class="flex items-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 hover:lg:border-black"
             @click="updateLineQuantity(line, line.quantity - 1)"
           >
             <Icon name="ph:minus" class="h-3 w-3 shrink-0" />
           </button>
           <span>{{ line.quantity }}</span>
           <button
-            class="flex items-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 ease-in-out hover:lg:border-black"
+            class="flex items-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 hover:lg:border-black"
             @click="updateLineQuantity(line, line.quantity + 1)"
           >
             <Icon name="ph:plus" class="h-3 w-3 shrink-0" />
