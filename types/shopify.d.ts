@@ -12,7 +12,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  Color: { input: unknown; output: unknown; }
+  Color: { input: string; output: string; }
   DateTime: { input: string; output: string; }
   Decimal: { input: string; output: string; }
   HTML: { input: string; output: string; }
@@ -121,9 +121,9 @@ export type Article = HasMetafields & Node & OnlineStorePublishable & Trackable 
   id: Scalars['ID']['output'];
   /** The image associated with the article. */
   image?: Maybe<Image>;
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
   onlineStoreUrl?: Maybe<Scalars['URL']['output']>;
@@ -345,9 +345,9 @@ export type Blog = HasMetafields & Node & OnlineStorePublishable & {
   handle: Scalars['String']['output'];
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
   onlineStoreUrl?: Maybe<Scalars['URL']['output']>;
@@ -535,9 +535,9 @@ export type Cart = HasMetafields & Node & {
   id: Scalars['ID']['output'];
   /** A list of lines containing information about the items the customer intends to purchase. */
   lines: BaseCartLineConnection;
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** A note that's associated with the cart. For example, the note can be a personalized message to the buyer. */
   note?: Maybe<Scalars['String']['output']>;
@@ -793,13 +793,37 @@ export type CartCost = {
   totalAmount: MoneyV2;
   /** Whether the total amount is estimated. */
   totalAmountEstimated: Scalars['Boolean']['output'];
-  /** The duty amount for the customer to pay at checkout. */
+  /**
+   * The duty amount for the customer to pay at checkout.
+   * @deprecated Tax and duty amounts are no longer available and will be removed in a future version.
+   * Please see [the changelog](https://shopify.dev/changelog/tax-and-duties-are-deprecated-in-storefront-cart-api)
+   * for more information.
+   *
+   */
   totalDutyAmount?: Maybe<MoneyV2>;
-  /** Whether the total duty amount is estimated. */
+  /**
+   * Whether the total duty amount is estimated.
+   * @deprecated Tax and duty amounts are no longer available and will be removed in a future version.
+   * Please see [the changelog](https://shopify.dev/changelog/tax-and-duties-are-deprecated-in-storefront-cart-api)
+   * for more information.
+   *
+   */
   totalDutyAmountEstimated: Scalars['Boolean']['output'];
-  /** The tax amount for the customer to pay at checkout. */
+  /**
+   * The tax amount for the customer to pay at checkout.
+   * @deprecated Tax and duty amounts are no longer available and will be removed in a future version.
+   * Please see [the changelog](https://shopify.dev/changelog/tax-and-duties-are-deprecated-in-storefront-cart-api)
+   * for more information.
+   *
+   */
   totalTaxAmount?: Maybe<MoneyV2>;
-  /** Whether the total tax amount is estimated. */
+  /**
+   * Whether the total tax amount is estimated.
+   * @deprecated Tax and duty amounts are no longer available and will be removed in a future version.
+   * Please see [the changelog](https://shopify.dev/changelog/tax-and-duties-are-deprecated-in-storefront-cart-api)
+   * for more information.
+   *
+   */
   totalTaxAmountEstimated: Scalars['Boolean']['output'];
 };
 
@@ -1470,9 +1494,9 @@ export type Collection = HasMetafields & Node & OnlineStorePublishable & Trackab
   id: Scalars['ID']['output'];
   /** Image associated with the collection. */
   image?: Maybe<Image>;
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
   onlineStoreUrl?: Maybe<Scalars['URL']['output']>;
@@ -1634,9 +1658,9 @@ export type Company = HasMetafields & Node & {
   externalId?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** The name of the company. */
   name: Scalars['String']['output'];
@@ -1681,9 +1705,9 @@ export type CompanyLocation = HasMetafields & Node & {
   id: Scalars['ID']['output'];
   /** The preferred locale of the company location. */
   locale?: Maybe<Scalars['String']['output']>;
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** The name of the company location. */
   name: Scalars['String']['output'];
@@ -2655,9 +2679,9 @@ export type Customer = HasMetafields & {
   id: Scalars['ID']['output'];
   /** The customer’s last name. */
   lastName?: Maybe<Scalars['String']['output']>;
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** The number of orders that the customer has made at the store in their lifetime. */
   numberOfOrders: Scalars['UnsignedInt64']['output'];
@@ -3393,9 +3417,9 @@ export type GeoCoordinateInput = {
 
 /** Represents information about the metafields associated to the specified resource. */
 export type HasMetafields = {
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
 };
 
@@ -3889,9 +3913,9 @@ export type Location = HasMetafields & Node & {
   address: LocationAddress;
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** The name of the location. */
   name: Scalars['String']['output'];
@@ -4145,9 +4169,9 @@ export type Market = HasMetafields & Node & {
   handle: Scalars['String']['output'];
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
 };
 
@@ -5019,9 +5043,9 @@ export type Order = HasMetafields & Node & {
   id: Scalars['ID']['output'];
   /** List of the order’s line items. */
   lineItems: OrderLineItemConnection;
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /**
    * Unique identifier for the order that appears on the order.
@@ -5281,9 +5305,9 @@ export type Page = HasMetafields & Node & OnlineStorePublishable & Trackable & {
   handle: Scalars['String']['output'];
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
   onlineStoreUrl?: Maybe<Scalars['URL']['output']>;
@@ -5456,24 +5480,35 @@ export type PricingPercentageValue = {
 export type PricingValue = MoneyV2 | PricingPercentageValue;
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type Product = HasMetafields & Node & OnlineStorePublishable & Trackable & {
   /** Indicates if at least one product variant is available for sale. */
   availableForSale: Scalars['Boolean']['output'];
-  /** List of collections a product belongs to. */
+  /** A list of [collections](/docs/api/storefront/latest/objects/Collection) that include the product. */
   collections: CollectionConnection;
-  /** The compare at price of the product across all variants. */
+  /** The [compare-at price range](https://help.shopify.com/manual/products/details/product-pricing/sale-pricing) of the product in the shop's default currency. */
   compareAtPriceRange: ProductPriceRange;
   /** The date and time when the product was created. */
   createdAt: Scalars['DateTime']['output'];
-  /** Stripped description of the product, single line with HTML tags removed. */
+  /** A single-line description of the product, with [HTML tags](https://developer.mozilla.org/en-US/docs/Web/HTML) removed. */
   description: Scalars['String']['output'];
-  /** The description of the product, complete with HTML formatting. */
+  /**
+   * The description of the product, with
+   * HTML tags. For example, the description might include
+   * bold `<strong></strong>` and italic `<i></i>` text.
+   *
+   */
   descriptionHtml: Scalars['HTML']['output'];
   /**
    * The featured image for the product.
@@ -5483,8 +5518,9 @@ export type Product = HasMetafields & Node & OnlineStorePublishable & Trackable 
    */
   featuredImage?: Maybe<Image>;
   /**
-   * A human-friendly unique string for the Product automatically generated from its title.
-   * They are used by the Liquid templating language to refer to objects.
+   * A unique, human-readable string of the product's title.
+   * A handle can contain letters, hyphens (`-`), and numbers, but no spaces.
+   * The handle is used in the online store URL for the product.
    *
    */
   handle: Scalars['String']['output'];
@@ -5494,41 +5530,63 @@ export type Product = HasMetafields & Node & OnlineStorePublishable & Trackable 
   images: ImageConnection;
   /** Whether the product is a gift card. */
   isGiftCard: Scalars['Boolean']['output'];
-  /** The media associated with the product. */
+  /** The [media](/docs/apps/build/online-store/product-media) that are associated with the product. Valid media are images, 3D models, videos. */
   media: MediaConnection;
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /**
-   * The URL used for viewing the resource on the shop's Online Store. Returns
-   * `null` if the resource is currently not published to the Online Store sales channel.
+   * The product's URL on the online store.
+   * If `null`, then the product isn't published to the online store sales channel.
    *
    */
   onlineStoreUrl?: Maybe<Scalars['URL']['output']>;
-  /** List of product options. */
+  /** A list of product options. The limit is defined by the [shop's resource limits for product options](/docs/api/admin-graphql/latest/objects/Shop#field-resourcelimits) (`Shop.resourceLimits.maxProductOptions`). */
   options: Array<ProductOption>;
-  /** The price range. */
+  /**
+   * The minimum and maximum prices of a product, expressed in decimal numbers.
+   * For example, if the product is priced between $10.00 and $50.00,
+   * then the price range is $10.00 - $50.00.
+   *
+   */
   priceRange: ProductPriceRange;
-  /** A categorization that a product can be tagged with, commonly used for filtering and searching. */
+  /**
+   * The [product type](https://help.shopify.com/manual/products/details/product-type)
+   * that merchants define.
+   *
+   */
   productType: Scalars['String']['output'];
   /** The date and time when the product was published to the channel. */
   publishedAt: Scalars['DateTime']['output'];
-  /** Whether the product can only be purchased with a selling plan. */
+  /** Whether the product can only be purchased with a [selling plan](/docs/apps/build/purchase-options/subscriptions/selling-plans). Products that are sold on subscription (`requiresSellingPlan: true`) can be updated only for online stores. If you update a product to be subscription-only (`requiresSellingPlan:false`), then the product is unpublished from all channels, except the online store. */
   requiresSellingPlan: Scalars['Boolean']['output'];
-  /** A list of a product's available selling plan groups. A selling plan group represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans. */
+  /** A list of all [selling plan groups](/docs/apps/build/purchase-options/subscriptions/selling-plans/build-a-selling-plan) that are associated with the product either directly, or through the product's variants. */
   sellingPlanGroups: SellingPlanGroupConnection;
-  /** The product's SEO information. */
+  /**
+   * The [SEO title and description](https://help.shopify.com/manual/promoting-marketing/seo/adding-keywords)
+   * that are associated with a product.
+   *
+   */
   seo: Seo;
   /**
-   * A comma separated list of tags that have been added to the product.
-   * Additional access scope required for private apps: unauthenticated_read_product_tags.
+   * A comma-separated list of searchable keywords that are
+   * associated with the product. For example, a merchant might apply the `sports`
+   * and `summer` tags to products that are associated with sportwear for summer.
+   * Updating `tags` overwrites any existing tags that were previously added to the product.
+   * To add new tags without overwriting existing tags,
+   * use the GraphQL Admin API's [`tagsAdd`](/docs/api/admin-graphql/latest/mutations/tagsadd)
+   * mutation.
    *
    */
   tags: Array<Scalars['String']['output']>;
-  /** The product’s title. */
+  /**
+   * The name for the product that displays to customers. The title is used to construct the product's handle.
+   * For example, if a product is titled "Black Sunglasses", then the handle is `black-sunglasses`.
+   *
+   */
   title: Scalars['String']['output'];
-  /** The total quantity of inventory in stock for this Product. */
+  /** The quantity of inventory that's in stock. */
   totalInventory?: Maybe<Scalars['Int']['output']>;
   /** URL parameters to be added to a page URL to track the origin of on-site search traffic for [analytics reporting](https://help.shopify.com/manual/reports-and-analytics/shopify-reports/report-types/default-reports/behaviour-reports). Returns a result when accessed through the [search](https://shopify.dev/docs/api/storefront/current/queries/search) or [predictiveSearch](https://shopify.dev/docs/api/storefront/current/queries/predictiveSearch) queries, otherwise returns null. */
   trackingParameters?: Maybe<Scalars['String']['output']>;
@@ -5547,18 +5605,24 @@ export type Product = HasMetafields & Node & OnlineStorePublishable & Trackable 
    *
    */
   variantBySelectedOptions?: Maybe<ProductVariant>;
-  /** List of the product’s variants. */
+  /** A list of [variants](/docs/api/storefront/latest/objects/ProductVariant) that are associated with the product. */
   variants: ProductVariantConnection;
-  /** The product’s vendor name. */
+  /** The name of the product's vendor. */
   vendor: Scalars['String']['output'];
 };
 
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type ProductCollectionsArgs = {
@@ -5571,10 +5635,16 @@ export type ProductCollectionsArgs = {
 
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type ProductDescriptionArgs = {
@@ -5583,10 +5653,16 @@ export type ProductDescriptionArgs = {
 
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type ProductImagesArgs = {
@@ -5600,10 +5676,16 @@ export type ProductImagesArgs = {
 
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type ProductMediaArgs = {
@@ -5617,10 +5699,16 @@ export type ProductMediaArgs = {
 
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type ProductMetafieldArgs = {
@@ -5630,10 +5718,16 @@ export type ProductMetafieldArgs = {
 
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type ProductMetafieldsArgs = {
@@ -5642,10 +5736,16 @@ export type ProductMetafieldsArgs = {
 
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type ProductOptionsArgs = {
@@ -5654,10 +5754,16 @@ export type ProductOptionsArgs = {
 
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type ProductSellingPlanGroupsArgs = {
@@ -5670,10 +5776,16 @@ export type ProductSellingPlanGroupsArgs = {
 
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type ProductVariantBySelectedOptionsArgs = {
@@ -5684,10 +5796,16 @@ export type ProductVariantBySelectedOptionsArgs = {
 
 
 /**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * The `Product` object lets you manage products in a merchant’s store.
+ *
+ * Products are the goods and services that merchants offer to customers.
+ * They can include various details such as title, description, price, images, and options such as size or color.
+ * You can use [product variants](/docs/api/storefront/latest/objects/ProductVariant)
+ * to create or update different versions of the same product.
+ * You can also add or update product [media](/docs/api/storefront/latest/interfaces/Media).
+ * Products can be organized by grouping them into a [collection](/docs/api/storefront/latest/objects/Collection).
+ *
+ * Learn more about working with [products and collections](/docs/storefronts/headless/building-with-the-storefront-api/products-collections).
  *
  */
 export type ProductVariantsArgs = {
@@ -5921,9 +6039,9 @@ export type ProductVariant = HasMetafields & Node & {
   id: Scalars['ID']['output'];
   /** Image associated with the product variant. This field falls back to the product image if no image is available. */
   image?: Maybe<Image>;
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** The product variant’s price. */
   price: MoneyV2;
@@ -6712,9 +6830,9 @@ export type SellingPlan = HasMetafields & {
   description?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** The name of the selling plan. For example, '6 weeks of prepaid granola, delivered weekly'. */
   name: Scalars['String']['output'];
@@ -6971,9 +7089,9 @@ export type Shop = HasMetafields & Node & {
   description?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
-  /** Returns a metafield found by namespace and key. */
+  /** A [custom field](https://shopify.dev/docs/apps/build/custom-data), including its `namespace` and `key`, that's associated with a Shopify resource for the purposes of adding and storing additional information. */
   metafield?: Maybe<Metafield>;
-  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  /** A list of [custom fields](/docs/apps/build/custom-data) that a merchant associates with a Shopify resource. */
   metafields: Array<Maybe<Metafield>>;
   /** A string representing the way currency is formatted when the currency isn’t specified. */
   moneyFormat: Scalars['String']['output'];
@@ -7768,7 +7886,7 @@ export type CountryFragment = { isoCode: CountryCode, name: string, unitSystem: 
 
 export type CustomerFragment = { acceptsMarketing: boolean, createdAt: string, displayName: string, email?: string | null, firstName?: string | null, id: string, lastName?: string | null, numberOfOrders: string, phone?: string | null, tags: Array<string>, updatedAt: string, addresses: { edges: Array<{ node: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } }> }, defaultAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null, orders: { edges: Array<{ node: { canceledAt?: string | null, currencyCode: CurrencyCode, customerUrl?: string | null, email?: string | null, fulfillmentStatus: OrderFulfillmentStatus, id: string, name: string, orderNumber: number, processedAt: string, statusUrl: string, currentTotalPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalShippingPrice: { amount: string, currencyCode: CurrencyCode }, currentTotalTax: { amount: string, currencyCode: CurrencyCode }, lineItems: { edges: Array<{ node: { quantity: number, title: string, variant?: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } | null } }> }, shippingAddress?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: string | null, countryCodeV2?: CountryCode | null, firstName?: string | null, formatted: Array<string>, formattedArea?: string | null, id: string, lastName?: string | null, latitude?: number | null, longitude?: number | null, name?: string | null, phone?: string | null, province?: string | null, provinceCode?: string | null, zip?: string | null } | null } }> } };
 
-export type FilterFragment = { id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> };
+export type FilterFragment = { id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> };
 
 export type ImageFragment = { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null };
 
@@ -7788,9 +7906,9 @@ export type PageInfoFragment = { endCursor?: string | null, hasNextPage: boolean
 
 export type PriceRangeFragment = { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } };
 
-export type ProductFragment = { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null };
+export type ProductFragment = { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null };
 
-export type ProductOptionFragment = { id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> };
+export type ProductOptionFragment = { id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> };
 
 export type ProductVariantFragment = { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null };
 
@@ -7969,7 +8087,7 @@ export type CollectionQueryVariables = Exact<{
 }>;
 
 
-export type CollectionQuery = { collection?: { description: string, descriptionHtml: string, handle: string, id: string, title: string, trackingParameters?: string | null, updatedAt: string, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, products: { filters: Array<{ id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, edges: Array<{ node: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null } }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null };
+export type CollectionQuery = { collection?: { description: string, descriptionHtml: string, handle: string, id: string, title: string, trackingParameters?: string | null, updatedAt: string, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, products: { filters: Array<{ id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, edges: Array<{ node: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null } }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } } | null };
 
 export type CustomerQueryVariables = Exact<{
   customerAccessToken: Scalars['String']['input'];
@@ -7995,7 +8113,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { product?: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, matching_colors?: { references?: { edges: Array<{ node: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null } | {} }> } | null } | null, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null } | null };
+export type ProductQuery = { product?: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, matching_colors?: { references?: { edges: Array<{ node: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null } | {} }> } | null } | null, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null } | null };
 
 export type ProductRecommendationsQueryVariables = Exact<{
   handle?: InputMaybe<Scalars['String']['input']>;
@@ -8004,7 +8122,7 @@ export type ProductRecommendationsQueryVariables = Exact<{
 }>;
 
 
-export type ProductRecommendationsQuery = { recommended?: Array<{ availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null }> | null };
+export type ProductRecommendationsQuery = { recommended?: Array<{ availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null }> | null };
 
 export type SearchProductsQueryVariables = Exact<{
   searchTerm: Scalars['String']['input'];
@@ -8020,7 +8138,7 @@ export type SearchProductsQueryVariables = Exact<{
 }>;
 
 
-export type SearchProductsQuery = { search: { totalCount: number, filters: Array<{ id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, edges: Array<{ node: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null } | {} }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type SearchProductsQuery = { search: { totalCount: number, filters: Array<{ id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, edges: Array<{ node: { availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null } | {} }>, pageInfo: { endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
 export type PredictiveSearchQueryVariables = Exact<{
   query: Scalars['String']['input'];
@@ -8029,4 +8147,4 @@ export type PredictiveSearchQueryVariables = Exact<{
 }>;
 
 
-export type PredictiveSearchQuery = { predictiveSearch?: { products: Array<{ availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: unknown | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null }> } | null };
+export type PredictiveSearchQuery = { predictiveSearch?: { products: Array<{ availableForSale: boolean, createdAt: string, description: string, descriptionHtml: string, handle: string, id: string, isGiftCard: boolean, onlineStoreUrl?: string | null, productType: string, publishedAt: string, requiresSellingPlan: boolean, tags: Array<string>, title: string, totalInventory?: number | null, trackingParameters?: string | null, updatedAt: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, images: { edges: Array<{ node: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } }> }, media: { edges: Array<{ node: { alt?: string | null, id: string, mediaContentType: MediaContentType } | { alt?: string | null, id: string, mediaContentType: MediaContentType, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ filesize: number, format: string, mimeType: string, url: string }> } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, sources: Array<{ format: string, height: number, mimeType: string, url: string, width: number }> } }> }, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, sellingPlanGroups: { edges: Array<{ node: { name: string, options: Array<{ name: string, values: Array<string> }>, sellingPlans: { edges: Array<{ node: { description?: string | null, id: string, name: string, recurringDeliveries: boolean, checkoutCharge: { type: SellingPlanCheckoutChargeType, value: { amount: string, currencyCode: CurrencyCode } | { percentage: number } }, options: Array<{ name?: string | null, value?: string | null }>, priceAdjustments: Array<{ orderCount?: number | null, adjustmentValue: { adjustmentAmount: { amount: string, currencyCode: CurrencyCode } } | { price: { amount: string, currencyCode: CurrencyCode } } | { adjustmentPercentage: number } }> } }> } } }> }, variants: { edges: Array<{ node: { availableForSale: boolean, id: string, quantityAvailable?: number | null, requiresShipping: boolean, sku?: string | null, title: string, weight?: number | null, weightUnit: WeightUnit, compareAtPrice?: { amount: string, currencyCode: CurrencyCode } | null, image?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, price: { amount: string, currencyCode: CurrencyCode }, product: { handle: string, title: string, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null }, selectedOptions: Array<{ name: string, value: string }>, unitPrice?: { amount: string, currencyCode: CurrencyCode } | null } }> }, details?: { value: string } | null, shipping?: { value: string } | null }> } | null };
