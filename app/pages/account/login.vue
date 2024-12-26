@@ -2,15 +2,19 @@
 // Stores
 const authStore = useAuthStore();
 
+// Customer obj
+const customer = reactive({
+  email: '',
+  password: ''
+});
+
 // State
-const email = ref('');
-const password = ref('');
 const errorMessage = ref('');
 const isLoading = ref(false);
 
 // Login
-const formCompleted = computed(() => email.value && password.value);
 const isAuth = computed(() => authStore.isAuthenticated);
+const formCompleted = computed(() => customer.email && customer.password);
 
 const handleLogin = async () => {
   errorMessage.value = '';
@@ -22,26 +26,20 @@ const handleLogin = async () => {
     return;
   }
 
-  if (!isEmail(email.value)) {
+  if (!isEmail(customer.email)) {
     errorMessage.value = 'Please enter a valid email address.';
     isLoading.value = false;
     return;
   }
 
   try {
-    await authStore.login(email.value, password.value);
+    await authStore.login(customer.email, customer.password);
 
     if (isAuth.value) {
       await navigateTo('/account');
-    } else {
-      errorMessage.value = 'Authentication failed. Please try to sign in again.';
     }
-  } catch (error) {
-    console.error('Error during account login:', error);
-
-    if (error instanceof Error) {
-      errorMessage.value = `${error.message}. Please try again later.`;
-    }
+  } catch (error: any) {
+    errorMessage.value = `${error.message}. Please try again later.`;
   } finally {
     isLoading.value = false;
   }
@@ -75,7 +73,7 @@ useHead({
         <div class="relative w-full mb-2.5">
           <input
             id="email"
-            v-model="email"
+            v-model="customer.email"
             name="email"
             type="email"
             placeholder="Email Address"
@@ -89,7 +87,7 @@ useHead({
         <div class="relative w-full mb-2.5">
           <input
             id="password"
-            v-model="password"
+            v-model="customer.password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password"

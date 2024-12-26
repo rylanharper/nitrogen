@@ -28,7 +28,7 @@ const { data: customerData } = await useAsyncData(
 // Computed data
 const customer = computed(() => customerData.value);
 
-// Address
+// Address obj
 const address = reactive<MailingAddressInput>({
   firstName: '',
   lastName: '',
@@ -89,15 +89,10 @@ const handleUpdateAddress = async () => {
 
     if (response?.customerAddress) {
       await navigateTo('/account/addresses');
-    } else {
-      errorMessage.value = 'Failed to update address. Please verify your address details and try again.';
     }
-  } catch (error) {
-    console.error('Error during customer account update:', error);
-
-    if (error instanceof Error) {
-      errorMessage.value = `${error.message}. Please try again later.`;
-    }
+  } catch (error: any) {
+    console.error('Error during customer account update:', error.message);
+    errorMessage.value = `${error.message}. Please verify your address details and try again.`;
   } finally {
     isLoading.value = false;
   }

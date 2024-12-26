@@ -50,8 +50,8 @@ export const useCartStore = defineStore('@nitrogen/cart', {
         if (response?.cart) {
           this.cart = response.cart;
         }
-      } catch (error) {
-        console.error('No cart returned from cartCreate mutation:', error);
+      } catch (error: any) {
+        console.error('Cannot create cart:', error.message);
         throw error;
       }
     },
@@ -72,12 +72,12 @@ export const useCartStore = defineStore('@nitrogen/cart', {
         });
 
         if (!response) {
-          throw new Error('Cart data not found.');
+          throw new Error('No cart data found.');
         }
 
         this.cart = response;
-      } catch (error) {
-        console.error('No data retrieved from cart query:', error);
+      } catch (error: any) {
+        console.error('Connot get cart data:', error.message);
         throw error;
       }
     },
@@ -106,8 +106,8 @@ export const useCartStore = defineStore('@nitrogen/cart', {
         if (response?.cart) {
           this.cart = response.cart;
         }
-      } catch (error) {
-        console.error('Cannot add item to cart:', error);
+      } catch (error: any) {
+        console.error('Cannot add lines:', error.message);
         throw error;
       }
     },
@@ -136,8 +136,8 @@ export const useCartStore = defineStore('@nitrogen/cart', {
         if (response?.cart) {
           this.cart = response.cart;
         }
-      } catch (error) {
-        console.error('Cannot remove item from cart:', error);
+      } catch (error: any) {
+        console.error('Cannot remove lines:', error.message);
         throw error;
       }
     },
@@ -166,8 +166,8 @@ export const useCartStore = defineStore('@nitrogen/cart', {
         if (response?.cart) {
           this.cart = response.cart;
         }
-      } catch (error) {
-        console.error('Cannot update cart item:', error);
+      } catch (error: any) {
+        console.error('Cannot update cart lines:', error.message);
         throw error;
       }
     },
@@ -196,8 +196,8 @@ export const useCartStore = defineStore('@nitrogen/cart', {
         if (response?.cart) {
           this.cart = response.cart;
         }
-      } catch (error) {
-        console.error('Cannot update cart buyer identity', error);
+      } catch (error: any) {
+        console.error('Cannot update cart buyer identity:', error.message);
         throw error;
       }
     }

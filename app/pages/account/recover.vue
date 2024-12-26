@@ -2,14 +2,18 @@
 // Stores
 const authStore = useAuthStore();
 
+// Customer obj
+const customer = reactive({
+  email: ''
+});
+
 // State
-const email = ref('');
 const errorMessage = ref('');
 const successMessage = ref('');
 const isLoading = ref(false);
 
 // Recover
-const formCompleted = computed(() => email.value);
+const formCompleted = computed(() => customer.email);
 
 const handleRecover = async () => {
   errorMessage.value = '';
@@ -22,21 +26,17 @@ const handleRecover = async () => {
     return;
   }
 
-  if (!isEmail(email.value)) {
+  if (!isEmail(customer.email)) {
     errorMessage.value = 'Please enter a valid email address.';
     isLoading.value = false;
     return;
   }
 
   try {
-    await authStore.recover(email.value);
+    await authStore.recover(customer.email);
     successMessage.value = 'Success! Please check your email for instructions on how to reset your password.';
-  } catch (error) {
-    console.error('Error during password recovery:', error);
-
-    if (error instanceof Error) {
-      errorMessage.value = `${error.message}. Please try again later.`;
-    }
+  } catch (error: any) {
+    errorMessage.value = `${error.message}. Please try again later.`;
   } finally {
     isLoading.value = false;
   }
@@ -62,7 +62,7 @@ useHead({
         <div class="relative w-full mb-2.5">
           <input
             id="email"
-            v-model="email"
+            v-model="customer.email"
             name="email"
             type="email"
             placeholder="Email Address"

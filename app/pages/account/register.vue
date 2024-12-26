@@ -12,11 +12,12 @@ const customer = reactive({
 });
 
 // State
-const confirmPassword = ref('');
 const errorMessage = ref('');
+const confirmPassword = ref('');
 const isLoading = ref(false);
 
 // Register
+const isAuth = computed(() => authStore.isAuthenticated);
 const formCompleted = computed(
   () =>
     customer.firstName &&
@@ -24,7 +25,6 @@ const formCompleted = computed(
     customer.email &&
     customer.password
 );
-const isAuth = computed(() => authStore.isAuthenticated);
 
 const handleRegister = async () => {
   errorMessage.value = '';
@@ -59,15 +59,9 @@ const handleRegister = async () => {
 
     if (isAuth.value) {
       await navigateTo('/account');
-    } else {
-      errorMessage.value = 'Authentication failed. Please try to login instead.';
     }
-  } catch (error) {
-    console.error('Error during account registration:', error);
-
-    if (error instanceof Error) {
-      errorMessage.value = `${error.message}. Please try again later.`;
-    }
+  } catch (error: any) {
+    errorMessage.value = `${error.message}. Please try again later.`;
   } finally {
     isLoading.value = false;
   }

@@ -43,15 +43,15 @@ export const useShopStore = defineStore('@nitrogen/shop', {
         });
 
         if (!response) {
-          throw new Error('Localization data not found.');
+          throw new Error('No localization data found.');
         }
 
         this.locale.availableCountries = response.availableCountries;
         this.locale.availableLanguages = response.availableLanguages;
         this.locale.country = response.country;
         this.locale.language = response.language;
-      } catch (error) {
-        console.error('No data retrieved from localization query:', error);
+      } catch (error: any) {
+        console.error('Connot get localization data:', error.message);
         throw error;
       }
     }

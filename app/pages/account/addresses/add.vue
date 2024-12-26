@@ -24,7 +24,7 @@ const { data: customerData } = await useAsyncData(
 // Computed data
 const customer = computed(() => customerData.value);
 
-// Address
+// Address obj
 const address = reactive<MailingAddressInput>({
   firstName: '',
   lastName: '',
@@ -86,15 +86,10 @@ const handleNewAddress = async () => {
 
     if (response?.customerAddress) {
       await navigateTo('/account/addresses');
-    } else {
-      errorMessage.value = 'Failed to create address. Please verify your address details and try again.';
     }
-  } catch (error) {
-    console.error('Error during address creation:', error);
-
-    if (error instanceof Error) {
-      errorMessage.value = `${error.message}. Please try again later.`;
-    }
+  } catch (error: any) {
+    console.error('Error during address creation:', error.message);
+    errorMessage.value = `${error.message}. Please verify your address details and try again.`;
   } finally {
     isLoading.value = false;
   }

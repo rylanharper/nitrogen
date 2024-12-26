@@ -7,15 +7,19 @@ const route = useRoute();
 const customerId = route.query.id as string;
 const resetToken = route.query.token as string;
 
+// Customer obj
+const customer = reactive({
+  password: ''
+});
+
 // State
-const password = ref('');
 const confirmPassword = ref('');
 const errorMessage = ref('');
 const isLoading = ref(false);
 
 // Register
-const formCompleted = computed(() => password.value && confirmPassword.value);
 const isAuth = computed(() => authStore.isAuthenticated);
+const formCompleted = computed(() => customer.password && confirmPassword.value);
 
 const handleReset = async () => {
   errorMessage.value = '';
@@ -27,13 +31,13 @@ const handleReset = async () => {
     return;
   }
 
-  if (password.value.length < 8) {
+  if (customer.password.length < 8) {
     errorMessage.value = 'Password must be at least 8 characters long.';
     isLoading.value = false;
     return;
   }
 
-  if (password.value !== confirmPassword.value) {
+  if (customer.password !== confirmPassword.value) {
     errorMessage.value = 'Passwords do not match.';
     isLoading.value = false;
     return;
@@ -46,19 +50,13 @@ const handleReset = async () => {
   }
 
   try {
-    await authStore.reset(customerId, password.value, resetToken);
+    await authStore.reset(customerId, customer.password, resetToken);
 
     if (isAuth.value) {
       await navigateTo('/account');
-    } else {
-      errorMessage.value = 'Authentication failed. Please try to sign in or request a new reset link.';
     }
-  } catch (error) {
-    console.error('Error during password reset:', error);
-
-    if (error instanceof Error) {
-      errorMessage.value = `${error.message}. Please try again later.`;
-    }
+  } catch (error: any) {
+    errorMessage.value = `${error.message}. Please try again later.`;
   } finally {
     isLoading.value = false;
   }
@@ -97,7 +95,7 @@ useHead({
         <div class="relative w-full mb-2.5">
           <input
             id="password"
-            v-model="password"
+            v-model="customer.password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password"
