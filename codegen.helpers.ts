@@ -4,12 +4,13 @@
  * Note: JSON is generated as 'unknown' by default.
  */
 export const storefrontApiCustomScalars = {
+  Color: 'string',
   DateTime: 'string',
   Decimal: 'string',
   HTML: 'string',
-  URL: 'string',
-  Color: 'string',
-  UnsignedInt64: 'string'
+  ISO8601DateTime: 'string',
+  UnsignedInt64: 'string',
+  URL: 'string'
 };
 
 /**
@@ -22,6 +23,6 @@ export const customerAccountApiCustomScalars = {
   Decimal: 'string',
   HTML: 'string',
   ISO8601DateTime: 'string',
-  URL: 'string',
-  UnsignedInt64: 'string'
+  UnsignedInt64: 'string',
+  URL: 'string'
 };

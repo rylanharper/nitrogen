@@ -1,6 +1,6 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
-import { customerAccountApiCustomScalars } from './codegen.helpers';
+import { storefrontApiCustomScalars } from './codegen.helpers';
 import { storefrontApiSchema } from './codegen.schema';
 
 const config: CodegenConfig = {
@@ -15,7 +15,7 @@ const config: CodegenConfig = {
         defaultScalarType: 'unknown',
         useImplementingTypes: true,
         enumsAsTypes: true,
-        scalars: customerAccountApiCustomScalars
+        scalars: storefrontApiCustomScalars
       }
     }
   }
