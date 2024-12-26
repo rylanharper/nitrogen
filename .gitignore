@@ -1,4 +1,4 @@
-# Nuxt dev/build outputs
+# Dev/build outputs
 .output
 .data
 .nuxt
@@ -17,6 +17,7 @@ logs
 .DS_Store
 .fleet
 .idea
+.vscode
 
 # Local env files
 .env
