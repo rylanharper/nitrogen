@@ -7,19 +7,15 @@ const route = useRoute();
 const customerId = route.query.id as string;
 const resetToken = route.query.token as string;
 
-// Customer obj
-const customer = reactive({
-  password: ''
-});
-
 // State
+const password = ref('')
 const confirmPassword = ref('');
 const errorMessage = ref('');
 const isLoading = ref(false);
 
 // Register
 const isAuth = computed(() => authStore.isAuthenticated);
-const formCompleted = computed(() => customer.password && confirmPassword.value);
+const formCompleted = computed(() => password.value && confirmPassword.value);
 
 const handleReset = async () => {
   errorMessage.value = '';
@@ -31,13 +27,13 @@ const handleReset = async () => {
     return;
   }
 
-  if (customer.password.length < 8) {
+  if (password.value.length < 8) {
     errorMessage.value = 'Password must be at least 8 characters long.';
     isLoading.value = false;
     return;
   }
 
-  if (customer.password !== confirmPassword.value) {
+  if (password.value !== confirmPassword.value) {
     errorMessage.value = 'Passwords do not match.';
     isLoading.value = false;
     return;
@@ -50,7 +46,7 @@ const handleReset = async () => {
   }
 
   try {
-    await authStore.reset(customerId, customer.password, resetToken);
+    await authStore.reset(customerId, password.value, resetToken);
 
     if (isAuth.value) {
       await navigateTo('/account');
@@ -95,7 +91,7 @@ useHead({
         <div class="relative w-full mb-2.5">
           <input
             id="password"
-            v-model="customer.password"
+            v-model="password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password"
