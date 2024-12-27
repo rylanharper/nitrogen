@@ -148,7 +148,7 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
 
         return response;
       } catch (error: any) {
-        console.error('Cannot reccover customer password:', error.message);
+        console.error('Cannot recover customer password:', error.message);
         throw error;
       }
     },
