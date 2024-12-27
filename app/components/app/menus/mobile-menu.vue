@@ -27,8 +27,14 @@ watch(
 </script>
 
 <template>
+  <Transition name="bg-fade" mode="out-in" appear>
+    <div
+      v-if="appStore.mobileMenuOpen"
+      class="fixed inset-0 z-[50] pointer-events-auto bg-black/50"
+    />
+  </Transition>
   <Transition name="clip" mode="out-in" appear>
-    <aside v-if="appStore.mobileMenuOpen" class="fixed inset-0 z-[80] size-full bg-white">
+    <aside v-if="appStore.mobileMenuOpen" class="fixed inset-0 z-[50] size-full bg-white">
       <div class="flex flex-col size-full px-6">
         <div class="flex flex-col flex-1 mt-16 overflow-y-scroll overflow-x-hidden no-scrollbar">
           <NuxtLink
@@ -51,15 +57,21 @@ watch(
       </div>
     </aside>
   </Transition>
-  <Transition name="fade" mode="out-in" appear>
-    <div
-      v-if="appStore.mobileMenuOpen"
-      class="fixed inset-0 z-[60] pointer-events-auto bg-black/50"
-    />
-  </Transition>
 </template>
 
 <style lang="css" scoped>
+.bg-fade-enter-active,
+.bg-fade-leave-active {
+  @apply opacity-100;
+  @apply transition duration-200 ease-out;
+}
+
+.bg-fade-enter-from,
+.bg-fade-leave-to {
+  @apply opacity-0;
+  @apply transition duration-200 ease-out;
+}
+
 .clip-enter-active,
 .clip-leave-active {
   clip-path: inset(0% 0% 0% 0%);
@@ -72,17 +84,5 @@ watch(
   clip-path: inset(0% 0% 100% 0%);
   transition: clip-path;
   @apply duration-700 ease-[cubic-bezier(0.32,0.72,0,1)];
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  @apply opacity-100;
-  @apply transition duration-500 ease-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  @apply opacity-0;
-  @apply transition duration-300 ease-out;
 }
 </style>

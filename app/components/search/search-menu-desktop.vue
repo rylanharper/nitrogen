@@ -55,10 +55,17 @@ watch(
 </script>
 
 <template>
+  <Transition name="bg-fade" mode="out-in" appear>
+    <div
+      v-if="appStore.searchMenuOpen"
+      class="hidden fixed inset-0 z-[50] bg-black/50 lg:flex"
+      @click="closeSearch"
+    />
+  </Transition>
   <Transition name="slider" mode="out-in" appear>
     <aside
       v-if="appStore.searchMenuOpen"
-      class="hidden fixed top-0 left-0 z-[80] w-full bg-white lg:flex lg:min-h-[400px]"
+      class="hidden fixed top-0 left-0 z-[50] w-full bg-white lg:flex lg:min-h-[400px]"
     >
       <div class="flex flex-col gap-6 w-full px-6 pt-16 pb-10 mx-auto xl:max-w-6xl">
         <div class="relative w-full">
@@ -119,16 +126,21 @@ watch(
       </div>
     </aside>
   </Transition>
-  <Transition name="fade" mode="out-in" appear>
-    <div
-      v-if="appStore.searchMenuOpen"
-      class="hidden fixed inset-0 z-[60] pointer-events-auto bg-black/50 lg:flex"
-      @click="closeSearch"
-    />
-  </Transition>
 </template>
 
 <style lang="css" scoped>
+.bg-fade-enter-active,
+.bg-fade-leave-active {
+  @apply opacity-100;
+  @apply transition duration-200 ease-out;
+}
+
+.bg-fade-enter-from,
+.bg-fade-leave-to {
+  @apply opacity-0;
+  @apply transition duration-200 ease-out;
+}
+
 .slider-enter-active,
 .slider-leave-active {
   @apply transform translate-x-0 lg:translate-y-0;
@@ -139,17 +151,5 @@ watch(
 .slider-leave-to {
   @apply transform translate-x-full lg:translate-x-0 lg:-translate-y-full;
   @apply transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)];
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  @apply opacity-100;
-  @apply transition duration-300 ease-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  @apply opacity-0;
-  @apply transition duration-300 ease-out;
 }
 </style>

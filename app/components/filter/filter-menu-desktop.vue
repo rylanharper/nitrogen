@@ -40,6 +40,13 @@ const clearAllFilters = () => {
 </script>
 
 <template>
+  <Transition name="bg-fade" mode="out-in" appear>
+    <div
+      v-if="appStore.filterMenuOpen"
+      class="hidden fixed inset-0 z-[200] bg-black/50 lg:flex"
+      @click="closeFilter"
+    />
+  </Transition>
   <Transition name="slider" mode="out-in" appear>
     <aside
       v-if="appStore.filterMenuOpen"
@@ -134,16 +141,21 @@ const clearAllFilters = () => {
       </div>
     </aside>
   </Transition>
-  <Transition name="fade" mode="out-in" appear>
-    <div
-      v-if="appStore.filterMenuOpen"
-      class="hidden fixed inset-0 z-[150] pointer-events-auto bg-black/50 lg:flex"
-      @click="closeFilter"
-    />
-  </Transition>
 </template>
 
 <style lang="css" scoped>
+.bg-fade-enter-active,
+.bg-fade-leave-active {
+  @apply opacity-100;
+  @apply transition duration-200 ease-out;
+}
+
+.bg-fade-enter-from,
+.bg-fade-leave-to {
+  @apply opacity-0;
+  @apply transition duration-200 ease-out;
+}
+
 .slider-enter-active,
 .slider-leave-active {
   @apply transform translate-y-0;
@@ -154,17 +166,5 @@ const clearAllFilters = () => {
 .slider-leave-to {
   @apply transform translate-x-full lg:translate-x-0 lg:-translate-y-full;
   @apply transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)];
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  @apply opacity-100;
-  @apply transition duration-300 ease-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  @apply opacity-0;
-  @apply transition duration-300 ease-out;
 }
 </style>

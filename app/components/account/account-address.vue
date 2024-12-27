@@ -34,8 +34,8 @@ const handleAddressDelete = async (addressId: string) => {
     });
 
     reloadNuxtApp();
-  } catch (error) {
-    console.error('Error during address deletion:', error);
+  } catch (error: any) {
+    console.error('Cannot delete customer address:', error.message);
     errorMessage.value = 'We couldn’t delete your address. Please try again later.';
   } finally {
     isLoading.value = false;

@@ -31,8 +31,8 @@ const handleSearch = async (query: string) => {
     });
 
     searchResults.value = response?.products || [];
-  } catch (error) {
-    console.error('Error fetching predictive search data:', error);
+  } catch (error: any) {
+    console.error('Connot get predictive search data:', error.message);
   }
 };
 

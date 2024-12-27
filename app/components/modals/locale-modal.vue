@@ -51,6 +51,13 @@ if (escape) {
 </script>
 
 <template>
+  <Transition name="bg-fade" mode="out-in" appear>
+    <section
+      v-if="appStore.localeModalOpen"
+      class="fixed inset-0 z-[200] bg-black/50"
+      @click="closeModal"
+    />
+  </Transition>
   <Transition name="scale-in" mode="out-in" appear>
     <div
       v-if="appStore.localeModalOpen"
@@ -96,16 +103,21 @@ if (escape) {
       </button>
     </div>
   </Transition>
-  <Transition name="fade" mode="out-in" appear>
-    <section
-      v-if="appStore.localeModalOpen"
-      class="fixed inset-0 z-[150] pointer-events-auto bg-black/50"
-      @click="closeModal"
-    />
-  </Transition>
 </template>
 
 <style lang="css" scoped>
+.bg-fade-enter-active,
+.bg-fade-leave-active {
+  @apply opacity-100;
+  @apply transition duration-200 ease-out;
+}
+
+.bg-fade-enter-from,
+.bg-fade-leave-to {
+  @apply opacity-0;
+  @apply transition duration-200 ease-out;
+}
+
 .scale-in-enter-active,
 .scale-in-leave-active {
   @apply opacity-100;
@@ -118,17 +130,5 @@ if (escape) {
   @apply opacity-0;
   @apply transform scale-[.99];
   @apply transition duration-200 ease-out delay-0;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  @apply opacity-100;
-  @apply transition duration-200 ease-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  @apply opacity-0;
-  @apply transition duration-200 ease-out;
 }
 </style>

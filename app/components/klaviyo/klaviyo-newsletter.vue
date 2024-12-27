@@ -11,9 +11,9 @@ const listId = 'StGPx7';
 
 // Klaviyo subscribe
 const handleSubscribe = async () => {
-  isLoading.value = true;
   errorMessage.value = '';
   successMessage.value = '';
+  isLoading.value = true;
 
   if (!isEmail(email.value)) {
     errorMessage.value = 'Please enter a valid email address.';
@@ -24,11 +24,10 @@ const handleSubscribe = async () => {
   try {
     await subscribe(email.value, listId);
     successMessage.value = 'You have successfully subscribed!';
-    email.value = '';
   } catch (error: any) {
-    console.error('Error during newsletter subscription:', error);
-    errorMessage.value = error.message || 'An error occurred. Please try again.';
+    errorMessage.value = `${error.message}. Please try again later.`;
   } finally {
+    email.value = '';
     isLoading.value = false;
   }
 };

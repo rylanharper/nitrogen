@@ -18,9 +18,9 @@ const { subscribeToBackInStock } = useKlaviyo();
 
 // Klaviyo subscribe
 const handleSubscribe = async () => {
-  isLoading.value = true;
   errorMessage.value = '';
   successMessage.value = '';
+  isLoading.value = true;
 
   if (!isEmail(email.value)) {
     errorMessage.value = 'Please enter a valid email address.';
@@ -37,11 +37,10 @@ const handleSubscribe = async () => {
   try {
     await subscribeToBackInStock(email.value, props.variantId);
     successMessage.value = 'Thanks! We will notify you when this product is back in stock.';
-    email.value = '';
   } catch (error: any) {
-    console.error('Failed to subscribe to back-in-stock notifications:', error);
-    errorMessage.value = error.message || 'An error occurred. Please try again.';
+    errorMessage.value = `${error.message}. Please try again later.`;
   } finally {
+    email.value = '';
     isLoading.value = false;
   }
 };
@@ -80,6 +79,13 @@ if (escape) {
 </script>
 
 <template>
+  <Transition name="bg-fade" mode="out-in" appear>
+    <section
+      v-if="appStore.backInStockModalOpen"
+      class="fixed inset-0 z-[200] bg-black/50"
+      @click="closeModal"
+    />
+  </Transition>
   <Transition name="scale-in" mode="out-in" appear>
     <div
       v-if="appStore.backInStockModalOpen"
@@ -126,16 +132,21 @@ if (escape) {
       </p>
     </div>
   </Transition>
-  <Transition name="fade" mode="out-in" appear>
-    <section
-      v-if="appStore.backInStockModalOpen"
-      class="fixed inset-0 z-[150] pointer-events-auto bg-black/50"
-      @click="closeModal"
-    />
-  </Transition>
 </template>
 
 <style lang="css" scoped>
+.bg-fade-enter-active,
+.bg-fade-leave-active {
+  @apply opacity-100;
+  @apply transition duration-200 ease-out;
+}
+
+.bg-fade-enter-from,
+.bg-fade-leave-to {
+  @apply opacity-0;
+  @apply transition duration-200 ease-out;
+}
+
 .scale-in-enter-active,
 .scale-in-leave-active {
   @apply opacity-100;
@@ -148,17 +159,5 @@ if (escape) {
   @apply opacity-0;
   @apply transform scale-[.99];
   @apply transition duration-200 ease-out delay-0;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  @apply opacity-100;
-  @apply transition duration-200 ease-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  @apply opacity-0;
-  @apply transition duration-200 ease-out;
 }
 </style>
