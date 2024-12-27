@@ -161,12 +161,17 @@ actions: {
         input: input,
         ...optionalParams
       });
-      
+
+      if (response?.userErrors?.length) {
+        throw new Error(response?.userErrors[0]?.message);
+      }
+
       if (response?.cart) {
         this.cart = response.cart;
       }
-    } catch (error) {
-      console.error('No cart returned from cartCreate mutation', error);
+    } catch (error: any) {
+      console.error('Cannot create cart:', error.message);
+      throw error;
     }
   },
   // More actions...
