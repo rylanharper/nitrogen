@@ -31,8 +31,8 @@ export const useKlaviyo = () => {
           }
         }
       });
-    } catch (error) {
-      console.error(`Failed to process client subscription:`, error);
+    } catch (error: any) {
+      console.error(`Failed to process client subscription:`, error.message);
       throw error;
     }
   };
@@ -70,8 +70,8 @@ export const useKlaviyo = () => {
           }
         }
       });
-    } catch (error) {
-      console.error(`Failed to process back-in-stock subscription:`, error);
+    } catch (error: any) {
+      console.error(`Failed to process back-in-stock subscription:`, error.message);
       throw error;
     }
   };
