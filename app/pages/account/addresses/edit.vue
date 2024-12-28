@@ -91,7 +91,7 @@ const handleUpdateAddress = async () => {
       await navigateTo('/account/addresses');
     }
   } catch (error: any) {
-    console.error('Error during customer account update:', error.message);
+    console.error('Cannot update customer address:', error.message);
     errorMessage.value = `${error.message}. Please verify your address details and try again.`;
   } finally {
     isLoading.value = false;
