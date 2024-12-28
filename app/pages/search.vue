@@ -4,7 +4,7 @@ import type { SearchProductsQueryVariables, ProductFragment } from '@@/types/sho
 // Route data
 const route = useRoute();
 const router = useRouter();
-const searchTerm = computed(() => route.query.q as string);
+const searchQuery = computed(() => route.query.q as string);
 
 // Stores
 const appStore = useAppStore();
@@ -50,7 +50,7 @@ const shopify = useShopify();
 
 // Fetch data
 const searchVars = computed<SearchProductsQueryVariables>(() => ({
-  searchTerm: searchTerm.value,
+  searchTerm: searchQuery.value,
   filters: filterValues.value,
   first: itemsPerPage.value,
   sortKey: sortValues.value.sortKey,
@@ -60,24 +60,24 @@ const searchVars = computed<SearchProductsQueryVariables>(() => ({
 }));
 
 const { data: searchData } = await useAsyncData(
-  `search-${searchTerm.value}`,
+  `search-${searchQuery.value}`,
   () => shopify.search.products(searchVars.value),
   { watch: [searchVars] }
 );
 
 const searchBaseVars = computed<SearchProductsQueryVariables>(() => ({
-  searchTerm: searchTerm.value,
+  searchTerm: searchQuery.value,
   first: 250
 }));
 
 const { data: searchBaseData } = await useAsyncData(
-  `search-base-${searchTerm.value}`,
+  `search-base-${searchQuery.value}`,
   () => shopify.search.products(searchBaseVars.value),
   { watch: [searchBaseVars], lazy: true, deep: false }
 );
 
 // Computed data
-const search = computed(() => searchData?.value);
+const search = computed(() => searchData.value );
 const filteredProducts = computed(() => flattenConnection(search.value) as ProductFragment[]);
 const allProducts = computed(() => flattenConnection(searchBaseData.value) as ProductFragment[]);
 
@@ -129,8 +129,8 @@ const toggleFilter = () => {
 
 // SEO
 const pageTitle = computed(() =>
-  searchTerm.value
-    ? `Search: ${numberOfProducts.value} results found for "${searchTerm.value}"`
+  searchQuery.value
+    ? `Search: ${numberOfProducts.value} results found for "${searchQuery.value}"`
     : 'Search'
 );
 
@@ -148,7 +148,7 @@ useHead(() => ({
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
         <h1 class="normal-case text-xl tracking-tight leading-none">
-          Results for "{{ searchTerm }}" ({{ numberOfProducts }})
+          Results for "{{ searchQuery }}" ({{ numberOfProducts }})
         </h1>
       </div>
       <div class="hidden lg:flex">
