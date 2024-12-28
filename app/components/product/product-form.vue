@@ -8,24 +8,39 @@ const props = defineProps<{
   matchingColors: ProductFragment[];
 }>();
 
-// Constants
-const sizeOptionNames = ['Size', 'Length'];
-
 // Route data
 const route = useRoute();
 const router = useRouter();
-const variantId = computed(() => route.query.variant as string);
+const variantQuery = computed(() => route.query.variant as string);
 
 // State
 const selectedSize = ref('');
-const currentVariant = ref<ProductVariantFragment | undefined>(undefined);
 
-// Actions
-const selectSize = (size: string) => {
-  selectedSize.value = size;
+// Computed
+const currentVariant = computed(() => {
+  const sizeOptionNames = ['Size', 'Length'];
+
+  return props.variants.find((variant) =>
+    variant.selectedOptions.every(({ name, value }) =>
+      sizeOptionNames.includes(name) ? value === selectedSize.value : true
+    )
+  );
+});
+
+// Get initial variant
+const getInitialVariant = () => {
+  // If there is only one variant, get that one
+  if (props.variants.length === 1) return props.variants[0];
+
+  // If the variant ID is set in the URL, get that one
+  if (variantQuery.value) {
+    return props.variants.find((variant) => formatVariantId(variant.id) === variantQuery.value);
+  }
+
+  return undefined;
 };
 
-// Set query params
+// Set formatted variant ID to URL
 const setVariantId = (variant: ProductVariantFragment | undefined) => {
   const query = { ...route.query };
 
@@ -38,24 +53,12 @@ const setVariantId = (variant: ProductVariantFragment | undefined) => {
   router.replace({ query });
 };
 
-// Get and set initial variant
-const getInitialVariant = () => {
-  // If there is only one variant, get that one
-  if (props.variants.length === 1) return props.variants[0];
-  // If the variant ID is set in the route query, get that one
-  if (variantId.value) {
-    return props.variants.find((variant) => formatVariantId(variant.id) === variantId.value);
-  }
-
-  return undefined;
-};
-
-const setInitialVariant = () => {
+// Set initial variant and sync size
+onMounted(() => {
   const initialVariant = getInitialVariant();
+  const sizeOptionNames = ['Size', 'Length'];
 
   if (initialVariant) {
-    currentVariant.value = initialVariant;
-
     const sizeOption = initialVariant.selectedOptions.find((option) =>
       sizeOptionNames.includes(option.name)
     );
@@ -66,25 +69,14 @@ const setInitialVariant = () => {
 
     setVariantId(initialVariant);
   }
+});
+
+// Actions
+const selectSize = (size: string) => {
+  selectedSize.value = size;
 };
 
 // Watchers
-watch(
-  () => props.product,
-  () => {
-    setInitialVariant();
-  },
-  { immediate: true }
-);
-
-watch(selectedSize, (size) => {
-  currentVariant.value = props.variants.find((variant) =>
-    variant.selectedOptions.every(({ name, value }) =>
-      sizeOptionNames.includes(name) ? value === size : true
-    )
-  );
-});
-
 watch(currentVariant, (newVariant) => {
   setVariantId(newVariant);
 });
@@ -118,6 +110,6 @@ watch(currentVariant, (newVariant) => {
     </div>
   </div>
   <KlaviyoBackInStockModal
-    :variant-id="variantId"
+    :variant-id="variantQuery"
   />
 </template>
