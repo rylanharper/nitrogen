@@ -10,36 +10,29 @@ const props = defineProps<{
 // Stores
 const authStore = useAuthStore();
 
-// State
-const errorMessage = ref('');
-const isLoading = ref(false);
-
 // Computed
 const filteredAddresses = computed(() => [
   props.defaultAddress,
   ...props.addresses.filter((address) => address.id !== props.defaultAddress.id)
 ]);
 
+// State
+const isLoading = ref(false);
+
 // Shopify
 const shopify = useShopify();
 
 // Delete address
-const handleAddressDelete = async (addressId: string) => {
+const deleteAddress = async (addressId: string) => {
   isLoading.value = true
 
-  try {
-    await shopify.customer.deleteAddress({
-      id: addressId,
-      customerAccessToken: authStore.accessToken
-    });
+  await shopify.customer.deleteAddress({
+    id: addressId,
+    customerAccessToken: authStore.accessToken
+  });
 
-    reloadNuxtApp();
-  } catch (error: any) {
-    console.error('Cannot delete customer address:', error.message);
-    errorMessage.value = 'We couldn’t delete your address. Please try again later.';
-  } finally {
-    isLoading.value = false;
-  }
+  reloadNuxtApp();
+  isLoading.value = false;
 };
 </script>
 
@@ -73,7 +66,7 @@ const handleAddressDelete = async (addressId: string) => {
         </NuxtLink>
         <button
           class="flex items-center justify-center p-2 px-4 text-normalize text-red-600 bg-red-50 border border-red-300 rounded-md transition duration-200 ease-in-out hover:bg-red-100"
-          @click="handleAddressDelete(address.id)"
+          @click="deleteAddress(address.id)"
         >
           Delete Address
         </button>
