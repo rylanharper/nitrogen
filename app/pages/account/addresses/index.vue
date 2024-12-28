@@ -64,7 +64,7 @@ definePageMeta({
     </div>
   </section>
   <section v-else class="flex items-center self-start p-6 gap-2">
-    <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
+    <Icon name="ph:warning-circle" class="h-5 w-5 shrink-0" />
     <p class="normal-case">No customer data found.</p>
   </section>
 </template>
