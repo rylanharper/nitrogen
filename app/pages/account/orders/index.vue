@@ -49,7 +49,7 @@ definePageMeta({
         <AccountOrders :orders="orders" />
       </div>
       <div v-else class="flex items-center gap-2 px-6 lg:p-0">
-        <Icon name="ph:seal-warning" class="h-5 w-5 shrink-0" />
+        <Icon name="ph:warning-circle" class="h-5 w-5 shrink-0" />
         <p class="normal-case">You haven&apos;t placed any orders yet.</p>
       </div>
     </div>

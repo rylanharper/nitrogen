@@ -14,11 +14,6 @@ const countryCode = shopStore.locale?.country?.isoCode;
 const countryLocale = ref<CountryCode>(countryCode);
 const isLoading = ref(false);
 
-// Actions
-const closeModal = () => {
-  appStore.localeModalOpen = false;
-};
-
 // Update localization
 const updateLocalization = async () => {
   isLoading.value = true;
@@ -30,6 +25,11 @@ const updateLocalization = async () => {
 
   isLoading.value = false;
   closeModal();
+};
+
+// Actions
+const closeModal = () => {
+  appStore.localeModalOpen = false;
 };
 
 // Watchers

@@ -40,19 +40,6 @@ const getInitialVariant = () => {
   return undefined;
 };
 
-// Set formatted variant ID to URL
-const setVariantId = (variant: ProductVariantFragment | undefined) => {
-  const query = { ...route.query };
-
-  if (variant) {
-    query.variant = formatVariantId(variant.id);
-  } else {
-    delete query.variant;
-  }
-
-  router.replace({ query });
-};
-
 // Set initial variant and sync size
 onMounted(() => {
   const initialVariant = getInitialVariant();
@@ -70,6 +57,19 @@ onMounted(() => {
     setVariantId(initialVariant);
   }
 });
+
+// Set formatted variant ID to URL
+const setVariantId = (variant: ProductVariantFragment | undefined) => {
+  const query = { ...route.query };
+
+  if (variant) {
+    query.variant = formatVariantId(variant.id);
+  } else {
+    delete query.variant;
+  }
+
+  router.replace({ query });
+};
 
 // Actions
 const selectSize = (size: string) => {
