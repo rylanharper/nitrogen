@@ -47,9 +47,7 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           throw new Error(response?.userErrors[0]?.message);
         }
 
-        if (response?.cart) {
-          this.cart = response.cart;
-        }
+        this.cart = response?.cart;
       } catch (error: any) {
         console.error('Cannot create cart:', error.message);
         throw error;
@@ -103,9 +101,7 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           throw new Error(response?.userErrors[0]?.message);
         }
 
-        if (response?.cart) {
-          this.cart = response.cart;
-        }
+        this.cart = response?.cart;
       } catch (error: any) {
         console.error('Cannot add lines:', error.message);
         throw error;
@@ -133,9 +129,7 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           throw new Error(response?.userErrors[0]?.message);
         }
 
-        if (response?.cart) {
-          this.cart = response.cart;
-        }
+        this.cart = response?.cart;
       } catch (error: any) {
         console.error('Cannot remove lines:', error.message);
         throw error;
@@ -163,9 +157,7 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           throw new Error(response?.userErrors[0]?.message);
         }
 
-        if (response?.cart) {
-          this.cart = response.cart;
-        }
+        this.cart = response?.cart;
       } catch (error: any) {
         console.error('Cannot update cart lines:', error.message);
         throw error;
@@ -193,9 +185,7 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           throw new Error(response?.userErrors[0]?.message);
         }
 
-        if (response?.cart) {
-          this.cart = response.cart;
-        }
+        this.cart = response?.cart;
       } catch (error: any) {
         console.error('Cannot update cart buyer identity:', error.message);
         throw error;

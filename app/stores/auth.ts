@@ -88,12 +88,10 @@ export const useAuthStore = defineStore('@nitrogen/auth', {
           throw new Error(response?.customerUserErrors[0]?.message);
         }
 
-        if (response?.customer) {
-          await this.createToken({
-            email: input.email,
-            password: input.password
-          });
-        }
+        await this.createToken({
+          email: input.email,
+          password: input.password
+        });
       } catch (error: any) {
         console.error('Cannot create new customer:', error.message);
         throw error;

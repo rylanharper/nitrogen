@@ -42,7 +42,7 @@ export const useShopStore = defineStore('@nitrogen/shop', {
           language: newLanguageCode ?? this.locale.language.isoCode
         });
 
-        if (!response) {
+        if (!response.country && !response.language) {
           throw new Error('No localization data found.');
         }
 
