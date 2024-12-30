@@ -166,9 +166,7 @@ actions: {
         throw new Error(response?.userErrors[0]?.message);
       }
 
-      if (response?.cart) {
-        this.cart = response.cart;
-      }
+      this.cart = response?.cart;
     } catch (error: any) {
       console.error('Cannot create cart:', error.message);
       throw error;
