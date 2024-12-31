@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { ProductFragment } from '@@/types/shopify';
 
+// Model bindings
+const searchQuery = defineModel<string>();
+
 // Props
 const props = defineProps<{
   products: ProductFragment[];
-  searchQuery: string;
 }>();
 
 // Stores
@@ -22,16 +24,9 @@ const input = ref<HTMLInputElement | null>(null);
 
 // Emits
 const emit = defineEmits([
-  'debounceQuery',
   'submitQuery',
   'closeSearch'
 ]);
-
-// Emit events
-const setQuery = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  emit('debounceQuery', target.value);
-};
 
 const onKeyDown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
@@ -44,6 +39,15 @@ const closeSearch = () => {
 };
 
 // Watchers
+watch(
+  () => appStore.searchMenuOpen,
+  (isOpen) => {
+    if (!isOpen) {
+      searchQuery.value = '';
+    }
+  }
+);
+
 watch(
   () => appStore.searchMenuOpen,
   () => {
@@ -71,6 +75,7 @@ watch(
         <div class="relative w-full">
           <input
             ref="input"
+            v-model="searchQuery"
             type="text"
             name="searchInput"
             placeholder="Search products"
@@ -78,7 +83,6 @@ watch(
             autocomplete="off"
             autocorrect="off"
             class="peer flex w-full py-2 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-none"
-            @input="setQuery"
             @keydown="onKeyDown"
           >
           <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
@@ -94,7 +98,7 @@ watch(
         <div class="grid grid-cols-[280px_1fr] gap-12">
           <div class="flex flex-col gap-4">
             <h3 class="text-sm">Suggestions</h3>
-            <div v-if="props.searchQuery.length && props.products?.length" class="flex flex-col">
+            <div v-if="props.products?.length" class="flex flex-col">
               <SuggestedLink
                 v-for="product in products"
                 :key="product.id"
@@ -112,7 +116,7 @@ watch(
               </NuxtLink>
             </div>
           </div>
-          <div v-if="props.searchQuery.length && props.products?.length" class="flex flex-col gap-4">
+          <div v-if="props.products?.length" class="flex flex-col gap-4">
             <h3 class="text-sm">Products</h3>
             <div class="grid grid-cols-2 gap-8 w-full">
               <SuggestedProductCard

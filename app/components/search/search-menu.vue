@@ -12,32 +12,23 @@ const searchResults = ref<ProductFragment[]>([]);
 // Shopify
 const shopify = useShopify();
 
-// Search
-const handleSearch = async (query: string) => {
-  const trimmedQuery = query.trim();
+// Debounce search query
+const handleSearch = useDebounceFn(async () => {
+  const trimmedQuery = searchQuery.value.trim();
 
   if (!trimmedQuery) {
     searchResults.value = [];
     return;
   }
 
-  searchQuery.value = trimmedQuery;
+  const response = await shopify.search.predictive({
+    query: trimmedQuery,
+    country: shopStore.buyerCountryCode,
+    language: shopStore.buyerLanguageCode,
+  });
 
-  try {
-    const response = await shopify.search.predictive({
-      query: trimmedQuery,
-      country: shopStore.buyerCountryCode,
-      language: shopStore.buyerLanguageCode,
-    });
-
-    searchResults.value = response?.products || [];
-  } catch (error: any) {
-    console.error('Connot get predictive search data:', error.message);
-  }
-};
-
-// Debounce query
-const debounceQuery = useDebounceFn(handleSearch, 300);
+  searchResults.value = response?.products || [];
+}, 300);
 
 // Actions
 const closeSearch = () => {
@@ -59,15 +50,9 @@ const submitQuery = async () => {
 const route = useRoute();
 const { escape } = useMagicKeys();
 
-watch(
-  () => appStore.searchMenuOpen,
-  (isOpen) => {
-    if (!isOpen) {
-      searchQuery.value = '';
-      searchResults.value = [];
-    }
-  }
-);
+watch(searchQuery, () => {
+  handleSearch();
+});
 
 watch(
   () => route.path,
@@ -85,17 +70,15 @@ if (escape) {
 
 <template>
   <SearchMenuDesktop
+    v-model="searchQuery"
     :products="searchResults"
-    :search-query="searchQuery"
     @close-search="closeSearch"
-    @debounce-query="debounceQuery"
     @submit-query="submitQuery"
   />
   <SearchMenuMobile
+    v-model="searchQuery"
     :products="searchResults"
-    :search-query="searchQuery"
     @close-search="closeSearch"
-    @debounce-query="debounceQuery"
     @submit-query="submitQuery"
   />
 </template>
