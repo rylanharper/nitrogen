@@ -21,8 +21,10 @@ const { data: customerData } = await useAsyncData(
   { watch: [customerVars] }
 );
 
-// Computed data
 const customer = computed(() => customerData.value);
+const numberOfOrders = computed(() => customerData.value?.numberOfOrders);
+
+// Computed data
 const orders = computed(() => flattenConnection(customer.value?.orders));
 
 // SEO
@@ -43,7 +45,7 @@ definePageMeta({
   >
     <div class="flex flex-col gap-6 lg:mt-6 lg:px-8">
       <h2 class="px-6 normal-case text-xl tracking-tight leading-none lg:p-0">
-        Orders
+        Orders ({{ numberOfOrders }})
       </h2>
       <div v-if="orders && orders?.length">
         <AccountOrders :orders="orders" />

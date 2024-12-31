@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CollectionQueryVariables, ProductFragment } from '@@/types/shopify';
+import type { CollectionQueryVariables } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -76,10 +76,12 @@ const { data: collectionBaseData } = await useAsyncData(
   { watch: [collectionBaseVars], lazy: true, deep: false }
 );
 
-// Computed data
 const collection = computed(() => collectionData?.value);
-const filteredProducts = computed(() => flattenConnection(collection.value?.products) as ProductFragment[]);
-const allProducts = computed(() => flattenConnection(collectionBaseData.value?.products) as ProductFragment[]);
+const collectionBase = computed(() => collectionBaseData?.value);
+
+// Computed data
+const filteredProducts = computed(() => flattenConnection(collection.value?.products));
+const allProducts = computed(() => flattenConnection(collectionBase.value?.products));
 
 // Check for more products
 const hasMoreProducts = computed(() =>

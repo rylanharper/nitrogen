@@ -15,8 +15,8 @@ const handle = computed(() => route.params.handle as string);
 const { getColorOption } = useShopifyHelpers();
 
 // Computed
-const isColorOption = computed(() => getColorOption(props.product.options));
-const defaultColor = computed(() => isColorOption.value?.optionValues[0]?.name);
+const colorOption = computed(() => getColorOption(props.product.options));
+const defaultColorName = computed(() => colorOption.value?.optionValues[0]?.name);
 
 // Get product color options
 const mainProductColor = computed(() => {
@@ -53,7 +53,7 @@ const sortedColors = computed(() => {
 });
 
 // State
-const colorName = ref(defaultColor.value);
+const colorName = ref(defaultColorName.value);
 
 // Actions
 const updateColorName = (name: string | undefined) => {
@@ -61,12 +61,12 @@ const updateColorName = (name: string | undefined) => {
 };;
 
 const resetColorName = () => {
-  colorName.value = defaultColor.value;
+  colorName.value = defaultColorName.value;
 };;
 </script>
 
 <template>
-  <div v-if="isColorOption" class="flex flex-col gap-2">
+  <div v-if="colorOption" class="flex flex-col gap-2">
     <span>color: {{ colorName }}</span>
     <div class="flex flex-wrap gap-2">
       <NuxtLink

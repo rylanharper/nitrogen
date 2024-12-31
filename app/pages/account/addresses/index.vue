@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CustomerQueryVariables } from '@@/types/shopify';
+import type { CustomerQueryVariables, MailingAddressFragment } from '@@/types/shopify';
 
 // Stores
 const authStore = useAuthStore();
@@ -21,10 +21,11 @@ const { data: customerData } = await useAsyncData(
   { watch: [customerVars] }
 );
 
-// Computed data
 const customer = computed(() => customerData.value);
+const defaultAddress = computed(() => customerData.value?.defaultAddress as MailingAddressFragment);
+
+// Computed data
 const addresses = computed(() => flattenConnection(customer.value?.addresses));
-const defaultAddress = computed(() => customer.value?.defaultAddress);
 
 // SEO
 useHead({
