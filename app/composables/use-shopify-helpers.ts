@@ -194,8 +194,7 @@ export const useShopifyHelpers = () => {
    * @returns The color option if found, null otherwise
    */
   const getColorOption = (optionInput: ProductOptionFragment[]) => {
-    const colorOptionNames = ['Color', 'Colour'];
-    return optionInput.find((option) => colorOptionNames.includes(option.name)) ?? null;
+    return optionInput.find((option) => isColorOption(option.name)) ?? null;
   };
 
   /**
@@ -204,8 +203,7 @@ export const useShopifyHelpers = () => {
    * @returns The size option if found, null otherwise
    */
   const getSizeOption = (optionInput: ProductOptionFragment[]) => {
-    const sizeOptionNames = ['Size', 'Length'];
-    return optionInput.find((option) => sizeOptionNames.includes(option.name)) ?? null;
+    return optionInput.find((option) => isSizeOption(option.name)) ?? null;
   };
 
   /**
@@ -214,14 +212,10 @@ export const useShopifyHelpers = () => {
    * @param sizeValue - The size value to check
    * @returns A boolean indicating if the size is sold out
    */
-  const isSizeSoldOut = (
-    variants: ProductVariantFragment[],
-    sizeValue: string
-  ): boolean => {
-    const sizeOptionNames = ['Size', 'Length'];
+  const isSizeSoldOut = (variants: ProductVariantFragment[], sizeValue: string): boolean => {
     const sizeVariants = variants.filter((variant) =>
       variant.selectedOptions.some((option) =>
-        sizeOptionNames.includes(option.name) && option.value === sizeValue
+        isSizeOption(option.name) && option.value === sizeValue
       )
     );
 
@@ -234,14 +228,10 @@ export const useShopifyHelpers = () => {
    * @param colorValue - The color value to check
    * @returns A boolean indicating if the color is sold out
    */
-  const isColorSoldOut = (
-    variants: ProductVariantFragment[],
-    colorValue: string
-  ): boolean => {
-    const colorOptionNames = ['Color', 'Colour'];
+  const isColorSoldOut = (variants: ProductVariantFragment[], colorValue: string): boolean => {
     const colorVariants = variants.filter((variant) =>
       variant.selectedOptions.some((option) =>
-        colorOptionNames.includes(option.name) && option.value === colorValue
+        isColorOption(option.name) && option.value === colorValue
       )
     );
 
