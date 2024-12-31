@@ -57,11 +57,10 @@ const activeFilterCount = computed(() => {
 
 // Filter options
 const colorOptions = computed(() => {
-  const colorOptionNames = ['Color', 'Colour'];
   const allColors = new Set(
     props.products
       .flatMap((product) => product.options)
-      .filter((option) => colorOptionNames.includes(option.name))
+      .filter((option) => isColorOption(option.name))
       .flatMap((option) => option.optionValues)
       .map((value) => value.name)
   );
@@ -70,11 +69,10 @@ const colorOptions = computed(() => {
 });
 
 const sizeOptions = computed(() => {
-  const sizeOptionNames = ['Size', 'Length'];
   const allSizes = new Set(
     props.products
       .flatMap((product) => product.options)
-      .filter((option) => sizeOptionNames.includes(option.name))
+      .filter((option) => isSizeOption(option.name))
       .flatMap((option) => option.optionValues)
       .map((value) => value.name)
   );
