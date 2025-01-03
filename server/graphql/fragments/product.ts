@@ -78,6 +78,7 @@ export const PRODUCT_FRAGMENT = gql`
         }
       }
     }
+    # Custom Metafields
     details: metafield(namespace: "custom", key: "details") {
       value
     }
