@@ -9,6 +9,7 @@ export const PRODUCT_VARIANT_FRAGMENT = gql`
     compareAtPrice {
       ...Money
     }
+    currentlyNotInStock
     id
     image {
       ...Image
