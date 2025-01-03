@@ -8,16 +8,8 @@ export const ORDER_FRAGMENT = gql`
   fragment Order on Order {
     canceledAt
     currencyCode
-    currentTotalPrice {
-      ...Money
-    }
-    currentTotalShippingPrice {
-      ...Money
-    }
-    currentTotalTax {
-      ...Money
-    }
     customerUrl
+    edited
     email
     fulfillmentStatus
     id
@@ -39,6 +31,21 @@ export const ORDER_FRAGMENT = gql`
       ...MailingAddress
     }
     statusUrl
+    subtotalPrice {
+      ...Money
+    }
+    totalPrice {
+      ...Money
+    },
+    totalRefunded {
+      ...Money
+    }
+    totalShippingPrice {
+      ...Money
+    }
+    totalTax {
+      ...Money
+    }
   }
   ${MONEY_FRAGMENT}
   ${MAILING_ADDRESS_FRAGMENT}
