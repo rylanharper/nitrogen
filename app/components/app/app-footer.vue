@@ -131,7 +131,7 @@ const footerLinks3 = [
         </details>
       </div>
       <div class="flex justify-between">
-        <span class="text-sm">© Nitrogen 2024</span>
+        <span class="text-sm">© Nitrogen 2025</span>
       </div>
     </nav>
   </footer>
