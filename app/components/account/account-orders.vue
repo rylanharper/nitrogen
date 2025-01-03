@@ -66,7 +66,7 @@ const headers = [
             </span>
           </td>
           <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
-            <PriceDisplay class="price" :price="order.currentTotalPrice" />
+            <PriceDisplay class="price" :price="order.totalPrice" />
           </td>
         </tr>
       </tbody>
