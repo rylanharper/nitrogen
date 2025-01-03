@@ -22,7 +22,6 @@ const { data: customerData } = await useAsyncData(
 );
 
 const customer = computed(() => customerData.value);
-const numberOfOrders = computed(() => customerData.value?.numberOfOrders);
 
 // Computed data
 const orders = computed(() => flattenConnection(customer.value?.orders));
@@ -45,7 +44,7 @@ definePageMeta({
   >
     <div class="flex flex-col gap-6 lg:mt-6 lg:px-8">
       <h2 class="px-6 normal-case text-xl tracking-tight leading-none lg:p-0">
-        Orders ({{ numberOfOrders }})
+        Orders ({{ orders?.length }})
       </h2>
       <div v-if="orders && orders?.length">
         <AccountOrders :orders="orders" />
