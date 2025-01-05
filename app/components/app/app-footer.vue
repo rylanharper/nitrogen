@@ -60,7 +60,7 @@ const footerLinks3 = [
         <KlaviyoNewsletter />
       </div>
       <div class="flex justify-between">
-        <span class="text-sm">© Nitrogen 2024</span>
+        <span class="text-sm">© Nitrogen 2025</span>
       </div>
     </nav>
     <nav class="flex flex-col px-6 py-6 gap-8 lg:hidden">
