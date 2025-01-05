@@ -59,14 +59,14 @@ watch(
 </script>
 
 <template>
-  <Transition name="bg-fade" mode="out-in" appear>
+  <Transition name="bg-fade" appear>
     <div
       v-if="appStore.searchMenuOpen"
       class="hidden fixed inset-0 z-[50] bg-black/50 lg:flex"
       @click="closeSearch"
     />
   </Transition>
-  <Transition name="slider" mode="out-in" appear>
+  <Transition name="slider" appear>
     <aside
       v-if="appStore.searchMenuOpen"
       class="hidden fixed top-0 left-0 z-[50] w-full bg-white lg:flex lg:min-h-[400px]"
@@ -135,25 +135,31 @@ watch(
 <style lang="css" scoped>
 .bg-fade-enter-active,
 .bg-fade-leave-active {
-  @apply opacity-100;
   @apply transition duration-200 ease-out;
 }
 
 .bg-fade-enter-from,
 .bg-fade-leave-to {
   @apply opacity-0;
-  @apply transition duration-200 ease-out;
+}
+
+.bg-fade-enter-to,
+.bg-fade-leave-from {
+  @apply opacity-100;
 }
 
 .slider-enter-active,
 .slider-leave-active {
-  @apply transform translate-x-0 lg:translate-y-0;
   @apply transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)];
 }
 
 .slider-enter-from,
 .slider-leave-to {
-  @apply transform translate-x-full lg:translate-x-0 lg:-translate-y-full;
-  @apply transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)];
+  @apply transform -translate-y-full;
+}
+
+.slider-enter-to,
+.slider-leave-from {
+  @apply transform translate-y-0;
 }
 </style>

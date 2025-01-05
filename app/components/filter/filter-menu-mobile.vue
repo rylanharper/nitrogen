@@ -41,14 +41,14 @@ const clearAllFilters = () => {
 </script>
 
 <template>
-  <Transition name="bg-fade" mode="out-in" appear>
+  <Transition name="bg-fade" appear>
     <div
       v-if="appStore.filterMenuOpen"
       class="fixed inset-0 z-[200] bg-black/50 lg:hidden"
       @click="closeFilter"
     />
   </Transition>
-  <Transition name="slider" mode="out-in" appear>
+  <Transition name="slider" appear>
     <aside
       v-if="appStore.filterMenuOpen"
       class="fixed top-0 right-0 z-[200] size-full bg-white md:max-w-[450px] lg:hidden"
@@ -180,25 +180,31 @@ const clearAllFilters = () => {
 <style lang="css" scoped>
 .bg-fade-enter-active,
 .bg-fade-leave-active {
-  @apply opacity-100;
   @apply transition duration-200 ease-out;
 }
 
 .bg-fade-enter-from,
 .bg-fade-leave-to {
   @apply opacity-0;
-  @apply transition duration-200 ease-out;
+}
+
+.bg-fade-enter-to,
+.bg-fade-leave-from {
+  @apply opacity-100;
 }
 
 .slider-enter-active,
 .slider-leave-active {
-  @apply transform translate-x-0;
   @apply transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)];
 }
 
 .slider-enter-from,
 .slider-leave-to {
   @apply transform translate-x-full;
-  @apply transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)];
+}
+
+.slider-enter-to,
+.slider-leave-from {
+  @apply transform translate-x-0;
 }
 </style>

@@ -79,14 +79,14 @@ if (escape) {
 </script>
 
 <template>
-  <Transition name="bg-fade" mode="out-in" appear>
+  <Transition name="bg-fade" appear>
     <section
       v-if="appStore.backInStockModalOpen"
       class="fixed inset-0 z-[200] bg-black/50"
       @click="closeModal"
     />
   </Transition>
-  <Transition name="scale-in" mode="out-in" appear>
+  <Transition name="scale-in" appear>
     <div
       v-if="appStore.backInStockModalOpen"
       class="fixed left-[50%] top-[50%] w-full max-w-xl translate-x-[-50%] translate-y-[-50%] p-6 z-[200] bg-white"
@@ -137,27 +137,31 @@ if (escape) {
 <style lang="css" scoped>
 .bg-fade-enter-active,
 .bg-fade-leave-active {
-  @apply opacity-100;
   @apply transition duration-200 ease-out;
 }
 
 .bg-fade-enter-from,
 .bg-fade-leave-to {
   @apply opacity-0;
-  @apply transition duration-200 ease-out;
+}
+
+.bg-fade-enter-to,
+.bg-fade-leave-from {
+  @apply opacity-100;
 }
 
 .scale-in-enter-active,
 .scale-in-leave-active {
-  @apply opacity-100;
-  @apply transform scale-100;
-  @apply transition duration-200 ease-out delay-100;
+  @apply transition duration-200 ease-out;
 }
 
 .scale-in-enter-from,
 .scale-in-leave-to {
-  @apply opacity-0;
-  @apply transform scale-[.99];
-  @apply transition duration-200 ease-out delay-0;
+  @apply opacity-0 transform scale-[.99] delay-0;
+}
+
+.scale-in-enter-to,
+.scale-in-leave-from {
+  @apply opacity-100 transform scale-100 delay-100;
 }
 </style>

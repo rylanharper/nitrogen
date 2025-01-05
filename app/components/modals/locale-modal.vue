@@ -108,27 +108,31 @@ if (escape) {
 <style lang="css" scoped>
 .bg-fade-enter-active,
 .bg-fade-leave-active {
-  @apply opacity-100;
   @apply transition duration-200 ease-out;
 }
 
 .bg-fade-enter-from,
 .bg-fade-leave-to {
   @apply opacity-0;
-  @apply transition duration-200 ease-out;
+}
+
+.bg-fade-enter-to,
+.bg-fade-leave-from {
+  @apply opacity-100;
 }
 
 .scale-in-enter-active,
 .scale-in-leave-active {
-  @apply opacity-100;
-  @apply transform scale-100;
-  @apply transition duration-200 ease-out delay-100;
+  @apply transition duration-200 ease-out;
 }
 
 .scale-in-enter-from,
 .scale-in-leave-to {
-  @apply opacity-0;
-  @apply transform scale-[.99];
-  @apply transition duration-200 ease-out delay-0;
+  @apply opacity-0 transform scale-[.99] delay-0;
+}
+
+.scale-in-enter-to,
+.scale-in-leave-from {
+  @apply opacity-100 transform scale-100 delay-100;
 }
 </style>
