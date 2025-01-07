@@ -1,6 +1,6 @@
 # Nitrogen
 
-Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headless commerce. This template is designed to empower Nuxt and Vue developers to build fast, scalable, and customizable storefronts that incorporate key features from Hydrogen's starter theme.
+Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headless commerce. This template is designed to empower Nuxt developers to build fast, scalable, and customizable storefronts that incorporate key features from Hydrogen's starter theme.
 
 > [!IMPORTANT]
 > This template is designed for developers who are already familiar with the GraphQL Storefront API and have prior experience building headless storefronts.
@@ -91,7 +91,7 @@ NUXT_KLAVIYO_API_VERSION=2024-10-15
 
 1. Install dependencies using `pnpm install`
 2. Generate your project types using `pnpm codegen`
-3. Start the development server using `pnpm run dev`
+3. Start the development server using `pnpm dev`
 
 ## ⚡ Basic Usage
 
