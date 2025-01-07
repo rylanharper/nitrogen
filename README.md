@@ -25,11 +25,11 @@ Before using Nitrogen, you must configure your Shopify store as follows:
 
 ### API Permissions
 
-Within your Shopify admin dashboard, navigate to `Settings` → `Apps and Sales Channels` → `Develop Apps` and create a custom app. Name it "Headless Storefront" so it's clear what it's being used for and configure the necessary Storefront API permissions needed for your project. To keep things simple, enable all Storefront API access scopes. Once the app is created, retrieve your storefront API access token to use in the project’s environment variables.
+Within your Shopify dashboard, navigate to `Settings` → `Apps and Sales Channels` → `Develop Apps` and create a custom app. Name it "Headless Storefront" so it's clear what it's being used for and configure the necessary Storefront API permissions needed for your project. To keep things simple, enable all Storefront API access scopes. Once the app is created, retrieve your storefront API access token to use in the project’s environment variables.
 
 ### Localization
 
-To support international currencies and localized experiences, enable Markets within your Shopify admin dashboard. Navigate to `Settings` → `Markets` and configure your global currency markets by either selecting `International` or `Add Market`. This allows customers to view prices in their local currency and switch between markets.
+To support international currencies and localized experiences, navigate to `Settings` → `Markets` and configure your global currency markets by either selecting `International` or `Add Market`. This allows customers to view prices in their local currency or switch between markets if needed.
 
 ### Filtering Products
 
@@ -62,7 +62,7 @@ The template includes two streamlined Klaviyo API proxies: one for general clien
 
 ### API Keys
 
-Within your Shopify admin, install the [Klaviyo: Email Marketing & SMS](https://apps.shopify.com/klaviyo-email-marketing) app and go through the initial setup to connect Klaviyo to your storefront. After you complete this, login to your Klaviyo dashboard and navigate to `Settings` → `Account` → `API Keys`. Here you can find your public API key and also generate your private API Key.
+Within your Shopify dashboard, install the [Klaviyo: Email Marketing & SMS](https://apps.shopify.com/klaviyo-email-marketing) app and go through the initial setup to connect Klaviyo to your storefront. After you complete this, login to your Klaviyo dashboard and navigate to `Settings` → `Account` → `API Keys`. Here you can find your public API key and also generate your private API Key.
 
 ### List IDs
 
@@ -141,7 +141,6 @@ const { data: productData } = await useAsyncData(
   { watch: [productVars] }
 );
 
-// Computed data
 const product = computed(() => productData.value)
 ```
 
