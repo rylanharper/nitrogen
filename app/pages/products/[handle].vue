@@ -30,15 +30,16 @@ const { data: recommendationData } = await useAsyncData(
   { watch: [productVars], lazy: true }
 );
 
+// Computed data
 const product = computed(() => productData.value);
 const productColorReferences = computed(() => productData.value?.matching_colors?.references);
 const productRecommendations = computed(() => recommendationData.value?.slice(0, 4) || []);
 
-// Computed data
+// Flatten connection objects
 const productMedia = computed(() => flattenConnection(product.value?.media));
 const productVariants = computed(() => flattenConnection(product.value?.variants));
 
-// Get matching color references (if any)
+// Get/flatten matching color references (if any)
 const matchingColors = computed(() =>
   productColorReferences.value ? flattenConnection(productColorReferences.value) as ProductFragment[] : []
 );

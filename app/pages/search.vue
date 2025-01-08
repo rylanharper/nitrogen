@@ -76,10 +76,11 @@ const { data: searchBaseData } = await useAsyncData(
   { watch: [searchBaseVars], lazy: true, deep: false }
 );
 
+// Computed data
 const search = computed(() => searchData.value );
 const searchBase = computed(() => searchBaseData.value );
 
-// Get search results (if any)
+// Get/flatten search results (if any)
 const filteredProducts = computed(() =>
   search.value ? flattenConnection(search.value) as ProductFragment[] : []
 );

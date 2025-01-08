@@ -76,10 +76,11 @@ const { data: collectionBaseData } = await useAsyncData(
   { watch: [collectionBaseVars], lazy: true, deep: false }
 );
 
+// Computed data
 const collection = computed(() => collectionData?.value);
 const collectionBase = computed(() => collectionBaseData?.value);
 
-// Computed data
+// Flatten connection objects
 const filteredProducts = computed(() => flattenConnection(collection.value?.products));
 const allProducts = computed(() => flattenConnection(collectionBase.value?.products));
 

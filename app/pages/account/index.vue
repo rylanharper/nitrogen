@@ -21,10 +21,11 @@ const { data: customerData } = await useAsyncData(
   { watch: [customerVars] }
 );
 
+// Computed data
 const customer = computed(() => customerData.value);
 const defaultAddress = computed(() => customerData.value?.defaultAddress as MailingAddressFragment);
 
-// Computed data
+// Flatten connection objects
 const orders = computed(() => flattenConnection(customer.value?.orders));
 const addresses = computed(() => flattenConnection(customer.value?.addresses));
 

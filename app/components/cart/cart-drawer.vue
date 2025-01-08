@@ -7,6 +7,8 @@ const cartStore = useCartStore();
 
 // Computed
 const cartTotalItems = computed(() => cartStore.lineItemsCount);
+
+// Flatten connection objects
 const lineItems = computed(() => flattenConnection(cartStore.lineItems) as CartLineFragment[]);
 
 // Actions

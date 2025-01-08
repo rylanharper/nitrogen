@@ -21,9 +21,10 @@ const { data: customerData } = await useAsyncData(
   { watch: [customerVars] }
 );
 
+// Computed data
 const customer = computed(() => customerData.value);
 
-// Computed data
+// Flatten connection objects
 const orders = computed(() => flattenConnection(customer.value?.orders));
 
 // SEO
