@@ -12,7 +12,7 @@ import { query } from '../utils/graphql-client';
  * Fetches a product based on the given options.
  * @param options - The variables for the product query (handle)
  * @returns A Promise resolving to the product data
- * @see https://shopify.dev/docs/api/storefront/2024-07/queries/product
+ * @see https://shopify.dev/docs/api/storefront/2025-01/queries/product
  */
 const get = async (
   options: ProductQueryVariables

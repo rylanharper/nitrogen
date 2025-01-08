@@ -42,7 +42,7 @@ import { query } from '../utils/graphql-client';
  * Fetches customer data based on the provided customer token.
  * @param options - The variables for the customer query (access token)
  * @returns A Promise resolving to the customer data
- * @see https://shopify.dev/docs/api/storefront/2024-07/queries/customer
+ * @see https://shopify.dev/docs/api/storefront/2025-01/queries/customer
  */
 const get = async (
   options: CustomerQueryVariables
@@ -55,7 +55,7 @@ const get = async (
  * Creates a customer access token for login.
  * @param options - The variables for the customer access token mutation (email, password)
  * @returns A Promise resolving to the customer access token
- * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerAccessTokenCreate
+ * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerAccessTokenCreate
  */
 const createAccessToken = async (
   options: CustomerAccessTokenCreateMutationVariables
@@ -68,7 +68,7 @@ const createAccessToken = async (
  * Deletes a customer access token.
  * @param options - The variables for the access token deletion (access token)
  * @returns A Promise resolving to the deletion status
- * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerAccessTokenDelete
+ * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerAccessTokenDelete
  */
 const deleteAccessToken = async (
   options: CustomerAccessTokenDeleteMutationVariables
@@ -81,7 +81,7 @@ const deleteAccessToken = async (
  * Creates a new customer account.
  * @param options - The variables for the customer creation mutation (email, password, etc.)
  * @returns A Promise resolving to the created customer data
- * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerCreate
+ * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerCreate
  */
 const create = async (
   options: CustomerCreateMutationVariables
@@ -94,7 +94,7 @@ const create = async (
  * Sends a customer recovery email to reset their password.
  * @param options - The variables for the customer recovery mutation (email)
  * @returns A Promise resolving to the recovery status
- * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerRecover
+ * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerRecover
  */
 const recover = async (
   options: CustomerRecoverMutationVariables
@@ -107,7 +107,7 @@ const recover = async (
  * Resets the customer's password.
  * @param options - The variables for the customer reset mutation (customer reset ID, password, reset token)
  * @returns A Promise resolving to the reset status
- * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerReset
+ * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerReset
  */
 const reset = async (
   options: CustomerResetMutationVariables
@@ -120,7 +120,7 @@ const reset = async (
  * Resets a customer's password using a reset URL.
  * @param options - The variables for the customer password reset by URL mutation (new password, reset URL)
  * @returns A Promise resolving to the password reset status
- * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerResetByUrl
+ * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerResetByUrl
  */
 const resetByUrl = async (
   options: CustomerResetByUrlMutationVariables
@@ -133,7 +133,7 @@ const resetByUrl = async (
  * Creates a new customer address.
  * @param options - The variables for the customer address creation mutation (address details, access token)
  * @returns A Promise resolving to the newly created customer address
- * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerAddressCreate
+ * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerAddressCreate
  */
 const createAddress = async (
   options: CustomerAddressCreateMutationVariables
@@ -146,7 +146,7 @@ const createAddress = async (
  * Deletes a customer address.
  * @param options - The variables for the customer address deletion mutation (access token, address ID)
  * @returns A Promise resolving to the deletion status
- * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerAddressDelete
+ * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerAddressDelete
  */
 const deleteAddress = async (
   options: CustomerAddressDeleteMutationVariables
@@ -159,7 +159,7 @@ const deleteAddress = async (
  * Updates an existing customer address.
  * @param options - The variables for the customer address update mutation (new address details, access token, address ID)
  * @returns A Promise resolving to the updated customer address
- * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerAddressUpdate
+ * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerAddressUpdate
  */
 const updateAddress = async (
   options: CustomerAddressUpdateMutationVariables
@@ -172,7 +172,7 @@ const updateAddress = async (
  * Updates the customer's default address.
  * @param options - The variables for the customer default address update mutation (address ID, access token)
  * @returns A Promise resolving to the customer update status
- * @see https://shopify.dev/docs/api/storefront/2024-07/mutations/customerDefaultAddressUpdate
+ * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerDefaultAddressUpdate
  */
 const updateDefaultAddress = async (
   options: CustomerDefaultAddressUpdateMutationVariables

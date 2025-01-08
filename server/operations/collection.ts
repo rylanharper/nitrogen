@@ -10,7 +10,7 @@ import { query } from '../utils/graphql-client';
  * Fetches a collection based on the given options.
  * @param options - The variables for the collection query (handle, filters, etc.)
  * @returns A Promise resolving to the collection data
- * @see https://shopify.dev/docs/api/storefront/2024-07/queries/collection
+ * @see https://shopify.dev/docs/api/storefront/2025-01/queries/collection
  */
 const get = async (
   options: CollectionQueryVariables

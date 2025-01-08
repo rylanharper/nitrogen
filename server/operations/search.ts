@@ -13,7 +13,7 @@ import { query } from '../utils/graphql-client';
  * Executes a product search based on the given options.
  * @param options - The variables for the search query (query, filters, etc.)
  * @returns A Promise resolving to the search results
- * @see https://shopify.dev/docs/api/storefront/2024-07/queries/search
+ * @see https://shopify.dev/docs/api/storefront/2025-01/queries/search
  */
 const products = async (
   options: SearchProductsQueryVariables
@@ -26,7 +26,7 @@ const products = async (
  * Executes a predictive search for collections and products.
  * @param options - The variables for the predictive search query (query)
  * @returns A Promise resolving to the predictive search results
- * @see https://shopify.dev/docs/api/storefront/2024-07/queries/predictiveSearch
+ * @see https://shopify.dev/docs/api/storefront/2025-01/queries/predictiveSearch
  */
 const predictive = async (
   options: PredictiveSearchQueryVariables
