@@ -20,7 +20,7 @@
     "@vueuse/core": "^12.3.0",
     "@vueuse/nuxt": "^12.3.0",
     "dotenv": "^16.4.7",
-    "embla-carousel-vue": "^8.5.1",
+    "embla-carousel-vue": "^8.5.2",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
     "pinia": "^2.3.0",
