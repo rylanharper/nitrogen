@@ -141,6 +141,7 @@ const { data: productData } = await useAsyncData(
   { watch: [productVars] }
 );
 
+// Computed data
 const product = computed(() => productData.value)
 ```
 
