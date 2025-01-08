@@ -13,7 +13,8 @@ const cartStore = useCartStore();
 const merchandise = computed(() => props.line.merchandise);
 const variantId = computed(() => formatVariantId(props.line.merchandise.id));
 
-// Filter out default names/values from selected options
+// Filter out default names/value from selected options
+// This only appears when products with no options are added to the cart
 const selectedOptions = computed(() => {
   return merchandise.value.selectedOptions.filter(
     (option) => option.name !== 'Title' && option.value !== 'Default Title'
