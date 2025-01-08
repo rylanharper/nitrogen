@@ -16,23 +16,17 @@ const filteredAddresses = computed(() => [
   ...props.addresses.filter((address) => address.id !== props.defaultAddress.id)
 ]);
 
-// State
-const isLoading = ref(false);
-
 // Shopify
 const shopify = useShopify();
 
 // Delete address
 const deleteAddress = async (addressId: string) => {
-  isLoading.value = true
-
   await shopify.customer.deleteAddress({
     id: addressId,
     customerAccessToken: authStore.accessToken
   });
 
   reloadNuxtApp();
-  isLoading.value = false;
 };
 </script>
 
