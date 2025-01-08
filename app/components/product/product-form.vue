@@ -92,6 +92,7 @@ watch(currentVariant, (newVariant) => {
       />
       <ProductSizeOptions
         :product="product"
+        :variants="variants"
         :selected-size="selectedSize"
         @select-size="selectSize"
       />

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { ProductFragment } from '@@/types/shopify'
+import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify'
 
 const props = defineProps<{
   product: ProductFragment,
+  variants: ProductVariantFragment[]
   selectedSize: string
 }>()
 
@@ -10,7 +11,6 @@ const props = defineProps<{
 const { getSizeOption, isSizeSoldOut } = useShopifyHelpers()
 
 // Computed
-const variants = computed(() => flattenConnection(props.product.variants))
 const isSizeOption = computed(() => getSizeOption(props.product.options))
 
 // Get size options
@@ -21,7 +21,7 @@ const productSizes = computed(() => {
   return sizeOptions.map((option) => ({
     id: option.id,
     name: option.name,
-    isSoldOut: isSizeSoldOut(variants.value, option.name)
+    isSoldOut: isSizeSoldOut(props.variants, option.name)
   }))
 })
 
