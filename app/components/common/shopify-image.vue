@@ -20,6 +20,9 @@ const srcset = computed(() => {
 
   return undefined;
 });
+
+// Define image sizes
+const sizes = `(min-width: 1000px) 50vw, 100vw`;
 </script>
 
 <template>
@@ -27,6 +30,7 @@ const srcset = computed(() => {
     <img
       :src="image?.url"
       :srcset="srcset"
+      :sizes="sizes"
       :alt="image?.altText ?? alt"
       class="absolute size-full inset-0 object-cover"
       loading="lazy"
