@@ -31,7 +31,6 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
     await removeLineFromCart(line.id);
   } else {
     const quantityAvailable = Math.min(newQuantity, 10);
-
     await cartStore.updateCart([
       {
         id: line.id,

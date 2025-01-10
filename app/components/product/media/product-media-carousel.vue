@@ -30,23 +30,23 @@ const canScrollPrev = ref(false);
 // Next/prev actions
 const scrollPrev = () => {
   emblaApi.value?.scrollPrev();
-};;
+};
 
 const scrollNext = () => {
   emblaApi.value?.scrollNext();
-};;
+};
 
 // ScrollTo method
 const scrollTo = (index: number) => {
   emblaApi.value?.scrollTo(index);
-};;
+};
 
 // Embla event handlers
 const onSelect = (api: EmblaCarouselType) => {
   canScrollNext.value = api?.canScrollNext() || false;
   canScrollPrev.value = api?.canScrollPrev() || false;
   selectedIndex.value = api?.selectedScrollSnap() || 0;
-};;
+};
 
 onMounted(() => {
   if (!emblaApi.value) {
