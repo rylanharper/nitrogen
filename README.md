@@ -33,15 +33,30 @@ To support international currencies and localized experiences, navigate to `Sett
 
 ### Filtering Products
 
-To enable product filters, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app. Once this is installed, navigate to `Apps` → `Shopify Search & Discovery` → `Filters` and set up basic filter options. You'll likely need to remove some default options, or add more if needed. This template uses the `availability`, `color`, `size`, and `productType` filter options.
+To enable filter and sort functionality, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app. Once this is installed, navigate to `Apps` → `Shopify Search & Discovery` → `Filters` and set up basic filter options. You'll likely need to remove some default options, or add more if needed. This template uses the `Availability`, `Color`, `Size`, and `Product Type` filter options.
+
+### Metaobjects
+
+This template uses metaobjects to create unique store objects that can be connected to metafields. The filter component, in particular, makes use of a `color_swatch` metaobject to filter products by general color name, hexcode, or image. This is especially helpful when a color has varying shades or a specific, non-standard name, as it can be associated with a general color swatch that users recognize.
+
+To create the `color_swatch` metaobject, navigate to `Settings` → `Custom Data` and click `Add Definition` under `Metaobject Definitions` at the bottom of the page. Name it "Color Swatch" and add the following field definitions:
+
+1. `Name`: A `single-line-text` field with one value. This represents the general swatch color name (e.g., red, yellow, blue).
+2. `Hexcode`: A `color` field with one value. This allows you to specify a custom hex code for the swatch color.
+3. `Image`: A `file` field with one value. This enables you to upload an optional image to display as the swatch color.
+
+After defining these fields, exit the settings menu and navigate to `Content` → `Metaobjects`. You will see your newly created `Color Swatch` metaobject. Click into it, then click `Add Entry` in the top-right corner to start creating your general color swatches with names, hex codes, and optional images.
+
+Once this is completed, navigate to `Shopify Search & Discovery` → `Filters` → `Color` and group your colors under the same general color names defined in the `color_swatch` metaobject entries. This ensures consistent and user-friendly filtering for your store.
 
 ### Metafields
 
-This template uses metafields to make working with Shopify easier. To enable product metafields, navigate to `Settings` → `Custom Data` → `Products` and add the following product metafield definitions:
+This template uses metafields to make working with custom data in Shopify easier. To enable product metafields, navigate to `Settings` → `Custom Data` → `Products` and add the following product metafield definitions:
 
-1. `matching_colors`: A product reference list metafield that handles product swatch colors. This metafield allows access to the full data of referenced products, which is ideal for checking availability, option names/values, media, and more.
-2. `details`: A rich-text metafield designed to display additional product details, such as specifications, materials, or care instructions. Perfect for enhancing product descriptions with structured content.
-3. `shipping`: A rich-text metafield for sharing shipping-specific information, like delivery timelines, restrictions, or return policies.
+1. `color_swatch`: A `metaobject` list metafield that connects to the `color_swatch` metaobject. This is a good way to make sure that general color names, hexcodes, or images can be associated with a product when filtering on collection pages.
+2. `matching_colors`: A `product` list metafield that connects to matching products with different colors. This metafield allows access to the full data of referenced products, which is ideal for checking availability, option names/values, media, and more.
+3. `details`: A `rich-text` metafield designed to display additional product details, such as specifications, materials, or care instructions. Perfect for enhancing product descriptions with structured content.
+4. `shipping`: A `rich-text` metafield for sharing shipping-specific information, like delivery timelines, restrictions, or return policies.
 
 ### Customer Accounts
 
@@ -76,7 +91,7 @@ To begin using Nitrogen, you'll need to set up the following environment variabl
 # Shopify
 NUXT_SHOPIFY_STOREFRONT=https://your-shop-name.myshopify.com
 NUXT_SHOPIFY_ACCESS_TOKEN=your_storefront_access_token
-NUXT_SHOPIFY_API_VERSION=2024-07
+NUXT_SHOPIFY_API_VERSION=2025-01
 
 # Klaviyo
 NUXT_KLAVIYO_PUBLIC_API_KEY=your_public_api_key
