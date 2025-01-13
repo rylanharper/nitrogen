@@ -57,35 +57,55 @@ const activeFilterCount = computed(() => {
 
 // Filter options
 const colorOptions = computed(() => {
-  const allColors = new Set(
-    props.products
-      .flatMap((product) => product.options)
-      .filter((option) => isColorOption(option.name))
-      .flatMap((option) => option.optionValues)
-      .map((value) => value.name)
-  );
+  const colorMap = new Map();
 
-  return Array.from(allColors).sort();
+  props.products.forEach((product) => {
+    const references = product.color_swatch?.references ? flattenConnection(product.color_swatch.references) : [];
+
+    references.forEach((reference) => {
+      if ('fields' in reference) {
+        const colorSwatchFields = reference.fields;
+        const name = colorSwatchFields.find(({ key }) => key === 'name')?.value;
+        const hex = colorSwatchFields.find(({ key }) => key === 'hexcode')?.value;
+        const image = colorSwatchFields.find(({ key }) => key === 'image')?.value || null;
+
+        if (name && hex) {
+          const swatchData = { name, hex, image };
+          colorMap.set(name, swatchData);
+        }
+      }
+    });
+  });
+
+  return [...colorMap.values()].sort((a, b) => a.name.localeCompare(b.name));
 });
 
 const sizeOptions = computed(() => {
-  const allSizes = new Set(
-    props.products
-      .flatMap((product) => product.options)
-      .filter((option) => isSizeOption(option.name))
-      .flatMap((option) => option.optionValues)
-      .map((value) => value.name)
-  );
+  const allSizes = new Set<string>();
 
-  return sortSizeOptions(Array.from(allSizes));
+  props.products.forEach((product) => {
+    product.options?.forEach((option) => {
+      if (isSizeOption(option.name)) {
+        option.optionValues?.forEach((value) => {
+          if (value?.name) allSizes.add(value.name);
+        });
+      }
+    });
+  });
+
+  return sortSizeOptions([...allSizes]);
 });
 
 const productTypeOptions = computed(() => {
-  const allProductTypes = new Set(
-    props.products.map((product) => product.productType)
-  );
+  const allProductTypes = new Set<string>();
 
-  return Array.from(allProductTypes).sort();
+  props.products.forEach((product) => {
+    if (product?.productType) {
+      allProductTypes.add(product.productType);
+    }
+  });
+
+  return [...allProductTypes].sort();
 });
 
 // Actions

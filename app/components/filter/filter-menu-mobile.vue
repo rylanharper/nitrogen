@@ -1,10 +1,17 @@
 <script setup lang="ts">
 // Props
 const props = defineProps<{
-  colorOptions: string[];
+  colorOptions: {
+    name: string;
+    hex: string;
+    image: string | null
+  }[];
   sizeOptions: string[];
   productTypeOptions: string[];
-  sortOptions: { label: string; value: string | null }[];
+  sortOptions: {
+    label: string;
+    value: string | null
+  }[];
   activeFilterCount: number;
 }>();
 
@@ -101,11 +108,30 @@ const clearAllFilters = () => {
                   <button
                     v-for="(color, index) in props.colorOptions"
                     :key="index"
-                    :class="{ 'underline': (route.query.color as string)?.split(',').includes(color) }"
-                    class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
-                    @click="setFilterOption('color', color)"
+                    :class="{ 'underline border-black': (route.query.color as string)?.split(',').includes(color.name) }"
+                    class="flex items-center gap-3 max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
+                    @click="setFilterOption('color', color.name)"
                   >
-                    {{ color }}
+                    <span
+                      v-if="color.hex"
+                      :class="{
+                        'border-black': (route.query.color as string)?.split(',').includes(color.name),
+                        'border-gray-100': !(route.query.color as string)?.split(',').includes(color.name)
+                      }"
+                      :style="{ backgroundColor: color.hex }"
+                      class="size-3 border rounded-full"
+                    />
+                    <img
+                      v-if="color.image"
+                      :src="color.image"
+                      :class="{
+                        'border-black': (route.query.color as string)?.split(',').includes(color.name),
+                        'border-gray-100': !(route.query.color as string)?.split(',').includes(color.name)
+                      }"
+                      alt="Color Swatch Image"
+                      class="size-3 border rounded-full"
+                    >
+                    {{ color.name }}
                   </button>
                 </div>
               </div>
