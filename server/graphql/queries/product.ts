@@ -10,16 +10,6 @@ export const PRODUCT = gql`
   ) @inContext(country: $country, language: $language) {
     product (handle: $handle) {
       ...Product
-      # Custom Metafields
-      matching_colors: metafield(namespace: "custom", key: "matching_colors") {
-        references(first: 10) {
-          edges {
-            node {
-              ...Product
-            }
-          }
-        }
-      }
     }
   }
   ${PRODUCT_FRAGMENT}

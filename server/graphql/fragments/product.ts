@@ -79,10 +79,44 @@ export const PRODUCT_FRAGMENT = gql`
       }
     }
     # Custom Metafields
+    color_swatch: metafield(namespace: "custom", key: "color_swatch") {
+      references(first: 10) {
+        edges {
+          node {
+            ... on Metaobject {
+              handle
+              id
+              fields {
+                key
+                value
+              }
+            }
+          }
+        }
+      }
+    }
+    matching_colors: metafield(namespace: "custom", key: "matching_colors") {
+      references(first: 10) {
+        edges {
+          node {
+            ...on Product {
+              availableForSale
+              handle
+              id
+              options(first: 250) {
+                ...ProductOption
+              }
+            }
+          }
+        }
+      }
+    }
     details: metafield(namespace: "custom", key: "details") {
+      key
       value
     }
     shipping: metafield(namespace: "custom", key: "shipping") {
+      key
       value
     }
   }
@@ -91,7 +125,7 @@ export const PRODUCT_FRAGMENT = gql`
   ${MEDIA_IMAGE_FRAGMENT}
   ${MODEL_3D_FRAGMENT}
   ${VIDEO_FRAGMENT}
-  ${PRODUCT_VARIANT_FRAGMENT}
-  ${SELLING_PLAN_GROUP_FRAGMENT}
   ${PRODUCT_OPTION_FRAGMENT}
+  ${SELLING_PLAN_GROUP_FRAGMENT}
+  ${PRODUCT_VARIANT_FRAGMENT}
 `;
