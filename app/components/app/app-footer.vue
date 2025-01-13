@@ -22,7 +22,7 @@ const footerLinks3 = [
 
 <template>
   <footer class="w-full bg-white border-t border-zinc-300">
-    <nav class="hidden flex-col px-6 py-6 gap-20 lg:flex">
+    <nav class="hidden flex-col px-6 py-6 gap-24 lg:flex">
       <div class="grid grid-cols-4 gap-10">
         <div class="flex flex-col max-w-fit">
           <h3 class="mb-4">Company</h3>
