@@ -76,10 +76,6 @@ const handleUpdateAddress = async () => {
       id: decodeURIComponent(urlQuery.id as string)
     });
 
-    if (response?.customerUserErrors?.length) {
-      throw new Error(response?.customerUserErrors[0]?.message);
-    }
-
     if (defaultAddress.value) {
       await shopify.customer.updateDefaultAddress({
         addressId: decodeURIComponent(urlQuery.id as string),
@@ -91,7 +87,6 @@ const handleUpdateAddress = async () => {
       await navigateTo('/account/addresses');
     }
   } catch (error: any) {
-    console.error('Cannot update customer address:', error.message);
     errorMessage.value = `${error.message}. Please verify your address details and try again.`;
   } finally {
     isLoading.value = false;

@@ -55,7 +55,7 @@ const formCompleted = computed(
     address.zip
 );
 
-const handleNewAddress = async () => {
+const handleCreateAddress = async () => {
   errorMessage.value = '';
   isLoading.value = true;
 
@@ -71,10 +71,6 @@ const handleNewAddress = async () => {
       customerAccessToken: authStore.accessToken
     });
 
-    if (response?.customerUserErrors?.length) {
-      throw new Error(response?.customerUserErrors[0]?.message);
-    }
-
     const newId = response?.customerAddress?.id;
 
     if (newId && defaultAddress.value) {
@@ -88,7 +84,6 @@ const handleNewAddress = async () => {
       await navigateTo('/account/addresses');
     }
   } catch (error: any) {
-    console.error('Cannot create customer address:', error.message);
     errorMessage.value = `${error.message}. Please verify your address details and try again.`;
   } finally {
     isLoading.value = false;
@@ -118,7 +113,7 @@ definePageMeta({
       <form
         class="flex flex-col my-6"
         novalidate
-        @submit.prevent="handleNewAddress"
+        @submit.prevent="handleCreateAddress"
       >
         <div class="relative w-full mb-2.5">
           <input
