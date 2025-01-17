@@ -9,7 +9,8 @@ export const useAppStore = defineStore('@nitrogen/app', {
       filterMenuOpen: false,
       searchMenuOpen: false,
       localeModalOpen: false,
-      backInStockModalOpen: false
+      backInStockModalOpen: false,
+      mediaLightboxOpen: false
     };
   },
 
@@ -49,6 +50,12 @@ export const useAppStore = defineStore('@nitrogen/app', {
      */
     toggleBackInStockModal(state?: boolean) {
       this.backInStockModalOpen = state ?? !this.backInStockModalOpen;
-    }
+    },
+    /**
+     * Toggles the product media lightbox.
+     */
+    toggleMediaLightbox(state?: boolean) {
+      this.mediaLightboxOpen = state ?? !this.mediaLightboxOpen;
+    },
   }
 });

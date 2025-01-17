@@ -6,14 +6,6 @@ const props = defineProps<{
   productMedia: Array<VideoFragment | MediaImageFragment>;
 }>();
 
-// Emits
-const emit = defineEmits(['openLightbox']);
-
-// Emit events
-const openLightbox = (index: number) => {
-  emit('openLightbox', index);
-};
-
 // Check if media item is a video
 const isMediaVideo = (media: any): media is VideoFragment => {
   return media?.mediaContentType === 'VIDEO';
@@ -23,6 +15,28 @@ const isMediaVideo = (media: any): media is VideoFragment => {
 const isMediaImage = (media: any): media is MediaImageFragment => {
   return media?.mediaContentType === 'IMAGE';
 };
+
+// Stores
+const appStore = useAppStore();
+
+// State
+const mediaIndex = ref<number>(0);
+
+// Actions
+const toggleLightbox = (index: number) => {
+  mediaIndex.value = index;
+  appStore.toggleMediaLightbox();
+};
+
+// Watchers
+const isScrollLocked = useScrollLock(document);
+
+watch(
+  () => appStore.mediaLightboxOpen,
+  (isOpen) => {
+    isScrollLocked.value = isOpen;
+  }
+);
 </script>
 
 <template>
@@ -31,7 +45,7 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
       v-for="(media, index) in props.productMedia"
       :key="media.id"
       class="aspect-square cursor-zoom-in"
-      @click="openLightbox(index)"
+      @click="toggleLightbox(index)"
     >
       <ShopifyVideo
         v-if="isMediaVideo(media)"
@@ -44,4 +58,8 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
       />
     </div>
   </div>
+  <ProductMediaLightbox
+    :media-index="mediaIndex"
+    :product-media="productMedia"
+  />
 </template>

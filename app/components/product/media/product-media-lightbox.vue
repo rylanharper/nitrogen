@@ -7,14 +7,6 @@ const props = defineProps<{
   mediaIndex: number;
 }>();
 
-// Emits
-const emit = defineEmits(['closeLightbox']);
-
-// Emit events
-const closeLightbox = () => {
-  emit('closeLightbox');
-};;
-
 // Check if media item is a video
 const isMediaVideo = (media: any): media is VideoFragment => {
   return media?.mediaContentType === 'VIDEO';
@@ -25,10 +17,18 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
   return media?.mediaContentType === 'IMAGE';
 };
 
+// Stores
+const appStore = useAppStore();
+
+// Actions
+const closeLightbox = () => {
+  appStore.toggleMediaLightbox(false);
+};
+
 // State
 const mediaRefs = ref<(HTMLElement | null)[]>([]);
 
-onMounted(() => {
+onUpdated(() => {
   nextTick(() => {
     const selectedItem = mediaRefs.value[props.mediaIndex];
     selectedItem?.scrollIntoView();
@@ -46,7 +46,10 @@ if (escape) {
 </script>
 
 <template>
-  <section class="hidden fixed items-center justify-center inset-0 z-[200] bg-white lg:flex">
+  <section
+    v-if="appStore.mediaLightboxOpen"
+    class="hidden fixed items-center justify-center inset-0 z-[200] bg-white lg:flex"
+  >
     <button
       class="flex absolute z-10 top-4 right-10 ring-1 ring-transparent ring-offset-2 ring-offset-[#f2f2f2] rounded-sm focus:ring-black"
       @click="closeLightbox"
