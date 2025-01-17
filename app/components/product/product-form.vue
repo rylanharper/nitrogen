@@ -16,27 +16,39 @@ const variantQuery = computed(() => route.query.variant as string);
 // State
 const selectedSize = ref('');
 
-// Finds/updates the current variant
-const isMatchingVariant = (variant: ProductVariantFragment) => {
-  return variant.selectedOptions.every(({ name, value }) =>
-    isSizeOption(name) ? value === selectedSize.value : true
-  );
-};
-
+// Finds the current variant based on the selected size
 const currentVariant = computed(() => {
-  return props.variants.find(isMatchingVariant);
+  return props.variants.find((variant) =>
+    variant.selectedOptions.every(({ name, value }) =>
+      isSizeOption(name) ? value === selectedSize.value : true
+    )
+  );
 });
 
-// Get initial variant
+// Get initial variant based on the variant length or URL
+// If no variant is found, return undefined
 const getInitialVariant = () => {
   if (props.variants.length === 1) return props.variants[0];
-
   if (variantQuery.value) {
     return props.variants.find((variant) => formatVariantId(variant.id) === variantQuery.value);
   }
 
   return undefined;
 };
+
+// Sync initial variant to size and URL
+onMounted(() => {
+  const variant = getInitialVariant();
+
+  if (variant) {
+    const sizeOption = variant.selectedOptions.find((option) =>
+      isSizeOption(option.name)
+    );
+
+    if (sizeOption) selectedSize.value = sizeOption.value;
+    setVariantId(variant);
+  }
+});
 
 // Set formatted variant ID to URL
 const setVariantId = (variant: ProductVariantFragment | undefined) => {
@@ -50,23 +62,6 @@ const setVariantId = (variant: ProductVariantFragment | undefined) => {
 
   router.replace({ query });
 };
-
-// Set initial variant and sync size
-onMounted(() => {
-  const initialVariant = getInitialVariant();
-
-  if (initialVariant) {
-    const sizeOption = initialVariant.selectedOptions.find((option) =>
-      isSizeOption(option.name)
-    );
-
-    if (sizeOption) {
-      selectedSize.value = sizeOption.value;
-    }
-
-    setVariantId(initialVariant);
-  }
-});
 
 // Actions
 const selectSize = (size: string) => {
