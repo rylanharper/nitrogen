@@ -94,7 +94,7 @@ const hasMoreProducts = computed(() =>
 
 // Number of products based on filters or without
 const numberOfProducts = computed(() => {
-  return filterValues.value ? filteredProducts.value.length : allProducts.value.length;
+  return filterValues.value.length ? filteredProducts.value.length : allProducts.value.length;
 });
 
 // Actions
