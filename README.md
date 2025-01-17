@@ -47,7 +47,7 @@ To create the `color_swatch` metaobject, navigate to `Settings` → `Custom Data
 
 After defining these fields, exit the settings menu and navigate to `Content` → `Metaobjects`. You will see your newly created `Color Swatch` metaobject. Click into it, then click `Add Entry` in the top-right corner to start creating your general color swatches with names, hex codes, and optional images.
 
-Once this is completed, navigate to `Shopify Search & Discovery` → `Filters` → `Color` and group your colors under the same general color names defined in the `color_swatch` metaobject entries. This ensures consistent and user-friendly filtering for your store.
+Once this is completed, navigate to `Shopify Search & Discovery` → `Filters` → `Color` and group your product color option names (if any exist) under the same general color names defined in the `color_swatch` metaobject entries. This ensures consistent and user-friendly filtering for your store.
 
 ### Metafields
 
