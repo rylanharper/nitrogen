@@ -29,7 +29,7 @@ const updateLocalization = async () => {
 
 // Actions
 const closeModal = () => {
-  appStore.localeModalOpen = false;
+  appStore.toggleLocaleModal(false);
 };
 
 // Watchers

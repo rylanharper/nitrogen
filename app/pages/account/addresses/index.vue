@@ -5,10 +5,9 @@ import type { CustomerQueryVariables, MailingAddressFragment } from '@@/types/sh
 const authStore = useAuthStore();
 const shopStore = useShopStore();
 
-// Shopify
+// Fetch Shopify data
 const shopify = useShopify();
 
-// Fetch data
 const customerVars = computed<CustomerQueryVariables>(() => ({
   customerAccessToken: authStore.accessToken,
   country: shopStore.buyerCountryCode,
@@ -25,7 +24,7 @@ const { data: customerData } = await useAsyncData(
 const customer = computed(() => customerData.value);
 const defaultAddress = computed(() => customerData.value?.defaultAddress as MailingAddressFragment);
 
-// Flatten connection objects
+// Flatten connections
 const addresses = computed(() => flattenConnection(customer.value?.addresses));
 
 // SEO

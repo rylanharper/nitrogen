@@ -9,8 +9,8 @@ const isLoading = ref(false);
 const { subscribe } = useKlaviyo();
 const listId = 'StGPx7';
 
-// Klaviyo subscribe
-const handleSubscribe = async () => {
+// Klaviyo
+const handleNewsletter = async () => {
   errorMessage.value = '';
   successMessage.value = '';
   isLoading.value = true;
@@ -47,7 +47,7 @@ watch(
 <template>
   <div class="flex flex-col gap-4">
     <h3>Newsletter <span class="normal-case">(Klaviyo)</span></h3>
-    <form novalidate @submit.prevent="handleSubscribe">
+    <form novalidate @submit.prevent="handleNewsletter">
       <div class="relative w-full mb-2.5">
         <input
           id="email"

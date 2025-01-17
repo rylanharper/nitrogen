@@ -12,7 +12,7 @@ const appStore = useAppStore();
 
 // Actions
 const closeMenu = () => {
-  appStore.mobileMenuOpen = false;
+  appStore.toggleMobileMenu(false);
 };
 
 // Watchers

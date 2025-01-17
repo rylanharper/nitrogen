@@ -16,10 +16,9 @@ const filteredAddresses = computed(() => [
   ...props.addresses.filter((address) => address.id !== props.defaultAddress.id)
 ]);
 
-// Shopify
+// Delete address
 const shopify = useShopify();
 
-// Delete address
 const deleteAddress = async (addressId: string) => {
   await shopify.customer.deleteAddress({
     id: addressId,

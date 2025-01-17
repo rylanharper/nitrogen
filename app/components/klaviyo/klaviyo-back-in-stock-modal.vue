@@ -16,8 +16,8 @@ const isLoading = ref(false);
 // Helpers
 const { subscribeToBackInStock } = useKlaviyo();
 
-// Klaviyo subscribe
-const handleSubscribe = async () => {
+// Klaviyo
+const handleBackInStock = async () => {
   errorMessage.value = '';
   successMessage.value = '';
   isLoading.value = true;
@@ -47,7 +47,7 @@ const handleSubscribe = async () => {
 
 // Actions
 const closeModal = () => {
-  appStore.backInStockModalOpen = false;
+  appStore.toggleBackInStockModal(false);
 };
 
 // Watchers
@@ -95,7 +95,7 @@ if (escape) {
       <p class="normal-case text-center">
         Get notified when this product is back in stock.
       </p>
-      <form class="flex flex-col mt-6 mb-2" novalidate @submit.prevent="handleSubscribe">
+      <form class="flex flex-col mt-6 mb-2" novalidate @submit.prevent="handleBackInStock">
         <div class="relative w-full mb-2.5">
           <input
             id="email"

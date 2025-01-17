@@ -5,10 +5,9 @@ import type { CustomerQueryVariables } from '@@/types/shopify';
 const authStore = useAuthStore();
 const shopStore = useShopStore();
 
-// Shopify
+// Fetch Shopify data
 const shopify = useShopify();
 
-// Fetch data
 const customerVars = computed<CustomerQueryVariables>(() => ({
   customerAccessToken: authStore.accessToken,
   country: shopStore.buyerCountryCode,
@@ -24,7 +23,7 @@ const { data: customerData } = await useAsyncData(
 // Computed data
 const customer = computed(() => customerData.value);
 
-// Flatten connection objects
+// Flatten connections
 const orders = computed(() => flattenConnection(customer.value?.orders));
 
 // SEO

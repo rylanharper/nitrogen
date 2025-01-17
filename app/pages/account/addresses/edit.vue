@@ -9,10 +9,9 @@ const shopStore = useShopStore();
 const route = useRoute();
 const urlQuery = route.query;
 
-// Shopify
+// Fetch Shopify data
 const shopify = useShopify();
 
-// Fetch data
 const customerVars = computed<CustomerQueryVariables>(() => ({
   customerAccessToken: authStore.accessToken,
   country: shopStore.buyerCountryCode,

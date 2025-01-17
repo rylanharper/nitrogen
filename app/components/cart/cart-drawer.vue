@@ -8,12 +8,12 @@ const cartStore = useCartStore();
 // Computed
 const cartTotalItems = computed(() => cartStore.lineItemsCount);
 
-// Flatten connection objects
+// Flatten connections
 const lineItems = computed(() => flattenConnection(cartStore.lineItems) as CartLineFragment[]);
 
 // Actions
 const closeDrawer = () => {
-  appStore.cartDrawerOpen = false;
+  appStore.toggleCartDrawer(false);
 };
 
 // Watchers

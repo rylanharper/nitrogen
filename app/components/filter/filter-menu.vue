@@ -161,7 +161,7 @@ const clearAllFilters = () => {
 };
 
 const closeFilter = () => {
-  appStore.filterMenuOpen = false;
+  appStore.toggleFilterMenu(false);
 };
 
 // Watchers

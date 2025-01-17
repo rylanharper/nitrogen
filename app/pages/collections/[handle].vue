@@ -21,7 +21,7 @@ const sortValues = computed(() => getCollectionSortValues(sortParam.value));
 const filterParam = computed(() => route.query);
 const filterValues = computed(() => getFilterValues(filterParam.value));
 
-// Get active filters from URL
+// Get the active filter options from URL
 const activeFilterOptions = computed(() => {
   const filters: { name: string; value: string }[] = [];
   const excludedParams = ['q', 'limit'];
@@ -45,10 +45,9 @@ const activeFilterOptions = computed(() => {
 const limit = 12;
 const itemsPerPage = ref(Number(route.query.limit) || limit);
 
-// Shopify
+// Fetch Shopify data
 const shopify = useShopify();
 
-// Fetch data
 const collectionVars = computed<CollectionQueryVariables>(() => ({
   handle: handle.value,
   first: itemsPerPage.value,
@@ -80,7 +79,7 @@ const { data: collectionBaseData } = await useAsyncData(
 const collection = computed(() => collectionData?.value);
 const collectionBase = computed(() => collectionBaseData?.value);
 
-// Flatten connection objects
+// Flatten connections
 const filteredProducts = computed(() => flattenConnection(collection.value?.products));
 const allProducts = computed(() => flattenConnection(collectionBase.value?.products));
 
@@ -91,7 +90,7 @@ const hasMoreProducts = computed(() =>
 
 // Number of products based on filters or without
 const numberOfProducts = computed(() => {
-  return filterValues.value.length ? filteredProducts.value.length : allProducts.value.length;
+  return filterValues.value ? filteredProducts.value.length : allProducts.value.length;
 });
 
 // Actions

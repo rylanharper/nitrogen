@@ -8,10 +8,9 @@ const handle = computed(() => route.params.handle as string);
 // Stores
 const shopStore = useShopStore();
 
-// Shopify
+// Fetch Shopify data
 const shopify = useShopify();
 
-// Fetch data
 const productVars = computed<ProductQueryVariables>(() => ({
   handle: handle.value,
   country: shopStore.buyerCountryCode,
@@ -35,7 +34,7 @@ const product = computed(() => productData.value);
 const productColorReferences = computed(() => productData.value?.matching_colors?.references);
 const productRecommendations = computed(() => recommendationData.value?.slice(0, 4) || []);
 
-// Flatten connection objects
+// Flatten connections
 const productMedia = computed(() => flattenConnection(product.value?.media));
 const productVariants = computed(() => flattenConnection(product.value?.variants));
 
@@ -43,27 +42,6 @@ const productVariants = computed(() => flattenConnection(product.value?.variants
 const matchingColors = computed(() =>
   productColorReferences.value ? flattenConnection(productColorReferences.value) as ProductFragment[] : []
 );
-
-// State
-const mediaIndex = ref<number>(0);
-const isLightboxOpen = ref(false);
-
-// Actions
-const openLightbox = (index: number) => {
-  mediaIndex.value = index;
-  isLightboxOpen.value = true;
-};;
-
-const closeLightbox = () => {
-  isLightboxOpen.value = false;
-};
-
-// Watchers
-const isScrollLocked = useScrollLock(document);
-
-watch(isLightboxOpen, (isOpen) => {
-  isScrollLocked.value = isOpen;
-});
 
 // SEO
 useHead({
@@ -73,17 +51,10 @@ useHead({
 
 <template>
   <section v-if="product" class="flex flex-col mb-20">
-    <ProductMediaLightbox
-      v-if="isLightboxOpen"
-      :media-index="mediaIndex"
-      :product-media="productMedia"
-      @close-lightbox="closeLightbox"
-    />
     <div class="grid gap-10 mb-10 lg:grid-cols-2 lg:gap-0 lg:mb-20">
       <div>
         <ProductMediaGallery
           :product-media="productMedia"
-          @open-lightbox="openLightbox"
         />
         <ProductMediaCarousel
           :product-media="productMedia"

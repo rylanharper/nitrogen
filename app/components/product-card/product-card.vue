@@ -13,7 +13,7 @@ const { getColorOption } = useShopifyHelpers();
 const colorOption = computed(() => getColorOption(props.product.options));
 const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name);
 
-// Flatten connection objects
+// Flatten connections
 const mediaItems = computed(() => flattenConnection(props.product.media));
 </script>
 

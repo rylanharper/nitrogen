@@ -29,6 +29,7 @@ const emit = defineEmits([
   'clearAllFilters'
 ]);
 
+// Emit events
 const closeFilter = () => {
   emit('closeFilter');
 };
