@@ -1,17 +1,21 @@
 import withNuxt from './.nuxt/eslint.config.mjs';
 
-export default withNuxt()
-  .prepend({
+export default withNuxt(
+  {
     ignores: ['**/types']
-  })
-  .override('nuxt/typescript/rules', {
+  },
+  {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-dynamic-delete': 'off'
-    }
-  })
-  .override('nuxt/import/rules', {
-    rules: {
+      '@typescript-eslint/no-dynamic-delete': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_'
+        }
+      ],
       'import/order': [
         'error',
         {
@@ -25,19 +29,15 @@ export default withNuxt()
             order: 'asc'
           }
         }
-      ]
-    }
-  })
-  .append({
-    rules: {
-      'prefer-template': ['error'],
-      '@typescript-eslint/no-unused-vars': [
+      ],
+      'vue/no-v-html': 'off',
+      'vue/html-self-closing': 'off',
+      'vue/block-order': [
         'error',
         {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_'
+          order: ['script', 'template', 'style']
         }
       ]
     }
-  });
+  }
+);
