@@ -28,6 +28,6 @@ const sizes = `(min-width: 1000px) 80vw, 100vw`;
       class="absolute size-full inset-0 object-cover"
       loading="lazy"
       decoding="async"
-    >
+    />
   </figure>
 </template>

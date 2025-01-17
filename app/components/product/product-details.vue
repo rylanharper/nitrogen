@@ -74,7 +74,6 @@ const shippingContent = computed(() => parseContent(props.shipping));
       </summary>
       <div class="h-0 overflow-hidden group-open:h-auto">
         <div class="flex flex-col pb-4">
-          <!-- eslint-disable-next-line vue/no-v-html -->
           <article v-if="props.description" v-html="props.description" />
           <p v-else class="normal-case text-gray-500">Description not available.</p>
         </div>
@@ -90,7 +89,6 @@ const shippingContent = computed(() => parseContent(props.shipping));
       </summary>
       <div class="h-0 overflow-hidden group-open:h-auto">
         <div class="flex flex-col pb-4">
-          <!-- eslint-disable-next-line vue/no-v-html -->
           <article v-if="detailsContent" v-html="detailsContent" />
           <p v-else class="normal-case text-gray-500">Details not available.</p>
         </div>
@@ -106,7 +104,6 @@ const shippingContent = computed(() => parseContent(props.shipping));
       </summary>
       <div class="h-0 overflow-hidden group-open:h-auto">
         <div class="flex flex-col">
-          <!-- eslint-disable-next-line vue/no-v-html -->
           <article v-if="shippingContent" v-html="shippingContent" />
           <p v-else class="normal-case text-gray-500">Shipping information not available.</p>
         </div>

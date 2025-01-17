@@ -22,7 +22,7 @@ const props = defineProps<{
         :key="source.url"
         :src="source.url"
         :type="source.mimeType"
-      >
+      />
     </video>
   </figure>
 </template>
