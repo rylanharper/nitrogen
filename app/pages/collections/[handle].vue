@@ -24,10 +24,10 @@ const filterValues = computed(() => getFilterValues(filterParam.value));
 // Get the active filter options from URL
 const activeFilterOptions = computed(() => {
   const filters: { name: string; value: string }[] = [];
-  const excludedParams = ['q', 'limit'];
+  const allowedParams = ['sort', 'color', 'size', 'productType'];
 
   Object.entries(route.query).forEach(([name, value]) => {
-    if (!value || excludedParams.includes(name)) return;
+    if (!value || !allowedParams.includes(name)) return;
 
     if (name === 'sort') {
       filters.push({ name, value: value as string });
