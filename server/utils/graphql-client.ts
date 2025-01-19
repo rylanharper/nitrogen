@@ -24,18 +24,20 @@ export const query = async (
         method: 'POST',
         body: { query: serializedQuery, variables },
       });
-    } catch (error) {
+    } catch (error: any) {
       const count = retryCount + 1;
 
       if (retryCount < maxRetries) {
-        console.warn(
-          `Retrying Storefront API fetch request... (${count}/${maxRetries})`
-        );
+        console.warn(`Retrying Storefront API fetch request (${count}/${maxRetries})`);
         await new Promise((resolve) => setTimeout(resolve, waitTime));
         return fetchRequest(count);
       }
 
-      throw error;
+      throw createError({
+        statusCode: 500,
+        statusMessage: `GraphQL fetch request failed after ${maxRetries} attempts.`,
+        data: { error: error.message }
+      });
     }
   };
 
