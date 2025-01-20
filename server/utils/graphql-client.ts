@@ -22,7 +22,7 @@ export const query = async (
     try {
       return await $fetch('/api/shopify', {
         method: 'POST',
-        body: { query: serializedQuery, variables },
+        body: { query: serializedQuery, variables }
       });
     } catch (error: any) {
       const count = retryCount + 1;
