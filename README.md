@@ -85,7 +85,7 @@ To ensure client subscriptions are directed to the appropriate email list (e.g.,
 
 ## ✳️ Nuxt Setup
 
-To begin using Nitrogen, you'll need to set up the following environment variables:
+To begin using Nitrogen, you'll need to add the following environment variables:
 
 ```ini
 # Shopify
