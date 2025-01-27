@@ -72,7 +72,7 @@ const searchBaseVars = computed<SearchProductsQueryVariables>(() => ({
 const { data: searchBaseData } = await useAsyncData(
   `search-base-${searchQuery.value}`,
   () => shopify.search.products(searchBaseVars.value),
-  { watch: [searchBaseVars], deep: false }
+  { watch: [searchBaseVars], lazy: true, deep: false }
 );
 
 // Computed data

@@ -72,7 +72,7 @@ const collectionBaseVars = computed<CollectionQueryVariables>(() => ({
 const { data: collectionBaseData } = await useAsyncData(
   `collection-base-${handle.value}`,
   () => shopify.collection.get(collectionBaseVars.value),
-  { watch: [collectionBaseVars], deep: false }
+  { watch: [collectionBaseVars], lazy: true, deep: false }
 );
 
 // Computed data
