@@ -12,16 +12,10 @@ export const CART_FRAGMENT = gql`
     }
     checkoutUrl
     cost {
-      totalAmount {
-        ...Money
-      }
       subtotalAmount {
         ...Money
       }
-      totalDutyAmount {
-        ...Money
-      }
-      totalTaxAmount {
+      totalAmount {
         ...Money
       }
     }
