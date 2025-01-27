@@ -13,7 +13,7 @@ const lineItems = computed(() => flattenConnection(cartStore.lineItems) as CartL
 
 // Actions
 const closeDrawer = () => {
-  appStore.toggleCartDrawer(false);
+  appStore.toggle('cartDrawer', false);
 };
 
 // Watchers
@@ -37,14 +37,14 @@ if (escape) {
 <template>
   <Transition name="bg-fade" appear>
     <div
-      v-if="appStore.cartDrawerOpen"
+      v-if="appStore.cartDrawer"
       class="fixed inset-0 z-[200] bg-black/50"
       @click="closeDrawer"
     />
   </Transition>
   <Transition name="slider" appear>
     <aside
-      v-if="appStore.cartDrawerOpen"
+      v-if="appStore.cartDrawer"
       class="fixed top-0 right-0 z-[200] size-full bg-white md:max-w-[450px]"
     >
       <div class="flex flex-col size-full px-5">

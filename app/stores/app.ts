@@ -1,61 +1,36 @@
 import { defineStore } from 'pinia';
 
+// Types
+type appState = {
+  cartDrawer: boolean;
+  mobileMenu: boolean;
+  filterMenu: boolean;
+  searchMenu: boolean;
+  localeModal: boolean;
+  backInStockModal: boolean;
+  mediaLightbox: boolean;
+};
+
 // Store
 export const useAppStore = defineStore('@nitrogen/app', {
-  state: () => {
-    return {
-      cartDrawerOpen: false,
-      mobileMenuOpen: false,
-      filterMenuOpen: false,
-      searchMenuOpen: false,
-      localeModalOpen: false,
-      backInStockModalOpen: false,
-      mediaLightboxOpen: false
-    };
-  },
+  state: (): appState => ({
+    cartDrawer: false,
+    mobileMenu: false,
+    filterMenu: false,
+    searchMenu: false,
+    localeModal: false,
+    backInStockModal: false,
+    mediaLightbox: false
+  }),
 
   actions: {
     /**
-     * Toggles the cart drawer.
+     * Toggles the visibility state of a UI element.
+     * @param element - The UI element to toggle
+     * @param state - Optional boolean to force a specific state
      */
-    toggleCartDrawer(state?: boolean) {
-      this.cartDrawerOpen = state ?? !this.cartDrawerOpen;
-    },
-    /**
-     * Toggles the mobile menu.
-     */
-    toggleMobileMenu(state?: boolean) {
-      this.mobileMenuOpen = state ?? !this.mobileMenuOpen;
-    },
-    /**
-     * Toggles the collection filter menu.
-     */
-    toggleFilterMenu(state?: boolean) {
-      this.filterMenuOpen = state ?? !this.filterMenuOpen;
-    },
-    /**
-     * Toggles the search menu.
-     */
-    toggleSearchMenu(state?: boolean) {
-      this.searchMenuOpen = state ?? !this.searchMenuOpen;
-    },
-    /**
-     * Toggles the localization modal.
-     */
-    toggleLocaleModal(state?: boolean) {
-      this.localeModalOpen = state ?? !this.localeModalOpen;
-    },
-    /**
-     * Toggles the back-in-stock modal.
-     */
-    toggleBackInStockModal(state?: boolean) {
-      this.backInStockModalOpen = state ?? !this.backInStockModalOpen;
-    },
-    /**
-     * Toggles the product media lightbox.
-     */
-    toggleMediaLightbox(state?: boolean) {
-      this.mediaLightboxOpen = state ?? !this.mediaLightboxOpen;
-    },
+    toggle(element: keyof appState, state?: boolean) {
+      this[element] = state ?? !this[element];
+    }
   }
 });

@@ -50,14 +50,14 @@ const clearAllFilters = () => {
 <template>
   <Transition name="bg-fade" appear>
     <div
-      v-if="appStore.filterMenuOpen"
+      v-if="appStore.filterMenu"
       class="fixed inset-0 z-[200] bg-black/50 lg:hidden"
       @click="closeFilter"
     />
   </Transition>
   <Transition name="slider" appear>
     <aside
-      v-if="appStore.filterMenuOpen"
+      v-if="appStore.filterMenu"
       class="fixed top-0 right-0 z-[200] size-full bg-white md:max-w-[450px] lg:hidden"
     >
       <div class="flex flex-col size-full px-5">

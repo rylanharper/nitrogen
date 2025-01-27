@@ -34,7 +34,7 @@ const closeSearch = () => {
 
 // Watchers
 watch(
-  () => appStore.searchMenuOpen,
+  () => appStore.searchMenu,
   (isOpen) => {
     if (!isOpen) {
       searchQuery.value = '';
@@ -43,7 +43,7 @@ watch(
 );
 
 watch(
-  () => appStore.searchMenuOpen,
+  () => appStore.searchMenu,
   () => {
     nextTick(() => {
       input.value?.focus();
@@ -55,13 +55,13 @@ watch(
 <template>
   <Transition name="bg-fade" appear>
     <div
-      v-if="appStore.searchMenuOpen"
+      v-if="appStore.searchMenu"
       class="fixed inset-0 z-[200] bg-black/50 lg:hidden"
     />
   </Transition>
   <Transition name="slider" appear>
     <aside
-      v-if="appStore.searchMenuOpen"
+      v-if="appStore.searchMenu"
       class="fixed inset-0 z-[200] size-full bg-white lg:hidden"
     >
       <div class="flex flex-col gap-10 size-full px-5">

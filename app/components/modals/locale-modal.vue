@@ -29,7 +29,7 @@ const updateLocalization = async () => {
 
 // Actions
 const closeModal = () => {
-  appStore.toggleLocaleModal(false);
+  appStore.toggle('localeModal', false);
 };
 
 // Watchers
@@ -53,14 +53,14 @@ if (escape) {
 <template>
   <Transition name="bg-fade" mode="out-in" appear>
     <section
-      v-if="appStore.localeModalOpen"
+      v-if="appStore.localeModal"
       class="fixed inset-0 z-[200] bg-black/50"
       @click="closeModal"
     />
   </Transition>
   <Transition name="scale-in" mode="out-in" appear>
     <div
-      v-if="appStore.localeModalOpen"
+      v-if="appStore.localeModal"
       class="fixed left-[50%] top-[50%] w-full max-w-xl translate-x-[-50%] translate-y-[-50%] p-6 z-[200] bg-white"
     >
       <h2 class="text-center">Select Country</h2>

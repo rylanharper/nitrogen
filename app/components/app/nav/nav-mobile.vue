@@ -9,7 +9,7 @@ const cartTotalItems = computed(() => cartStore.lineItemsCount);
 
 // Emits
 const emit = defineEmits([
-  'toggleShopMenu',
+  'toggleMobileMenu',
   'toggleSearchMenu',
   'toggleCartDrawer'
 ]);
@@ -20,7 +20,7 @@ const emit = defineEmits([
     <div class="grid grid-flow-col justify-start items-center">
       <button
         class="flex p-2 text-normalize bg-transparent rounded-full"
-        @click="emit('toggleShopMenu')"
+        @click="emit('toggleMobileMenu')"
       >
         Menu
       </button>

@@ -25,14 +25,14 @@ const mediaIndex = ref<number>(0);
 // Actions
 const toggleLightbox = (index: number) => {
   mediaIndex.value = index;
-  appStore.toggleMediaLightbox();
+  appStore.toggle('mediaLightbox');
 };
 
 // Watchers
 const isScrollLocked = useScrollLock(document);
 
 watch(
-  () => appStore.mediaLightboxOpen,
+  () => appStore.mediaLightbox,
   (isOpen) => {
     isScrollLocked.value = isOpen;
   }

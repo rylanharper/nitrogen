@@ -12,7 +12,7 @@ const appStore = useAppStore();
 
 // Actions
 const closeMenu = () => {
-  appStore.toggleMobileMenu(false);
+  appStore.toggle('mobileMenu', false);
 };
 
 // Watchers
@@ -29,12 +29,12 @@ watch(
 <template>
   <Transition name="bg-fade" appear>
     <div
-      v-if="appStore.mobileMenuOpen"
+      v-if="appStore.mobileMenu"
       class="fixed inset-0 z-[50] pointer-events-auto bg-black/50"
     />
   </Transition>
   <Transition name="clip" appear>
-    <aside v-if="appStore.mobileMenuOpen" class="fixed inset-0 z-[50] size-full bg-white">
+    <aside v-if="appStore.mobileMenu" class="fixed inset-0 z-[50] size-full bg-white">
       <div class="flex flex-col size-full px-6">
         <div class="flex flex-col flex-1 mt-16 overflow-y-scroll overflow-x-hidden no-scrollbar">
           <NuxtLink

@@ -72,7 +72,7 @@ const collectionBaseVars = computed<CollectionQueryVariables>(() => ({
 const { data: collectionBaseData } = await useAsyncData(
   `collection-base-${handle.value}`,
   () => shopify.collection.get(collectionBaseVars.value),
-  { watch: [collectionBaseVars], lazy: true, deep: false }
+  { watch: [collectionBaseVars], deep: false }
 );
 
 // Computed data
@@ -126,7 +126,7 @@ const removeActiveFilterOption = (filterName: string, filterValue: string) => {
 };
 
 const toggleFilter = () => {
-  appStore.toggleFilterMenu();
+  appStore.toggle('filterMenu');
 };
 
 // SEO

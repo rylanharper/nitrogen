@@ -31,7 +31,7 @@ const handleSearch = useDebounceFn(async () => {
 
 // Actions
 const closeSearch = () => {
-  appStore.searchMenuOpen = false;
+  appStore.toggle('searchMenu', false);
 };
 
 const submitQuery = async () => {

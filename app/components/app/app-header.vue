@@ -3,20 +3,20 @@
 const appStore = useAppStore();
 
 // Actions
-const toggleShopMenu = () => {
-  appStore.toggleMobileMenu();
+const toggleMobileMenu = () => {
+  appStore.toggle('mobileMenu');
 };
 
 const toggleCartDrawer = () => {
-  appStore.toggleCartDrawer();
+  appStore.toggle('cartDrawer');
 };
 
 const toggleLocaleModal = () => {
-  appStore.toggleLocaleModal();
+  appStore.toggle('localeModal');
 };
 
 const toggleSearchMenu = () => {
-  appStore.toggleSearchMenu();
+  appStore.toggle('searchMenu');
 };
 </script>
 
@@ -30,7 +30,7 @@ const toggleSearchMenu = () => {
     <NavMobile
       @toggle-cart-drawer="toggleCartDrawer"
       @toggle-search-menu="toggleSearchMenu"
-      @toggle-shop-menu="toggleShopMenu"
+      @toggle-mobile-menu="toggleMobileMenu"
     />
   </header>
 </template>

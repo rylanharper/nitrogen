@@ -72,7 +72,7 @@ const searchBaseVars = computed<SearchProductsQueryVariables>(() => ({
 const { data: searchBaseData } = await useAsyncData(
   `search-base-${searchQuery.value}`,
   () => shopify.search.products(searchBaseVars.value),
-  { watch: [searchBaseVars], lazy: true, deep: false }
+  { watch: [searchBaseVars], deep: false }
 );
 
 // Computed data
@@ -130,7 +130,7 @@ const removeActiveFilterOption = (filterName: string, filterValue: string) => {
 };
 
 const toggleFilter = () => {
-  appStore.toggleFilterMenu();
+  appStore.toggle('filterMenu');
 };
 
 // SEO

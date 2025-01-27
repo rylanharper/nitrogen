@@ -22,7 +22,7 @@ const appStore = useAppStore();
 
 // Actions
 const closeLightbox = () => {
-  appStore.toggleMediaLightbox(false);
+  appStore.toggle('mediaLightbox', false);
 };
 
 // State
@@ -47,7 +47,7 @@ if (escape) {
 
 <template>
   <section
-    v-if="appStore.mediaLightboxOpen"
+    v-if="appStore.mediaLightbox"
     class="hidden fixed items-center justify-center inset-0 z-[200] bg-white lg:flex"
   >
     <button

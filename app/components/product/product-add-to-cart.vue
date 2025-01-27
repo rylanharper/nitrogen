@@ -16,11 +16,11 @@ const isLoading = ref(false);
 
 // Actions
 const openModal = () => {
-  appStore.toggleBackInStockModal(true);
+  appStore.toggle('backInStockModal', true);
 };
 
 const openDrawer = () => {
-  appStore.toggleCartDrawer(true);
+  appStore.toggle('cartDrawer', true);
 };
 
 const addToCart = async () => {

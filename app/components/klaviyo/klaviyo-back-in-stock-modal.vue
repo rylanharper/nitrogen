@@ -47,7 +47,7 @@ const handleBackInStock = async () => {
 
 // Actions
 const closeModal = () => {
-  appStore.toggleBackInStockModal(false);
+  appStore.toggle('backInStockModal', false);
 };
 
 // Watchers
@@ -55,7 +55,7 @@ const route = useRoute();
 const { escape } = useMagicKeys();
 
 watch(
-  () => appStore.backInStockModalOpen,
+  () => appStore.backInStockModal,
   (isOpen) => {
     if (!isOpen) {
       errorMessage.value = '';
@@ -81,14 +81,14 @@ if (escape) {
 <template>
   <Transition name="bg-fade" appear>
     <section
-      v-if="appStore.backInStockModalOpen"
+      v-if="appStore.backInStockModal"
       class="fixed inset-0 z-[200] bg-black/50"
       @click="closeModal"
     />
   </Transition>
   <Transition name="scale-in" appear>
     <div
-      v-if="appStore.backInStockModalOpen"
+      v-if="appStore.backInStockModal"
       class="fixed left-[50%] top-[50%] w-full max-w-xl translate-x-[-50%] translate-y-[-50%] p-6 z-[200] bg-white"
     >
       <h2 class="text-center mb-2">Notify Me <span class="normal-case">(Klaviyo)</span></h2>
