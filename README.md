@@ -73,7 +73,7 @@ This will redirect password reset emails to your custom domain while maintaining
 
 Nitrogen also features Klaviyo integration for email marketing. This is a great way to send product updates, special offers, and back-in-stock notifications to customers.
 
-The template includes two streamlined Klaviyo API proxies: one for general client subscriptions and another for back-in-stock subscriptions. Both are designed to work seamlessly with the latest `2024-10-15` API version while ensuring optimal performance and security.
+The template includes two streamlined Klaviyo API proxies: one for general client subscriptions and another for back-in-stock subscriptions. Both are designed to work seamlessly with the latest `2025-01-15` API version while ensuring optimal performance and security.
 
 ### API Keys
 
@@ -96,7 +96,7 @@ NUXT_SHOPIFY_API_VERSION=2025-01
 # Klaviyo
 NUXT_KLAVIYO_PUBLIC_API_KEY=your_public_api_key
 NUXT_KLAVIYO_PRIVATE_API_KEY=your_private_api_key
-NUXT_KLAVIYO_API_VERSION=2024-10-15
+NUXT_KLAVIYO_API_VERSION=2025-01-15
 ```
 
 > [!WARNING]
