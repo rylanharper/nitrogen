@@ -48,13 +48,13 @@ if (escape) {
 <template>
   <section
     v-if="appStore.mediaLightbox"
-    class="hidden fixed items-center justify-center inset-0 z-[200] bg-white lg:flex"
+    class="hidden fixed items-center justify-center inset-0 z-200 bg-white lg:flex"
   >
     <button
-      class="flex absolute z-10 top-4 right-10 ring-1 ring-transparent ring-offset-2 ring-offset-[#f2f2f2] rounded-sm focus:ring-black"
+      class="flex absolute z-10 top-4 right-10 ring-1 ring-transparent ring-offset-2 ring-offset-[#f2f2f2] rounded-xs focus:ring-black"
       @click="closeLightbox"
     >
-      <Icon name="ph:x" class="h-6 w-6 shrink-0" />
+      <Icon name="ph:x" class="size-6 shrink-0" />
     </button>
     <div class="flex flex-col overflow-auto size-full">
       <div

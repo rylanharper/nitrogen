@@ -51,34 +51,34 @@ const clearAllFilters = () => {
   <Transition name="bg-fade" appear>
     <div
       v-if="appStore.filterMenu"
-      class="fixed inset-0 z-[200] bg-black/50 lg:hidden"
+      class="fixed inset-0 z-200 bg-black/50 pointer-events-auto lg:hidden"
       @click="closeFilter"
     />
   </Transition>
   <Transition name="slider" appear>
     <aside
       v-if="appStore.filterMenu"
-      class="fixed top-0 right-0 z-[200] size-full bg-white md:max-w-[450px] lg:hidden"
+      class="fixed top-0 right-0 z-200 size-full bg-white md:max-w-[450px] lg:hidden"
     >
       <div class="flex flex-col size-full px-5">
         <div class="flex justify-between items-center py-3 border-b border-zinc-300">
-          <h2>Filters</h2>
+          <h2 class="uppercase">Filters</h2>
           <button
             type="button"
-            class="flex ring-1 ring-offset-2 ring-transparent rounded-sm focus:ring-black"
+            class="flex ring-1 ring-offset-2 ring-transparent rounded-xs focus:ring-black"
             @click="closeFilter"
           >
-            <Icon name="ph:x" class="h-5 w-5 shrink-0" />
+            <Icon name="ph:x" class="size-5 shrink-0" />
           </button>
         </div>
         <div class="flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
           <div class="flex flex-col divide-y divide-zinc-300">
             <details class="group">
-              <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <span class="truncate">Sort By</span>
+              <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+                <span class="truncate uppercase">Sort By</span>
                 <Icon
                   name="ph:caret-down"
-                  class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+                  class="size-5 shrink-0 transition group-open:rotate-180"
                 />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
@@ -96,11 +96,11 @@ const clearAllFilters = () => {
               </div>
             </details>
             <details class="group">
-              <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <span class="truncate">Color</span>
+              <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+                <span class="truncate uppercase">Color</span>
                 <Icon
                   name="ph:caret-down"
-                  class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+                  class="size-5 shrink-0 transition group-open:rotate-180"
                 />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
@@ -137,11 +137,11 @@ const clearAllFilters = () => {
               </div>
             </details>
             <details class="group">
-              <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <span class="truncate">Size</span>
+              <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+                <span class="truncate uppercase">Size</span>
                 <Icon
                   name="ph:caret-down"
-                  class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+                  class="size-5 shrink-0 transition group-open:rotate-180"
                 />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
@@ -159,11 +159,11 @@ const clearAllFilters = () => {
               </div>
             </details>
             <details class="group">
-              <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <span class="truncate">Style</span>
+              <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+                <span class="truncate uppercase">Style</span>
                 <Icon
                   name="ph:caret-down"
-                  class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+                  class="size-5 shrink-0 transition group-open:rotate-180"
                 />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
@@ -203,7 +203,9 @@ const clearAllFilters = () => {
   </Transition>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .bg-fade-enter-active,
 .bg-fade-leave-active {
   @apply transition duration-200 ease-out;

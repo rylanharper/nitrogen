@@ -80,7 +80,7 @@ onMounted(() => {
     <div class="absolute flex items-center justify-center gap-2 w-full p-2 bottom-0">
       <div v-for="(_, index) in productMedia" :key="index">
         <button
-          class="h-2 w-2 rounded-full border border-black"
+          class="size-2 rounded-full border border-black"
           :class="{ 'bg-black': index === selectedIndex }"
           @click="scrollTo(index)"
         />
@@ -90,13 +90,13 @@ onMounted(() => {
       class="absolute flex items-center justify-center z-10 p-2 top-0 left-0 h-full"
       @click="scrollPrev"
     >
-      <Icon name="ph:caret-left" class="h-5 w-5 shrink-0" />
+      <Icon name="ph:caret-left" class="size-5 shrink-0" />
     </button>
     <button
       class="absolute flex items-center justify-center z-10 p-2 top-0 right-0 h-full"
       @click="scrollNext"
     >
-      <Icon name="ph:caret-right" class="h-5 w-5 shrink-0" />
+      <Icon name="ph:caret-right" class="size-5 shrink-0" />
     </button>
   </div>
 </template>

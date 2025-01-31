@@ -19,7 +19,7 @@ const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name)
     :to="`/products/${product.handle}`"
     class="group flex gap-4"
   >
-    <div class="aspect-square w-24 h-24 shrink-0 border border-transparent transition duration-200 group-hover:border-zinc-300">
+    <div class="aspect-square size-24 shrink-0 border border-transparent transition duration-200 group-hover:border-zinc-300">
       <ShopifyImage
         :image="product.featuredImage"
         :alt="product.featuredImage?.altText || product.title"
@@ -27,10 +27,8 @@ const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name)
     </div>
     <div class="flex flex-col">
       <div class="mb-2">
-        <h2 v-if="product.title">{{ product.title }}</h2>
-        <h3 v-if="colorOption" class="normal-case">
-          {{ colorOptionName }}
-        </h3>
+        <h2 v-if="product.title" class="uppercase">{{ product.title }}</h2>
+        <h3 v-if="colorOption">{{ colorOptionName }}</h3>
       </div>
       <PriceDisplay
         :price="product.priceRange.minVariantPrice"

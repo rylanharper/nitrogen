@@ -43,20 +43,20 @@ definePageMeta({
     class="relative flex flex-col lg:col-span-2 2xl:col-span-1 mb-20"
   >
     <div class="flex flex-col gap-6 lg:mt-6 lg:px-8">
-      <h2 class="px-6 normal-case text-xl tracking-tight leading-none lg:p-0">
+      <h2 class="px-6 text-xl tracking-tight leading-none lg:p-0">
         Orders ({{ orders?.length }})
       </h2>
       <div v-if="orders && orders?.length">
         <AccountOrders :orders="orders" />
       </div>
       <div v-else class="flex items-center gap-2 px-6 lg:p-0">
-        <Icon name="ph:warning-circle" class="h-5 w-5 shrink-0" />
-        <p class="normal-case">You haven&apos;t placed any orders yet.</p>
+        <Icon name="ph:warning-circle" class="size-5 shrink-0" />
+        <p>You haven&apos;t placed any orders yet.</p>
       </div>
     </div>
   </section>
   <section v-else class="flex items-center self-start p-6 gap-2">
-    <Icon name="ph:warning-circle" class="h-5 w-5 shrink-0" />
-    <p class="normal-case">No customer data found.</p>
+    <Icon name="ph:warning-circle" class="size-5 shrink-0" />
+    <p>No customer data found.</p>
   </section>
 </template>

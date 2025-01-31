@@ -12,7 +12,7 @@ const checkoutUrl = computed(() => cartStore.checkoutUrl);
 <template>
   <div class="flex flex-col gap-3 py-4 bg-white border-t border-zinc-300">
     <div class="flex justify-between">
-      <span>Subtotal:</span>
+      <span class="uppercase">Subtotal:</span>
       <PriceDisplay :price="cartSubtotal" />
     </div>
     <NuxtLink
@@ -22,6 +22,6 @@ const checkoutUrl = computed(() => cartStore.checkoutUrl);
     >
       Checkout
     </NuxtLink>
-    <p class="text-sm text-center">Taxes &amp; shipping calculated at checkout</p>
+    <p class="uppercase text-sm text-center">Taxes &amp; shipping calculated at checkout</p>
   </div>
 </template>

@@ -17,26 +17,26 @@ const renderNode = (node: any): string => {
   // Handle links
   if (node.type === 'link') {
     const childContent = node.children?.map(renderNode).join('') || '';
-    return `<a href="${node.url}" class="normal-case underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500">${childContent}</a>`;
+    return `<a href="${node.url}" class="underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500">${childContent}</a>`;
   }
 
   // Handle paragraphs
   if (node.type === 'paragraph') {
     const childContent = node.children?.map(renderNode).join('') || '';
-    return `<p class="normal-case">${childContent}</p>`;
+    return `<p>${childContent}</p>`;
   }
 
   // Handle lists
   if (node.type === 'list') {
     const tag = node.listType === 'ordered' ? 'ol' : 'ul';
     const childContent = node.children?.map(renderNode).join('') || '';
-    return `<${tag} class="normal-case list-disc list-inside">${childContent}</${tag}>`;
+    return `<${tag} class="list-disc list-inside">${childContent}</${tag}>`;
   }
 
   // Handle list items
   if (node.type === 'list-item') {
     const childContent = node.children?.map(renderNode).join('') || '';
-    return `<li class="normal-case">${childContent}</li>`;
+    return `<li>${childContent}</li>`;
   }
 
   // Recursively handle any children
@@ -66,56 +66,54 @@ const shippingContent = computed(() => parseContent(props.shipping));
   <div class="flex flex-col divide-y divide-zinc-300">
     <details name="info" class="group">
       <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-        <span class="truncate">Description</span>
+        <span class="truncate uppercase">Description</span>
         <Icon
           name="ph:caret-down"
-          class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+          class="size-5 shrink-0 transition group-open:rotate-180"
         />
       </summary>
       <div class="h-0 overflow-hidden group-open:h-auto">
         <div class="flex flex-col pb-4">
           <article v-if="props.description" v-html="props.description" />
-          <p v-else class="normal-case text-gray-500">Description not available.</p>
+          <p v-else class="text-gray-500">Description not available.</p>
         </div>
       </div>
     </details>
     <details name="info" class="group">
       <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-        <span class="truncate">Details</span>
+        <span class="truncate uppercase">Details</span>
         <Icon
           name="ph:caret-down"
-          class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+          class="size-5 shrink-0 transition group-open:rotate-180"
         />
       </summary>
       <div class="h-0 overflow-hidden group-open:h-auto">
         <div class="flex flex-col pb-4">
           <article v-if="detailsContent" v-html="detailsContent" />
-          <p v-else class="normal-case text-gray-500">Details not available.</p>
+          <p v-else class="text-gray-500">Details not available.</p>
         </div>
       </div>
     </details>
     <details name="info" class="group">
       <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-        <span class="truncate">Shipping</span>
+        <span class="truncate uppercase">Shipping</span>
         <Icon
           name="ph:caret-down"
-          class="h-5 w-5 shrink-0 transition group-open:rotate-180"
+          class="size-5 shrink-0 transition group-open:rotate-180"
         />
       </summary>
       <div class="h-0 overflow-hidden group-open:h-auto">
         <div class="flex flex-col">
           <article v-if="shippingContent" v-html="shippingContent" />
-          <p v-else class="normal-case text-gray-500">Shipping information not available.</p>
+          <p v-else class="text-gray-500">Shipping information not available.</p>
         </div>
       </div>
     </details>
   </div>
 </template>
 
-<style lang="css" scoped>
-:deep(article *, p *, p) {
-  @apply normal-case;
-}
+<style scoped>
+@reference "tailwindcss";
 
 :deep(p:not(:last-child)) {
   @apply mb-3.5;

@@ -53,16 +53,16 @@ watch(
 </script>
 
 <template>
-  <Transition name="bg-fade" appear>
+  <Transition name="bg-fade">
     <div
       v-if="appStore.searchMenu"
-      class="fixed inset-0 z-[200] bg-black/50 lg:hidden"
+      class="fixed inset-0 z-200 bg-black/50 pointer-events-auto lg:hidden"
     />
   </Transition>
-  <Transition name="slider" appear>
+  <Transition name="slider">
     <aside
       v-if="appStore.searchMenu"
-      class="fixed inset-0 z-[200] size-full bg-white lg:hidden"
+      class="fixed size-full inset-0 z-200 bg-white lg:hidden"
     >
       <div class="flex flex-col gap-10 size-full px-5">
         <div class="relative flex">
@@ -75,17 +75,17 @@ watch(
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
-            class="peer flex w-full py-3 pl-8 normal-case bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-none"
+            class="peer flex w-full py-3 pl-8 bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-none"
             @keydown="onKeyDown"
           >
           <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
-            <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0" />
+            <Icon name="ph:magnifying-glass" class="size-5 shrink-0" />
           </div>
           <button
             class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black"
             @click="closeSearch"
           >
-            <Icon name="ph:x" class="h-5 w-5 shrink-0" />
+            <Icon name="ph:x" class="size-5 shrink-0" />
           </button>
         </div>
         <div class="flex flex-col flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
@@ -102,7 +102,9 @@ watch(
   </Transition>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .bg-fade-enter-active,
 .bg-fade-leave-active {
   @apply transition duration-200 ease-out;

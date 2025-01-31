@@ -89,7 +89,7 @@ useHead({
 <template>
   <section class="relative flex flex-col items-center justify-center">
     <div class="w-full px-6 my-32 md:max-w-lg">
-      <h1 class="normal-case text-xl tracking-tight leading-none text-center">
+      <h1 class="text-xl tracking-tight leading-none text-center">
         Register
       </h1>
       <form
@@ -108,7 +108,7 @@ useHead({
             autocomplete="off"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -122,7 +122,7 @@ useHead({
             autocomplete="off"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -136,7 +136,7 @@ useHead({
             autocomplete="email"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -151,7 +151,7 @@ useHead({
             autocorrect="off"
             minLength="8"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
           <button
             type="button"
@@ -160,7 +160,7 @@ useHead({
           >
             <Icon
               name="ph:eye"
-              class="h-5 w-5 shrink-0"
+              class="size-5 shrink-0"
               :class="showPassword ? 'text-black' : 'text-zinc-400'"
             />
           </button>
@@ -177,7 +177,7 @@ useHead({
             autocorrect="off"
             minLength="{8}"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
           <button
             type="button"
@@ -186,7 +186,7 @@ useHead({
           >
             <Icon
               name="ph:eye"
-              class="h-5 w-5 shrink-0"
+              class="size-5 shrink-0"
               :class="showConfirmPassword ? 'text-black' : 'text-zinc-400'"
             />
           </button>
@@ -198,14 +198,14 @@ useHead({
               v-model="customer.acceptsMarketing"
               name="acceptsMarketing"
               type="checkbox"
-              class="peer flex h-5 w-5 border border-zinc-400 appearance-none rounded-md cursor-pointer checked:border-black"
+              class="peer flex size-5 border border-zinc-400 appearance-none rounded-md cursor-pointer checked:border-black"
             >
             <Icon
               name="ph:check-bold"
-              class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 h-3 w-3 shrink-0 opacity-0 text-black pointer-events-none peer-checked:opacity-100"
+              class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 size-3 shrink-0 opacity-0 text-black pointer-events-none peer-checked:opacity-100"
             />
           </div>
-          <p class="normal-case">Subscribe to Newsletter?</p>
+          <p>Subscribe to Newsletter?</p>
         </div>
         <button
           type="submit"
@@ -216,17 +216,17 @@ useHead({
         </button>
       </form>
       <div class="flex flex-col mb-10">
-        <p class="normal-case">Have an account?</p>
+        <p>Have an account?</p>
         <NuxtLink
           to="/account/login"
-          class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
+          class="max-w-fit underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
         >
           Login
         </NuxtLink>
       </div>
       <p
         v-if="errorMessage"
-        class="w-[75%] mx-auto normal-case text-red-500 text-center"
+        class="w-[75%] mx-auto text-red-500 text-center"
       >
         {{ errorMessage }}
       </p>

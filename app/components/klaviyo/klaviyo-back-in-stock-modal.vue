@@ -79,62 +79,66 @@ if (escape) {
 </script>
 
 <template>
-  <Transition name="bg-fade" appear>
+  <Transition name="bg-fade">
     <section
       v-if="appStore.backInStockModal"
-      class="fixed inset-0 z-[200] bg-black/50"
+      class="fixed inset-0 z-200 bg-black/50 pointer-events-auto"
       @click="closeModal"
     />
   </Transition>
-  <Transition name="scale-in" appear>
+  <Transition name="fade-up">
     <div
       v-if="appStore.backInStockModal"
-      class="fixed left-[50%] top-[50%] w-full max-w-xl translate-x-[-50%] translate-y-[-50%] p-6 z-[200] bg-white"
+      class="fixed flex items-center justify-center size-full inset-0 z-200 pointer-events-none"
     >
-      <h2 class="text-center mb-2">Notify Me <span class="normal-case">(Klaviyo)</span></h2>
-      <p class="normal-case text-center">
-        Get notified when this product is back in stock.
-      </p>
-      <form class="flex flex-col mt-6 mb-2" novalidate @submit.prevent="handleBackInStock">
-        <div class="relative w-full mb-2.5">
-          <input
-            id="email"
-            v-model="email"
-            name="email"
-            type="email"
-            placeholder="Email Address"
-            autocapitalize="off"
-            autocomplete="email"
-            autocorrect="off"
-            required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+      <dialog class="relative flex flex-col p-6 bg-white pointer-events-auto md:w-xl">
+        <h2 class="uppercase text-center mb-2">Notify Me <span class="normal-case">(Klaviyo)</span></h2>
+        <p class="text-center">
+          Get notified when this product is back in stock.
+        </p>
+        <form class="flex flex-col mt-6 mb-2" novalidate @submit.prevent="handleBackInStock">
+          <div class="relative w-full mb-2.5">
+            <input
+              id="email"
+              v-model="email"
+              name="email"
+              type="email"
+              placeholder="Email Address"
+              autocapitalize="off"
+              autocomplete="email"
+              autocorrect="off"
+              required
+              class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            >
+          </div>
+          <button
+            type="submit"
+            :disabled="isLoading"
+            class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
           >
-        </div>
+            {{ isLoading ? 'Submitting...' : 'Submit' }}
+          </button>
+        </form>
         <button
-          type="submit"
-          :disabled="isLoading"
-          class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+          class="flex absolute top-2 right-2 ring-1 ring-transparent ring-offset-2 rounded-xs focus:ring-black"
+          @click="closeModal"
         >
-          {{ isLoading ? 'Submitting...' : 'Submit' }}
+          <Icon name="ph:x" class="size-5 shrink-0" />
         </button>
-      </form>
-      <button
-        class="flex absolute top-2 right-2 ring-1 ring-transparent ring-offset-2 rounded-sm focus:ring-black"
-        @click="closeModal"
-      >
-        <Icon name="ph:x" class="h-5 w-5 shrink-0" />
-      </button>
-      <p v-if="errorMessage" class="w-[75%] mt-6 mx-auto normal-case text-red-500 text-center">
-        {{ errorMessage }}
-      </p>
-      <p v-if="successMessage" class="w-[75%] mt-6 mx-auto normal-case text-blue-600 text-center">
-        {{ successMessage }}
-      </p>
+        <p v-if="errorMessage" class="w-[75%] mt-6 mx-auto text-red-500 text-center">
+          {{ errorMessage }}
+        </p>
+        <p v-if="successMessage" class="w-[75%] mt-6 mx-auto text-blue-600 text-center">
+          {{ successMessage }}
+        </p>
+      </dialog>
     </div>
   </Transition>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .bg-fade-enter-active,
 .bg-fade-leave-active {
   @apply transition duration-200 ease-out;
@@ -150,18 +154,18 @@ if (escape) {
   @apply opacity-100;
 }
 
-.scale-in-enter-active,
-.scale-in-leave-active {
+.fade-up-enter-active,
+.fade-up-leave-active {
   @apply transition duration-200 ease-out;
 }
 
-.scale-in-enter-from,
-.scale-in-leave-to {
-  @apply opacity-0 transform scale-[.99] delay-0;
+.fade-up-enter-from,
+.fade-up-leave-to {
+  @apply opacity-0 transform translate-y-2 delay-0;
 }
 
-.scale-in-enter-to,
-.scale-in-leave-from {
-  @apply opacity-100 transform scale-100 delay-100;
+.fade-up-enter-to,
+.fade-up-leave-from {
+  @apply opacity-100 transform translate-y-0 delay-100;
 }
 </style>

@@ -27,26 +27,26 @@ watch(
 </script>
 
 <template>
-  <Transition name="bg-fade" appear>
+  <Transition name="bg-fade">
     <div
       v-if="appStore.mobileMenu"
-      class="fixed inset-0 z-[50] pointer-events-auto bg-black/50"
+      class="fixed inset-0 z-50 bg-black/50 pointer-events-auto"
     />
   </Transition>
-  <Transition name="clip" appear>
-    <aside v-if="appStore.mobileMenu" class="fixed inset-0 z-[50] size-full bg-white">
-      <div class="flex flex-col size-full px-6">
-        <div class="flex flex-col flex-1 mt-16 overflow-y-scroll overflow-x-hidden no-scrollbar">
+  <Transition name="clip">
+    <aside v-if="appStore.mobileMenu" class="fixed inset-0 size-full z-50 bg-white">
+      <div class="flex flex-col gap-8 size-full px-6">
+        <div class="flex flex-col gap-1 flex-1 mt-16 overflow-y-scroll overflow-x-hidden no-scrollbar">
           <NuxtLink
             v-for="link in navLinks"
             :key="link.label"
             :to="link.path"
-            class="py-1 normal-case text-xl tracking-tight"
+            class="text-xl tracking-tight"
           >
             {{ link.label }}
           </NuxtLink>
         </div>
-        <div class="flex flex-col my-4">
+        <div class="flex flex-col mb-4">
           <button
             class="flex items-center justify-center p-2 text-normalize bg-transparent border border-zinc-300 rounded-md"
             @click="closeMenu"
@@ -59,7 +59,9 @@ watch(
   </Transition>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .bg-fade-enter-active,
 .bg-fade-leave-active {
   @apply transition duration-500 ease-out;

@@ -1,3 +1,5 @@
+import tailwindcss from "@tailwindcss/vite";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   future: {
@@ -24,21 +26,22 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
-    '@nuxtjs/tailwindcss',
     '@vueuse/nuxt',
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxt/icon'
   ],
 
-  fonts: {
-    defaults: {
-      weights: [400, 500, 600]
-    }
+  icon: {
+    mode: 'svg'
   },
 
-  tailwindcss: {
-    cssPath: '@/assets/styles/app.css'
+  css: ['@/assets/styles/app.css'],
+
+  vite: {
+    plugins: [
+      tailwindcss()
+    ]
   },
 
   components: [

@@ -48,31 +48,31 @@ const clearAllFilters = () => {
 </script>
 
 <template>
-  <Transition name="bg-fade" appear>
+  <Transition name="bg-fade">
     <div
       v-if="appStore.filterMenu"
-      class="hidden fixed inset-0 z-[200] bg-black/50 lg:flex"
+      class="hidden fixed inset-0 z-200 bg-black/50 pointer-events-auto lg:flex"
       @click="closeFilter"
     />
   </Transition>
-  <Transition name="slider" appear>
+  <Transition name="slider">
     <aside
       v-if="appStore.filterMenu"
-      class="hidden fixed top-0 left-0 z-[200] w-full bg-white lg:flex"
+      class="hidden fixed top-0 left-0 z-200 w-full bg-white lg:flex"
     >
       <div class="relative flex flex-col justify-between gap-20 w-full px-6 py-4">
         <div class="absolute top-0 right-0 px-6 py-4">
           <button
             type="button"
-            class="flex ring-1 ring-offset-2 ring-transparent rounded-sm focus:ring-black"
+            class="flex ring-1 ring-offset-2 ring-transparent rounded-xs focus:ring-black"
             @click="closeFilter"
           >
-            <Icon name="ph:x" class="h-5 w-5 shrink-0" />
+            <Icon name="ph:x" class="size-5 shrink-0" />
           </button>
         </div>
         <div class="grid grid-cols-4 gap-10">
           <div>
-            <h3 class="mb-5">Sort By</h3>
+            <h3 class="mb-5 uppercase">Sort By</h3>
             <div class="flex flex-col">
               <button
                 v-for="(option, index) in props.sortOptions"
@@ -86,7 +86,7 @@ const clearAllFilters = () => {
             </div>
           </div>
           <div>
-            <h3 class="mb-5">Color</h3>
+            <h3 class="mb-5 uppercase">Color</h3>
             <div class="flex flex-col">
               <button
                 v-for="(color, index) in props.colorOptions"
@@ -119,7 +119,7 @@ const clearAllFilters = () => {
             </div>
           </div>
           <div>
-            <h3 class="mb-5">Size</h3>
+            <h3 class="mb-5 uppercase">Size</h3>
             <div class="flex flex-col">
               <button
                 v-for="(size, index) in props.sizeOptions"
@@ -133,7 +133,7 @@ const clearAllFilters = () => {
             </div>
           </div>
           <div>
-            <h3 class="mb-5">Style</h3>
+            <h3 class="mb-5 uppercase">Style</h3>
             <div class="flex flex-col">
               <button
                 v-for="(type, index) in props.productTypeOptions"
@@ -170,7 +170,9 @@ const clearAllFilters = () => {
   </Transition>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .bg-fade-enter-active,
 .bg-fade-leave-active {
   @apply transition duration-200 ease-out;

@@ -4,7 +4,7 @@ import type { ImageFragment } from '@@/types/shopify';
 // Props
 const props = defineProps<{
   image?: ImageFragment | null;
-  alt: string;
+  alt?: string;
 }>();
 
 // Computed
@@ -24,7 +24,7 @@ const sizes = `(min-width: 1000px) 80vw, 100vw`;
       :src="image?.url"
       :srcset="srcset"
       :sizes="sizes"
-      :alt="image?.altText ?? alt"
+      :alt="image?.altText ?? props.alt"
       class="absolute size-full inset-0 object-cover"
       loading="lazy"
       decoding="async"

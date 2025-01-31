@@ -45,7 +45,7 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
   <div class="flex items-center gap-6 pb-4 my-4 border-b border-zinc-300">
     <NuxtLink
       :to="`/products/${merchandise.product.handle}?variant=${variantId}`"
-      class="aspect-square w-28 h-28 shrink-0 border border-transparent transition duration-200 hover:border-zinc-300"
+      class="aspect-square size-28 shrink-0 border border-transparent transition duration-200 hover:border-zinc-300"
     >
       <ShopifyImage
         :image="merchandise.product.featuredImage"
@@ -54,7 +54,7 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
     </NuxtLink>
     <div class="flex flex-col justify-between flex-1 gap-6 min-h-[100px]">
       <div class="flex justify-between">
-        <div>
+        <div class="uppercase">
           <h3 class="mb-1.5">{{ merchandise.product.title }}</h3>
           <p v-for="option in selectedOptions" :key="option.name">
             {{ option.name }}: {{ option.value }}
@@ -81,7 +81,7 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
           </button>
         </div>
         <button
-          class="text-sm text-normalize"
+          class="max-w-fit underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
           @click="removeLineFromCart(line.id)"
         >
           Remove

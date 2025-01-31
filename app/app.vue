@@ -36,9 +36,3 @@ useHead({
     <AppFooter />
   </div>
 </template>
-
-<style lang="css">
-* {
-  @apply font-mono uppercase;
-}
-</style>

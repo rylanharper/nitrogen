@@ -9,7 +9,7 @@ const props = defineProps<{
 
 <template>
   <div class="relative flex flex-col gap-6">
-    <h2 class="normal-case text-xl tracking-tight leading-none">
+    <h2 class="text-xl tracking-tight leading-none">
       You May Also Like
     </h2>
     <div

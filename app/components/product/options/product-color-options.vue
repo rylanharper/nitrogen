@@ -67,13 +67,13 @@ const resetColorName = () => {
 
 <template>
   <div v-if="colorOption" class="flex flex-col gap-2">
-    <span>color: {{ colorName }}</span>
+    <span class="uppercase">color: {{ colorName }}</span>
     <div class="flex flex-wrap gap-2">
       <NuxtLink
         v-for="color in sortedColors"
         :key="color.handle"
         :to="`/products/${color.handle}`"
-        class="relative flex h-8 w-8 shrink-0 outline outline-1 rounded-full overflow-hidden hover:outline-black"
+        class="relative flex size-8 shrink-0 outline-1 rounded-full overflow-hidden hover:outline-black"
         :class="[
           color.handle === handle
             ? 'outline-black border-4 border-white'

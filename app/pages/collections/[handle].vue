@@ -72,7 +72,7 @@ const collectionBaseVars = computed<CollectionQueryVariables>(() => ({
 const { data: collectionBaseData } = await useAsyncData(
   `collection-base-${handle.value}`,
   () => shopify.collection.get(collectionBaseVars.value),
-  { watch: [collectionBaseVars], lazy: true, deep: false }
+  { watch: [collectionBaseVars], deep: false }
 );
 
 // Computed data
@@ -143,11 +143,11 @@ useHead({
     />
     <div class="grid my-6 grid-cols-[1fr_max-content_1fr]">
       <div class="col-start-1 flex justify-start items-center">
-        <h1 class="normal-case text-xl tracking-tight leading-none">
+        <h1 class="text-xl tracking-tight leading-none">
           {{ collection.title }} ({{ numberOfProducts }})
         </h1>
       </div>
-      <div class="hidden lg:flex">
+      <div class="col-start-auto hidden lg:flex">
         <div v-if="activeFilterOptions.length" class="flex flex-wrap gap-2">
           <div v-for="option in activeFilterOptions" :key="option.value">
             <button
@@ -171,7 +171,7 @@ useHead({
       </div>
     </div>
     <div
-      v-if="filteredProducts && filteredProducts.length"
+      v-if="filteredProducts"
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
       <div v-for="product in filteredProducts" :key="product.id">
@@ -188,7 +188,7 @@ useHead({
     </div>
   </section>
   <section v-else class="flex items-center gap-2 p-6">
-    <Icon name="ph:warning-circle" class="h-5 w-5 shrink-0" />
-    <p class="normal-case">No collection data found.</p>
+    <Icon name="ph:warning-circle" class="size-5 shrink-0" />
+    <p>No collection data found.</p>
   </section>
 </template>

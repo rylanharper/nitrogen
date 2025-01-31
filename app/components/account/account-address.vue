@@ -40,7 +40,7 @@ const deleteAddress = async (addressId: string) => {
         <div
           class="flex items-center justify-between px-6 py-2.5 bg-zinc-50 border-b border-zinc-300"
         >
-          <h3 class="text-sm">
+          <h3 class="uppercase text-sm">
             {{ address.id === props.defaultAddress.id ? 'Default Address' : `Address ${index}`}}
           </h3>
         </div>
@@ -50,7 +50,7 @@ const deleteAddress = async (addressId: string) => {
           </span>
         </div>
       </div>
-      <div class="flex gap-3">
+      <div class="flex gap-4">
         <NuxtLink
           :to="`/account/addresses/edit?id=${encodeURIComponent(address.id)}}`"
           class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"

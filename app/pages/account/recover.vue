@@ -47,7 +47,7 @@ useHead({
 <template>
   <section class="relative flex flex-col items-center justify-center">
     <div class="w-full px-6 my-32 md:max-w-lg">
-      <h1 class="normal-case text-xl tracking-tight leading-none text-center">
+      <h1 class="text-xl tracking-tight leading-none text-center">
         Forgot password?
       </h1>
       <form
@@ -66,10 +66,10 @@ useHead({
             autocomplete="email"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
-        <p class="mb-5 normal-case leading-snug text-pretty">
+        <p class="mb-5 leading-snug text-pretty">
           If your email is in our system, you will receive an email with
           instructions about how to reset your password.
         </p>
@@ -82,23 +82,23 @@ useHead({
         </button>
       </form>
       <div class="flex flex-col mb-10">
-        <p class="normal-case">Need to login?</p>
+        <p>Need to login?</p>
         <NuxtLink
           to="/account/login"
-          class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
+          class="max-w-fit underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
         >
           Sign in
         </NuxtLink>
       </div>
       <p
         v-if="errorMessage"
-        class="w-[75%] mx-auto normal-case text-red-500 text-center"
+        class="w-[75%] mx-auto text-red-500 text-center"
       >
         {{ errorMessage }}
       </p>
       <p
         v-if="successMessage"
-        class="w-[75%] mx-auto normal-case text-blue-600 text-center"
+        class="w-[75%] mx-auto text-blue-600 text-center"
       >
         {{ successMessage }}
       </p>

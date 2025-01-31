@@ -28,19 +28,19 @@ const OnSale = computed(() => {
   <div class="absolute flex gap-2 top-0 left-0 z-10 p-3 pointer-events-none">
     <span
       v-if="NewItem"
-      class="px-2 py-0.5 max-w-fit text-sm bg-blue-50 text-blue-600 border border-blue-500 rounded-md"
+      class="px-2 py-0.5 max-w-fit uppercase text-sm bg-blue-50 text-blue-600 border border-blue-500 rounded"
     >
       New
     </span>
     <span
       v-if="SoldOut"
-      class="px-2 py-0.5 max-w-fit text-sm bg-red-50 text-red-600 border border-red-500 rounded-md"
+      class="px-2 py-0.5 max-w-fit uppercase text-sm bg-red-50 text-red-600 border border-red-500 rounded"
     >
       Sold Out
     </span>
     <span
       v-if="OnSale"
-      class="px-2 py-0.5 max-w-fit text-sm bg-yellow-50 text-yellow-600 border border-yellow-500 rounded-md"
+      class="px-2 py-0.5 max-w-fit uppercase text-sm bg-yellow-50 text-yellow-600 border border-yellow-500 rounded"
     >
       Sale
     </span>

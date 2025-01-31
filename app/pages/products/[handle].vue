@@ -75,7 +75,7 @@ useHead({
     </div>
   </section>
   <section v-else class="flex items-center gap-2 p-6">
-    <Icon name="ph:warning-circle" class="h-5 w-5 shrink-0" />
-    <p class="normal-case">No Product data found.</p>
+    <Icon name="ph:warning-circle" class="size-5 shrink-0" />
+    <p>No Product data found.</p>
   </section>
 </template>

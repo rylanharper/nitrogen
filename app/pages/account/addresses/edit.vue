@@ -127,7 +127,7 @@ definePageMeta({
     class="relative flex flex-col lg:col-span-2 2xl:col-span-1 mb-20"
   >
     <div class="flex flex-col px-6 lg:mt-6 lg:px-8 lg:max-w-lg">
-      <h2 class="normal-case text-xl tracking-tight leading-none">
+      <h2 class="text-xl tracking-tight leading-none">
         Edit Address
       </h2>
       <form
@@ -146,7 +146,7 @@ definePageMeta({
             autocomplete="off"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -160,7 +160,7 @@ definePageMeta({
             autocomplete="off"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -174,7 +174,7 @@ definePageMeta({
             autocomplete="address-line1"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -187,7 +187,7 @@ definePageMeta({
             autocapitalize="off"
             autocomplete="address-line2"
             autocorrect="off"
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -201,7 +201,7 @@ definePageMeta({
             autocomplete="address-level2"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -215,7 +215,7 @@ definePageMeta({
             autocomplete="country"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -229,7 +229,7 @@ definePageMeta({
             autocomplete="address-level1"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -243,7 +243,7 @@ definePageMeta({
             autocomplete="postal-code"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -256,7 +256,7 @@ definePageMeta({
             autocapitalize="off"
             autocomplete="tel"
             autocorrect="off"
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -269,7 +269,7 @@ definePageMeta({
             autocapitalize="off"
             autocomplete="organization"
             autocorrect="off"
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="flex items-center mb-5">
@@ -279,14 +279,14 @@ definePageMeta({
               v-model="defaultAddress"
               name="defaultAddress"
               type="checkbox"
-              class="peer flex h-5 w-5 border border-zinc-400 appearance-none rounded-md cursor-pointer checked:border-black"
+              class="peer flex size-5 border border-zinc-400 appearance-none rounded-md cursor-pointer checked:border-black"
             >
             <Icon
               name="ph:check-bold"
-              class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 h-3 w-3 shrink-0 opacity-0 text-black pointer-events-none peer-checked:opacity-100"
+              class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 size-3 shrink-0 opacity-0 text-black pointer-events-none peer-checked:opacity-100"
             />
           </div>
-          <p class="normal-case">Set as default address</p>
+          <p>Set as default address</p>
         </div>
         <button
           type="submit"
@@ -297,24 +297,24 @@ definePageMeta({
         </button>
       </form>
       <div class="flex flex-col mb-10">
-        <p class="normal-case">Don&apos;t want to update your address?</p>
+        <p>Don&apos;t want to update your address?</p>
         <NuxtLink
           to="/account"
-          class="max-w-fit normal-case underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
+          class="max-w-fit underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
         >
           Go Back
         </NuxtLink>
       </div>
       <p
         v-if="errorMessage"
-        class="w-[75%] mx-auto normal-case text-red-500 text-center"
+        class="w-[75%] mx-auto text-red-500 text-center"
       >
         {{ errorMessage }}
       </p>
     </div>
   </section>
   <section v-else class="flex items-center self-start p-6 gap-2">
-    <Icon name="ph:warning-circle" class="h-5 w-5 shrink-0" />
-    <p class="normal-case">No customer data found.</p>
+    <Icon name="ph:warning-circle" class="size-5 shrink-0" />
+    <p>No customer data found.</p>
   </section>
 </template>

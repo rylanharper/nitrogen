@@ -51,61 +51,65 @@ if (escape) {
 </script>
 
 <template>
-  <Transition name="bg-fade" mode="out-in" appear>
+  <Transition name="bg-fade">
     <section
       v-if="appStore.localeModal"
-      class="fixed inset-0 z-[200] bg-black/50"
+      class="fixed inset-0 z-200 bg-black/50 pointer-events-auto"
       @click="closeModal"
     />
   </Transition>
-  <Transition name="scale-in" mode="out-in" appear>
+  <Transition name="fade-up">
     <div
       v-if="appStore.localeModal"
-      class="fixed left-[50%] top-[50%] w-full max-w-xl translate-x-[-50%] translate-y-[-50%] p-6 z-[200] bg-white"
+      class="fixed flex items-center justify-center size-full inset-0 z-200 pointer-events-none"
     >
-      <h2 class="text-center">Select Country</h2>
-      <form class="flex flex-col my-6" @submit.prevent="updateLocalization">
-        <div class="relative w-full mb-2.5">
-          <select
-            id="country"
-            v-model="countryLocale"
-            name="countryLocale"
-            class="flex w-full py-2 px-3.5 normal-case bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-black focus:outline focus:outline-1 focus:outline-black"
-          >
-            <option
-              v-for="country in countries"
-              :key="country.isoCode"
-              :value="country.isoCode"
+      <dialog class="relative flex flex-col p-6 bg-white pointer-events-auto md:w-xl">
+        <h2 class="uppercase text-center">Select Country</h2>
+        <form class="flex flex-col my-6" @submit.prevent="updateLocalization">
+          <div class="relative w-full mb-2.5">
+            <select
+              id="country"
+              v-model="countryLocale"
+              name="countryLocale"
+              class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-black focus:outline-1 focus:outline-black"
             >
-              {{ country.name }} ({{ country.currency.isoCode }} {{ country.currency.symbol }})
-            </option>
-          </select>
-          <span class="absolute inset-y-0 end-0 flex items-center pointer-events-none px-2.5">
-            <Icon name="ph:caret-up-down" class="h-4 w-4 shrink-0" />
-          </span>
-        </div>
+              <option
+                v-for="country in countries"
+                :key="country.isoCode"
+                :value="country.isoCode"
+              >
+                {{ country.name }} ({{ country.currency.isoCode }} {{ country.currency.symbol }})
+              </option>
+            </select>
+            <span class="absolute inset-y-0 end-0 flex items-center pointer-events-none px-2.5">
+              <Icon name="ph:caret-up-down" class="size-4 shrink-0" />
+            </span>
+          </div>
+          <button
+            type="submit"
+            :disabled="isLoading"
+            class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+          >
+            {{ isLoading ? 'Saving...' : 'Save' }}
+          </button>
+        </form>
+        <p class="max-w-[75%] mx-auto uppercase text-sm leading-snug text-center">
+          Shop in your local currency · Enjoy local shipping rates at checkout
+        </p>
         <button
-          type="submit"
-          :disabled="isLoading"
-          class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+          class="flex absolute top-2 right-2 ring-1 ring-transparent ring-offset-2 rounded-xs focus:ring-black"
+          @click="closeModal"
         >
-          {{ isLoading ? 'Saving...' : 'Save' }}
+          <Icon name="ph:x" class="size-5 shrink-0" />
         </button>
-      </form>
-      <p class="max-w-[75%] mx-auto text-sm leading-snug text-center">
-        Shop in your local currency · Enjoy local shipping rates at checkout
-      </p>
-      <button
-        class="flex absolute top-2 right-2 ring-1 ring-transparent ring-offset-2 rounded-sm focus:ring-black"
-        @click="closeModal"
-      >
-        <Icon name="ph:x" class="h-5 w-5 shrink-0" />
-      </button>
+      </dialog>
     </div>
   </Transition>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .bg-fade-enter-active,
 .bg-fade-leave-active {
   @apply transition duration-200 ease-out;
@@ -121,18 +125,18 @@ if (escape) {
   @apply opacity-100;
 }
 
-.scale-in-enter-active,
-.scale-in-leave-active {
+.fade-up-enter-active,
+.fade-up-leave-active {
   @apply transition duration-200 ease-out;
 }
 
-.scale-in-enter-from,
-.scale-in-leave-to {
-  @apply opacity-0 transform scale-[.99] delay-0;
+.fade-up-enter-from,
+.fade-up-leave-to {
+  @apply opacity-0 transform translate-y-2 delay-0;
 }
 
-.scale-in-enter-to,
-.scale-in-leave-from {
-  @apply opacity-100 transform scale-100 delay-100;
+.fade-up-enter-to,
+.fade-up-leave-from {
+  @apply opacity-100 transform translate-y-0 delay-100;
 }
 </style>

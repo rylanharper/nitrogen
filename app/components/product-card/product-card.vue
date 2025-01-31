@@ -26,10 +26,8 @@ const mediaItems = computed(() => flattenConnection(props.product.media));
     <ProductCardMedia :media-items="mediaItems" />
     <div class="flex flex-col gap-2">
       <div>
-        <h2 v-if="product.title">{{ product.title }}</h2>
-        <h3 v-if="colorOption" class="normal-case">
-          {{ colorOptionName }}
-        </h3>
+        <h2 v-if="product.title" class="uppercase">{{ product.title }}</h2>
+        <h3 v-if="colorOption">{{ colorOptionName }}</h3>
       </div>
       <PriceDisplay
         :price="product.priceRange.minVariantPrice"

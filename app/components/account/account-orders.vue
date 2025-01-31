@@ -18,22 +18,22 @@ const headers = [
 </script>
 
 <template>
-  <div class="relative overflow-x-auto mb-5 border border-t border-b border-zinc-300 lg:border lg:rounded-lg">
+  <div class="overflow-x-auto mb-4.5 border-t border-b border-zinc-300 lg:border lg:rounded-lg">
     <table class="table-fixed min-w-full divide-y divide-zinc-300">
       <thead class="bg-zinc-50">
         <tr>
           <th
             v-for="header in headers"
             :key="header.label"
-            class="pl-6 pr-12 py-2.5 text-start lg:w-[16.667%]"
+            class="pl-6 pr-12 py-2.5 uppercase text-sm text-start whitespace-nowrap"
           >
-            <span class="text-sm font-normal whitespace-nowrap">{{ header.label }}</span>
+            {{ header.label }}
           </th>
         </tr>
       </thead>
       <tbody class="divide-y divide-zinc-300">
         <tr v-for="order in props.orders" :key="order.id">
-          <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
+          <td class="pl-6 pr-12 py-3">
             <NuxtLink
               :to="order.statusUrl"
               target="_blank"
@@ -41,21 +41,21 @@ const headers = [
               class="flex items-center gap-2 whitespace-nowrap"
             >
               {{ order.lineItems?.edges[0]?.node.title }}
-              <Icon name="ph:arrow-up-right" class="h-4 w-4 shrink-0 text-zinc-400"/>
+              <Icon name="ph:arrow-up-right" class="size-4 shrink-0 text-zinc-400"/>
             </NuxtLink>
           </td>
-          <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
+          <td class="pl-6 pr-12 py-3">
             <span>{{ order.lineItems?.edges[0]?.node.quantity }}</span>
           </td>
-          <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
+          <td class="pl-6 pr-12 py-3">
             <span>{{ order.orderNumber }}</span>
           </td>
-          <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
+          <td class="pl-6 pr-12 py-3">
             <time>{{ formatDateByLocale('en-US', order.processedAt) }}</time>
           </td>
-          <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
+          <td class="pl-6 pr-12 py-3">
             <span
-              class="px-1.5 max-w-fit text-sm border rounded-md"
+              class="px-1.5 max-w-fit text-sm border rounded"
               :class="
                 order.fulfillmentStatus === 'FULFILLED'
                   ? 'bg-blue-50 text-blue-600 border-blue-500'
@@ -65,7 +65,7 @@ const headers = [
               {{ order.fulfillmentStatus }}
             </span>
           </td>
-          <td class="pl-6 pr-12 py-3 lg:w-[16.667%]">
+          <td class="pl-6 pr-12 py-3">
             <PriceDisplay class="price" :price="order.totalPrice" />
           </td>
         </tr>
