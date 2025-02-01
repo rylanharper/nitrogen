@@ -15,42 +15,10 @@ const variantQuery = computed(() => route.query.variant as string);
 
 // State
 const selectedSize = ref('');
+const initialVariant = ref<ProductVariantFragment | undefined>();
+const currentVariant = ref<ProductVariantFragment | undefined>();
 
-// Finds the current variant based on the selected size
-const currentVariant = computed(() => {
-  return props.variants.find((variant) =>
-    variant.selectedOptions.every(({ name, value }) =>
-      isSizeOption(name) ? value === selectedSize.value : true
-    )
-  );
-});
-
-// Get initial variant based on the variant length or URL
-// If no variant is found, return undefined
-const getInitialVariant = () => {
-  if (props.variants.length === 1) return props.variants[0];
-  if (variantQuery.value) {
-    return props.variants.find((variant) => formatVariantId(variant.id) === variantQuery.value);
-  }
-
-  return undefined;
-};
-
-// Sync initial variant to size and URL
-onMounted(() => {
-  const variant = getInitialVariant();
-
-  if (variant) {
-    const sizeOption = variant.selectedOptions.find((option) =>
-      isSizeOption(option.name)
-    );
-
-    if (sizeOption) selectedSize.value = sizeOption.value;
-    setVariantId(variant);
-  }
-});
-
-// Set formatted variant ID to URL
+// Set formatted variant ID to URL query
 const setVariantId = (variant: ProductVariantFragment | undefined) => {
   const query = { ...route.query };
 
@@ -63,12 +31,44 @@ const setVariantId = (variant: ProductVariantFragment | undefined) => {
   router.replace({ query });
 };
 
+// Sync initial variant from available options or URL query
+// Defaults to undefined if no match is found
+onMounted(() => {
+  if (props.variants.length === 1) {
+    initialVariant.value = props.variants[0];
+  } else if (variantQuery.value) {
+    initialVariant.value = props.variants.find(
+      (variant) => formatVariantId(variant.id) === variantQuery.value
+    );
+  }
+
+  if (initialVariant.value) {
+    const sizeOption = initialVariant.value.selectedOptions.find(
+      (option) => isSizeOption(option.name)
+    );
+
+    if (sizeOption) {
+      selectedSize.value = sizeOption.value;
+    }
+
+    setVariantId(initialVariant.value);
+  }
+});
+
 // Actions
 const selectSize = (size: string) => {
   selectedSize.value = size;
 };
 
 // Watchers
+watchEffect(() => {
+  currentVariant.value = props.variants.find((variant) =>
+    variant.selectedOptions.every(({ name, value }) =>
+      isSizeOption(name) ? value === selectedSize.value : true
+    )
+  );
+});
+
 watch(currentVariant, (newVariant) => {
   setVariantId(newVariant);
 });
