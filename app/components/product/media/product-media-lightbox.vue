@@ -26,13 +26,11 @@ const closeLightbox = () => {
 };
 
 // State
-const mediaRefs = ref<(HTMLElement | null)[]>([]);
+const mediaRefs = ref<HTMLElement[]>([]);
 
 onUpdated(() => {
-  nextTick(() => {
-    const selectedItem = mediaRefs.value[props.mediaIndex];
-    selectedItem?.scrollIntoView();
-  })
+  const selectedItem = mediaRefs.value[props.mediaIndex];
+  selectedItem?.scrollIntoView();
 });
 
 // Watchers
