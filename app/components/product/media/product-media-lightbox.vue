@@ -28,12 +28,12 @@ const closeLightbox = () => {
 // State
 const mediaRefs = ref<HTMLElement[]>([]);
 
-onUpdated(() => {
-  const selectedItem = mediaRefs.value[props.mediaIndex];
-  selectedItem?.scrollIntoView();
+// Watchers
+watchEffect(() => {
+  const selectedMediaItem = mediaRefs.value[props.mediaIndex];
+  selectedMediaItem?.scrollIntoView();
 });
 
-// Watchers
 const { escape } = useMagicKeys();
 
 if (escape) {
