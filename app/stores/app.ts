@@ -7,7 +7,7 @@ type appState = {
   filterMenu: boolean;
   searchMenu: boolean;
   localeModal: boolean;
-  deleteAddressConfirm: boolean;
+  deleteAddressModal: boolean;
   backInStockModal: boolean;
   mediaLightbox: boolean;
 };
@@ -20,7 +20,7 @@ export const useAppStore = defineStore('@nitrogen/app', {
     filterMenu: false,
     searchMenu: false,
     localeModal: false,
-    deleteAddressConfirm: false,
+    deleteAddressModal: false,
     backInStockModal: false,
     mediaLightbox: false
   }),
