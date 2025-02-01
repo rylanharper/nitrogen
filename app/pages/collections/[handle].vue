@@ -155,7 +155,7 @@ useHead({
               @click="removeActiveFilterOption(option.name, option.value)"
             >
               {{ option.value }}
-              <Icon name="ph:x" class="h-4 w-4 shrink-0" />
+              <Icon name="ph:x" class="size-4 shrink-0" />
             </button>
           </div>
         </div>
