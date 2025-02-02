@@ -2,34 +2,51 @@ import type { DocumentNode } from 'graphql';
 
 import { print } from 'graphql';
 
+const cache = new Map<string, any>();
+
 /**
- * Sends a GraphQL query to the Shopify API via the API proxy.
+ * A minimal GraphQL client that sends a query to the Shopify API.
  * @param query - The GraphQL query as a DocumentNode
  * @param variables - Optional variables for the GraphQL query
- * @param maxRetries - Maximum number of retries for the fetch request
- * @param waitTime - Wait time between fetch retries in milliseconds
  * @returns The response from the Shopify API
  */
 export const query = async (
   query: DocumentNode,
   variables = {},
-  maxRetries = 3,
-  waitTime = 1000
+  maxRetries = 3
 ) => {
   const serializedQuery = print(query);
+  const cacheKey = JSON.stringify({ query: serializedQuery, variables });
 
+  // Cache only collection and product queries
+  const shouldCache = /query Collection|query Product/i.test(serializedQuery);
+
+  // Return cached response if applicable
+  if (shouldCache && cache.has(cacheKey)) {
+    return cache.get(cacheKey);
+  }
+
+  // Sends a fetch request to the Shopify API
   const fetchRequest = async (retryCount = 0): Promise<any> => {
     try {
-      return await $fetch('/api/shopify', {
+      const response = await $fetch('/api/shopify', {
         method: 'POST',
         body: { query: serializedQuery, variables }
       });
+
+      // Cache response only if applicable
+      if (shouldCache) {
+        cache.set(cacheKey, response);
+        setTimeout(() => cache.delete(cacheKey), 5 * 60 * 1000); // 5 minutes
+      }
+
+      return response;
     } catch (error: any) {
       const count = retryCount + 1;
 
       if (retryCount < maxRetries) {
         console.warn(`Retrying Storefront API fetch request (${count}/${maxRetries})`);
-        await new Promise((resolve) => setTimeout(resolve, waitTime));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         return fetchRequest(count);
       }
 
