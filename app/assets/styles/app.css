@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@font-face {
+  src: url("~/assets/fonts/IBMPlexSans-Regular.ttf");
+  font-family: "IBM Plex Sans";
+}
+
+@font-face {
+  src: url("~/assets/fonts/IBMPlexMono-Regular.ttf");
+  font-family: "IBM Plex Mono";
+}
+
 @theme {
   --font-sans: "IBM Plex Sans", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
