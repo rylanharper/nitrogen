@@ -67,7 +67,7 @@ const footerLinks3 = [
       <KlaviyoNewsletter />
       <div class="flex flex-col divide-y divide-zinc-300">
         <details class="group">
-          <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+          <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
             <span class="uppercase truncate">Company</span>
             <Icon
               name="ph:caret-down"
@@ -87,7 +87,7 @@ const footerLinks3 = [
           </div>
         </details>
         <details class="group">
-          <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+          <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
             <span class="uppercase truncate">Support</span>
             <Icon
               name="ph:caret-down"
@@ -107,7 +107,7 @@ const footerLinks3 = [
           </div>
         </details>
         <details class="group">
-          <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+          <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
             <span class="uppercase truncate">Connect</span>
             <Icon
               name="ph:caret-down"

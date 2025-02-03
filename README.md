@@ -7,6 +7,7 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 
 ## ✨ Key Features
 
+- 💪 Strongly typed
 - 🛒 Cart functionality
 - 🔒 User authentication, with password reset
 - 👤 Full customer account functionality
@@ -17,7 +18,7 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 - 📫 Klaviyo integration
 - 🌐 Shop localization
 - 🎠 Embla Carousel
-- 💪 Strongly typed
+- 🛩️ Tailwind v4
 
 ## 💎 Shopify Setup
 
@@ -73,7 +74,7 @@ This will redirect password reset emails to your custom domain while maintaining
 
 Nitrogen also features Klaviyo integration for email marketing. This is a great way to send product updates, special offers, and back-in-stock notifications to customers.
 
-The template includes two streamlined Klaviyo API proxies: one for general client subscriptions and another for back-in-stock subscriptions. Both are designed to work seamlessly with the latest `2025-01-15` API version while ensuring optimal performance and security.
+The template includes two streamlined [Klaviyo API proxies](https://github.com/rylanharper/nitrogen/blob/master/server/api/klaviyo.ts): one for general client subscriptions and another for back-in-stock subscriptions. Both are designed to work seamlessly with the latest `2025-01-15` API version while ensuring optimal performance and security.
 
 ### API Keys
 
@@ -110,7 +111,7 @@ NUXT_KLAVIYO_API_VERSION=2025-01-15
 
 ## ⚡ Basic Usage
 
-Nitrogen provides a type-safe GraphQL client that seamlessly integrates with Shopify's Storefront API. It uses a server-side proxy to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
+Nitrogen provides a [minimal GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/server/utils/graphql-client.ts) that seamlessly integrates with Shopify's Storefront API. It uses a [server-side proxy](https://github.com/rylanharper/nitrogen/blob/master/server/api/shopify.ts) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
 ### GraphQL Operations
 
