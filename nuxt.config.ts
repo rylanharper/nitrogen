@@ -28,8 +28,14 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
     '@vueuse/nuxt',
     '@nuxt/eslint',
+    '@nuxt/image',
     '@nuxt/icon'
   ],
+
+  image: {
+    format: ['webp'],
+    domains: ['cdn.shopify.com']
+  },
 
   icon: {
     mode: 'svg'
