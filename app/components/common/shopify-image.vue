@@ -28,6 +28,7 @@ const props = defineProps<{
       :loading="index === 0 ? 'eager' : 'lazy'"
       :fetch-priority="index === 0 ? 'high' : 'low'"
       :preload="index === 0 ? true : false"
+      decoding="async"
     />
   </figure>
 </template>
