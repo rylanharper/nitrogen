@@ -55,6 +55,7 @@ watch(
         v-else-if="isMediaImage(media)"
         :image="media.image"
         :alt="media.image?.altText || ''"
+        :index="index"
       />
     </div>
   </div>

@@ -62,7 +62,7 @@ onMounted(() => {
   <div ref="emblaRef" class="relative overflow-hidden lg:hidden">
     <div class="flex">
       <div
-        v-for="media in props.productMedia"
+        v-for="(media, index) in props.productMedia"
         :key="media.id"
         class="flex-[0_0_100%] aspect-square"
       >
@@ -74,6 +74,7 @@ onMounted(() => {
           v-else-if="isMediaImage(media)"
           :image="media.image"
           :alt="media.image?.altText || ''"
+          :index="index"
         />
       </div>
     </div>

@@ -56,7 +56,7 @@ if (escape) {
     </button>
     <div class="flex flex-col overflow-auto size-full">
       <div
-        v-for="media in productMedia"
+        v-for="(media, index) in productMedia"
         ref="mediaRefs"
         :key="media.id"
         class="aspect-square cursor-zoom-out"
@@ -70,6 +70,7 @@ if (escape) {
           v-else-if="isMediaImage(media)"
           :image="media.image"
           :alt="media.image?.altText || ''"
+          :index="index"
         />
       </div>
     </div>

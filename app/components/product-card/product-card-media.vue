@@ -33,6 +33,7 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
         v-else-if="isMediaImage(media)"
         :image="media.image"
         :alt="media.image?.altText || ''"
+        :index="index"
       />
     </div>
   </div>
