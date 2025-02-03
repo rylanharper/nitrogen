@@ -125,7 +125,7 @@ definePageMeta({
             autocomplete="off"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -139,7 +139,7 @@ definePageMeta({
             autocomplete="off"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -153,7 +153,7 @@ definePageMeta({
             autocomplete="address-line1"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -166,7 +166,7 @@ definePageMeta({
             autocapitalize="off"
             autocomplete="address-line2"
             autocorrect="off"
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -180,7 +180,7 @@ definePageMeta({
             autocomplete="address-level2"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -194,7 +194,7 @@ definePageMeta({
             autocomplete="country"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -208,7 +208,7 @@ definePageMeta({
             autocomplete="address-level1"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -222,7 +222,7 @@ definePageMeta({
             autocomplete="postal-code"
             autocorrect="off"
             required
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -235,7 +235,7 @@ definePageMeta({
             autocapitalize="off"
             autocomplete="tel"
             autocorrect="off"
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="relative w-full mb-2.5">
@@ -248,7 +248,7 @@ definePageMeta({
             autocapitalize="off"
             autocomplete="organization"
             autocorrect="off"
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
         </div>
         <div class="flex items-center mb-5">
@@ -270,7 +270,7 @@ definePageMeta({
         <button
           type="submit"
           :disabled="isLoading"
-          class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+          class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
         >
           {{ isLoading === true ? 'Working...' : 'Add Address' }}
         </button>

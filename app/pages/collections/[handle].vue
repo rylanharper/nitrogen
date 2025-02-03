@@ -180,7 +180,7 @@ useHead({
     </div>
     <div v-if="hasMoreProducts" class="flex justify-center">
       <button
-        class="p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-100 disabled:opacity-50"
+        class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
         @click="loadMoreProducts"
       >
         See More Products

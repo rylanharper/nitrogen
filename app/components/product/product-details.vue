@@ -65,7 +65,7 @@ const shippingContent = computed(() => parseContent(props.shipping));
 <template>
   <div class="flex flex-col divide-y divide-zinc-300">
     <details name="info" class="group">
-      <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+      <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
         <span class="truncate uppercase">Description</span>
         <Icon
           name="ph:caret-down"
@@ -80,7 +80,7 @@ const shippingContent = computed(() => parseContent(props.shipping));
       </div>
     </details>
     <details name="info" class="group">
-      <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+      <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
         <span class="truncate uppercase">Details</span>
         <Icon
           name="ph:caret-down"
@@ -95,7 +95,7 @@ const shippingContent = computed(() => parseContent(props.shipping));
       </div>
     </details>
     <details name="info" class="group">
-      <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+      <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
         <span class="truncate uppercase">Shipping</span>
         <Icon
           name="ph:caret-down"

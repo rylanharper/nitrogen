@@ -64,7 +64,7 @@ watch(currentPath, () => {
       <nav class="hidden lg:flex lg:flex-col lg:gap-1.5">
         <NuxtLink
           to="/account"
-          class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 hover:bg-zinc-100"
+          class="flex items-center justify-start p-2 px-2.5 gap-2.5 text-normalize rounded-md transition duration-200 hover:bg-zinc-100"
           :class="{ 'text-black bg-zinc-100': route.path === '/account' }"
         >
           <Icon name="ph:globe" class="size-5 shrink-0" />
@@ -72,7 +72,7 @@ watch(currentPath, () => {
         </NuxtLink>
         <NuxtLink
           to="/account/orders"
-          class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 hover:bg-zinc-100"
+          class="flex items-center justify-start p-2 px-2.5 gap-2.5 text-normalize rounded-md transition duration-200 hover:bg-zinc-100"
           :class="{ 'text-black bg-zinc-100': route.path === '/account/orders'}"
         >
           <Icon name="ph:tag" class="size-5 shrink-0" />
@@ -80,14 +80,14 @@ watch(currentPath, () => {
         </NuxtLink>
         <NuxtLink
           to="/account/addresses"
-          class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 hover:bg-zinc-100"
+          class="flex items-center justify-start p-2 px-2.5 gap-2.5 text-normalize rounded-md transition duration-200 hover:bg-zinc-100"
           :class="{'text-black bg-zinc-100': route.path === '/account/addresses' || route.path.includes('/account/addresses/')}"
         >
           <Icon name="ph:map-pin" class="size-5 shrink-0" />
           Addresses
         </NuxtLink>
         <button
-          class="flex items-center px-2.5 py-2 gap-2.5 text-normalize rounded-md transition duration-200 hover:bg-zinc-100"
+          class="flex items-center justify-start p-2 px-2.5 gap-2.5 text-normalize rounded-md transition duration-200 hover:bg-zinc-100"
           @click="logout"
         >
           <Icon name="ph:sign-out" class="size-5 shrink-0" />

@@ -46,13 +46,13 @@ const closeModal = () => {
         </p>
         <div class="flex flex-col mt-6">
           <button
-            class="p-2 px-4 mb-2.5 text-normalize text-red-600 bg-red-50 border border-red-300 rounded-md transition duration-200 ease-in-out hover:bg-red-100"
+            class="flex items-center justify-center p-2 px-4 mb-2.5 text-normalize text-red-600 bg-red-50 border border-red-300 rounded-md transition duration-200 ease-in-out hover:bg-red-100"
             @click="deleteAddress"
           >
             Delete
           </button>
           <button
-            class="p-2 text-normalize bg-transparent border border-zinc-300 rounded-md"
+            class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
             @click="closeModal"
           >
             Cancel

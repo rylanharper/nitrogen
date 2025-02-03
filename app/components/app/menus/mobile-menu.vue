@@ -48,7 +48,7 @@ watch(
         </div>
         <div class="flex flex-col mb-4">
           <button
-            class="flex items-center justify-center p-2 text-normalize bg-transparent border border-zinc-300 rounded-md"
+            class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md"
             @click="closeMenu"
           >
             Close Menu

@@ -18,7 +18,7 @@ const checkoutUrl = computed(() => cartStore.checkoutUrl);
     <NuxtLink
       v-if="checkoutUrl"
       :to="checkoutUrl"
-      class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+      class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
     >
       Checkout
     </NuxtLink>

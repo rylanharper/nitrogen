@@ -100,7 +100,7 @@ useHead({
             autocorrect="off"
             minLength="8"
             required
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
           <button
             type="button"
@@ -126,7 +126,7 @@ useHead({
             autocorrect="off"
             minLength="8"
             required
-            class="flex w-full py-2 px-3.5 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
+            class="flex w-full py-2 px-3 bg-white border border-zinc-300 rounded-md appearance-none placeholder:text-zinc-400 focus:outline-1 focus:outline-black"
           >
           <button
             type="button"
@@ -151,7 +151,7 @@ useHead({
         <button
           type="submit"
           :disabled="isLoading"
-          class="flex items-center justify-center p-2 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+          class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
         >
           {{ isLoading ? 'Working...' : 'Reset Password' }}
         </button>

@@ -67,17 +67,17 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
       <div class="flex justify-between">
         <div class="flex items-center gap-4">
           <button
-            class="flex items-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 hover:lg:border-black"
+            class="flex items-center justify-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 hover:lg:border-black"
             @click="updateLineQuantity(line, line.quantity - 1)"
           >
-            <Icon name="ph:minus" class="h-3 w-3 shrink-0" />
+            <Icon name="ph:minus" class="size-3 shrink-0" />
           </button>
           <span>{{ line.quantity }}</span>
           <button
-            class="flex items-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 hover:lg:border-black"
+            class="flex items-center justify-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 hover:lg:border-black"
             @click="updateLineQuantity(line, line.quantity + 1)"
           >
-            <Icon name="ph:plus" class="h-3 w-3 shrink-0" />
+            <Icon name="ph:plus" class="size-3 shrink-0" />
           </button>
         </div>
         <button

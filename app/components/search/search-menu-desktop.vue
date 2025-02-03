@@ -86,13 +86,13 @@ watch(
             @keydown="onKeyDown"
           >
           <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
-            <Icon name="ph:magnifying-glass" class="h-5 w-5 shrink-0"/>
+            <Icon name="ph:magnifying-glass" class="size-5 shrink-0"/>
           </div>
           <button
             class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black"
             @click="closeSearch"
           >
-            <Icon name="ph:x" class="h-5 w-5 shrink-0" />
+            <Icon name="ph:x" class="size-5 shrink-0" />
           </button>
         </div>
         <div class="grid grid-cols-[280px_1fr] gap-12">
