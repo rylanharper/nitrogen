@@ -74,7 +74,7 @@ const clearAllFilters = () => {
         <div class="flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
           <div class="flex flex-col divide-y divide-zinc-300">
             <details class="group">
-              <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+              <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span class="truncate uppercase">Sort By</span>
                 <Icon
                   name="ph:caret-down"
@@ -96,7 +96,7 @@ const clearAllFilters = () => {
               </div>
             </details>
             <details class="group">
-              <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+              <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span class="truncate uppercase">Color</span>
                 <Icon
                   name="ph:caret-down"
@@ -137,7 +137,7 @@ const clearAllFilters = () => {
               </div>
             </details>
             <details class="group">
-              <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+              <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span class="truncate uppercase">Size</span>
                 <Icon
                   name="ph:caret-down"
@@ -159,7 +159,7 @@ const clearAllFilters = () => {
               </div>
             </details>
             <details class="group">
-              <summary class="flex items-center justify-between py-3 cursor-pointer list-none">
+              <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span class="truncate uppercase">Style</span>
                 <Icon
                   name="ph:caret-down"
