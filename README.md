@@ -34,7 +34,7 @@ To support international currencies and localized experiences, navigate to `Sett
 
 ### Creating Products
 
-There are many ways to create and organize products in Shopify. For this project, I chose to have each product exist as a single SKU. This means that if a product has multiple variations (such as different colors), each variation will exist as its own separate product. This approach allows each variation to display individually in collection grids and helps prevent variant bloat. Generally, each product is recommended to have one `Color` option and a `Size` option with multiple values (e.g., S, M, L). However, it is perfectly fine for a product to have one or even zero options for this template.
+There are many ways to create and organize products in Shopify. For this project, I chose to have each product exist as a single SKU. This means that if a product has multiple variations (such as different colors), each variation will exist as its own separate product. This approach allows each variation to display individually in collection grids and helps prevent variant bloat. Generally, each product is recommended to have one `Color` option and a `Size` option with multiple values (e.g., S, M, L). However, it is perfectly fine for a product to have one or even zero options to work properly with this template.
 
 ### Filtering Products
 
