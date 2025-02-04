@@ -1,7 +1,10 @@
 <script setup lang="ts">
+const shopStore = useShopStore();
+const cartStore = useCartStore();
+
 await Promise.all([
-  useShopStore().getLocalization(),
-  useCartStore().getCart()
+  shopStore.getLocalization(),
+  cartStore.getCart()
 ]);
 
 useHead({
@@ -11,9 +14,7 @@ useHead({
     { key: 'theme-color', name: 'theme-color', content: '#181717' }
   ],
   link: [
-    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-    { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-    { rel: 'preconnect', href: 'https://cdn.shopify.com' }
+    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
   ],
   htmlAttrs: {
     lang: 'en'
