@@ -3,7 +3,7 @@ import type { ImageFragment } from '@@/types/shopify';
 
 // Props
 const props = defineProps<{
-  image?: ImageFragment | null;
+  image?: ImageFragment | null | undefined;
   alt?: string;
   index?: number;
 }>();

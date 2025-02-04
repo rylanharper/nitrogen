@@ -3,7 +3,7 @@ import type { MoneyFragment } from '@@/types/shopify';
 
 // Props
 const props = defineProps<{
-  price?: MoneyFragment | null;
+  price?: MoneyFragment | null | undefined;
   compareAtPriceRange?: MoneyFragment;
 }>();
 
