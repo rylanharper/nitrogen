@@ -18,7 +18,7 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 - 📫 Klaviyo integration
 - 🌐 Shop localization
 - 🎠 Embla Carousel
-- 🛩️ Tailwind v4
+- 🌊 Tailwind v4
 
 ## 💎 Shopify Setup
 
@@ -32,15 +32,21 @@ Within your Shopify dashboard, navigate to `Settings` → `Apps and Sales Channe
 
 To support international currencies and localized experiences, navigate to `Settings` → `Markets` and configure your global currency markets by either selecting `International` or `Add Market`. This allows customers to view prices in their local currency or switch between markets if needed.
 
+### Creating Products
+
+There are many ways to create and organize products in Shopify. For this project, I chose to have each product exist as a single SKU. This means that if a product has multiple variations (such as different colors), each variation will exist as its own separate product. This approach allows each variation to display individually in collection grids and helps prevent variant bloat. Generally, each product is recommended to have one `Color` option and a `Size` option with multiple values (e.g., S, M, L). However, it is perfectly fine for a product to have one or even zero options for this template.
+
 ### Filtering Products
 
-To enable filter and sort functionality, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app. Once this is installed, navigate to `Apps` → `Shopify Search & Discovery` → `Filters` and set up basic filter options. You'll likely need to remove some default options, or add more if needed. This template uses the `Availability`, `Color`, `Size`, and `Product Type` filter options.
+To enable filter and sort functionality, install the [Shopify Search & Discovery](https://apps.shopify.com/search-and-discovery?search_id=81e9e3f8-f482-4c8c-83c2-a80090d606df&surface_detail=search+and+discovery&surface_inter_position=1&surface_intra_position=5&surface_type=search) app. Once installed, navigate to `Apps` → `Shopify Search & Discovery` → `Filters` and set up basic filter options. You'll likely need to remove some default options or add more if needed. This template uses the `Availability`, `Color`, `Size`, and `Product Type` filter options. Make sure the source for `Color` and `Size` is set to `Product Option`.
+
+After creating your filters, return to your product pages and connect each `Color` and `Size` variant option (if they exist) to their relevant metafields. Once set up, all products with options linked to these metafields will filter correctly on collection pages.
 
 ### Metaobjects
 
 This template uses metaobjects to create unique store objects that can be connected to metafields. The filter component, in particular, makes use of a `color_swatch` metaobject to filter products by general color name, hexcode, or image. This is especially helpful when a color has varying shades or a specific, non-standard name, as it can be associated with a general color swatch that users recognize.
 
-To create the `color_swatch` metaobject, navigate to `Settings` → `Custom Data` and click `Add Definition` under `Metaobject Definitions` at the bottom of the page. Name it "Color Swatch" and add the following field definitions:
+To create the `color_swatch` metaobject, navigate to `Settings` → `Custom Data` and click `Add Definition` at the bottom of the page. Name it "Color Swatch" and add the following field definitions:
 
 1. `Name`: A `single-line-text` field with one value. This represents the general swatch color name (e.g., red, yellow, blue).
 2. `Hexcode`: A `color` field with one value. This allows you to specify a custom hex code for the swatch color.
@@ -59,6 +65,8 @@ This template uses metafields to make working with custom data in Shopify easier
 3. `details`: A `rich-text` metafield designed to display additional product details, such as specifications, materials, or care instructions. Perfect for enhancing product descriptions with structured content.
 4. `shipping`: A `rich-text` metafield for sharing shipping-specific information, like delivery timelines, restrictions, or return policies.
 
+Once created, these metafields will be accessible on each product page.
+
 ### Customer Accounts
 
 In order to setup customer account functionality, make sure that all API permissions under `Customers` are enabled within your main "Headless Storefront" app. Next, navigate to `Notifications` → `Customer Notifications` → `Customer Account Password Reset` and edit the code. You'll want to find the "Reset your password" button and replace the `<a>` tag with the following:
@@ -70,7 +78,7 @@ In order to setup customer account functionality, make sure that all API permiss
 
 This will redirect password reset emails to your custom domain while maintaining the necessary security parameters. Remember to replace `your-site-domain.com` with your actual domain name.
 
-## 📫 Klaviyo Setup
+## 📫 Klaviyo Setup (Optional)
 
 Nitrogen also features Klaviyo integration for email marketing. This is a great way to send product updates, special offers, and back-in-stock notifications to customers.
 
