@@ -55,12 +55,8 @@ export default defineNuxtConfig({
     ]
   },
 
-  nitro: {
-    routeRules: {
-      '/': { prerender: true },
-      '/collections/**': { isr: true },
-      '/products/**': { isr: true }
-    }
+  routeRules: {
+    '/**': { isr: 60 }
   },
 
   components: [
