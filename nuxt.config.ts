@@ -6,6 +6,18 @@ export default defineNuxtConfig({
     compatibilityVersion: 4
   },
 
+  experimental: {
+    defaults: {
+      nuxtLink: {
+        prefetch: true,
+        prefetchOn: {
+          visibility: false,
+          interaction: true
+        }
+      }
+    }
+  },
+
   devtools: {
     enabled: true
   },
@@ -41,6 +53,14 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss()
     ]
+  },
+
+  nitro: {
+    routeRules: {
+      '/': { prerender: true },
+      '/collections/**': { isr: true },
+      '/products/**': { isr: true }
+    }
   },
 
   components: [
