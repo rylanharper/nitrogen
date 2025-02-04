@@ -16,11 +16,11 @@ const srcset = computed(() => {
 });
 
 // Define image sizes
-const sizes = `(min-width: 1000px) 50vw, 100vw`;
+const sizes = `(min-width: 800px) 50vw, 100vw`;
 </script>
 
 <template>
-  <figure class="relative size-full bg-gray-100">
+  <figure class="relative w-full bg-gray-100">
     <img
       :src="props.image?.url"
       :srcset="srcset"
@@ -29,7 +29,7 @@ const sizes = `(min-width: 1000px) 50vw, 100vw`;
       :loading="index === 0 ? 'eager' : 'lazy'"
       :fetch-priority="index === 0 ? 'high' : 'low'"
       :decoding="index === 0 ? 'sync' : 'async'"
-      class="absolute size-full inset-0 object-cover"
+      class="size-full inset-0 object-cover"
     />
   </figure>
 </template>
