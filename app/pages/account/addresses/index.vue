@@ -22,7 +22,7 @@ const { data: customerData } = await useAsyncData(
 
 // Computed data
 const customer = computed(() => customerData.value);
-const defaultAddress = computed(() => customerData.value?.defaultAddress as MailingAddressFragment);
+const defaultAddress = computed(() => customerData.value?.defaultAddress);
 
 // Flatten connections
 const addresses = computed(() => flattenConnection(customer.value?.addresses));
@@ -47,10 +47,10 @@ definePageMeta({
       <h2 class="text-xl tracking-tight leading-none lg:p-0">
         Addresses
       </h2>
-      <div v-if="addresses && addresses?.length">
+      <div v-if="addresses && defaultAddress">
         <AccountAddress
-          :default-address="defaultAddress"
           :addresses="addresses"
+          :default-address="defaultAddress"
         />
       </div>
       <div v-else class="flex flex-col px-6 lg:p-0">

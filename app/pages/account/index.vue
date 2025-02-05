@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CustomerQueryVariables, MailingAddressFragment } from '@@/types/shopify';
+import type { CustomerQueryVariables } from '@@/types/shopify';
 
 // Stores
 const authStore = useAuthStore();
@@ -22,7 +22,7 @@ const { data: customerData } = await useAsyncData(
 
 // Computed data
 const customer = computed(() => customerData.value);
-const defaultAddress = computed(() => customerData.value?.defaultAddress as MailingAddressFragment);
+const defaultAddress = computed(() => customerData.value?.defaultAddress);
 
 // Flatten connections
 const orders = computed(() => flattenConnection(customer.value?.orders));
@@ -69,10 +69,10 @@ definePageMeta({
         <h2 class="px-6 text-xl tracking-tight leading-none lg:p-0">
           Saved Addresses
         </h2>
-        <div v-if="addresses && addresses?.length" class="px-6 lg:px-0">
+        <div v-if="addresses && defaultAddress" class="px-6 lg:px-0">
           <AccountAddress
-            :default-address="defaultAddress"
             :addresses="addresses"
+            :default-address="defaultAddress"
           />
         </div>
         <div v-else class="flex flex-col px-6 lg:p-0">
