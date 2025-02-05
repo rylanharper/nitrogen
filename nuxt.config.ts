@@ -55,10 +55,6 @@ export default defineNuxtConfig({
     ]
   },
 
-  routeRules: {
-    '/**': { isr: 60 }
-  },
-
   components: [
     {
       path: '@/components',
