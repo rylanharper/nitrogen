@@ -100,6 +100,7 @@ watchEffect(() => {
     const currentAddress = addresses.find(({ id }) => id.startsWith(addressId as string));
 
     // Sync address object with address ID
+    // Key-by-key ensures reactivity in the reactive address object
     if (currentAddress) {
       for (const key in address) {
         if (key in currentAddress) {
