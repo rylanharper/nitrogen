@@ -19,7 +19,7 @@ export const query = async (
   const cacheKey = JSON.stringify({ query: serializedQuery, variables });
 
   // Cache only collection and product queries
-  const shouldCache = /query Collection|query Product/i.test(serializedQuery);
+  const shouldCache = /query Collection|query Product|query Search/i.test(serializedQuery);
 
   // Return cached response if applicable
   if (shouldCache && cache.has(cacheKey)) {
