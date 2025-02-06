@@ -4,7 +4,7 @@ import type { MailingAddressFragment } from '@@/types/shopify';
 // Props
 const props = defineProps<{
   addresses: MailingAddressFragment[];
-  defaultAddress: MailingAddressFragment;
+  defaultAddress?: MailingAddressFragment;
 }>();
 
 // Stores
@@ -16,7 +16,7 @@ const selectedAddressId = ref('');
 // Computed
 const filteredAddresses = computed(() => [
   props.defaultAddress,
-  ...props.addresses.filter((address) => address.id !== props.defaultAddress.id)
+  ...props.addresses.filter((address) => address.id !== props.defaultAddress?.id)
 ]);
 
 // Actions

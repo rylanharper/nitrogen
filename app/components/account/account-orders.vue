@@ -55,7 +55,7 @@ const headers = [
           </td>
           <td class="pl-6 pr-12 py-3">
             <span
-              class="px-1.5 max-w-fit text-sm border rounded"
+              class="px-2 py-0.5 max-w-fit uppercase text-sm border rounded"
               :class="
                 order.fulfillmentStatus === 'FULFILLED'
                   ? 'bg-blue-50 text-blue-600 border-blue-500'
