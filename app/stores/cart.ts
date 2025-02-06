@@ -70,7 +70,9 @@ export const useCartStore = defineStore('@nitrogen/cart', {
         });
 
         if (!response) {
-          throw new Error('No cart data found.');
+          console.warn('No cart data found. Creating a new cart...');
+          await this.createCart();
+          return
         }
 
         this.cart = response;
