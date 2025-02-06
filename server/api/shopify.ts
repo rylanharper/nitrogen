@@ -1,7 +1,7 @@
 /**
- * Handles requests to the Shopify GraphQL API through an API proxy.
+ * Handles server requests to the Shopify GraphQL Storefront API.
  * @param event - The H3 event containing the request data
- * @returns The response from the Shopify GraphQL API
+ * @returns The response from the Shopify API
  * @see https://shopify.dev/docs/api/storefront
  */
 export default defineEventHandler(async (event) => {
