@@ -37,7 +37,7 @@ const sortOptions = computed(() => {
     : collectionSortOptions;
 });
 
-// Get active filter count from URL
+// Get active filter count from URL query
 const activeFilterCount = computed(() => {
   let count = 0;
   const excludedFilters = ['q', 'limit'];
