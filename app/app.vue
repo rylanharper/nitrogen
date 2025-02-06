@@ -14,7 +14,8 @@ useHead({
     { key: 'theme-color', name: 'theme-color', content: '#181717' }
   ],
   link: [
-    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    { rel: 'preconnect', href: 'https://cdn.shopify.com' }
   ],
   htmlAttrs: {
     lang: 'en'
