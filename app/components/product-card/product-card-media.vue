@@ -22,7 +22,7 @@ const isMediaImage = (media: any): media is MediaImageFragment => {
     <div
       v-for="(media, index) in props.mediaItems.slice(0, 2)"
       :key="media.id"
-      class="absolute size-full transition-opacity duration-150"
+      class="absolute transition-opacity duration-150"
       :class="{ 'opacity-0 lg:hover:opacity-100': index === 1 }"
     >
       <ShopifyVideo
