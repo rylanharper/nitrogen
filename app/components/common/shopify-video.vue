@@ -4,14 +4,18 @@ import type { VideoFragment } from '@@/types/shopify';
 // Props
 const props = defineProps<{
   video?: VideoFragment | null | undefined;
+  height?: number;
+  width?: number;
 }>();
 </script>
 
 <template>
-  <figure class="relative size-full bg-gray-100">
+  <figure class="relative w-full bg-gray-100">
     <video
       :poster="video?.previewImage?.url ?? ''"
-      class="absolute size-full inset-0 object-cover"
+      :height="props.height ?? 100"
+      :width="props.width ?? 100"
+      class="aspect-square size-full object-cover"
       playsinline
       autoplay
       loop
