@@ -8,7 +8,7 @@ const props = defineProps<{
 }>();
 
 // Helpers
-const { isOnSale } = useShopifyHelpers();
+const helpers = useShopifyHelpers();
 
 // Computed
 const price = computed(() =>
@@ -16,7 +16,7 @@ const price = computed(() =>
 );
 const OnSale = computed(() =>
   props.compareAtPriceRange && props.price
-    ? isOnSale(props.price, props.compareAtPriceRange)
+    ? helpers.isOnSale(props.price, props.compareAtPriceRange)
     : false
 );
 const compareAtPrice = computed(() =>

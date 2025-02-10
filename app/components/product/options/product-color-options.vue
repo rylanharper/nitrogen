@@ -12,15 +12,15 @@ const route = useRoute();
 const handle = computed(() => route.params.handle as string);
 
 // Helpers
-const { getColorOption } = useShopifyHelpers();
+const helpers = useShopifyHelpers();
 
 // Computed
-const colorOption = computed(() => getColorOption(props.product.options));
+const colorOption = computed(() => helpers.getColorOption(props.product.options));
 const defaultColorName = computed(() => colorOption.value?.optionValues[0]?.name);
 
 // Get product color options
 const mainProductColor = computed(() => {
-  const colorOption = getColorOption(props.product.options);
+  const colorOption = helpers.getColorOption(props.product.options);
 
   return {
     name: colorOption?.optionValues[0]?.name,
@@ -34,7 +34,7 @@ const mainProductColor = computed(() => {
 const matchingProductColors = computed(() => {
   return props.matchingColors.map((product) => {
     const options = product.options;
-    const colorOption = getColorOption(options);
+    const colorOption = helpers.getColorOption(options);
 
     return {
       name: colorOption?.optionValues[0]?.name,

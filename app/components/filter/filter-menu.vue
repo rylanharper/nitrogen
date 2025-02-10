@@ -14,7 +14,7 @@ const router = useRouter();
 const appStore = useAppStore();
 
 // Helpers
-const { sortSizeOptions } = useShopifyHelpers();
+const helpers = useShopifyHelpers();
 
 // Sort options
 const searchSortOptions = [
@@ -93,7 +93,7 @@ const sizeOptions = computed(() => {
     });
   });
 
-  return sortSizeOptions([...allSizes]);
+  return helpers.sortSizeOptions([...allSizes]);
 });
 
 const productTypeOptions = computed(() => {

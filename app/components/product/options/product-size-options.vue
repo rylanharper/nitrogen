@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify'
+import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify';
 
 const props = defineProps<{
-  product: ProductFragment,
-  variants: ProductVariantFragment[]
-  selectedSize: string
-}>()
+  product: ProductFragment;
+  variants: ProductVariantFragment[];
+  selectedSize: string;
+}>();
 
 // Helpers
-const { getSizeOption, isSizeSoldOut } = useShopifyHelpers()
+const helpers = useShopifyHelpers();
 
 // Computed
-const isSizeOption = computed(() => getSizeOption(props.product.options))
+const isSizeOption = computed(() => helpers.getSizeOption(props.product.options));
 
 // Get size options
 const productSizes = computed(() => {
-  const sizeOption = getSizeOption(props.product.options)
-  const sizeOptions = sizeOption?.optionValues || []
+  const sizeOption = helpers.getSizeOption(props.product.options);
+  const sizeOptions = sizeOption?.optionValues || [];
 
   return sizeOptions.map((option) => ({
     id: option.id,
     name: option.name,
-    isSoldOut: isSizeSoldOut(props.variants, option.name)
-  }))
-})
+    isSoldOut: helpers.isSizeSoldOut(props.variants, option.name)
+  }));
+});
 
 // Emits
-const emit = defineEmits(['selectSize'])
+const emit = defineEmits(['selectSize']);
 
 // Emit events
 const selectSizeOption = (size: string) => {
-  emit('selectSize', size)
+  emit('selectSize', size);
 };
 </script>
 

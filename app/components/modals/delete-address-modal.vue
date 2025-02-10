@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const props = defineProps<{ addressId: string | null }>();
+const props = defineProps<{
+  addressId: string | null
+}>();
 
 // Stores
 const appStore = useAppStore();
@@ -16,11 +18,11 @@ const deleteAddress = async () => {
     customerAccessToken: authStore.accessToken
   });
 
-  appStore.toggle('deleteAddressModal', false);
+  closeModal();
   reloadNuxtApp();
 };
 
-// Close modal
+// Actions
 const closeModal = () => {
   appStore.toggle('deleteAddressModal', false);
 };

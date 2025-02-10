@@ -7,17 +7,17 @@ const props = defineProps<{
 }>();
 
 // Helpers
-const { isNewItem, isSoldOut, isOnSale } = useShopifyHelpers();
+const helpers = useShopifyHelpers();
 
 // Computed
-const NewItem = computed(() => isNewItem(props.product?.publishedAt));
-const SoldOut = computed(() => isSoldOut(props.product));
+const NewItem = computed(() => helpers.isNewItem(props.product?.publishedAt));
+const SoldOut = computed(() => helpers.isSoldOut(props.product));
 const OnSale = computed(() => {
   const price = props.product?.priceRange?.minVariantPrice;
   const compareAtPrice = props.product?.compareAtPriceRange?.minVariantPrice;
 
   if (compareAtPrice) {
-    return isOnSale(price, compareAtPrice);
+    return helpers.isOnSale(price, compareAtPrice);
   }
 
   return false;
