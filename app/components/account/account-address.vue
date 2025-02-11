@@ -4,7 +4,7 @@ import type { MailingAddressFragment } from '@@/types/shopify';
 // Props
 const props = defineProps<{
   addresses: MailingAddressFragment[];
-  defaultAddress?: MailingAddressFragment;
+  defaultAddress: MailingAddressFragment;
 }>();
 
 // Stores
