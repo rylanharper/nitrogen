@@ -57,23 +57,19 @@ const activeFilterCount = computed(() => {
 
 // Filter options
 const colorOptions = computed(() => {
-  const colorMap = new Map();
+  const colorMap = new Map<string, { name: string; hex: string; image: string | null }>();
 
   props.products.forEach((product) => {
-    const references = product.color_swatch?.references ? flattenConnection(product.color_swatch.references) : [];
+    const references = flattenConnection(product.color_swatch?.references ?? undefined);
 
     references.forEach((reference) => {
-      if ('fields' in reference) {
-        const colorSwatchFields = reference.fields;
-        const name = colorSwatchFields.find(({ key }) => key === 'name')?.value;
-        const hex = colorSwatchFields.find(({ key }) => key === 'hexcode')?.value;
-        const image = colorSwatchFields.find(({ key }) => key === 'image')?.value || null;
+      if (!('fields' in reference)) return;
 
-        if (name && hex) {
-          const swatchData = { name, hex, image };
-          colorMap.set(name, swatchData);
-        }
-      }
+      const name = reference.fields.find(({ key }) => key === 'name')?.value;
+      const hex = reference.fields.find(({ key }) => key === 'hexcode')?.value;
+      const image = reference.fields.find(({ key }) => key === 'image')?.value || null;
+
+      if (name && hex) colorMap.set(name, { name, hex, image });
     });
   });
 
