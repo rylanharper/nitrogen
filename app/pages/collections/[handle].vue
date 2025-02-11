@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CollectionQueryVariables } from '@@/types/shopify';
+import type { CollectionQueryVariables, ProductFragment } from '@@/types/shopify';
 
 // Route data
 const route = useRoute();
@@ -80,8 +80,8 @@ const collection = computed(() => collectionData?.value);
 const collectionBase = computed(() => collectionBaseData?.value);
 
 // Flatten connections
-const filteredProducts = computed(() => flattenConnection(collection.value?.products));
-const allProducts = computed(() => flattenConnection(collectionBase.value?.products));
+const filteredProducts = computed(() => flattenConnection(collection.value?.products) as ProductFragment[]);
+const allProducts = computed(() => flattenConnection(collectionBase.value?.products) as ProductFragment[]);
 
 // Check for more products
 const hasMoreProducts = computed(() =>

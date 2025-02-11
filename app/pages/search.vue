@@ -80,12 +80,8 @@ const search = computed(() => searchData.value );
 const searchBase = computed(() => searchBaseData.value );
 
 // Get/flatten search results (if any)
-const filteredProducts = computed(() =>
-  search.value ? flattenConnection(search.value) as ProductFragment[] : []
-);
-const allProducts = computed(() =>
-  searchBase.value ? flattenConnection(searchBase.value) as ProductFragment[] : []
-);
+const filteredProducts = computed(() => flattenConnection(search.value) as ProductFragment[]);
+const allProducts = computed(() => flattenConnection(searchBase.value) as ProductFragment[]);
 
 // Check for more products
 const hasMoreProducts = computed(() =>
@@ -197,7 +193,7 @@ useHead(() => ({
       </button>
     </div>
   </section>
-  <section v-else class="flex flex-col gap-2 items-center p-6">
+  <section v-else class="flex items-center gap-2 p-6">
     <Icon name="ph:warning-circle" class="size-5 shrink-0" />
     <p>No search data found.</p>
   </section>
