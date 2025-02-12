@@ -3,7 +3,7 @@ import type { ProductVariantFragment } from '@@/types/shopify';
 
 // Props
 const props = defineProps<{
-  currentVariant: ProductVariantFragment | undefined;
+  currentVariant?: ProductVariantFragment;
   variants: ProductVariantFragment[];
 }>();
 

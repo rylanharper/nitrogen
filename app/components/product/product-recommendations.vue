@@ -3,7 +3,7 @@ import type { ProductFragment } from '@@/types/shopify';
 
 // Props
 const props = defineProps<{
-  products: ProductFragment[];
+  products?: ProductFragment[];
 }>();
 </script>
 

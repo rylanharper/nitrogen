@@ -60,9 +60,11 @@ const colorOptions = computed(() => {
   const colorMap = new Map<string, { name: string; hex: string; image: string | null }>();
 
   props.products.forEach((product) => {
-    const references = flattenConnection(product.color_swatch?.references ?? undefined);
+    const references = product.filter_color?.references
+      ? flattenConnection(product.filter_color.references)
+      : null;
 
-    references.forEach((reference) => {
+    references?.forEach((reference) => {
       if (!('fields' in reference)) return;
 
       const name = reference.fields.find(({ key }) => key === 'name')?.value;

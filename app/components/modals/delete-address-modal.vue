@@ -7,7 +7,7 @@ const props = defineProps<{
 const appStore = useAppStore();
 const authStore = useAuthStore();
 
-// Delete Address Function
+// Delete Address
 const shopify = useShopify();
 
 const deleteAddress = async () => {

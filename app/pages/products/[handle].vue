@@ -32,7 +32,7 @@ const { data: recommendationData } = await useAsyncData(
 // Computed data
 const product = computed(() => productData.value);
 const productColorReferences = computed(() => productData.value?.matching_colors?.references);
-const productRecommendations = computed(() => recommendationData.value?.slice(0, 4) || []);
+const productRecommendations = computed(() => recommendationData.value?.slice(0, 4));
 
 // Flatten connections
 const productMedia = computed(() => flattenConnection(product.value?.media));
@@ -40,7 +40,9 @@ const productVariants = computed(() => flattenConnection(product.value?.variants
 
 // Get/flatten matching color references (if any)
 const matchingColors = computed(() =>
-  productColorReferences.value ? flattenConnection(productColorReferences.value) as ProductFragment[] : []
+  productColorReferences.value
+    ? flattenConnection(productColorReferences.value) as ProductFragment[]
+    : []
 );
 
 // SEO
