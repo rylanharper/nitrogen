@@ -15,6 +15,14 @@ const headers = [
   { label: 'Status' },
   { label: 'Total' }
 ];
+
+// Computed
+const accountOrders = computed(() =>
+  props.orders.map(order => ({
+    ...order,
+    lineItem: order.lineItems?.edges[0]?.node
+  }))
+);
 </script>
 
 <template>
@@ -32,7 +40,7 @@ const headers = [
         </tr>
       </thead>
       <tbody class="divide-y divide-zinc-300">
-        <tr v-for="order in props.orders" :key="order.id">
+        <tr v-for="order in accountOrders" :key="order.id">
           <td class="pl-6 pr-12 py-3">
             <NuxtLink
               :to="order.statusUrl"
@@ -40,12 +48,12 @@ const headers = [
               rel="noreferrer"
               class="flex items-center gap-2 whitespace-nowrap"
             >
-              {{ order.lineItems?.edges[0]?.node.title }}
+              {{ order.lineItem?.title }}
               <Icon name="ph:arrow-up-right" class="size-4 shrink-0 text-zinc-400"/>
             </NuxtLink>
           </td>
           <td class="pl-6 pr-12 py-3">
-            <span>{{ order.lineItems?.edges[0]?.node.quantity }}</span>
+            <span>{{ order.lineItem?.quantity }}</span>
           </td>
           <td class="pl-6 pr-12 py-3">
             <span>{{ order.orderNumber }}</span>
