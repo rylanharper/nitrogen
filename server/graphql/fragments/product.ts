@@ -79,7 +79,9 @@ export const PRODUCT_FRAGMENT = gql`
       }
     }
     # Custom Metafields
-    color_swatch: metafield(namespace: "custom", key: "color_swatch") {
+    filter_color: metafield(namespace: "custom", key: "filter_color") {
+      key
+      value
       references(first: 10) {
         edges {
           node {
@@ -96,6 +98,8 @@ export const PRODUCT_FRAGMENT = gql`
       }
     }
     matching_colors: metafield(namespace: "custom", key: "matching_colors") {
+      key
+      value
       references(first: 10) {
         edges {
           node {
