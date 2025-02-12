@@ -96,7 +96,7 @@ if (escape) {
         <p class="text-center">
           Get notified when this product is back in stock.
         </p>
-        <form class="flex flex-col mt-6 mb-2" novalidate @submit.prevent="handleBackInStock">
+        <form class="flex flex-col mt-6" novalidate @submit.prevent="handleBackInStock">
           <div class="relative w-full mb-2.5">
             <input
               id="email"
