@@ -4,7 +4,7 @@ import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify';
 // Props
 const props = defineProps<{
   product: ProductFragment;
-  currentVariant: ProductVariantFragment | undefined;
+  currentVariant?: ProductVariantFragment;
 }>();
 </script>
 
