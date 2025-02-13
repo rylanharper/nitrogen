@@ -3,7 +3,7 @@
 Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headless commerce. This template is designed to empower Nuxt developers to build fast, scalable, and customizable storefronts that incorporate key features from Hydrogen's starter theme.
 
 > [!IMPORTANT]
-> This template now features a minimal Sanity integration on a separate [`sanity`](https://github.com/rylanharper/nitrogen/tree/sanity) branch. This pairs with the [Nitrogen Sanity Studio](https://github.com/rylanharper/nitrogen-sanity-studio) template which synchronizes content between a Sanity dataset and your Shopify storefront.
+> This template now features a minimal Sanity integration on a separate [sanity](https://github.com/rylanharper/nitrogen/tree/sanity) branch. This pairs with the [Nitrogen Sanity Studio](https://github.com/rylanharper/nitrogen-sanity-studio) template, which synchronizes content between a Sanity dataset and your Shopify storefront.
 
 ## ✨ Key Features
 
@@ -48,7 +48,7 @@ This template uses metaobjects to create unique store objects that can be connec
 
 To create the `color_swatch` metaobject, navigate to `Settings` → `Custom Data` and click `Add Definition` at the bottom of the page. Name it "Color Swatch" and add the following field definitions:
 
-1. `Name`: `Single Line Text` (one value). This represents the general swatch color name (e.g., red, yellow, blue).
+1. `Name`: `Single Line Text` (one value). This represents the general swatch color name.
 2. `Hexcode`: `Color` (one value). This allows you to specify a custom hex code for the swatch color.
 3. `Image`: `File` (one value). This enables you to upload an optional image to display as the swatch color.
 
@@ -60,11 +60,10 @@ Once this is completed, navigate to `Shopify Search & Discovery` → `Filters` �
 
 This template uses metafields to make working with custom data in Shopify easier. To enable product metafields, navigate to `Settings` → `Custom Data` → `Products` and add the following product metafield definitions:
 
-1. `filter_color`: `Metaobject` list metafield that connects to the `color_swatch` metaobject. This ensures general color names, hexcodes, or images can be associated with a product for filtering on collection pages.
-2. `matching_colors`: `Product` list metafield that connects to products that have colors. This metafield provides full access to the referenced products' data, which is ideal for checking availability, option names/values, media, and more.
-3. `details`: `Rich Text` metafield for displaying additional product details, such as specifications, materials, or care instructions. Perfect for enhancing product descriptions with structured content.
+1. `filter_color`: `Metaobject` list metafield that references the `color_swatch` metaobject. This ensures general color names, hexcodes, or images can be associated with a product for filtering on collection pages.
+2. `matching_colors`: `Product` list metafield that connects to products with matching colors. This metafield provides full access to the referenced product's data, which is ideal for checking availability, media, and more.
+3. `details`: `Rich Text` metafield for displaying additional product details, such as specifications, materials, or care instructions.
 4. `shipping`: `Rich Text` metafield for sharing shipping-specific information, like delivery timelines, restrictions, or return policies.
-
 
 Once created, these metafields will be accessible on each product page.
 
