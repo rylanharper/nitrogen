@@ -63,7 +63,7 @@ This template uses metafields to make working with custom data in Shopify easier
 1. `filter_color`: `Metaobject` list metafield that references the `color_swatch` metaobject. This ensures general color names, hexcodes, or images can be associated with a product for filtering on collection pages.
 2. `matching_colors`: `Product` list metafield that connects to products with matching colors. Provides full access to the referenced product's data, which is ideal for checking availability, options, media, and more.
 3. `details`: `Rich Text` metafield for displaying additional product details, such as specifications, materials, or care instructions. Used to enrich product descriptions and provide product-specific information to customers.
-4. `shipping`: `Rich Text` metafield for sharing shipping information, like delivery timelines, restrictions, or return policies. Ideal for ensuring customers can quickly know all the necessary shipping details before purchasing.
+4. `shipping`: `Rich Text` metafield for sharing shipping information, like delivery timelines, restrictions, or return policies. Ideal for ensuring customers quickly know all the necessary shipping info before purchasing.
 
 Once created, these metafields will be accessible on each product page.
 
