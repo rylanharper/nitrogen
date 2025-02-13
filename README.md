@@ -202,7 +202,7 @@ actions: {
 
 ## 🌱 Contribute
 
-Community contributions are always welcome! If you’d like to help improve this project, here’s how you can get involved:
+Contributions are always welcome! If you’d like to help improve this project, here’s how you can get involved:
 
 - Post an issue: Use the [Issues tab](https://github.com/rylanharper/nitrogen/issues) to report bugs or request new features.
 - Start a discussion: Share ideas or ask for help in the [Discussions tab](https://github.com/rylanharper/nitrogen/discussions).
