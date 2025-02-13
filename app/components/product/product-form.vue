@@ -102,7 +102,5 @@ watch(currentVariant, (newVariant) => {
       />
     </div>
   </div>
-  <KlaviyoBackInStockModal
-    :variant-id="variantQuery"
-  />
+  <KlaviyoBackInStockModal :variant-id="variantQuery" />
 </template>

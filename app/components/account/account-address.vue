@@ -70,7 +70,5 @@ const openModal = (addressId: string) => {
       Add New Addresses
     </NuxtLink>
   </div>
-  <DeleteAddressModal
-    :address-id="selectedAddressId"
-  />
+  <DeleteAddressModal :address-id="selectedAddressId" />
 </template>

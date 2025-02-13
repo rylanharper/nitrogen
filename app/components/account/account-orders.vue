@@ -74,7 +74,7 @@ const accountOrders = computed(() =>
             </span>
           </td>
           <td class="pl-6 pr-12 py-3">
-            <PriceDisplay class="price" :price="order.totalPrice" />
+            <PriceDisplay :price="order.totalPrice" />
           </td>
         </tr>
       </tbody>
