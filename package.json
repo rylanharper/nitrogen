@@ -15,14 +15,14 @@
   },
   "dependencies": {
     "@nuxt/icon": "^1.10.3",
-    "@pinia/nuxt": "0.9.0",
+    "@pinia/nuxt": "0.10.1",
     "@vueuse/core": "^12.5.0",
     "@vueuse/nuxt": "^12.5.0",
     "dotenv": "^16.4.7",
     "embla-carousel-vue": "^8.5.2",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
-    "pinia": "^2.3.1",
+    "pinia": "^3.0.1",
     "pinia-plugin-persistedstate": "^4.2.0"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
     "@iconify-json/ph": "^1.2.2",
     "@nuxt/eslint": "^1.0.1",
     "@tailwindcss/vite": "^4.0.6",
-    "eslint": "^9.20.0",
+    "eslint": "^9.20.1",
     "nuxt": "^3.15.4",
     "tailwindcss": "^4.0.6",
     "typescript": "^5.7.3",
