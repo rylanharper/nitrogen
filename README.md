@@ -3,7 +3,7 @@
 Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headless commerce. This template is designed to empower Nuxt developers to build fast, scalable, and customizable storefronts that incorporate key features from Hydrogen's starter theme.
 
 > [!IMPORTANT]
-> This template now features a minimal Sanity integration on a separate [sanity](https://github.com/rylanharper/nitrogen/tree/sanity) branch. This pairs with the [Nitrogen Sanity Studio](https://github.com/rylanharper/nitrogen-sanity-studio) template, which synchronizes content between a Sanity dataset and your Shopify storefront.
+> This template now features a minimal [Sanity](https://www.sanity.io/) integration on a separate branch. This pairs with the [Nitrogen Sanity Studio](https://github.com/rylanharper/nitrogen-sanity-studio), which synchronizes content between a Sanity dataset and your Shopify storefront.
 
 ## ✨ Key Features
 
