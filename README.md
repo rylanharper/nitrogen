@@ -200,12 +200,12 @@ actions: {
 }
 ```
 
-## 📣 Need Help?
+## 🌱 Contribute
 
-If you have any questions, encounter issues, or have suggestions for improvements, feel free to:
+Contributions are always welcome! If you’d like to help improve this project, here’s how you can get involved:
 
 - Post an issue: Use the [Issues tab](https://github.com/rylanharper/Nitrogen/issues) to report bugs or request new features.
 - Start a discussion: Share ideas or ask for help in the [Discussions tab](https://github.com/rylanharper/Nitrogen/discussions).
-- Contribute: If you’d like to contribute, fork the repository, make your changes, and submit a pull request for review.
+- Submit a Pull Request: If you’d like to contribute, fork the repository, make your changes, and submit a pull request for review.
 
-I actively monitor this repository and will do my best to respond quickly. Community feedback and contributions are always appreciated!
+I actively monitor this repository and will do my best to respond quickly. Whether it’s fixing a small typo or adding a new feature, every contribution helps!
