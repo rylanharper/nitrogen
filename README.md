@@ -3,7 +3,7 @@
 Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headless commerce. This template is designed to empower Nuxt developers to build fast, scalable, and customizable storefronts that incorporate key features from Hydrogen's starter theme.
 
 > [!IMPORTANT]
-> This template is designed for developers who are already familiar with the GraphQL Storefront API and have prior experience building headless storefronts.
+> This template now features a minimal Sanity integration on a separate [`sanity`](https://github.com/rylanharper/nitrogen/tree/sanity) branch. This pairs with the [Nitrogen Sanity Studio](https://github.com/rylanharper/nitrogen-sanity-studio) template which synchronizes content between a Sanity dataset and your Shopify storefront.
 
 ## ✨ Key Features
 
@@ -48,9 +48,9 @@ This template uses metaobjects to create unique store objects that can be connec
 
 To create the `color_swatch` metaobject, navigate to `Settings` → `Custom Data` and click `Add Definition` at the bottom of the page. Name it "Color Swatch" and add the following field definitions:
 
-1. `Name`: A `single-line-text` field with one value. This represents the general swatch color name (e.g., red, yellow, blue).
-2. `Hexcode`: A `color` field with one value. This allows you to specify a custom hex code for the swatch color.
-3. `Image`: A `file` field with one value. This enables you to upload an optional image to display as the swatch color.
+1. `Name`: `Single Line Text` (one value). This represents the general swatch color name (e.g., red, yellow, blue).
+2. `Hexcode`: `Color` (one value). This allows you to specify a custom hex code for the swatch color.
+3. `Image`: `File` (one value). This enables you to upload an optional image to display as the swatch color.
 
 After defining these fields, exit the settings menu and navigate to `Content` → `Metaobjects`. You will see your newly created `Color Swatch` metaobject. Click into it, then click `Add Entry` in the top-right corner to start creating your general color swatches with names, hex codes, and optional images.
 
@@ -60,10 +60,11 @@ Once this is completed, navigate to `Shopify Search & Discovery` → `Filters` �
 
 This template uses metafields to make working with custom data in Shopify easier. To enable product metafields, navigate to `Settings` → `Custom Data` → `Products` and add the following product metafield definitions:
 
-1. `color_swatch`: A `metaobject` list metafield that connects to the `color_swatch` metaobject. This is a good way to make sure that general color names, hexcodes, or images can be associated with a product when filtering on collection pages.
-2. `matching_colors`: A `product` list metafield that connects to matching products with different colors. This metafield allows access to the full data of referenced products, which is ideal for checking availability, option names/values, media, and more.
-3. `details`: A `rich-text` metafield designed to display additional product details, such as specifications, materials, or care instructions. Perfect for enhancing product descriptions with structured content.
-4. `shipping`: A `rich-text` metafield for sharing shipping-specific information, like delivery timelines, restrictions, or return policies.
+1. `filter_color`: `Metaobject` list metafield that connects to the `color_swatch` metaobject. This ensures general color names, hexcodes, or images can be associated with a product for filtering on collection pages.
+2. `matching_colors`: `Product` list metafield that connects to products that have colors. This metafield provides full access to the referenced products' data, which is ideal for checking availability, option names/values, media, and more.
+3. `details`: `Rich Text` metafield for displaying additional product details, such as specifications, materials, or care instructions. Perfect for enhancing product descriptions with structured content.
+4. `shipping`: `Rich Text` metafield for sharing shipping-specific information, like delivery timelines, restrictions, or return policies.
+
 
 Once created, these metafields will be accessible on each product page.
 
