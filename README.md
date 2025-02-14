@@ -206,6 +206,6 @@ Contributions are always welcome! If you’d like to help improve this project, 
 
 - Post an issue: Use the [Issues tab](https://github.com/rylanharper/nitrogen/issues) to report bugs or request new features.
 - Start a discussion: Share ideas or ask for help in the [Discussions tab](https://github.com/rylanharper/nitrogen/discussions).
-- Submit a Pull Request: If you’d like to contribute, fork the repository, make your changes, and submit a pull request for review.
+- Submit a pull request: If you’d like to contribute, fork the repository, make your changes, and submit a pull request for review.
 
 I actively monitor this repository and will do my best to respond quickly. Whether it’s fixing a small typo or adding a new feature, every contribution helps!
