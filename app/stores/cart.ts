@@ -69,8 +69,8 @@ export const useCartStore = defineStore('@nitrogen/cart', {
           ...optionalParams
         });
 
-        // If cart ID is invalid or expired
-        // This occurs after a user has successfully placed an order
+        // If the cart ID is invalid or expired
+        // Generally occurs after a user has successfully placed an order
         if (!response) {
           console.warn('No cart data found. Creating a new cart...');
           await this.createCart();
