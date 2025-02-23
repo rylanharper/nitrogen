@@ -44,7 +44,7 @@ watch(
     <div
       v-for="(media, index) in props.productMedia"
       :key="media.id"
-      class="aspect-square cursor-zoom-in"
+      class="aspect-square overflow-hidden cursor-zoom-in"
       @click="toggleLightbox(index)"
     >
       <ShopifyVideo
