@@ -19,9 +19,9 @@ import {
   CART_LINES_REMOVE,
   CART_LINES_UPDATE,
   CART_BUYER_IDENTITY_UPDATE
-} from '../graphql/mutations/cart';
-import { CART } from '../graphql/queries/cart';
-import { query } from '../utils/graphql-client';
+} from '../../graphql/mutations/cart';
+import { CART } from '../../graphql/queries/cart';
+import { query } from '../../utils/graphql-client';
 
 /**
  * Fetches a cart based on the provided cart ID.

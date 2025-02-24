@@ -3,8 +3,8 @@ import type {
   LocalizationQueryVariables,
 } from '@@/types/shopify';
 
-import { LOCALIZATION } from '../graphql/queries/localization';
-import { query } from '../utils/graphql-client';
+import { LOCALIZATION } from '../../graphql/queries/localization';
+import { query } from '../../utils/graphql-client';
 
 /**
  * Fetches localization data such as country and language settings.

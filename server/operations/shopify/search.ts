@@ -5,8 +5,8 @@ import type {
   PredictiveSearchQueryVariables
 } from '@@/types/shopify';
 
-import { SEARCH, PREDICTIVE_SEARCH } from '../graphql/queries/search';
-import { query } from '../utils/graphql-client';
+import { SEARCH, PREDICTIVE_SEARCH } from '../../graphql/queries/search';
+import { query } from '../../utils/graphql-client';
 
 
 /**

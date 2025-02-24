@@ -34,9 +34,9 @@ import {
   CUSTOMER_ADDRESS_DELETE,
   CUSTOMER_ADDRESS_UPDATE,
   CUSTOMER_DEFAULT_ADDRESS_UPDATE
-} from '../graphql/mutations/customer';
-import { CUSTOMER } from '../graphql/queries/customer';
-import { query } from '../utils/graphql-client';
+} from '../../graphql/mutations/customer';
+import { CUSTOMER } from '../../graphql/queries/customer';
+import { query } from '../../utils/graphql-client';
 
 /**
  * Fetches customer data based on the provided customer token.

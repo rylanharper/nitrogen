@@ -3,8 +3,8 @@ import type {
   CollectionQueryVariables
 } from '@@/types/shopify';
 
-import { COLLECTION } from '../graphql/queries/collection';
-import { query } from '../utils/graphql-client';
+import { COLLECTION } from '../../graphql/queries/collection';
+import { query } from '../../utils/graphql-client';
 
 /**
  * Fetches a collection based on the given options.
