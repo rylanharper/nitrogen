@@ -3,7 +3,7 @@
  * @param value - The value to check
  * @returns A boolean indicating whether the value is a valid email address
  */
-export function isEmail(value: string): boolean {
+export const isEmail = (value: string): boolean => {
   const regex = /^(?!.*[._+-]{2})(?!.*[._+-]$)[a-zA-Z0-9._+-]+(?<!\.)@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return regex.test(value);
 };
@@ -13,7 +13,7 @@ export function isEmail(value: string): boolean {
  * @param name - The option name to check
  * @returns A boolean indicating whether the name is a size option
  */
-export function isSizeOption(name: string): boolean {
+export const isSizeOption = (name: string): boolean => {
   const sizeOptions = ['Size', 'Length'];
   return sizeOptions.includes(name);
 }
@@ -23,7 +23,7 @@ export function isSizeOption(name: string): boolean {
  * @param name - The option name to check
  * @returns A boolean indicating whether the name is a color option
  */
-export function isColorOption(name: string): boolean {
+export const isColorOption = (name: string): boolean => {
   const colorOptions = ['Color', 'Colour'];
   return colorOptions.includes(name);
 }
@@ -33,7 +33,7 @@ export function isColorOption(name: string): boolean {
  * @param value - The value to check
  * @returns A boolean indicating whether the value is an object
  */
-export function isObject(value: unknown): boolean {
+export const isObject = (value: unknown): boolean => {
   if (typeof value !== 'object' || value === null) return false;
   return value.constructor === Object;
 };
@@ -43,6 +43,6 @@ export function isObject(value: unknown): boolean {
  * @param value - The value to check, which should be an array of strings or numbers
  * @returns A boolean indicating whether the value is an array
  */
-export function isArray(value: string[] | number[]): boolean {
+export const isArray = (value: string[] | number[]): boolean => {
   return Array.isArray(value);
 };
