@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import type { CartLineFragment } from '@@/types/shopify';
+import { useMagicKeys } from '@vueuse/core';
+
+import { flattenConnection } from '@/utils/graphql';
 
 // Stores
 const appStore = useAppStore();
@@ -9,7 +11,7 @@ const cartStore = useCartStore();
 const cartTotalItems = computed(() => cartStore.lineItemsCount);
 
 // Flatten connections
-const lineItems = computed(() => flattenConnection(cartStore.lineItems) as CartLineFragment[]);
+const lineItems = computed(() => flattenConnection(cartStore.lineItems));
 
 // Actions
 const closeDrawer = () => {

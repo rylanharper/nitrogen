@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { MoneyFragment } from '@@/types/shopify';
 
+import { isOnSale } from '@/helpers/shopify';
+import { formatCurrency } from '@/utils/formatters';
+
 // Props
 const props = defineProps<{
   price?: MoneyFragment | null;
   compareAtPriceRange?: MoneyFragment;
 }>();
-
-// Helpers
-const helpers = useShopifyHelpers();
 
 // Computed
 const price = computed(() =>
@@ -18,7 +18,7 @@ const price = computed(() =>
 );
 const OnSale = computed(() =>
   props.compareAtPriceRange && props.price
-    ? helpers.isOnSale(props.price, props.compareAtPriceRange)
+    ? isOnSale(props.price, props.compareAtPriceRange)
     : false
 );
 const compareAtPrice = computed(() =>

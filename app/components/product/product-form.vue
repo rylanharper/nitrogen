@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify';
 
+import { formatVariantId } from '@/utils/formatters';
+import { isSizeOption } from '@/utils/validators';
+
 // Props
 const props = defineProps<{
   product: ProductFragment;

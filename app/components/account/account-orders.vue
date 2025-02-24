@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { OrderFragment } from '@@/types/shopify';
 
+import { formatDateByLocale } from '@/utils/formatters';
+
 // Props
 const props = defineProps<{
   orders: OrderFragment[];

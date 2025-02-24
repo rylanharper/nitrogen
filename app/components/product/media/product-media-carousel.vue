@@ -4,20 +4,12 @@ import type { EmblaCarouselType } from 'embla-carousel';
 
 import emblaCarouselVue from 'embla-carousel-vue';
 
+import { isMediaVideo, isMediaImage } from '@/helpers/shopify';
+
 // Props
 const props = defineProps<{
   productMedia: Array<VideoFragment | MediaImageFragment>;
 }>();
-
-// Check if media item is a video
-const isMediaVideo = (media: any): media is VideoFragment => {
-  return media?.mediaContentType === 'VIDEO';
-};
-
-// Check if media item is an image
-const isMediaImage = (media: any): media is MediaImageFragment => {
-  return media?.mediaContentType === 'IMAGE';
-};
 
 // Embla setup
 const [emblaRef, emblaApi] = emblaCarouselVue({ loop: true });

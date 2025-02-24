@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { ProductFragment } from '@@/types/shopify';
 
+import { useDebounceFn, useMagicKeys } from '@vueuse/core';
+
 // Stores
 const appStore = useAppStore();
 const shopStore = useShopStore();

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { SearchProductsQueryVariables, ProductFragment } from '@@/types/shopify';
 
+import { getSearchSortValues, getFilterValues } from '@/helpers/shopify';
+import { flattenConnection } from '@/utils/graphql';
+
 // Route data
 const route = useRoute();
 const router = useRouter();
@@ -10,16 +13,13 @@ const searchQuery = computed(() => route.query.q as string);
 const appStore = useAppStore();
 const shopStore = useShopStore();
 
-// Helpers
-const helpers = useShopifyHelpers();
-
 // Sort params/values
 const sortParam = computed(() => route.query.sort as string | null);
-const sortValues = computed(() => helpers.getSearchSortValues(sortParam.value));
+const sortValues = computed(() => getSearchSortValues(sortParam.value));
 
 // Filter params/values
 const filterParam = computed(() => route.query);
-const filterValues = computed(() => helpers.getFilterValues(filterParam.value));
+const filterValues = computed(() => getFilterValues(filterParam.value));
 
 // Get the active filter options from URL query
 const activeFilterOptions = computed(() => {
@@ -76,8 +76,8 @@ const { data: searchBaseData } = await useAsyncData(
 );
 
 // Computed data
-const search = computed(() => searchData.value );
-const searchBase = computed(() => searchBaseData.value );
+const search = computed(() => searchData.value);
+const searchBase = computed(() => searchBaseData.value);
 
 // Flatten connections
 const filteredProducts = computed(() => flattenConnection(search.value) as ProductFragment[]);

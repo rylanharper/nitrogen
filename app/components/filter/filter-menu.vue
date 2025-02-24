@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { ProductFragment } from '@@/types/shopify';
 
+import { useMagicKeys } from '@vueuse/core';
+
+import { sortSizeOptions } from '@/helpers/shopify';
+import { flattenConnection } from '@/utils/graphql';
+import { isSizeOption } from '@/utils/validators';
+
 // Props
 const props = defineProps<{
   products: ProductFragment[];
@@ -12,9 +18,6 @@ const router = useRouter();
 
 // Stores
 const appStore = useAppStore();
-
-// Helpers
-const helpers = useShopifyHelpers();
 
 // Sort options
 const searchSortOptions = [
@@ -91,7 +94,7 @@ const sizeOptions = computed(() => {
     });
   });
 
-  return helpers.sortSizeOptions([...allSizes]);
+  return sortSizeOptions([...allSizes]);
 });
 
 const productTypeOptions = computed(() => {

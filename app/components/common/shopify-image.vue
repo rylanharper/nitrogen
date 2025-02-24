@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { ImageFragment } from '@@/types/shopify';
 
+import { formatSizeUrl } from '@/utils/formatters';
+
 // Props
 const props = defineProps<{
   image?: ImageFragment | null;
   alt?: string;
-  height?: number;
-  width?: number;
   index?: number;
 }>();
 
@@ -22,18 +22,19 @@ const sizes = `(min-width: 800px) 50vw, 100vw`;
 </script>
 
 <template>
-  <figure class="relative w-full bg-gray-100">
+  <figure
+    class="relative w-full bg-gray-100"
+    :style="{ paddingTop: `${(props.image?.height / props.image?.width) * 100}%` }"
+  >
     <img
       :src="props.image?.url"
       :srcset="srcset"
       :sizes="sizes"
-      :height="props.height ?? 100"
-      :width="props.width ?? 100"
       :alt="props.image?.altText ? props.alt : 'Product image'"
       :loading="index === 0 ? 'eager' : 'lazy'"
-      :fetch-priority="index === 0 ? 'high' : 'auto'"
+      :fetch-priority="index === 0 ? 'high' : 'low'"
       decoding="async"
-      class="size-full object-cover"
+      class="absolute size-full inset-0 object-cover"
     />
   </figure>
 </template>

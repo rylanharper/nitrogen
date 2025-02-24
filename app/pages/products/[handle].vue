@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { ProductQueryVariables, ProductFragment } from '@@/types/shopify';
 
+import { flattenConnection } from '@/utils/graphql';
+
 // Route data
 const route = useRoute();
 const handle = computed(() => route.params.handle as string);

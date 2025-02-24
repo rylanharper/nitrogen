@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { CustomerQueryVariables } from '@@/types/shopify';
 
+import { flattenConnection } from '@/utils/graphql';
+
 // Stores
 const authStore = useAuthStore();
 const shopStore = useShopStore();

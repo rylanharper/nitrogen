@@ -1,20 +1,12 @@
 <script setup lang="ts">
 import type { VideoFragment, MediaImageFragment } from '@@/types/shopify';
 
+import { isMediaVideo, isMediaImage } from '@/helpers/shopify';
+
 // Props
 const props = defineProps<{
   productMedia: Array<VideoFragment | MediaImageFragment>;
 }>();
-
-// Check if media item is a video
-const isMediaVideo = (media: any): media is VideoFragment => {
-  return media?.mediaContentType === 'VIDEO';
-};
-
-// Check if media item is an image
-const isMediaImage = (media: any): media is MediaImageFragment => {
-  return media?.mediaContentType === 'IMAGE';
-};
 
 // Stores
 const appStore = useAppStore();

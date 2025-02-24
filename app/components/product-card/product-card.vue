@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import type { ProductFragment } from '@@/types/shopify';
 
+import { getColorOption} from '@/helpers/shopify';
+import { flattenConnection } from '@/utils/graphql';
+
 // Props
 const props = defineProps<{
   product: ProductFragment;
 }>();
 
-// Helpers
-const helpers = useShopifyHelpers();
-
 // Computed
-const colorOption = computed(() => helpers.getColorOption(props.product.options));
+const colorOption = computed(() => getColorOption(props.product.options));
 const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name);
 
 // Flatten connections

@@ -1,27 +1,27 @@
 <script setup lang="ts">
 import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify';
 
+import { getSizeOption, isSizeSoldOut } from '@/helpers/shopify';
+
+// Props
 const props = defineProps<{
   product: ProductFragment;
   variants: ProductVariantFragment[];
   selectedSize: string;
 }>();
 
-// Helpers
-const helpers = useShopifyHelpers();
-
 // Computed
-const isSizeOption = computed(() => helpers.getSizeOption(props.product.options));
+const isSizeOption = computed(() => getSizeOption(props.product.options));
 
 // Get size options
 const productSizes = computed(() => {
-  const sizeOption = helpers.getSizeOption(props.product.options);
+  const sizeOption = getSizeOption(props.product.options);
   const sizeOptions = sizeOption?.optionValues || [];
 
   return sizeOptions.map((option) => ({
     id: option.id,
     name: option.name,
-    isSoldOut: helpers.isSizeSoldOut(props.variants, option.name)
+    isSoldOut: isSizeSoldOut(props.variants, option.name)
   }));
 });
 
