@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { isEmail } from '@/utils/validators';
+
 // State
 const email = ref('');
 const errorMessage = ref('');
@@ -6,10 +8,11 @@ const successMessage = ref('');
 const isLoading = ref(false);
 
 // Helpers
-const { subscribe } = useKlaviyo();
 const listId = 'StGPx7';
 
-// Klaviyo
+// Newsletter
+const klaviyo = useKlaviyo();
+
 const handleNewsletter = async () => {
   errorMessage.value = '';
   successMessage.value = '';
@@ -22,7 +25,7 @@ const handleNewsletter = async () => {
   }
 
   try {
-    await subscribe(email.value, listId);
+    await klaviyo.subscribe.newsletter(email.value, listId);
     successMessage.value = 'You have successfully subscribed!';
   } catch (error: any) {
     errorMessage.value = `${error.message}. Please try again later.`;

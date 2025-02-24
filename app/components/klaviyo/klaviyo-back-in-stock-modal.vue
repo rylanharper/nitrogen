@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useMagicKeys } from '@vueuse/core';
+
+import { isEmail } from '@/utils/validators';
+
 // Props
 const props = defineProps<{
   variantId: string | undefined;
@@ -13,10 +17,9 @@ const errorMessage = ref('');
 const successMessage = ref('');
 const isLoading = ref(false);
 
-// Helpers
-const { subscribeToBackInStock } = useKlaviyo();
+// BackInStock
+const klaviyo = useKlaviyo();
 
-// Klaviyo
 const handleBackInStock = async () => {
   errorMessage.value = '';
   successMessage.value = '';
@@ -35,7 +38,7 @@ const handleBackInStock = async () => {
   }
 
   try {
-    await subscribeToBackInStock(email.value, props.variantId);
+    await klaviyo.subscribe.backInStock(email.value, props.variantId);
     successMessage.value = 'Thanks! We will notify you when this product is back in stock.';
   } catch (error: any) {
     errorMessage.value = `${error.message}. Please try again later.`;
