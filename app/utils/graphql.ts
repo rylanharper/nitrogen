@@ -1,5 +1,5 @@
 /**
- * Extracts and flattens nodes from a GraphQL connection object.
+ * Flattens a GraphQL connection object by extracting its nodes.
  * @param connection - The object containing edges or nodes
  * @returns An array of nodes
  */

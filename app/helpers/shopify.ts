@@ -13,7 +13,7 @@ import type {
 import { isColorOption, isSizeOption } from '@/utils/validators';
 
 /**
- * Extracts the Collection sort values from the URL query.
+ * Gets the collection sort values from the URL query.
  * @param sortParam - The sort URL parameter
  * @returns An object containing the sort and reverse key
  */
@@ -51,7 +51,7 @@ export const getCollectionSortValues = (sortParam: string | null): {
 };
 
 /**
- * Extracts the Search sort values from the URL query.
+ * Gets the search sort values from the URL query.
  * @param sortParam - The sort URL parameter
  * @returns An object containing the sort and reverse key
  */
@@ -79,7 +79,7 @@ export const getSearchSortValues = (sortParam: string | null): {
 };
 
 /**
- * Extracts filter values from the URL query.
+ * Gets the filter values from the URL query.
  * @param query - The URL query object containing potential filter values
  * @returns An array of filters to apply to the collection
  */
