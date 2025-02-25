@@ -1,9 +1,9 @@
 # Nitrogen
 
-Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headless commerce. This template is designed to empower Nuxt developers to build fast, scalable, and customizable storefronts that incorporate key features from Hydrogen's starter theme.
+Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/Shopify/hydrogen) framework for headless commerce. This template is designed to empower Nuxt developers to build fast, scalable, and customizable storefronts that incorporate key features from Hydrogen's starter theme.
 
 > [!IMPORTANT]
-> This template now features a minimal [Sanity](https://www.sanity.io/) integration on a separate branch. This pairs with the [Nitrogen Sanity Studio](https://github.com/rylanharper/nitrogen-sanity-studio), which synchronizes content between a Sanity dataset and your Shopify storefront.
+> This template now features a minimal [Sanity](https://www.sanity.io/) integration on a separate "sanity" branch. This is meant to pair with the [Nitrogen Sanity Studio](https://github.com/rylanharper/nitrogen-sanity-studio) template, which synchronizes content between a Sanity dataset and your Shopify storefront.
 
 ## ✨ Key Features
 
@@ -15,10 +15,12 @@ Nitrogen is a Nuxt template inspired by Shopify's Hydrogen framework for headles
 - 🕹️ Collection filter and sort functionality
 - 👕 Product pages, with metafields
 - 🔍 Search functionality
-- 📫 Klaviyo integration
 - 🌐 Shop localization
+- 📫 Klaviyo integration
+- 🧠 Sanity integration
 - 🎠 Embla Carousel
 - 🌊 Tailwind v4
+- 🔮 Codegen
 
 ## 💎 Shopify Setup
 
@@ -92,7 +94,7 @@ Within your Shopify dashboard, install the [Klaviyo: Email Marketing & SMS](http
 
 To ensure client subscriptions are directed to the appropriate email list (e.g., your newsletter), you need to assign the newsletter list ID to the `listId` variable in the [klaviyo-newsletter](https://github.com/rylanharper/Nitrogen/blob/master/app/components/klaviyo/klaviyo-newsletter.vue) component. You can locate your newsletter list ID by logging into your Klaviyo dashboard and navigating to `Audience` → `Lists & Segments`. Select your `Newsletter` list, then click on `Settings` to view the List ID.
 
-## ✳️ Nuxt Setup
+## 💻 Development
 
 To begin using Nitrogen, you'll need to add the following environment variables:
 
@@ -102,7 +104,7 @@ NUXT_SHOPIFY_STOREFRONT=https://your-shop-name.myshopify.com
 NUXT_SHOPIFY_ACCESS_TOKEN=your_storefront_access_token
 NUXT_SHOPIFY_API_VERSION=2025-01
 
-# Klaviyo
+# Klaviyo (optional)
 NUXT_KLAVIYO_PUBLIC_API_KEY=your_public_api_key
 NUXT_KLAVIYO_PRIVATE_API_KEY=your_private_api_key
 NUXT_KLAVIYO_API_VERSION=2025-01-15
@@ -111,7 +113,7 @@ NUXT_KLAVIYO_API_VERSION=2025-01-15
 > [!WARNING]
 > It is strongly recommended that you use the `2024-07` Storefront API version or higher. If not, you will not have access to new API features found within this template (this will cause breaking changes).
 
-### Development
+### Local Setup
 
 1. Install dependencies using `pnpm install`
 2. Generate your project types using `pnpm codegen`
@@ -119,11 +121,11 @@ NUXT_KLAVIYO_API_VERSION=2025-01-15
 
 ## ⚡ Basic Usage
 
-Nitrogen provides a [minimal GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/server/utils/graphql-client.ts) that seamlessly integrates with Shopify's Storefront API. It uses a [server-side proxy](https://github.com/rylanharper/nitrogen/blob/master/server/api/shopify.ts) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
+Nitrogen provides a minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/server/utils/graphql-client.ts) that seamlessly integrates with Shopify's Storefront API. It uses a [server-side proxy](https://github.com/rylanharper/nitrogen/blob/master/server/api/shopify.ts) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
 ### GraphQL Operations
 
-This project includes pre-built GraphQL operations for common Shopify queries and mutations, such as retrieving cart data, localization, and more. All available operations can be found in the [operations folder](https://github.com/rylanharper/nitrogen/tree/master/server/operations). Feel free to add or remove operations that fit your project needs.
+This project includes pre-built GraphQL operations for common Shopify queries and mutations, such as retrieving cart data, localization, and more. All available Shopify operations can be found in the [operations folder](https://github.com/rylanharper/nitrogen/tree/master/server/operations/shopify). Feel free to add or remove operations that fit your project needs.
 
 ### Composable
 
