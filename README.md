@@ -24,10 +24,10 @@ Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/
 
 ## 📖 Documentation
 
-> [Nitrogen documentation](https://nitrogendocs.netlify.app/)
-
 > [!TIP]
 > Make sure to read through the documentation to learn how to configure your Shopify store to work with Nitrogen. This setup process will take approximately 10-15 minutes.
+
+[Nitrogen documentation](https://nitrogendocs.netlify.app/)
 
 ## 💻 Development
 
