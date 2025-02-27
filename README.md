@@ -24,10 +24,10 @@ Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/
 
 ## 📖 Documentation
 
-Make sure to read through the documentation to learn how to configure your Shopify store to work with Nitrogen. This setup process will take approximately 10-15 minutes.
+> [Nitrogen documentation](https://nitrogendocs.netlify.app/)
 
 > [!TIP]
-> [Nitrogen documentation](https://nitrogendocs.netlify.app/)
+> Make sure to read through the documentation to learn how to configure your Shopify store to work with Nitrogen. This setup process will take approximately 10-15 minutes.
 
 ## 💻 Development
 
@@ -43,6 +43,13 @@ NUXT_SHOPIFY_API_VERSION=2025-01
 NUXT_KLAVIYO_PUBLIC_API_KEY=your_public_api_key
 NUXT_KLAVIYO_PRIVATE_API_KEY=your_private_api_key
 NUXT_KLAVIYO_API_VERSION=2025-01-15
+
+# Sanity (optional)
+NUXT_SANITY_PROJECT_ID=your_project_id
+NUXT_SANITY_DATASET=production
+NUXT_SANITY_API_VERSION=2024-10-20
+NUXT_SANITY_STUDIO_URL=http://your-site-domain.com
+NUXT_SANITY_API_READ_TOKEN=your_sanity_api_read_token
 ```
 
 > [!WARNING]
