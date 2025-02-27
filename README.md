@@ -1,4 +1,8 @@
-<img src="./public/logo.svg" width="120" height="120" alt="Nitrogen Logo" style="margin-bottom: -25px;" />
+<p align="center">
+  <a href="https://github.com/rylanharper/nitrogen">
+    <img src="./public/logo.svg" width="175" height="175" alt="Nitrogen Logo" />
+  </a>
+</p>
 
 # Nitrogen
 
