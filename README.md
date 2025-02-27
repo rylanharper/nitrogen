@@ -1,3 +1,5 @@
+<img src="./public/logo.svg" width="120" height="120" alt="Nitrogen Logo" style="margin-bottom: -25px;" />
+
 # Nitrogen
 
 Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/Shopify/hydrogen) framework for headless commerce. This template is designed to empower Nuxt developers to build fast, scalable, and customizable storefronts that incorporate key features from Hydrogen's starter theme.
@@ -19,13 +21,13 @@ Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/
 - 📫 Klaviyo integration
 - 🧠 Sanity integration
 - 🎠 Embla Carousel
-- 🌊 Tailwind v4
+- 🎨 Tailwind v4
 - 🔮 Codegen
 
 ## 📖 Documentation
 
 > [!TIP]
-> Read through the documentation to learn how to configure your Shopify store to work with Nitrogen. This setup process will take approximately 10-15 minutes.
+> Read through the docs to learn how to configure your Shopify store to work with Nitrogen!
 
 [Nitrogen documentation](https://nitrogendocs.netlify.app/)
 
@@ -47,9 +49,9 @@ NUXT_KLAVIYO_API_VERSION=2025-01-15
 # Sanity (optional)
 NUXT_SANITY_PROJECT_ID=your_project_id
 NUXT_SANITY_DATASET=production
-NUXT_SANITY_API_VERSION=2024-10-20
+NUXT_SANITY_API_VERSION=2025-02-02
 NUXT_SANITY_STUDIO_URL=http://your-site-domain.com
-NUXT_SANITY_API_READ_TOKEN=your_sanity_api_read_token
+NUXT_SANITY_API_READ_TOKEN=your_api_read_token
 ```
 
 > [!WARNING]
