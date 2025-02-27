@@ -60,7 +60,7 @@ const activeFilterCount = computed(() => {
 
 // Filter options
 const colorOptions = computed(() => {
-  const colorMap = new Map();
+  const colorMap = new Map<string, { name: string; hex: string; image: string | null }>();
 
   props.products.forEach((product) => {
     const references = product.filter_color?.references
