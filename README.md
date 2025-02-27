@@ -25,7 +25,7 @@ Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/
 ## 📖 Documentation
 
 > [!TIP]
-> Make sure to read through the documentation to learn how to configure your Shopify store to work with Nitrogen. This setup process will take approximately 10-15 minutes.
+> Read through the documentation to learn how to configure your Shopify store to work with Nitrogen. This setup process will take approximately 10-15 minutes.
 
 [Nitrogen documentation](https://nitrogendocs.netlify.app/)
 
@@ -67,7 +67,7 @@ Nitrogen provides a minimal [GraphQL client](https://github.com/rylanharper/nitr
 
 ### Operations
 
-This project includes pre-built operations for common Shopify queries and mutations, such as retrieving cart data, localization, and more. All available Shopify operations can be found in the [operations folder](https://github.com/rylanharper/nitrogen/tree/master/server/operations/shopify). Feel free to add or remove operations that fit your project needs.
+This project includes pre-built [operations](https://github.com/rylanharper/nitrogen/tree/master/server/operations/shopify) for common Storefront API queries and mutations. Feel free to add or remove operations that fit your project needs.
 
 ### Composable
 
