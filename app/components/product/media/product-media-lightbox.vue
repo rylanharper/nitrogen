@@ -20,12 +20,12 @@ const closeLightbox = () => {
 // State
 const mediaRefs = ref<HTMLElement[]>([]);
 
-// Watchers
-watchEffect(() => {
+onUpdated(() => {
   const selectedMediaItem = mediaRefs.value[props.mediaIndex];
   selectedMediaItem?.scrollIntoView();
 });
 
+// Watchers
 const { escape } = useMagicKeys();
 
 if (escape) {
@@ -33,6 +33,11 @@ if (escape) {
     closeLightbox()
   });
 }
+
+// Cleanup
+onBeforeUnmount(() => {
+  closeLightbox()
+});
 </script>
 
 <template>
