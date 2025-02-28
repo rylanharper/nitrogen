@@ -7,7 +7,7 @@ import type {
 import { defineStore } from 'pinia';
 
 // Interface
-interface shopState {
+interface ShopState {
   locale: LocalizationQuery['localization'];
 }
 
@@ -16,7 +16,7 @@ const shopify = useShopify();
 
 // Store
 export const useShopStore = defineStore('@nitrogen/shop', {
-  state: (): shopState => ({
+  state: (): ShopState => ({
     locale: {
       availableCountries: [],
       availableLanguages: [],

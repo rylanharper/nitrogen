@@ -1,20 +1,23 @@
 import { defineStore } from 'pinia';
 
 // Types
-type appState = {
-  cartDrawer: boolean;
-  mobileMenu: boolean;
-  filterMenu: boolean;
-  searchMenu: boolean;
-  localeModal: boolean;
-  deleteAddressModal: boolean;
-  backInStockModal: boolean;
-  mediaLightbox: boolean;
+type ComponentName =
+  | 'cartDrawer'
+  | 'mobileMenu'
+  | 'filterMenu'
+  | 'searchMenu'
+  | 'localeModal'
+  | 'deleteAddressModal'
+  | 'backInStockModal'
+  | 'mediaLightbox';
+
+type AppState = {
+  [key in ComponentName]: boolean;
 };
 
 // Store
 export const useAppStore = defineStore('@nitrogen/app', {
-  state: (): appState => ({
+  state: (): AppState => ({
     cartDrawer: false,
     mobileMenu: false,
     filterMenu: false,
@@ -31,7 +34,7 @@ export const useAppStore = defineStore('@nitrogen/app', {
      * @param element - The UI element to toggle
      * @param state - Optional boolean to force a specific state
      */
-    toggle(element: keyof appState, state?: boolean) {
+    toggle(element: keyof AppState, state?: boolean) {
       this[element] = state ?? !this[element];
     }
   }
