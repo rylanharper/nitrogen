@@ -17,7 +17,7 @@ const errorMessage = ref('');
 const successMessage = ref('');
 const isLoading = ref(false);
 
-// BackInStock
+// Subscribe
 const klaviyo = useKlaviyo();
 
 const handleBackInStock = async () => {
@@ -54,7 +54,6 @@ const closeModal = () => {
 };
 
 // Watchers
-const route = useRoute();
 const { escape } = useMagicKeys();
 
 watch(
@@ -64,13 +63,6 @@ watch(
       errorMessage.value = '';
       successMessage.value = '';
     }
-  }
-);
-
-watch(
-  () => route.path,
-  () => {
-    closeModal();
   }
 );
 
