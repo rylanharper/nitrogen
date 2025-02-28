@@ -26,6 +26,15 @@ const deleteAddress = async () => {
 const closeModal = () => {
   appStore.toggle('deleteAddressModal', false);
 };
+
+// Watchers
+const { escape } = useMagicKeys();
+
+if (escape) {
+  watch(escape, () => {
+    closeModal();
+  });
+}
 </script>
 
 <template>
