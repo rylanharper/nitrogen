@@ -18,7 +18,7 @@ interface SubscribeToBackInStockReturn {
 /**
  * Subscribes a user to an email list.
  * @param email - The user's email address
- * @param listId - The ID of the specified Klaviyo list (newsletter)
+ * @param listId - The ID of the specified email list (newsletter)
  * @returns The response from the Klaviyo API
  * @see https://developers.klaviyo.com/en/reference/create_client_subscription
  */
@@ -55,7 +55,7 @@ const newsletter = async (
 /**
  * Subscribes a user to back-in-stock notifications.
  * @param email - The user's email address
- * @param variantId - The selected variant ID
+ * @param variantId - The selected product variant ID
  * @returns The response from the Klaviyo API
  * @see https://developers.klaviyo.com/en/reference/create_client_back_in_stock_subscription
  */
