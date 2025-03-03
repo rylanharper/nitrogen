@@ -1,4 +1,4 @@
-interface CreateClientSubscriptionReturn {
+interface CreateClientSubscription {
   email?: string | null;
   phone?: string | null;
   status: number;
@@ -7,7 +7,7 @@ interface CreateClientSubscriptionReturn {
   submittedAt: string;
 }
 
-interface SubscribeToBackInStockReturn {
+interface CreateBackInStockSubscription {
   email?: string | null;
   status: number;
   message: string;
@@ -16,16 +16,16 @@ interface SubscribeToBackInStockReturn {
 }
 
 /**
- * Subscribes a user to an email list.
+ * Subscribes a user to a specified email list.
  * @param email - The user's email address
- * @param listId - The ID of the specified email list (newsletter)
- * @returns The response from the Klaviyo API
+ * @param listId - The email list ID (newsletter)
+ * @returns A Promise resolving to the subscription data
  * @see https://developers.klaviyo.com/en/reference/create_client_subscription
  */
 const newsletter = async (
   email: string,
   listId: string
-): Promise<CreateClientSubscriptionReturn> => {
+): Promise<CreateClientSubscription> => {
   return await $fetch('/api/klaviyo', {
     method: 'POST',
     body: {
@@ -56,13 +56,13 @@ const newsletter = async (
  * Subscribes a user to back-in-stock notifications.
  * @param email - The user's email address
  * @param variantId - The selected product variant ID
- * @returns The response from the Klaviyo API
+ * @returns A Promise resolving to the subscription data
  * @see https://developers.klaviyo.com/en/reference/create_client_back_in_stock_subscription
  */
 const backInStock = async (
   email: string,
   variantId: string
-): Promise<SubscribeToBackInStockReturn> => {
+): Promise<CreateBackInStockSubscription> => {
   return await $fetch('/api/klaviyo', {
     method: 'POST',
     body: {

@@ -1,6 +1,6 @@
 /**
  * Formats a date according to the specified locale.
- * @param locale - The locale code, (e.g., 'en-US')
+ * @param locale - The locale code (e.g., 'en-US')
  * @param d - The date to format, either as a Date object or a string
  * @returns The formatted date string
  */
@@ -27,8 +27,8 @@ export const formatImageUrl = (src: string | undefined, width: number): string =
 /**
  * Formats a number as a currency string.
  * @param amount - The number (or string) to format
- * @param currencyCode - The currency code, (e.g., 'USD')
- * @param locale - The locale code, (e.g., 'en-US')
+ * @param currencyCode - The currency code (e.g., 'USD')
+ * @param locale - The locale code (e.g., 'en-US')
  * @returns The formatted currency string
  */
 export const formatCurrency = (amount: string | number, currencyCode: string = 'USD', locale: string = 'en-US'): string => {

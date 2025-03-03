@@ -23,7 +23,7 @@ const products = async (
 };
 
 /**
- * Executes a predictive search for collections and products.
+ * Executes a predictive search based on the given options.
  * @param options - The variables for the predictive search query (query)
  * @returns A Promise resolving to the predictive search results
  * @see https://shopify.dev/docs/api/storefront/2025-01/queries/predictiveSearch

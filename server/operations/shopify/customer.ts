@@ -52,7 +52,7 @@ const get = async (
 };
 
 /**
- * Creates a customer access token for login.
+ * Creates a customer access token.
  * @param options - The variables for the customer access token mutation (email, password)
  * @returns A Promise resolving to the customer access token
  * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/customerAccessTokenCreate
