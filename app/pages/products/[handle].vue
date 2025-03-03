@@ -34,8 +34,8 @@ const { data: recommendationData } = await useAsyncData(
 
 // Computed data
 const product = computed(() => productData.value);
-const productColorReferences = computed(() => productData.value?.matching_colors?.references);
-const productRecommendations = computed(() => recommendationData.value?.slice(0, 4));
+const colorReferences = computed(() => productData.value?.matching_colors?.references);
+const recommendations = computed(() => recommendationData.value?.slice(0, 4));
 
 // Flatten connections
 const productMedia = computed(() => flattenConnection(product.value?.media));
@@ -43,8 +43,8 @@ const productVariants = computed(() => flattenConnection(product.value?.variants
 
 // Get/flatten matching color references (if any)
 const matchingColors = computed(() =>
-  productColorReferences.value
-    ? flattenConnection(productColorReferences.value) as ProductFragment[]
+  colorReferences.value
+    ? flattenConnection(colorReferences.value) as ProductFragment[]
     : []
 );
 
@@ -70,7 +70,7 @@ useHead({
       </div>
     </div>
     <div class="px-6">
-      <ProductRecommendations :products="productRecommendations" />
+      <ProductRecommendations :products="recommendations" />
     </div>
   </section>
   <section v-else class="flex items-center gap-2 p-6">

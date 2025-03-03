@@ -79,25 +79,25 @@ watch(currentVariant, (newVariant) => {
 <template>
   <div class="relative lg:sticky lg:top-[calc(var(--header-height)+1px)]">
     <div class="flex flex-col gap-5 w-full lg:md:max-w-lg lg:pt-20 lg:mx-auto">
-      <ProductHeader
+      <FormHeader
         :product="product"
         :current-variant="currentVariant"
       />
-      <ProductColorOptions
+      <FormColorOptions
         :product="product"
         :matching-colors="matchingColors"
       />
-      <ProductSizeOptions
+      <FormSizeOptions
         :product="product"
         :variants="variants"
         :selected-size="selectedSize"
         @select-size="selectSize"
       />
-      <ProductAddToCart
+      <FormAddToCart
         :current-variant="currentVariant"
         :variants="variants"
       />
-      <ProductDetails
+      <FormDetails
         :description="product.descriptionHtml"
         :details="product.details?.value"
         :shipping="product.shipping?.value"

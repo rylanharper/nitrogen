@@ -13,7 +13,7 @@ const props = defineProps<{
       You May Also Like
     </h2>
     <div
-      v-if="props.products && props.products.length"
+      v-if="props.products"
       class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full mb-8 lg:grid-cols-4 lg:gap-y-12"
     >
       <div v-for="product in products" :key="product.id">
