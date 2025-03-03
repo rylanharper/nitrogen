@@ -1,12 +1,14 @@
-# Dev/build outputs
+# Nuxt
 .output
 .data
 .nuxt
 .nitro
 .cache
+
+# Generated
 dist
 
-# Node dependencies
+# Node
 node_modules
 
 # Logs
@@ -19,7 +21,7 @@ logs
 .idea
 .vscode
 
-# Local env files
+# Env
 .env
 .env.*
 !.env.example
