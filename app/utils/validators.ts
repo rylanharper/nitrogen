@@ -9,26 +9,6 @@ export const isEmail = (value: string): boolean => {
 };
 
 /**
- * Checks if a given option name corresponds to a size option.
- * @param name - The option name to check
- * @returns A boolean indicating whether the name is a size option
- */
-export const isSizeOption = (name: string): boolean => {
-  const sizeOptions = ['Size', 'Length'];
-  return sizeOptions.includes(name);
-}
-
-/**
- * Checks if a given option name corresponds to a color option.
- * @param name - The option name to check
- * @returns A boolean indicating whether the name is a color option
- */
-export const isColorOption = (name: string): boolean => {
-  const colorOptions = ['Color', 'Colour'];
-  return colorOptions.includes(name);
-}
-
-/**
  * Checks if a given value is an object.
  * @param value - The value to check
  * @returns A boolean indicating whether the value is an object

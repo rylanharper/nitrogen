@@ -10,8 +10,6 @@ import type {
   ProductVariantFragment
 } from '@@/types/shopify';
 
-import { isColorOption, isSizeOption } from '@/utils/validators';
-
 /**
  * Gets the collection sort values from the URL query.
  * @param sortParam - The sort URL parameter
@@ -209,6 +207,26 @@ export const isMediaImage = (media: any): media is MediaImageFragment => {
 };
 
 /**
+ * Checks if a given option name corresponds to a size option.
+ * @param name - The option name to check
+ * @returns A boolean indicating whether the name is a size option
+ */
+export const isSizeOption = (name: string): boolean => {
+  const sizeOptions = ['Size', 'Length'];
+  return sizeOptions.includes(name);
+}
+
+/**
+ * Checks if a given option name corresponds to a color option.
+ * @param name - The option name to check
+ * @returns A boolean indicating whether the name is a color option
+ */
+export const isColorOption = (name: string): boolean => {
+  const colorOptions = ['Color', 'Colour'];
+  return colorOptions.includes(name);
+}
+
+/**
  * Finds the color option from a product's option list.
  * @param optionInput - Array of product options
  * @returns The color option if found, null otherwise
@@ -256,4 +274,13 @@ export const isColorSoldOut = (variants: ProductVariantFragment[], colorValue: s
   );
 
   return colorVariants.every((variant) => !variant.availableForSale);
+};
+
+/**
+ * Formats a product variant ID to its numeric form.
+ * @param gid - The variant ID (e.g., 'gid://shopify/ProductVariant/44284874064058')
+ * @returns The numeric portion of the ID (e.g., '44284874064058')
+ */
+export const formatVariantId = (gid: string): string => {
+  return gid.split('/').pop() ?? '';
 };
