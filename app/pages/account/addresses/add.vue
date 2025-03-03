@@ -5,9 +5,10 @@ import type { CustomerQueryVariables, MailingAddressInput } from '@@/types/shopi
 const authStore = useAuthStore();
 const shopStore = useShopStore();
 
-// Fetch Shopify data
+// Shopify
 const shopify = useShopify();
 
+// Fetch data
 const customerVars = computed<CustomerQueryVariables>(() => ({
   customerAccessToken: authStore.accessToken,
   country: shopStore.buyerCountryCode,

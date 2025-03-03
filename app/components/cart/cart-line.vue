@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CartLineFragment } from '@@/types/shopify';
 
-import { formatVariantId } from '@/utils/formatters';
+import { formatVariantId } from '@/helpers/shopify';
 
 // Props
 const props = defineProps<{

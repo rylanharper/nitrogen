@@ -17,9 +17,10 @@ const errorMessage = ref('');
 const successMessage = ref('');
 const isLoading = ref(false);
 
-// Subscribe
+// Klaviyo
 const klaviyo = useKlaviyo();
 
+// Subscribe
 const handleBackInStock = async () => {
   errorMessage.value = '';
   successMessage.value = '';

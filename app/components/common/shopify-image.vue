@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ImageFragment } from '@@/types/shopify';
 
-import { formatSizeUrl } from '@/utils/formatters';
+import { formatImageUrl } from '@/utils/formatters';
 
 // Props
 const props = defineProps<{
@@ -12,9 +12,9 @@ const props = defineProps<{
 
 // Computed
 const srcset = computed(() => {
-  const imageUrl = props.image?.url;
+  const url = props.image?.url;
   const sizes = [400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000];
-  return sizes.map((size) => `${formatSizeUrl(imageUrl, size)} ${size}w`).join(', ');
+  return sizes.map((size) => `${formatImageUrl(url, size)} ${size}w`).join(', ');
 });
 
 // Define image sizes

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ProductFragment } from '@@/types/shopify';
 
-import { getColorOption} from '@/helpers/shopify';
+import { getColorOption } from '@/helpers/shopify';
 import { flattenConnection } from '@/utils/graphql';
 
 // Props

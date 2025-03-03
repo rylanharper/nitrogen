@@ -11,7 +11,7 @@ const props = defineProps<{
 }>();
 
 // Computed
-const isSizeOption = computed(() => getSizeOption(props.product.options));
+const sizeOption = computed(() => getSizeOption(props.product.options));
 
 // Get size options
 const productSizes = computed(() => {
@@ -35,7 +35,7 @@ const selectSizeOption = (size: string) => {
 </script>
 
 <template>
-  <div v-if="isSizeOption" class="flex flex-col gap-2">
+  <div v-if="sizeOption" class="flex flex-col gap-2">
     <div class="flex items-center justify-between">
       <span class="uppercase">Size</span>
       <button class="flex items-center justify-center gap-1.5 hover:text-gray-500">

@@ -10,9 +10,10 @@ const handle = computed(() => route.params.handle as string);
 // Stores
 const shopStore = useShopStore();
 
-// Fetch Shopify data
+// Shopify
 const shopify = useShopify();
 
+// Fetch data
 const productVars = computed<ProductQueryVariables>(() => ({
   handle: handle.value,
   country: shopStore.buyerCountryCode,

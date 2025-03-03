@@ -45,9 +45,10 @@ const activeFilterOptions = computed(() => {
 const limit = 12;
 const itemsPerPage = ref(Number(route.query.limit) || limit);
 
-// Fetch Shopify data
+// Shopify
 const shopify = useShopify();
 
+// Fetch data
 const searchVars = computed<SearchProductsQueryVariables>(() => ({
   searchTerm: searchQuery.value,
   filters: filterValues.value,

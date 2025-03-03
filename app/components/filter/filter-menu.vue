@@ -3,9 +3,8 @@ import type { ProductFragment } from '@@/types/shopify';
 
 import { useMagicKeys } from '@vueuse/core';
 
-import { sortSizeOptions } from '@/helpers/shopify';
+import { sortSizeOptions, isSizeOption } from '@/helpers/shopify';
 import { flattenConnection } from '@/utils/graphql';
-import { isSizeOption } from '@/utils/validators';
 
 // Props
 const props = defineProps<{
@@ -60,7 +59,7 @@ const activeFilterCount = computed(() => {
 
 // Filter options
 const colorOptions = computed(() => {
-  const colorMap = new Map<string, { name: string; hex: string; image: string | null }>();
+  const colorMap = new Map();
 
   props.products.forEach((product) => {
     const references = product.filter_color?.references

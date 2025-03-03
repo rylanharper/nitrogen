@@ -7,9 +7,10 @@ import { flattenConnection } from '@/utils/graphql';
 const authStore = useAuthStore();
 const shopStore = useShopStore();
 
-// Fetch Shopify data
+// Shopify
 const shopify = useShopify();
 
+// Fetch data
 const customerVars = computed<CustomerQueryVariables>(() => ({
   customerAccessToken: authStore.accessToken,
   country: shopStore.buyerCountryCode,
