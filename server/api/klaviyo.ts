@@ -5,7 +5,7 @@
  * @see https://developers.klaviyo.com/en/reference/api_overview
  */
 export default defineEventHandler(async (event) => {
-  const { klaviyo: options } = useRuntimeConfig();
+  const { klaviyo: options } = useRuntimeConfig(event);
   const body = await readBody(event);
   const type = body.data.type;
 

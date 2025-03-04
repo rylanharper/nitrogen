@@ -5,7 +5,7 @@
  * @see https://shopify.dev/docs/api/storefront
  */
 export default defineEventHandler(async (event) => {
-  const { shopify: options } = useRuntimeConfig();
+  const { shopify: options } = useRuntimeConfig(event);
   const { query, variables } = await readBody(event);
 
   const endpoint = `${options.storefront}/api/${options.apiVersion}/graphql.json`;
