@@ -1,18 +1,24 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @font-face {
-  src: url("~/assets/fonts/IBMPlexSans-Regular.ttf");
-  font-family: "IBM Plex Sans";
+  font-family: 'IBM Plex Sans';
+  src: url('~/assets/fonts/IBMPlexSans-Regular.woff2') format('woff2'),
+    url('~/assets/fonts/IBMPlexSans-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-  src: url("~/assets/fonts/IBMPlexMono-Regular.ttf");
-  font-family: "IBM Plex Mono";
+  font-family: 'IBM Plex Mono';
+  src: url('~/assets/fonts/IBMPlexMono-Regular.woff2') format('woff2'),
+    url('~/assets/fonts/IBMPlexMono-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @theme {
-  --font-sans: "IBM Plex Sans", sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
+  --font-sans: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 }
 
 :root {
@@ -27,7 +33,7 @@ html {
   font-size: 13px;
   font-weight: 400;
   font-style: normal;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
