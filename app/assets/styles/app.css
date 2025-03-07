@@ -2,17 +2,17 @@
 
 @font-face {
   font-family: 'IBM Plex Sans';
-  src: url('~/assets/fonts/IBMPlexSans-Regular.woff2') format('woff2'),
-    url('~/assets/fonts/IBMPlexSans-Regular.woff') format('woff');
-  font-weight: normal;
+  src: url('~/assets/fonts/IBMPlexSans-Regular.woff2') format('woff2');
+  font-display: swap;
+  font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'IBM Plex Mono';
-  src: url('~/assets/fonts/IBMPlexMono-Regular.woff2') format('woff2'),
-    url('~/assets/fonts/IBMPlexMono-Regular.woff') format('woff');
-  font-weight: normal;
+  src: url('~/assets/fonts/IBMPlexMono-Regular.woff2') format('woff2');
+  font-display: swap;
+  font-weight: 400;
   font-style: normal;
 }
 
