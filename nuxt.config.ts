@@ -44,7 +44,11 @@ export default defineNuxtConfig({
   ],
 
   icon: {
-    mode: 'svg'
+    mode: 'svg',
+    clientBundle: {
+      scan: true,
+      sizeLimitKb: 256
+    }
   },
 
   css: ['@/assets/styles/app.css'],
