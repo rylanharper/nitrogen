@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useMagicKeys } from '@vueuse/core';
-
 import { flattenConnection } from '@/utils/graphql';
 
 // Stores

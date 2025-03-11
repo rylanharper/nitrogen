@@ -2,7 +2,6 @@
 import type { ProductFragment } from '@@/types/shopify';
 
 import { useMagicKeys } from '@vueuse/core';
-
 import { sortSizeOptions, isSizeOption } from '@/helpers/shopify';
 import { flattenConnection } from '@/utils/graphql';
 
