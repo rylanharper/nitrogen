@@ -24,7 +24,6 @@ export default withNuxt(
             ['builtin', 'external'],
             ['internal', 'parent', 'sibling', 'index', 'object']
           ],
-          'newlines-between': 'always',
           alphabetize: {
             order: 'asc'
           }
