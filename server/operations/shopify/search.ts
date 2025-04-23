@@ -18,7 +18,7 @@ import { query } from '../../utils/graphql-client';
 const products = async (
   options: SearchProductsQueryVariables
 ): Promise<SearchProductsQuery['search']> => {
-  const response = await query(SEARCH, options) as { data: SearchProductsQuery };
+  const response = await query(SEARCH, options);
   return response.data?.search;
 };
 
@@ -31,7 +31,7 @@ const products = async (
 const predictive = async (
   options: PredictiveSearchQueryVariables
 ): Promise<PredictiveSearchQuery['predictiveSearch']> => {
-  const response = await query(PREDICTIVE_SEARCH, options) as { data?: PredictiveSearchQuery };
+  const response = await query(PREDICTIVE_SEARCH, options);
   return response.data?.predictiveSearch;
 };
 

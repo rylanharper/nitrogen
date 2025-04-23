@@ -15,7 +15,7 @@ import { query } from '../../utils/graphql-client';
 const get = async (
   options: CollectionQueryVariables
 ): Promise<CollectionQuery['collection']> => {
-  const response = await query(COLLECTION, options) as { data?: CollectionQuery };
+  const response = await query(COLLECTION, options);
   return response.data?.collection;
 };
 

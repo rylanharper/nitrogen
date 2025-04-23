@@ -17,7 +17,7 @@ import { query } from '../../utils/graphql-client';
 const get = async (
   options: ProductQueryVariables
 ): Promise<ProductQuery['product']> => {
-  const response = await query(PRODUCT, options) as { data?: ProductQuery };
+  const response = await query(PRODUCT, options);
   return response.data?.product;
 };
 
@@ -30,7 +30,7 @@ const get = async (
 async function recommended(
   options: ProductRecommendationsQueryVariables
 ): Promise<ProductRecommendationsQuery['recommended']> {
-  const response = await query(RECOMMENDED_PRODUCTS, options) as { data?: ProductRecommendationsQuery };
+  const response = await query(RECOMMENDED_PRODUCTS, options);
   return response.data?.recommended;
 }
 
