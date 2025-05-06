@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CustomerQueryVariables } from '@@/types/shopify';
+import type { CustomerQueryVariables, OrderFragment } from '@@/types/shopify';
 
 import { flattenConnection } from '@/utils/graphql';
 
@@ -27,7 +27,7 @@ const { data: customerData } = await useAsyncData(
 const customer = computed(() => customerData.value);
 
 // Flatten connections
-const orders = computed(() => flattenConnection(customer.value?.orders));
+const orders = computed(() => flattenConnection(customer.value?.orders) as OrderFragment[]);
 
 // SEO
 useHead({

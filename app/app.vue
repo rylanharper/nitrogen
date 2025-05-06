@@ -30,7 +30,7 @@ useHead({
     <MobileMenu />
     <SearchMenu />
     <LocaleModal />
-    <main role="main" class="flex-1 min-h-svh">
+    <main role="main" class="flex-1 min-h-[calc(100svh-var(--header-height))]">
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>
