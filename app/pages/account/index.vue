@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { CustomerQueryVariables } from '@@/types/shopify';
+import type {
+  CustomerQueryVariables,
+  OrderFragment,
+  MailingAddressFragment
+} from '@@/types/shopify';
 
 import { flattenConnection } from '@/utils/graphql';
 
@@ -28,8 +32,8 @@ const customer = computed(() => customerData.value);
 const defaultAddress = computed(() => customerData.value?.defaultAddress);
 
 // Flatten connections
-const orders = computed(() => flattenConnection(customer.value?.orders));
-const addresses = computed(() => flattenConnection(customer.value?.addresses));
+const orders = computed(() => flattenConnection(customer.value?.orders) as OrderFragment[]);
+const addresses = computed(() => flattenConnection(customer.value?.addresses) as MailingAddressFragment[]);
 
 // SEO
 useHead({

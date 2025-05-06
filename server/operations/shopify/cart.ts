@@ -32,7 +32,7 @@ import { query } from '../../utils/graphql-client';
 const get = async (
   options: CartQueryVariables
 ): Promise<CartQuery['cart']> => {
-  const response = await query(CART, options) as { data?: CartQuery };
+  const response = await query(CART, options);
   return response.data?.cart;
 };
 
@@ -45,7 +45,7 @@ const get = async (
 const create = async (
   options: CartCreateMutationVariables
 ): Promise<CartCreateMutation['cartCreate']> => {
-  const response = await query(CART_CREATE, options) as { data?: CartCreateMutation };
+  const response = await query(CART_CREATE, options);
   return response.data?.cartCreate;
 };
 
@@ -58,7 +58,7 @@ const create = async (
 const addLines = async (
   options: CartLinesAddMutationVariables
 ): Promise<CartLinesAddMutation['cartLinesAdd']> => {
-  const response = await query(CART_LINES_ADD, options) as { data?: CartLinesAddMutation };
+  const response = await query(CART_LINES_ADD, options);
   return response.data?.cartLinesAdd;
 };
 
@@ -71,7 +71,7 @@ const addLines = async (
 const removeLines = async (
   options: CartLinesRemoveMutationVariables
 ): Promise<CartLinesRemoveMutation['cartLinesRemove']> => {
-  const response = await query(CART_LINES_REMOVE, options) as { data?: CartLinesRemoveMutation };
+  const response = await query(CART_LINES_REMOVE, options);
   return response.data?.cartLinesRemove;
 };
 
@@ -84,7 +84,7 @@ const removeLines = async (
 const updateLines = async (
   options: CartLinesUpdateMutationVariables
 ): Promise<CartLinesUpdateMutation['cartLinesUpdate']> => {
-  const response = await query(CART_LINES_UPDATE, options) as { data?: CartLinesUpdateMutation };
+  const response = await query(CART_LINES_UPDATE, options);
   return response.data?.cartLinesUpdate;
 };
 
@@ -97,7 +97,7 @@ const updateLines = async (
 const updateBuyerIdentity = async (
   options: CartBuyerIdentityUpdateMutationVariables
 ): Promise<CartBuyerIdentityUpdateMutation['cartBuyerIdentityUpdate']> => {
-  const response = await query(CART_BUYER_IDENTITY_UPDATE, options) as { data?: CartBuyerIdentityUpdateMutation };
+  const response = await query(CART_BUYER_IDENTITY_UPDATE, options);
   return response.data?.cartBuyerIdentityUpdate;
 };
 

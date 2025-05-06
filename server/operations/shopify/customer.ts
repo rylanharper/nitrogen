@@ -47,7 +47,7 @@ import { query } from '../../utils/graphql-client';
 const get = async (
   options: CustomerQueryVariables
 ): Promise<CustomerQuery['customer']> => {
-  const response = await query(CUSTOMER, options) as { data?: CustomerQuery };
+  const response = await query(CUSTOMER, options);
   return response.data?.customer;
 };
 
@@ -60,7 +60,7 @@ const get = async (
 const createAccessToken = async (
   options: CustomerAccessTokenCreateMutationVariables
 ): Promise<CustomerAccessTokenCreateMutation['customerAccessTokenCreate']> => {
-  const response = await query(CUSTOMER_ACCESS_TOKEN_CREATE, options) as { data?: CustomerAccessTokenCreateMutation };
+  const response = await query(CUSTOMER_ACCESS_TOKEN_CREATE, options);
   return response.data?.customerAccessTokenCreate;
 };
 
@@ -73,7 +73,7 @@ const createAccessToken = async (
 const deleteAccessToken = async (
   options: CustomerAccessTokenDeleteMutationVariables
 ): Promise<CustomerAccessTokenDeleteMutation['customerAccessTokenDelete']> => {
-  const response = await query(CUSTOMER_ACCESS_TOKEN_DELETE, options) as { data?: CustomerAccessTokenDeleteMutation };
+  const response = await query(CUSTOMER_ACCESS_TOKEN_DELETE, options);
   return response.data?.customerAccessTokenDelete;
 };
 
@@ -86,7 +86,7 @@ const deleteAccessToken = async (
 const create = async (
   options: CustomerCreateMutationVariables
 ): Promise<CustomerCreateMutation['customerCreate']> => {
-  const response = await query(CUSTOMER_CREATE, options) as { data?: CustomerCreateMutation };
+  const response = await query(CUSTOMER_CREATE, options);
   return response.data?.customerCreate;
 };
 
@@ -99,7 +99,7 @@ const create = async (
 const recover = async (
   options: CustomerRecoverMutationVariables
 ): Promise<CustomerRecoverMutation['customerRecover']> => {
-  const response = await query(CUSTOMER_RECOVER, options) as { data?: CustomerRecoverMutation };
+  const response = await query(CUSTOMER_RECOVER, options);
   return response.data?.customerRecover;
 };
 
@@ -112,7 +112,7 @@ const recover = async (
 const reset = async (
   options: CustomerResetMutationVariables
 ): Promise<CustomerResetMutation['customerReset']> => {
-  const response = await query(CUSTOMER_RESET, options) as { data?: CustomerResetMutation };
+  const response = await query(CUSTOMER_RESET, options);
   return response.data?.customerReset;
 };
 
@@ -125,7 +125,7 @@ const reset = async (
 const resetByUrl = async (
   options: CustomerResetByUrlMutationVariables
 ): Promise<CustomerResetByUrlMutation['customerResetByUrl']> => {
-  const response = await query(CUSTOMER_RESET_BY_URL, options) as { data?: CustomerResetByUrlMutation };
+  const response = await query(CUSTOMER_RESET_BY_URL, options);
   return response.data?.customerResetByUrl;
 };
 
@@ -138,7 +138,7 @@ const resetByUrl = async (
 const createAddress = async (
   options: CustomerAddressCreateMutationVariables
 ): Promise<CustomerAddressCreateMutation['customerAddressCreate']> => {
-  const response = await query(CUSTOMER_ADDRESS_CREATE, options) as { data?: CustomerAddressCreateMutation };
+  const response = await query(CUSTOMER_ADDRESS_CREATE, options);
   return response.data?.customerAddressCreate;
 };
 
@@ -151,7 +151,7 @@ const createAddress = async (
 const deleteAddress = async (
   options: CustomerAddressDeleteMutationVariables
 ): Promise<CustomerAddressDeleteMutation['customerAddressDelete']> => {
-  const response = await query(CUSTOMER_ADDRESS_DELETE, options) as { data?: CustomerAddressDeleteMutation };
+  const response = await query(CUSTOMER_ADDRESS_DELETE, options);
   return response.data?.customerAddressDelete;
 };
 
@@ -164,7 +164,7 @@ const deleteAddress = async (
 const updateAddress = async (
   options: CustomerAddressUpdateMutationVariables
 ): Promise<CustomerAddressUpdateMutation['customerAddressUpdate']> => {
-  const response = await query(CUSTOMER_ADDRESS_UPDATE, options) as { data?: CustomerAddressUpdateMutation };
+  const response = await query(CUSTOMER_ADDRESS_UPDATE, options);
   return response.data?.customerAddressUpdate;
 };
 
@@ -177,7 +177,7 @@ const updateAddress = async (
 const updateDefaultAddress = async (
   options: CustomerDefaultAddressUpdateMutationVariables
 ): Promise<CustomerDefaultAddressUpdateMutation['customerDefaultAddressUpdate']> => {
-  const response = await query(CUSTOMER_DEFAULT_ADDRESS_UPDATE, options) as { data?: CustomerDefaultAddressUpdateMutation };
+  const response = await query(CUSTOMER_DEFAULT_ADDRESS_UPDATE, options);
   return response.data?.customerDefaultAddressUpdate;
 };
 

@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import type { ProductQueryVariables, ProductFragment } from '@@/types/shopify';
+import type {
+  ProductQueryVariables,
+  ProductFragment,
+  MediaFragment,
+  ProductVariantFragment
+} from '@@/types/shopify';
 
 import { flattenConnection } from '@/utils/graphql';
 
@@ -38,15 +43,9 @@ const colorReferences = computed(() => productData.value?.matching_colors?.refer
 const recommendations = computed(() => recommendationData.value?.slice(0, 4));
 
 // Flatten connections
-const productMedia = computed(() => flattenConnection(product.value?.media));
-const productVariants = computed(() => flattenConnection(product.value?.variants));
-
-// Get/flatten matching color references (if any)
-const matchingColors = computed(() =>
-  colorReferences.value
-    ? flattenConnection(colorReferences.value) as ProductFragment[]
-    : []
-);
+const productMedia = computed(() => flattenConnection(product.value?.media) as MediaFragment[]);
+const productVariants = computed(() => flattenConnection(product.value?.variants) as ProductVariantFragment[]);
+const matchingColors = computed(() => flattenConnection(colorReferences.value) as ProductFragment[]);
 
 // SEO
 useHead({
