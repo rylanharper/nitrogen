@@ -1,18 +1,14 @@
-interface CreateClientSubscription {
-  email?: string | null;
-  phone?: string | null;
-  status: number;
-  message: string;
-  error: string | null;
-  submittedAt: string;
+interface KlaviyoError {
+  id?: string;
+  status?: string;
+  code?: string;
+  title?: string;
+  detail?: string;
 }
 
-interface CreateBackInStockSubscription {
-  email?: string | null;
-  status: number;
-  message: string;
-  error: string | null;
-  submittedAt: string;
+interface KlaviyoApiResponse<T = undefined> {
+  data?: T;
+  errors?: KlaviyoError[];
 }
 
 /**
@@ -25,7 +21,7 @@ interface CreateBackInStockSubscription {
 const newsletter = async (
   email: string,
   listId: string
-): Promise<CreateClientSubscription> => {
+): Promise<KlaviyoApiResponse> => {
   return await $fetch('/api/klaviyo', {
     method: 'POST',
     body: {
@@ -62,7 +58,7 @@ const newsletter = async (
 const backInStock = async (
   email: string,
   variantId: string
-): Promise<CreateBackInStockSubscription> => {
+): Promise<KlaviyoApiResponse> => {
   return await $fetch('/api/klaviyo', {
     method: 'POST',
     body: {
