@@ -52,7 +52,7 @@ export const query = async (
 
       throw createError({
         statusCode: 500,
-        statusMessage: `GraphQL fetch request failed after ${maxRetries} attempts.`,
+        statusMessage: `Shopify API error: GraphQL request failed after ${maxRetries} attempts.`,
         data: { error: error.message }
       });
     }
