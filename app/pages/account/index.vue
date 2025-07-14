@@ -3,7 +3,7 @@ import type {
   CustomerQueryVariables,
   OrderFragment,
   MailingAddressFragment
-} from '@@/types/shopify';
+} from '@@/types/shopify-storefront';
 
 import { flattenConnection } from '@/utils/graphql';
 

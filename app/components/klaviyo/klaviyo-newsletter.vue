@@ -48,7 +48,10 @@ watch(
 
 <template>
   <div class="flex flex-col gap-4">
-    <h3 class="uppercase">Newsletter <span class="normal-case">(Klaviyo)</span></h3>
+    <h3 class="uppercase">
+      Newsletter
+      <span class="normal-case">(Klaviyo)</span>
+    </h3>
     <form novalidate @submit.prevent="handleNewsletter">
       <div class="relative w-full mb-2.5">
         <input

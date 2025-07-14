@@ -16,14 +16,14 @@ const closeMenu = () => {
 };
 
 // Watchers
-const route = useRoute();
+const route = useRoute()
+const { escape } = useMagicKeys()
 
-watch(
-  () => route.path,
-  () => {
-    closeMenu();
-  }
-);
+watch(() => route.path, closeMenu)
+
+if (escape) {
+  watch(escape, closeMenu)
+}
 </script>
 
 <template>

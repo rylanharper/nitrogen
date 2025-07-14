@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CustomerQueryVariables, OrderFragment } from '@@/types/shopify';
+import type { CustomerQueryVariables, OrderFragment } from '@@/types/shopify-storefront';
 
 import { flattenConnection } from '@/utils/graphql';
 

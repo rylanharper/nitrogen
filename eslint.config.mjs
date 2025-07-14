@@ -1,8 +1,11 @@
-import withNuxt from './.nuxt/eslint.config.mjs';
+import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
   {
-    ignores: ['**/types']
+    ignores: [
+      'nuxt.config.ts',
+      '**/types/**',
+    ],
   },
   {
     rules: {
@@ -13,8 +16,8 @@ export default withNuxt(
         {
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_'
-        }
+          caughtErrorsIgnorePattern: '^_',
+        },
       ],
       'import/order': [
         'error',
@@ -22,21 +25,24 @@ export default withNuxt(
           groups: [
             'type',
             ['builtin', 'external'],
-            ['internal', 'parent', 'sibling', 'index', 'object']
+            ['internal', 'parent', 'sibling', 'index', 'object'],
           ],
           alphabetize: {
-            order: 'asc'
-          }
-        }
+            order: 'asc',
+          },
+        },
       ],
       'vue/no-v-html': 'off',
       'vue/html-self-closing': 'off',
       'vue/block-order': [
         'error',
         {
-          order: ['script', 'template', 'style']
-        }
-      ]
-    }
-  }
-);
+          order: ['script', 'template', 'style'],
+        },
+      ],
+      '@stylistic/semi': ['error', 'never'],
+      '@stylistic/arrow-parens': ['error', 'always'],
+      '@stylistic/brace-style': ['error', '1tbs'],
+    },
+  },
+)

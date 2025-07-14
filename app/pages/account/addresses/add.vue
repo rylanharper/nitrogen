@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CustomerQueryVariables, MailingAddressInput } from '@@/types/shopify';
+import type { CustomerQueryVariables, MailingAddressInput } from '@@/types/shopify-storefront';
 
 // Stores
 const authStore = useAuthStore();

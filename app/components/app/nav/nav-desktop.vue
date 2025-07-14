@@ -17,14 +17,27 @@ const shopStore = useShopStore();
 // Computed
 const countryCode = computed(() => shopStore.buyerCountryCode);
 const currencySymbol = computed(() => shopStore.buyerCurrencySymbol);
-const cartTotalItems = computed(() => cartStore.lineItemsCount);
+const cartTotalItems = computed(() => cartStore.lineItemCount);
 
 // Emits
-const emit = defineEmits([
-  'toggleLocaleModal',
-  'toggleSearchMenu',
-  'toggleCartDrawer'
-]);
+const emit = defineEmits<{
+  toggleLocaleModal: []
+  toggleSearchMenu: []
+  toggleCartDrawer: []
+}>()
+
+// Emit events
+const toggleLocaleModal = () => {
+  emit('toggleLocaleModal')
+}
+
+const toggleSearchMenu = () => {
+  emit('toggleSearchMenu')
+}
+
+const toggleCartDrawer = () => {
+  emit('toggleCartDrawer')
+}
 </script>
 
 <template>
@@ -51,7 +64,7 @@ const emit = defineEmits([
     <div class="grid grid-flow-col justify-end items-center">
       <button
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
-        @click="emit('toggleLocaleModal')"
+        @click="toggleLocaleModal"
       >
         {{ countryCode }} / {{ currencySymbol }}
       </button>
@@ -65,13 +78,13 @@ const emit = defineEmits([
       </NuxtLink>
       <button
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
-        @click="emit('toggleSearchMenu')"
+        @click="toggleSearchMenu"
       >
         Search
       </button>
       <button
         class="px-2.5 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
-        @click="emit('toggleCartDrawer')"
+        @click="toggleCartDrawer"
       >
         Cart ({{ cartTotalItems }})
       </button>

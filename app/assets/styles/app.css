@@ -1,19 +1,11 @@
 @import 'tailwindcss';
 
-@font-face {
-  font-family: 'IBM Plex Sans';
-  src: url('~/assets/fonts/IBMPlexSans-Regular.woff2') format('woff2');
-  font-display: swap;
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'IBM Plex Mono';
-  src: url('~/assets/fonts/IBMPlexMono-Regular.woff2') format('woff2');
-  font-display: swap;
-  font-weight: 400;
-  font-style: normal;
+:root {
+  --body-text-color: #000;
+  --body-background-color: #fff;
+  --body-selection-color: #eee;
+  --backgound-line-color: #f4f4f4;
+  --header-height: 36px;
 }
 
 @theme {
@@ -21,12 +13,29 @@
   --font-mono: 'IBM Plex Mono', monospace;
 }
 
-:root {
-  --body-text-color: #000;
-  --body-background-color: #fff;
-  --body-selection-color: #eee;
-  --backgound-line-color: #f4f4f4;
-  --header-height: 36px;
+@utility wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility bg-line-pattern {
+  background-image: linear-gradient(135deg, var(--backgound-line-color) 10%, #0000 0, #0000 50%, var(--backgound-line-color) 0, var(--backgound-line-color) 60%, #0000 0, #0000);
+  background-size: 7px 7px;
+}
+
+@utility text-normalize {
+  font: inherit;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 html {
@@ -53,24 +62,16 @@ body {
 a,
 button {
   cursor: pointer;
-}
-
-.bg-line-pattern {
-  background-image: linear-gradient(135deg, var(--backgound-line-color) 10%, #0000 0, #0000 50%, var(--backgound-line-color) 0, var(--backgound-line-color) 60%, #0000 0, #0000);
-  background-size: 7px 7px;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.text-normalize {
-  font: inherit;
-  text-transform: uppercase;
   white-space: nowrap;
+}
+
+span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+svg,
+img {
+  flex-shrink: 0;
 }

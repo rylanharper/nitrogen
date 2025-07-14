@@ -4,7 +4,7 @@ import type {
   ProductFragment,
   MediaFragment,
   ProductVariantFragment
-} from '@@/types/shopify';
+} from '@@/types/shopify-storefront';
 
 import { flattenConnection } from '@/utils/graphql';
 

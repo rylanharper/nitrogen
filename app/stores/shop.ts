@@ -1,32 +1,32 @@
 import type {
   CountryCode,
   LanguageCode,
-  LocalizationQuery
-} from '@@/types/shopify';
+  LocalizationQuery,
+} from '@@/types/shopify-storefront'
 
-import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
 
 // Interface
 interface ShopState {
-  locale: LocalizationQuery['localization'];
+  locale: LocalizationQuery['localization']
 }
 
 // Composables
-const shopify = useShopify();
+const shopify = useShopify()
 
 // Store
-export const useShopStore = defineStore('@nitrogen/shop', {
+export const useShopStore = defineStore('@nikkoel/shop', {
   state: (): ShopState => ({
     locale: {
       availableCountries: [],
       availableLanguages: [],
       country: {
-        isoCode: 'US'
+        isoCode: 'US',
       },
       language: {
-        isoCode: 'EN'
-      }
-    }
+        isoCode: 'EN',
+      },
+    },
   }),
 
   actions: {
@@ -39,32 +39,32 @@ export const useShopStore = defineStore('@nitrogen/shop', {
       try {
         const response = await shopify.localization.get({
           country: newCountryCode ?? this.locale.country.isoCode,
-          language: newLanguageCode ?? this.locale.language.isoCode
-        });
+          language: newLanguageCode ?? this.locale.language.isoCode,
+        })
 
         if (!response.country && !response.language) {
-          throw new Error('No localization data found.');
+          throw new Error('No localization data found.')
         }
 
-        this.locale.availableCountries = response.availableCountries;
-        this.locale.availableLanguages = response.availableLanguages;
-        this.locale.country = response.country;
-        this.locale.language = response.language;
+        this.locale.availableCountries = response.availableCountries
+        this.locale.availableLanguages = response.availableLanguages
+        this.locale.country = response.country
+        this.locale.language = response.language
       } catch (error: any) {
-        console.error('Connot get localization data:', error.message);
-        throw error;
+        console.error('Connot get localization data:', error.message)
+        throw error
       }
-    }
+    },
   },
 
   getters: {
     buyerCountryCode: (state) => state.locale?.country?.isoCode,
     buyerCurrencyCode: (state) => state.locale?.country?.currency?.isoCode,
     buyerCurrencySymbol: (state) => state.locale?.country?.currency?.symbol,
-    buyerLanguageCode: (state) => state.locale?.language?.isoCode
+    buyerLanguageCode: (state) => state.locale?.language?.isoCode,
   },
 
   persist: {
-    pick: ['locale.country', 'locale.language']
-  }
-});
+    pick: ['locale.country', 'locale.language'],
+  },
+})

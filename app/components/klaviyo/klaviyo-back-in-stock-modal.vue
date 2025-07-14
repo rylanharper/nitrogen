@@ -68,9 +68,7 @@ watch(
 );
 
 if (escape) {
-  watch(escape, () => {
-    closeModal();
-  });
+  watch(escape, closeModal)
 }
 </script>
 
@@ -119,7 +117,10 @@ if (escape) {
           class="flex absolute top-2 right-2 ring-1 ring-transparent ring-offset-2 rounded-xs focus:ring-black"
           @click="closeModal"
         >
-          <Icon name="ph:x" class="size-5 shrink-0" />
+          <Icon
+            name="ph:x"
+            class="inline-block shrink-0 !size-5"
+          />
         </button>
         <p v-if="errorMessage" class="w-[75%] mt-6 mx-auto text-red-500 text-center">
           {{ errorMessage }}
