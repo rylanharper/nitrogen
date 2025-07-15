@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { VideoFragment, MediaImageFragment } from '@@/types/shopify-storefront';
+import type { MediaFragment } from '@@/types/shopify-storefront';
 
 import { isMediaVideo, isMediaImage } from '@/helpers/shopify';
 
 // Props
 const props = defineProps<{
-  productMedia: Array<VideoFragment | MediaImageFragment>;
+  productMedia: MediaFragment[];
 }>();
 
 // Stores
@@ -45,7 +45,7 @@ watch(
       />
       <ShopifyImage
         v-else-if="isMediaImage(media)"
-        :image="media.image"
+        :image="media.image!"
         :alt="media.image?.altText || ''"
         :index="index"
       />
@@ -53,6 +53,6 @@ watch(
   </div>
   <ProductMediaLightbox
     :media-index="mediaIndex"
-    :product-media="productMedia"
+    :product-media="props.productMedia"
   />
 </template>

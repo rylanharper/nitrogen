@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { VideoFragment, MediaImageFragment } from '@@/types/shopify-storefront';
+import type { MediaFragment } from '@@/types/shopify-storefront';
 
 import { isMediaVideo, isMediaImage } from '@/helpers/shopify';
 
 // Props
 const props = defineProps<{
-  productMedia: Array<VideoFragment | MediaImageFragment>;
+  productMedia: MediaFragment[];
   mediaIndex: number;
 }>();
 
@@ -20,7 +20,7 @@ const closeLightbox = () => {
 // State
 const mediaRefs = ref<HTMLElement[]>([]);
 
-onUpdated(() => {
+watchEffect(() => {
   const selectedMediaItem = mediaRefs.value[props.mediaIndex];
   selectedMediaItem?.scrollIntoView();
 });
@@ -29,9 +29,7 @@ onUpdated(() => {
 const { escape } = useMagicKeys();
 
 if (escape) {
-  watch(escape, () => {
-    closeLightbox()
-  });
+  watch(escape, closeLightbox)
 }
 
 // Cleanup
@@ -49,7 +47,10 @@ onBeforeUnmount(() => {
       class="flex absolute z-10 top-4 right-10 ring-1 ring-transparent ring-offset-2 ring-offset-[#f2f2f2] rounded-xs focus:ring-black"
       @click="closeLightbox"
     >
-      <Icon name="ph:x" class="size-6 shrink-0" />
+      <Icon
+        name="ph:x"
+        class="inline-block shrink-0 !size-6"
+      />
     </button>
     <div class="flex flex-col overflow-auto size-full">
       <div
@@ -65,7 +66,7 @@ onBeforeUnmount(() => {
         />
         <ShopifyImage
           v-else-if="isMediaImage(media)"
-          :image="media.image"
+          :image="media.image!"
           :alt="media.image?.altText || ''"
           :index="index"
         />

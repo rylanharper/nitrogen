@@ -43,7 +43,7 @@ const { data: recommendedData, error: recommendedError } = recommendedQuery
 
 // Response data
 const product = computed(() => productData.value)
-const recommendations = computed(() => recommendedData.value?.slice(0, 8))
+const recommendations = computed(() => recommendedData.value?.slice(0, 4))
 
 // Access data nodes
 const productMedia = computed(() => flattenConnection(product.value?.media) as MediaFragment[])
@@ -74,6 +74,7 @@ useHead({
     v-else-if="product"
     class="wrapper mb-20"
   >
+    <!-- Product -->
     <section class="grid gap-10 mb-10 lg:grid-cols-2 lg:gap-0 lg:mb-20">
       <div>
         <ProductMediaGallery :product-media="productMedia" />
@@ -87,6 +88,7 @@ useHead({
         />
       </div>
     </section>
+    <!-- Recommendations -->
     <section class="px-6">
       <ProductRecommendations :products="recommendations" />
     </section>

@@ -5,10 +5,10 @@ import { getSizeOption, isSizeSoldOut } from '@/helpers/shopify';
 
 // Props
 const props = defineProps<{
-  product: ProductFragment;
-  variants: ProductVariantFragment[];
-  selectedSize: string;
-}>();
+  product: ProductFragment
+  variants: ProductVariantFragment[]
+  selectedSize: string
+}>()
 
 // Computed
 const sizeOption = computed(() => getSizeOption(props.product.options));
@@ -26,11 +26,13 @@ const productSizes = computed(() => {
 });
 
 // Emits
-const emit = defineEmits(['selectSize']);
+const emit = defineEmits<{
+  setSizeOption: [size: string]
+}>()
 
 // Emit events
-const selectSizeOption = (size: string) => {
-  emit('selectSize', size);
+const setSizeOption = (size: string) => {
+  emit('setSizeOption', size);
 };
 </script>
 
@@ -39,7 +41,10 @@ const selectSizeOption = (size: string) => {
     <div class="flex items-center justify-between">
       <span class="uppercase">Size</span>
       <button class="flex items-center justify-center gap-1.5 hover:text-gray-500">
-        <Icon name="ph:ruler" class="size-5 shrink-0" />
+        <Icon
+          name="ph:ruler"
+          class="inline-block shrink-0 !size-5"
+        />
         Size Guide
       </button>
     </div>
@@ -57,7 +62,7 @@ const selectSizeOption = (size: string) => {
             : 'text-black'
         ]"
         :aria-label="`Size Option ${size.name}`"
-        @click="selectSizeOption(size.name)"
+        @click="setSizeOption(size.name)"
       >
         {{ size.name }}
       </button>

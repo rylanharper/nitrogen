@@ -1,55 +1,65 @@
 <script setup lang="ts">
-import type { VideoFragment, MediaImageFragment } from '@@/types/shopify-storefront';
-import type { EmblaCarouselType } from 'embla-carousel';
+import type { MediaFragment } from '@@/types/shopify-storefront'
+import type { EmblaCarouselType } from 'embla-carousel'
 
-import emblaCarouselVue from 'embla-carousel-vue';
+import emblaCarouselVue from 'embla-carousel-vue'
 
-import { isMediaVideo, isMediaImage } from '@/helpers/shopify';
+import { isMediaVideo, isMediaImage } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
-  productMedia: Array<VideoFragment | MediaImageFragment>;
-}>();
+  productMedia: MediaFragment[]
+}>()
 
 // Embla setup
-const [emblaRef, emblaApi] = emblaCarouselVue({ loop: true });
+const [emblaRef, emblaApiMain] = emblaCarouselVue({
+  loop: true,
+})
 
 // State
-const selectedIndex = ref<number>(0);
-const canScrollNext = ref(false);
-const canScrollPrev = ref(false);
+const canScrollNext = ref(false)
+const canScrollPrev = ref(false)
+const selectedIndex = ref<number>(0)
+const scrollSnaps = ref<number[]>([])
 
 // Next/prev actions
 const scrollPrev = () => {
-  emblaApi.value?.scrollPrev();
-};
+  emblaApiMain.value?.scrollPrev()
+}
 
 const scrollNext = () => {
-  emblaApi.value?.scrollNext();
-};
+  emblaApiMain.value?.scrollNext()
+}
 
 // ScrollTo method
 const scrollTo = (index: number) => {
-  emblaApi.value?.scrollTo(index);
-};
+  emblaApiMain.value?.scrollTo(index)
+}
 
 // Embla event handlers
+const onInit = (api: EmblaCarouselType) => {
+  scrollSnaps.value = api?.scrollSnapList() || []
+}
+
 const onSelect = (api: EmblaCarouselType) => {
-  canScrollNext.value = api?.canScrollNext() || false;
-  canScrollPrev.value = api?.canScrollPrev() || false;
-  selectedIndex.value = api?.selectedScrollSnap() || 0;
-};
+  canScrollNext.value = api?.canScrollNext() || false
+  canScrollPrev.value = api?.canScrollPrev() || false
+  selectedIndex.value = api?.selectedScrollSnap() || 0
+}
 
 onMounted(() => {
-  if (!emblaApi.value) {
-    return;
-  }
+  if (!emblaApiMain.value) return
 
-  emblaApi.value?.on('select', onSelect);
-  emblaApi.value?.on('reInit', onSelect);
-});
+  emblaApiMain.value?.on('init', onInit)
+  emblaApiMain.value?.on('select', onSelect)
+  emblaApiMain.value?.on('reInit', onSelect)
+})
+
+// Cleanup
+onUnmounted(() => {
+  if (emblaApiMain.value) emblaApiMain.value.destroy()
+})
 </script>
-
 <template>
   <div ref="emblaRef" class="relative overflow-hidden lg:hidden">
     <div class="flex">
@@ -64,32 +74,46 @@ onMounted(() => {
         />
         <ShopifyImage
           v-else-if="isMediaImage(media)"
-          :image="media.image"
+          :image="media.image!"
           :alt="media.image?.altText || ''"
           :index="index"
         />
       </div>
     </div>
-    <div class="absolute flex items-center justify-center gap-2 w-full p-2 bottom-0">
-      <div v-for="(_, index) in productMedia" :key="index">
+    <div
+      v-if="productMedia.length > 1"
+      class="absolute flex items-center justify-center gap-2 w-full p-2 bottom-0 lg:hidden"
+    >
+      <div
+        v-for="(_, index) in scrollSnaps"
+        :key="index"
+      >
         <button
-          class="size-2 rounded-full border border-black"
-          :class="{ 'bg-black': index === selectedIndex }"
+          class="size-[6px] border border-black rounded-full"
+          :class="index === selectedIndex ? 'bg-black' : 'bg-transparent'"
           @click="scrollTo(index)"
         />
       </div>
     </div>
-    <button
-      class="absolute flex items-center justify-center z-10 p-2 top-0 left-0 h-full"
-      @click="scrollPrev"
-    >
-      <Icon name="ph:caret-left" class="size-5 shrink-0" />
-    </button>
-    <button
-      class="absolute flex items-center justify-center z-10 p-2 top-0 right-0 h-full"
-      @click="scrollNext"
-    >
-      <Icon name="ph:caret-right" class="size-5 shrink-0" />
-    </button>
+    <div v-if="productMedia.length > 1">
+      <button
+        class="absolute flex items-center justify-center z-10 p-2 top-0 left-0 h-full"
+        @click="scrollPrev"
+      >
+        <Icon
+          name="ph:caret-left"
+          class="inline-block shrink-0 !size-5"
+        />
+      </button>
+      <button
+        class="absolute flex items-center justify-center z-10 p-2 top-0 right-0 h-full"
+        @click="scrollNext"
+      >
+        <Icon
+          name="ph:caret-right"
+          class="inline-block shrink-0 !size-5"
+        />
+      </button>
+    </div>
   </div>
 </template>

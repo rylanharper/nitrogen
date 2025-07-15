@@ -1,42 +1,42 @@
 <script setup lang="ts">
-import type { ProductVariantFragment } from '@@/types/shopify-storefront';
+import type { ProductVariantFragment } from '@@/types/shopify-storefront'
 
 // Props
 const props = defineProps<{
-  currentVariant?: ProductVariantFragment;
-  variants: ProductVariantFragment[];
-}>();
+  currentVariant?: ProductVariantFragment
+  variants: ProductVariantFragment[]
+}>()
 
 // Stores
-const appStore = useAppStore();
-const cartStore = useCartStore();
+const appStore = useAppStore()
+const cartStore = useCartStore()
 
 // State
-const isLoading = ref(false);
+const isLoading = ref(false)
 
 // Actions
 const openModal = () => {
-  appStore.toggle('backInStockModal', true);
-};
+  appStore.toggle('backInStockModal', true)
+}
 
 const openDrawer = () => {
-  appStore.toggle('cartDrawer', true);
-};
+  appStore.toggle('cartDrawer', true)
+}
 
 const addToCart = async () => {
   if (!props.currentVariant) return
-  isLoading.value = true;
+  isLoading.value = true
 
   await cartStore.addToCart([
     {
       merchandiseId: props.currentVariant?.id,
-      quantity: 1
-    }
-  ]);
+      quantity: 1,
+    },
+  ])
 
-  openDrawer();
-  isLoading.value = false;
-};
+  openDrawer()
+  isLoading.value = false
+}
 </script>
 
 <template>

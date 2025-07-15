@@ -1,80 +1,71 @@
 <script setup lang="ts">
-import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify-storefront';
+import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify-storefront'
 
 import { isSizeOption } from '@/helpers/shopify'
 import { formatVariantId } from '@/utils/formatters'
 
 // Props
 const props = defineProps<{
-  product: ProductFragment;
-  variants: ProductVariantFragment[];
-  matchingColors: ProductFragment[];
-}>();
+  product: ProductFragment
+  variants: ProductVariantFragment[]
+  matchingColors: ProductFragment[]
+}>()
 
 // Route data
-const route = useRoute();
-const router = useRouter();
-const variantQuery = computed(() => route.query.variant as string);
+const route = useRoute()
+const router = useRouter()
+const variantQuery = computed(() => route.query.variant as string | undefined)
 
 // State
-const selectedSize = ref('');
-const initialVariant = ref<ProductVariantFragment | undefined>();
-const currentVariant = ref<ProductVariantFragment | undefined>();
+const selectedSize = ref('')
 
-// Set formatted variant ID to URL query
+// Computed
+const currentVariant = computed(() =>
+  props.variants.find((variant) =>
+    variant.selectedOptions.every(({ name, value }) =>
+      isSizeOption(name) ? value === selectedSize.value : true,
+    ),
+  ),
+)
+
+// Set formatted variant ID to URL
 const setVariantId = (variant: ProductVariantFragment | undefined) => {
-  const query = { ...route.query };
+  const query = { ...route.query }
 
   if (variant) {
-    query.variant = formatVariantId(variant.id);
+    query.variant = formatVariantId(variant.id)
   } else {
-    delete query.variant;
+    delete query.variant
   }
 
-  router.replace({ query });
-};
+  router.replace({ query })
+}
 
-// Sync initial variant from available options or URL query
+// Set initial variant from URL or default to first
 // Defaults to undefined if no match is found
 onMounted(() => {
+  let initialVariant: ProductVariantFragment | undefined
+
   if (props.variants.length === 1) {
-    initialVariant.value = props.variants[0];
+    initialVariant = props.variants[0]
   } else if (variantQuery.value) {
-    initialVariant.value = props.variants.find(
-      (variant) => formatVariantId(variant.id) === variantQuery.value
-    );
+    initialVariant = props.variants.find((value) => formatVariantId(value.id) === variantQuery.value)
   }
 
-  if (initialVariant.value) {
-    const sizeOption = initialVariant.value.selectedOptions.find(
-      (option) => isSizeOption(option.name)
-    );
-
-    if (sizeOption) {
-      selectedSize.value = sizeOption.value;
-    }
-
-    setVariantId(initialVariant.value);
+  if (initialVariant) {
+    const sizeOption = initialVariant.selectedOptions.find((option) => isSizeOption(option.name))
+    if (sizeOption) selectedSize.value = sizeOption.value
+    setVariantId(initialVariant)
   }
-});
+})
 
 // Actions
-const selectSize = (size: string) => {
-  selectedSize.value = size;
-};
+const setSizeOption = (size: string) => {
+  selectedSize.value = size
+}
 
 // Watchers
-watchEffect(() => {
-  currentVariant.value = props.variants.find((variant) =>
-    variant.selectedOptions.every(({ name, value }) =>
-      isSizeOption(name) ? value === selectedSize.value : true
-    )
-  );
-});
-
-watch(currentVariant, (newVariant) => {
-  setVariantId(newVariant);
-});
+watch(currentVariant, setVariantId)
 </script>
 
 <template>
@@ -92,7 +83,7 @@ watch(currentVariant, (newVariant) => {
         :product="product"
         :variants="variants"
         :selected-size="selectedSize"
-        @select-size="selectSize"
+        @set-size-option="setSizeOption"
       />
       <FormAddToCart
         :current-variant="currentVariant"
