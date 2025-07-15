@@ -35,12 +35,16 @@ const toggleCartDrawer = () => {
         class="flex p-2 text-normalize bg-transparent rounded-full"
         @click="toggleMobileMenu"
       >
-        Menu
+        <span>Menu</span>
       </button>
     </div>
     <div class="flex items-center">
-      <NuxtLink id="logo" to="/" class="p-2 text-normalize bg-transparent rounded-full">
-        Nitrogen
+      <NuxtLink
+        id="logo"
+        to="/"
+        class="p-2 text-normalize bg-transparent rounded-full"
+      >
+        <span>Nitrogen</span>
       </NuxtLink>
     </div>
     <div class="grid grid-flow-col justify-end items-center">
@@ -57,7 +61,7 @@ const toggleCartDrawer = () => {
         class="flex p-2 text-normalize bg-transparent rounded-full"
         @click="toggleCartDrawer"
       >
-        Cart ({{ cartTotalItems }})
+        <span>Cart ({{ cartTotalItems }})</span>
       </button>
     </div>
   </nav>

@@ -49,7 +49,7 @@ const toggleCartDrawer = () => {
         :to="link.path"
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
       >
-        {{ link.label }}
+        <span>{{ link.label }}</span>
       </NuxtLink>
     </div>
     <div class="flex items-center">
@@ -58,7 +58,7 @@ const toggleCartDrawer = () => {
         to="/"
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
       >
-        Nitrogen
+        <span>Nitrogen</span>
       </NuxtLink>
     </div>
     <div class="grid grid-flow-col justify-end items-center">
@@ -66,7 +66,7 @@ const toggleCartDrawer = () => {
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
         @click="toggleLocaleModal"
       >
-        {{ countryCode }} / {{ currencySymbol }}
+        <span>{{ countryCode }} / {{ currencySymbol }}</span>
       </button>
       <NuxtLink
         v-for="link in navLinksRight"
@@ -74,19 +74,19 @@ const toggleCartDrawer = () => {
         :to="link.path"
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
       >
-        {{ link.label }}
+        <span>{{ link.label }}</span>
       </NuxtLink>
       <button
         class="px-2 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
         @click="toggleSearchMenu"
       >
-        Search
+        <span>Search</span>
       </button>
       <button
         class="px-2.5 py-0.5 text-normalize bg-transparent rounded-md transition duration-200 hover:bg-zinc-100"
         @click="toggleCartDrawer"
       >
-        Cart ({{ cartTotalItems }})
+        <span>Cart ({{ cartTotalItems }})</span>
       </button>
     </div>
   </nav>
