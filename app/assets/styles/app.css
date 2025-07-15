@@ -62,7 +62,6 @@ body {
 a,
 button {
   cursor: pointer;
-  white-space: nowrap;
 }
 
 span {
