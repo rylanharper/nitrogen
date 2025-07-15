@@ -1,37 +1,32 @@
 <script setup lang="ts">
-import { useMagicKeys } from '@vueuse/core';
-import { flattenConnection } from '@/utils/graphql';
+import type { CartLineFragment } from '@@/types/shopify-storefront'
+
+import { useMagicKeys } from '@vueuse/core'
+import { flattenConnection } from '@/utils/graphql'
 
 // Stores
-const appStore = useAppStore();
-const cartStore = useCartStore();
+const appStore = useAppStore()
+const cartStore = useCartStore()
+
+// Access data nodes
+const lineItems = computed(() => flattenConnection(cartStore.lineItems) as CartLineFragment[])
 
 // Computed
-const cartTotalItems = computed(() => cartStore.lineItemCount);
-
-// Flatten connections
-const lineItems = computed(() => flattenConnection(cartStore.lineItems));
+const cartTotalItems = computed(() => cartStore.lineItemCount)
 
 // Actions
 const closeDrawer = () => {
-  appStore.toggle('cartDrawer', false);
-};
+  appStore.toggle('cartDrawer', false)
+}
 
 // Watchers
-const route = useRoute();
-const { escape } = useMagicKeys();
+const route = useRoute()
+const { escape } = useMagicKeys()
 
-watch(
-  () => route.path,
-  () => {
-    closeDrawer();
-  }
-);
+watch(() => route.path, closeDrawer)
 
 if (escape) {
-  watch(escape, () => {
-    closeDrawer();
-  });
+  watch(escape, closeDrawer)
 }
 </script>
 
@@ -55,7 +50,10 @@ if (escape) {
             class="flex ring-1 ring-transparent ring-offset-2 rounded-xs focus:ring-black"
             @click="closeDrawer"
           >
-            <Icon name="ph:x" class="size-5 shrink-0" />
+            <Icon
+              name="ph:x"
+              class="inline-block shrink-0 !size-5"
+            />
           </button>
         </div>
         <div v-if="lineItems?.length" class="flex flex-col size-full">
@@ -69,10 +67,10 @@ if (escape) {
             Your cart is empty
           </p>
           <button
-            class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+            class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
             @click="closeDrawer"
           >
-            Back to Store
+            <span>Back to Store</span>
           </button>
         </div>
       </div>

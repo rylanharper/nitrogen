@@ -1,46 +1,49 @@
 <script setup lang="ts">
-import type { CartLineFragment } from '@@/types/shopify-storefront';
+import type { CartLineFragment } from '@@/types/shopify-storefront'
 
-import { formatVariantId } from '@/utils/formatters';
+import { formatVariantId } from '@/utils/formatters'
 
 // Props
 const props = defineProps<{
-  line: CartLineFragment;
-}>();
+  line: CartLineFragment
+}>()
 
 // Stores
-const cartStore = useCartStore();
+const cartStore = useCartStore()
 
 // Computed
-const merchandise = computed(() => props.line.merchandise);
-const variantId = computed(() => formatVariantId(props.line.merchandise.id));
+const merchandise = computed(() => props.line.merchandise)
+const variantId = computed(() => formatVariantId(props.line.merchandise.id))
 
 // Filters out default name and value from selected options
 // Appears only when products with default options are added to the cart
 const selectedOptions = computed(() => {
   return merchandise.value.selectedOptions.filter(
-    (option) => option.name !== 'Title' && option.value !== 'Default Title'
-  );
-});
+    (option) => option.name !== 'Title' && option.value !== 'Default Title',
+  )
+})
 
 // Actions
 const removeLineFromCart = async (lineId: string) => {
-  await cartStore.removeFromCart([lineId]);
-};
+  await cartStore.removeFromCart([lineId])
+}
 
-const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) => {
+const updateLineQuantity = async (
+  line: CartLineFragment,
+  newQuantity: number,
+) => {
   if (newQuantity <= 0) {
-    await removeLineFromCart(line.id);
+    await removeLineFromCart(line.id)
   } else {
-    const quantityAvailable = Math.min(newQuantity, 10);
+    const quantityAvailable = Math.min(newQuantity, 10)
     await cartStore.updateCart([
       {
         id: line.id,
-        quantity: quantityAvailable
-      }
-    ]);
+        quantity: quantityAvailable,
+      },
+    ])
   }
-};
+}
 </script>
 
 <template>
@@ -50,7 +53,7 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
       class="aspect-square size-28 shrink-0 border border-transparent transition duration-200 hover:border-zinc-300"
     >
       <ShopifyImage
-        :image="merchandise.product.featuredImage"
+        :image="merchandise.product.featuredImage!"
         :alt="merchandise.product.title"
       />
     </NuxtLink>
@@ -72,21 +75,27 @@ const updateLineQuantity = async (line: CartLineFragment, newQuantity: number) =
             class="flex items-center justify-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 hover:lg:border-black"
             @click="updateLineQuantity(line, line.quantity - 1)"
           >
-            <Icon name="ph:minus" class="size-3 shrink-0" />
+            <Icon
+              name="ph:minus"
+              class="inline-block shrink-0 !size-3"
+            />
           </button>
           <span>{{ line.quantity }}</span>
           <button
             class="flex items-center justify-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 hover:lg:border-black"
             @click="updateLineQuantity(line, line.quantity + 1)"
           >
-            <Icon name="ph:plus" class="size-3 shrink-0" />
+            <Icon
+              name="ph:plus"
+              class="inline-block shrink-0 !size-3"
+            />
           </button>
         </div>
         <button
           class="max-w-fit underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
           @click="removeLineFromCart(line.id)"
         >
-          Remove
+          <span>Remove</span>
         </button>
       </div>
     </div>
