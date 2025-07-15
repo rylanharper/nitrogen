@@ -55,6 +55,6 @@ const getPredictive = async (
 
 export default {
   get,
-  getPredictive,
   getFilters,
+  getPredictive,
 }
