@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { VideoFragment, MediaImageFragment } from '@@/types/shopify-storefront';
+import type { MediaFragment } from '@@/types/shopify-storefront'
 
 import { isMediaVideo, isMediaImage } from '@/helpers/shopify';
 
 // Props
 const props = defineProps<{
-  mediaItems: Array<VideoFragment | MediaImageFragment>;
+  mediaItems: MediaFragment[]
 }>();
 </script>
 
@@ -23,7 +23,7 @@ const props = defineProps<{
       />
       <ShopifyImage
         v-else-if="isMediaImage(media)"
-        :image="media.image"
+        :image="media.image!"
         :alt="media.image?.altText || ''"
         :index="index"
       />

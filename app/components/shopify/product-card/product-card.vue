@@ -9,12 +9,12 @@ const props = defineProps<{
   product: ProductFragment;
 }>();
 
+// Access data nodes
+const mediaItems = computed(() => flattenConnection(props.product.media))
+
 // Computed
 const colorOption = computed(() => getColorOption(props.product.options));
 const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name);
-
-// Flatten connections
-const mediaItems = computed(() => flattenConnection(props.product.media));
 </script>
 
 <template>
