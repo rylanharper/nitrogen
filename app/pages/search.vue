@@ -197,11 +197,14 @@ useHead(() => ({
         <div v-if="activeFilterOptions.length" class="flex flex-wrap gap-2">
           <div v-for="option in activeFilterOptions" :key="option.value">
             <button
-              class="flex items-center justify-center p-2 px-4 gap-2.5 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-red-50 hover:text-red-600 hover:border-red-500"
+              class="flex items-center justify-center p-2 px-4 gap-2.5 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-red-50 hover:text-red-600 hover:border-red-500"
               @click="removeActiveFilterOption(option.name, option.value)"
             >
-              {{ option.value }}
-              <Icon name="ph:x" class="size-4 shrink-0" />
+              <span>{{ option.value }}</span>
+              <Icon
+                name="ph:x"
+                class="inline-block shrink-0 !size-4"
+              />
             </button>
           </div>
         </div>
@@ -209,10 +212,10 @@ useHead(() => ({
       </div>
       <div class="col-start-3 flex justify-end items-center">
         <button
-          class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+          class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
           @click="toggleFilter"
         >
-          Filter & Sort
+          <span>Filter & Sort</span>
         </button>
       </div>
     </section>
@@ -226,10 +229,10 @@ useHead(() => ({
         </div>
         <div v-if="pageInfo?.hasNextPage" class="flex justify-center">
           <button
-            class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+            class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-100"
             @click="loadMoreProducts"
           >
-            See More Products
+            <span>See More Products</span>
           </button>
         </div>
       </div>
