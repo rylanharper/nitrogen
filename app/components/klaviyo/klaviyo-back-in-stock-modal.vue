@@ -86,7 +86,12 @@ if (escape) {
       class="fixed flex items-center justify-center size-full inset-0 z-200 pointer-events-none"
     >
       <dialog class="relative flex flex-col p-6 bg-white pointer-events-auto md:w-xl">
-        <h2 class="uppercase text-center mb-2">Notify Me <span class="normal-case">(Klaviyo)</span></h2>
+        <h2 class="uppercase text-center mb-2">
+          Notify Me
+          <span class="normal-case">
+            (Klaviyo)
+          </span>
+        </h2>
         <p class="text-center">
           Get notified when this product is back in stock.
         </p>
@@ -110,7 +115,7 @@ if (escape) {
             :disabled="isLoading"
             class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
           >
-            {{ isLoading ? 'Submitting...' : 'Submit' }}
+            <span>{{ isLoading ? 'Submitting...' : 'Submit' }}</span>
           </button>
         </form>
         <button

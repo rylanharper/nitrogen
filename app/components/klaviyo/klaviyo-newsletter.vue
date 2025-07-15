@@ -50,7 +50,9 @@ watch(
   <div class="flex flex-col gap-4">
     <h3 class="uppercase">
       Newsletter
-      <span class="normal-case">(Klaviyo)</span>
+      <span class="normal-case">
+        (Klaviyo)
+      </span>
     </h3>
     <form novalidate @submit.prevent="handleNewsletter">
       <div class="relative w-full mb-2.5">
@@ -72,7 +74,7 @@ watch(
         :disabled="isLoading"
         class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
       >
-        {{ isLoading ? 'Subscribing...' : 'Subscribe' }}
+        <span>{{ isLoading ? 'Subscribing...' : 'Subscribe' }}</span>
       </button>
     </form>
     <p v-if="errorMessage" class="text-red-500">
