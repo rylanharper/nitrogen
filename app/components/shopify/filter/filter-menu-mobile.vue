@@ -1,19 +1,28 @@
 <script setup lang="ts">
 // Props
 const props = defineProps<{
-  colorOptions: {
-    name: string;
-    hex: string;
-    image: string | null
-  }[];
-  sizeOptions: string[];
-  productTypeOptions: string[];
   sortOptions: {
-    label: string;
+    label: string
     value: string | null
-  }[];
-  activeFilterCount: number;
-}>();
+  }[]
+  colorOptions: {
+    label: string
+    id: string
+    count: number
+    swatch?: any
+  }[]
+  sizeOptions: {
+    label: string
+    id: string
+    count: number
+  }[]
+  productTypeOptions: {
+    label: string
+    id: string
+    count: number
+  }[]
+  activeFilterCount: number
+}>()
 
 // Route
 const route = useRoute();
@@ -22,12 +31,12 @@ const route = useRoute();
 const appStore = useAppStore();
 
 // Emits
-const emit = defineEmits([
-  'closeFilter',
-  'setSortOption',
-  'setFilterOption',
-  'clearAllFilters'
-]);
+const emit = defineEmits<{
+  closeFilter: []
+  setSortOption: [sortValue: string | null]
+  setFilterOption: [filterName: string, filterValue: string]
+  clearAllFilters: []
+}>()
 
 // Emit events
 const closeFilter = () => {
@@ -68,7 +77,10 @@ const clearAllFilters = () => {
             class="flex ring-1 ring-offset-2 ring-transparent rounded-xs focus:ring-black"
             @click="closeFilter"
           >
-            <Icon name="ph:x" class="size-5 shrink-0" />
+            <Icon
+              name="ph:x"
+              class="inline-block shrink-0 !size-5"
+            />
           </button>
         </div>
         <div class="flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
@@ -78,7 +90,7 @@ const clearAllFilters = () => {
                 <span class="truncate uppercase">Sort By</span>
                 <Icon
                   name="ph:caret-down"
-                  class="size-5 shrink-0 transition group-open:rotate-180"
+                  class="inline-block shrink-0 !size-5 transition group-open:rotate-180"
                 />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
@@ -90,7 +102,7 @@ const clearAllFilters = () => {
                     class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                     @click="setSortOption(option.value)"
                   >
-                    {{ option.label }}
+                    <span>{{ option.label }}</span>
                   </button>
                 </div>
               </div>
@@ -100,38 +112,38 @@ const clearAllFilters = () => {
                 <span class="truncate uppercase">Color</span>
                 <Icon
                   name="ph:caret-down"
-                  class="size-5 shrink-0 transition group-open:rotate-180"
+                  class="inline-block shrink-0 !size-5 transition group-open:rotate-180"
                 />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
                 <div class="flex flex-col pb-4">
                   <button
-                    v-for="(color, index) in props.colorOptions"
-                    :key="index"
-                    :class="{ 'underline border-black': (route.query.color as string)?.split(',').includes(color.name) }"
+                    v-for="color in props.colorOptions"
+                    :key="color.id"
+                    :class="{ 'underline border-black': (route.query.color as string)?.split(',').includes(color.label) }"
                     class="flex items-center gap-3 max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
-                    @click="setFilterOption('color', color.name)"
+                    @click="setFilterOption('color', color.label)"
                   >
                     <span
-                      v-if="color.hex"
+                      v-if="color.swatch.color"
                       :class="{
-                        'border-black': (route.query.color as string)?.split(',').includes(color.name),
-                        'border-gray-100': !(route.query.color as string)?.split(',').includes(color.name)
+                        'border-black': (route.query.color as string)?.split(',').includes(color.label),
+                        'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label)
                       }"
-                      :style="{ backgroundColor: color.hex }"
+                      :style="{ backgroundColor: color.swatch.color }"
                       class="size-3 border rounded-full"
                     />
                     <img
-                      v-if="color.image"
-                      :src="color.image"
+                      v-if="color.swatch.image"
+                      :src="color.swatch.image.url"
                       :class="{
-                        'border-black': (route.query.color as string)?.split(',').includes(color.name),
-                        'border-gray-100': !(route.query.color as string)?.split(',').includes(color.name)
+                        'border-black': (route.query.color as string)?.split(',').includes(color.label),
+                        'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label)
                       }"
                       alt="Color Swatch Image"
                       class="size-3 border rounded-full"
                     >
-                    {{ color.name }}
+                    <span>{{ color.label }}</span>
                   </button>
                 </div>
               </div>
@@ -141,19 +153,19 @@ const clearAllFilters = () => {
                 <span class="truncate uppercase">Size</span>
                 <Icon
                   name="ph:caret-down"
-                  class="size-5 shrink-0 transition group-open:rotate-180"
+                  class="inline-block shrink-0 !size-5 transition group-open:rotate-180"
                 />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
                 <div class="flex flex-col pb-4">
                   <button
-                    v-for="(size, index) in props.sizeOptions"
-                    :key="index"
-                    :class="{ 'underline': (route.query.size as string)?.split(',').includes(size) }"
+                    v-for="size in props.sizeOptions"
+                    :key="size.id"
+                    :class="{ 'underline': (route.query.size as string)?.split(',').includes(size.label) }"
                     class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
-                    @click="setFilterOption('size', size)"
+                    @click="setFilterOption('size', size.label)"
                   >
-                    {{ size }}
+                    <span>{{ size.label }}</span>
                   </button>
                 </div>
               </div>
@@ -163,7 +175,7 @@ const clearAllFilters = () => {
                 <span class="truncate uppercase">Style</span>
                 <Icon
                   name="ph:caret-down"
-                  class="size-5 shrink-0 transition group-open:rotate-180"
+                  class="inline-block shrink-0 !size-5 transition group-open:rotate-180"
                 />
               </summary>
               <div class="h-0 overflow-hidden group-open:h-auto">
@@ -171,11 +183,11 @@ const clearAllFilters = () => {
                   <button
                     v-for="(type, index) in props.productTypeOptions"
                     :key="index"
-                    :class="{ 'underline': (route.query.productType as string)?.split(',').includes(type) }"
+                    :class="{ 'underline': (route.query.productType as string)?.split(',').includes(type.label) }"
                     class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
-                    @click="setFilterOption('productType', type)"
+                    @click="setFilterOption('productType', type.label)"
                   >
-                    {{ type }}
+                    <span>{{ type.label }}</span>
                   </button>
                 </div>
               </div>
@@ -188,14 +200,14 @@ const clearAllFilters = () => {
             class="flex items-center justify-center text-normalize"
             @click="clearAllFilters"
           >
-            Clear All Filters ({{ props.activeFilterCount }})
+            <span>Clear All Filters ({{ props.activeFilterCount }})</span>
           </button>
           <button
             type="button"
             class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
             @click="closeFilter"
           >
-            View Products
+            <span>View Products</span>
           </button>
         </div>
       </div>

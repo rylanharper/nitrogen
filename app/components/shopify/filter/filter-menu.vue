@@ -158,22 +158,22 @@ if (escape) {
 </script>
 
 <template>
-  <!-- <FilterMenuMobile
+  <FilterMenuMobile
+    :sort-options="sortOptions"
     :color-options="colorOptions"
     :size-options="sizeOptions"
     :product-type-options="productTypeOptions"
-    :sort-options="sortOptions"
     :active-filter-count="activeFilterCount"
     @close-filter="closeFilter"
     @set-sort-option="setSortOption"
     @set-filter-option="setFilterOption"
     @clear-all-filters="clearAllFilters"
-  /> -->
+  />
   <FilterMenuDesktop
+    :sort-options="sortOptions"
     :color-options="colorOptions"
     :size-options="sizeOptions"
     :product-type-options="productTypeOptions"
-    :sort-options="sortOptions"
     :active-filter-count="activeFilterCount"
     @close-filter="closeFilter"
     @set-sort-option="setSortOption"

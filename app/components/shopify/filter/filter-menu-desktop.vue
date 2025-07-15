@@ -31,12 +31,12 @@ const route = useRoute();
 const appStore = useAppStore();
 
 // Emits
-const emit = defineEmits([
-  'closeFilter',
-  'setSortOption',
-  'setFilterOption',
-  'clearAllFilters'
-]);
+const emit = defineEmits<{
+  closeFilter: []
+  setSortOption: [sortValue: string | null]
+  setFilterOption: [filterName: string, filterValue: string]
+  clearAllFilters: []
+}>()
 
 // Emit events
 const closeFilter = () => {
@@ -93,7 +93,7 @@ const clearAllFilters = () => {
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
                 @click="setSortOption(option.value)"
               >
-                {{ option.label }}
+                <span>{{ option.label }}</span>
               </button>
             </div>
           </div>
@@ -126,7 +126,7 @@ const clearAllFilters = () => {
                   alt="Color Swatch Image"
                   class="size-3 border rounded-full"
                 >
-                {{ color.label }}
+                <span>{{ color.label }}</span>
               </button>
             </div>
           </div>
@@ -140,7 +140,7 @@ const clearAllFilters = () => {
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
                 @click="setFilterOption('size', size.label)"
               >
-                {{ size.label }}
+                <span>{{ size.label }}</span>
               </button>
             </div>
           </div>
@@ -163,17 +163,17 @@ const clearAllFilters = () => {
           <div class="flex gap-4">
             <button
               type="button"
-              class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+              class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-100"
               @click="clearAllFilters"
             >
-              Clear All Filters ({{ props.activeFilterCount }})
+              <span>Clear All Filters ({{ props.activeFilterCount }})</span>
             </button>
             <button
               type="button"
-              class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+              class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
               @click="closeFilter"
             >
-              View Products
+              <span>View Products</span>
             </button>
           </div>
         </div>
