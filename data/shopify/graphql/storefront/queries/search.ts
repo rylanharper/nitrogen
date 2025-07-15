@@ -4,6 +4,7 @@ import { FILTER_FRAGMENT } from '../fragments/filter'
 import { IMAGE_FRAGMENT } from '../fragments/image'
 import { PAGE_INFO_FRAGMENT } from '../fragments/pageInfo'
 import { PRICE_RANGE_FRAGMENT } from '../fragments/priceRange'
+import { PRODUCT_OPTION_FRAGMENT } from '../fragments/productOption'
 import { PRODUCT_FRAGMENT } from '../fragments/product'
 
 export const SEARCH = gql`
@@ -84,6 +85,9 @@ export const PREDICTIVE_SEARCH = gql`
           ...Image
         }
         handle
+        options(first: 250) {
+          ...ProductOption
+        }
         id
         priceRange {
           ...PriceRange
@@ -102,4 +106,5 @@ export const PREDICTIVE_SEARCH = gql`
   }
   ${IMAGE_FRAGMENT}
   ${PRICE_RANGE_FRAGMENT}
+  ${PRODUCT_OPTION_FRAGMENT}
 `
