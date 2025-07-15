@@ -6,7 +6,7 @@ import { formatCurrency } from '@/utils/formatters';
 
 // Props
 const props = defineProps<{
-  price?: MoneyFragment | null;
+  price: MoneyFragment;
   compareAtPriceRange?: MoneyFragment;
 }>();
 

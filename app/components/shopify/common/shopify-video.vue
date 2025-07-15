@@ -3,7 +3,7 @@ import type { VideoFragment } from '@@/types/shopify-storefront';
 
 // Props
 const props = defineProps<{
-  video?: VideoFragment | null;
+  video: VideoFragment;
   height?: number;
   width?: number;
 }>();
