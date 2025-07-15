@@ -23,10 +23,10 @@ const defaulSearchLinks = [
 const input = ref<HTMLInputElement | null>(null);
 
 // Emits
-const emit = defineEmits([
-  'submitQuery',
-  'closeSearch'
-]);
+const emit = defineEmits<{
+  submitQuery: []
+  closeSearch: []
+}>()
 
 const onKeyDown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
@@ -42,20 +42,15 @@ const closeSearch = () => {
 watch(
   () => appStore.searchMenu,
   (isOpen) => {
-    if (!isOpen) {
-      searchQuery.value = '';
+    if (isOpen) {
+      nextTick(() => {
+        input.value?.focus()
+      })
+    } else {
+      searchQuery.value = ''
     }
-  }
-);
-
-watch(
-  () => appStore.searchMenu,
-  () => {
-    nextTick(() => {
-      input.value?.focus();
-    });
-  }
-);
+  },
+)
 </script>
 
 <template>
@@ -86,13 +81,19 @@ watch(
             @keydown="onKeyDown"
           >
           <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
-            <Icon name="ph:magnifying-glass" class="size-5 shrink-0"/>
+            <Icon
+              name="ph:magnifying-glass"
+              class="inline-block shrink-0 !size-5"
+            />
           </div>
           <button
             class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black"
             @click="closeSearch"
           >
-            <Icon name="ph:x" class="size-5 shrink-0" />
+            <Icon
+              name="ph:x"
+              class="inline-block shrink-0 !size-5"
+            />
           </button>
         </div>
         <div class="grid grid-cols-[280px_1fr] gap-12">

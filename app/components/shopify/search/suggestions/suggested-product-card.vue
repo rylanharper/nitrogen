@@ -20,7 +20,7 @@ const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name)
   >
     <div class="aspect-square size-24 shrink-0 border border-transparent transition duration-200 group-hover:border-zinc-300">
       <ShopifyImage
-        :image="product.featuredImage"
+        :image="product.featuredImage!"
         :alt="product.featuredImage?.altText || product.title"
       />
     </div>

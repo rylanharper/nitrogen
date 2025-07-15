@@ -23,13 +23,13 @@ const handleSearch = useDebounceFn(async () => {
     return;
   }
 
-  const response = await shopify.search.predictive({
+  const response = await shopify.search.getPredictive({
     query: trimmedQuery,
     country: shopStore.buyerCountryCode,
     language: shopStore.buyerLanguageCode,
   });
 
-  searchResults.value = response?.products || [];
+  searchResults.value = response?.products as ProductFragment[];
 }, 300);
 
 // Actions
@@ -41,32 +41,24 @@ const submitQuery = async () => {
   if (searchQuery.value) {
     await navigateTo({
       path: '/search',
-      query: { q: searchQuery.value }
-    });
-
-    closeSearch();
+      query: { q: searchQuery.value.trim() },
+    })
+    closeSearch()
   }
-};
+}
 
 // Watchers
-const route = useRoute();
-const { escape } = useMagicKeys();
+const route = useRoute()
+const { escape } = useMagicKeys()
 
 watch(searchQuery, () => {
   handleSearch();
 });
 
-watch(
-  () => route.path,
-  () => {
-    closeSearch();
-  }
-);
+watch(() => route.path, closeSearch)
 
 if (escape) {
-  watch(escape, () => {
-    closeSearch();
-  });
+  watch(escape, closeSearch)
 }
 </script>
 
