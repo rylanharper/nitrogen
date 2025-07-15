@@ -27,16 +27,14 @@ const deleteAddress = async () => {
 
 // Actions
 const closeModal = () => {
-  appStore.toggle('deleteAddressModal', false);
-};
+  appStore.toggle('deleteAddressModal', false)
+}
 
 // Watchers
-const { escape } = useMagicKeys();
+const { escape } = useMagicKeys()
 
 if (escape) {
-  watch(escape, () => {
-    closeModal();
-  });
+  watch(escape, closeModal)
 }
 </script>
 
@@ -60,23 +58,26 @@ if (escape) {
         </p>
         <div class="flex flex-col mt-6">
           <button
-            class="flex items-center justify-center p-2 px-4 mb-2.5 text-normalize text-red-600 bg-red-50 border border-red-300 rounded-md transition duration-200 ease-in-out hover:bg-red-100"
+            class="flex items-center justify-center p-2 px-4 mb-2.5 text-normalize text-red-600 bg-red-50 border border-red-300 rounded-md transition duration-200 hover:bg-red-100"
             @click="deleteAddress"
           >
-            Delete
+            <span>Delete</span>
           </button>
           <button
-            class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-100"
+            class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-100"
             @click="closeModal"
           >
-            Cancel
+            <span>Cancel</span>
           </button>
         </div>
         <button
           class="flex absolute top-2 right-2 ring-1 ring-transparent ring-offset-2 rounded-xs focus:ring-black"
           @click="closeModal"
         >
-          <Icon name="ph:x" class="size-5 shrink-0" />
+          <Icon
+            name="ph:x"
+            class="inline-block shrink-0 !size-5"
+          />
         </button>
       </dialog>
     </div>
