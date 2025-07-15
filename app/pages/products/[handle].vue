@@ -13,39 +13,42 @@ const route = useRoute();
 const handle = computed(() => route.params.handle as string);
 
 // Stores
-const shopStore = useShopStore();
+const shopStore = useShopStore()
 
 // Shopify
-const shopify = useShopify();
+const shopify = useShopify()
 
-// Fetch data
+// Fetch Shopify data
 const productVars = computed<ProductQueryVariables>(() => ({
   handle: handle.value,
   country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode
-}));
+  language: shopStore.buyerLanguageCode,
+}))
 
-const { data: productData } = await useAsyncData(
-  `product-${handle.value}`,
-  () => shopify.product.get(productVars.value),
-  { watch: [productVars] }
-);
+const [productQuery, recommendedQuery] = await Promise.all([
+  useAsyncData(
+    `product-${handle.value}`,
+    () => shopify.product.get(productVars.value),
+    { watch: [productVars] },
+  ),
+  useAsyncData(
+    `recommended-${handle.value}`,
+    () => shopify.product.getRecommended(productVars.value),
+    { watch: [productVars] },
+  ),
+])
 
-const { data: recommendationData } = await useAsyncData(
-  `recommended-${handle.value}`,
-  () => shopify.product.recommended(productVars.value),
-  { watch: [productVars], lazy: true }
-);
+const { data: productData, error: productError } = productQuery
+const { data: recommendedData, error: recommendedError } = recommendedQuery
 
-// Computed data
-const product = computed(() => productData.value);
-const colorReferences = computed(() => productData.value?.matching_colors?.references);
-const recommendations = computed(() => recommendationData.value?.slice(0, 4));
+// Response data
+const product = computed(() => productData.value)
+const recommendations = computed(() => recommendedData.value?.slice(0, 8))
 
-// Flatten connections
-const productMedia = computed(() => flattenConnection(product.value?.media) as MediaFragment[]);
-const productVariants = computed(() => flattenConnection(product.value?.variants) as ProductVariantFragment[]);
-const matchingColors = computed(() => flattenConnection(colorReferences.value) as ProductFragment[]);
+// Access data nodes
+const productMedia = computed(() => flattenConnection(product.value?.media) as MediaFragment[])
+const productVariants = computed(() => flattenConnection(product.value?.variants) as ProductVariantFragment[])
+const matchingColors = computed(() => flattenConnection(product.value?.matching_colors?.references) as ProductFragment[])
 
 // SEO
 useHead({
@@ -54,8 +57,24 @@ useHead({
 </script>
 
 <template>
-  <section v-if="product" class="flex flex-col mb-20">
-    <div class="grid gap-10 mb-10 lg:grid-cols-2 lg:gap-0 lg:mb-20">
+  <div
+    v-if="productError && recommendedError"
+    class="fixed top-(--header-height) left-0 w-full h-fit text-zinc-100 bg-line-pattern border-b border-zinc-200"
+  >
+    <div class="flex items-center justify-center gap-2.5 py-2 text-black">
+      <Icon
+        name="ph:warning-circle"
+        class="inline-block shrink-0 !size-5"
+      />
+      <p class="text-normalize">503: No Shopify data found.</p>
+    </div>
+  </div>
+
+  <div
+    v-else-if="product"
+    class="wrapper mb-20"
+  >
+    <section class="grid gap-10 mb-10 lg:grid-cols-2 lg:gap-0 lg:mb-20">
       <div>
         <ProductMediaGallery :product-media="productMedia" />
         <ProductMediaCarousel :product-media="productMedia" />
@@ -67,13 +86,9 @@ useHead({
           :matching-colors="matchingColors"
         />
       </div>
-    </div>
-    <div class="px-6">
+    </section>
+    <section class="px-6">
       <ProductRecommendations :products="recommendations" />
-    </div>
-  </section>
-  <section v-else class="flex items-center gap-2 p-6">
-    <Icon name="ph:warning-circle" class="size-5 shrink-0" />
-    <p>No Product data found.</p>
-  </section>
+    </section>
+  </div>
 </template>
