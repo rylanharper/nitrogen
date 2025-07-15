@@ -35,20 +35,13 @@ const closeModal = () => {
 };
 
 // Watchers
-const route = useRoute();
-const { escape } = useMagicKeys();
+const route = useRoute()
+const { escape } = useMagicKeys()
 
-watch(
-  () => route.path,
-  () => {
-    closeModal();
-  }
-);
+watch(() => route.path, closeModal)
 
 if (escape) {
-  watch(escape, () => {
-    closeModal();
-  });
+  watch(escape, closeModal)
 }
 </script>
 
@@ -92,7 +85,7 @@ if (escape) {
             :disabled="isLoading"
             class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
           >
-            {{ isLoading ? 'Saving...' : 'Save' }}
+            <span>{{ isLoading ? 'Saving...' : 'Save' }}</span>
           </button>
         </form>
         <p class="max-w-[75%] mx-auto uppercase text-sm leading-snug text-center">
@@ -102,7 +95,10 @@ if (escape) {
           class="flex absolute top-2 right-2 ring-1 ring-transparent ring-offset-2 rounded-xs focus:ring-black"
           @click="closeModal"
         >
-          <Icon name="ph:x" class="size-5 shrink-0" />
+          <Icon
+            name="ph:x"
+            class="inline-block shrink-0 !size-5"
+          />
         </button>
       </dialog>
     </div>
