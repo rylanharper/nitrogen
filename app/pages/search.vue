@@ -251,7 +251,6 @@ useHead(() => ({
     <FilterMenu
       v-if="filters"
       :filters="filters"
-      :number-of-products="numberOfProducts"
     />
   </div>
 </template>

@@ -6,7 +6,6 @@ import { useMagicKeys } from '@vueuse/core';
 // Props
 const props = defineProps<{
   filters: FilterFragment[];
-  numberOfProducts?: number
 }>();
 
 // Route data
