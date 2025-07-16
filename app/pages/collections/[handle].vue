@@ -146,7 +146,7 @@ useHead({
     v-if="collectionError && filterError"
     class="fixed top-(--header-height) left-0 w-full h-fit text-zinc-100 bg-line-pattern border-b border-zinc-200"
   >
-    <div class="flex items-center justify-center gap-2.5 py-2 text-black">
+    <div class="flex items-center justify-center gap-2.5 py-2">
       <Icon
         name="ph:warning-circle"
         class="inline-block shrink-0 !size-5"
