@@ -51,7 +51,7 @@ if (escape) {
       v-if="appStore.deleteAddressModal"
       class="fixed flex items-center justify-center size-full inset-0 z-200 pointer-events-none"
     >
-      <dialog class="relative flex flex-col p-6 bg-white pointer-events-auto md:w-xl">
+      <dialog class="relative flex flex-col w-full p-6 bg-white pointer-events-auto lg:max-w-[460px]">
         <h2 class="uppercase text-center mb-2">Delete Address</h2>
         <p class="text-center">
           Are you sure you want to delete this address?
