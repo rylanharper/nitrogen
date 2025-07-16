@@ -1,32 +1,30 @@
 <script setup lang="ts">
-import type { OrderFragment } from '@@/types/shopify-storefront';
+import type { OrderFragment } from '@@/types/shopify-storefront'
 
-import { formatDateByLocale } from '@/utils/formatters';
+import { formatDateByLocale } from '@/utils/formatters'
 
 // Props
 const props = defineProps<{
-  orders: OrderFragment[];
-}>();
+  orders: OrderFragment[]
+}>()
 
 // Headers
 const headers = [
   { label: 'Item Name' },
   { label: 'Quantity' },
-  { label: 'Order No.' },
   { label: 'Date' },
   { label: 'Status' },
-  { label: 'Total' }
-];
+  { label: 'Total' },
+]
 
 // Computed
 const accountOrders = computed(() =>
-  props.orders.map(order => ({
+  props.orders.map((order) => ({
     ...order,
-    lineItem: order.lineItems?.edges[0]?.node
-  }))
-);
+    lineItem: order.lineItems?.edges[0]?.node,
+  })),
+)
 </script>
-
 <template>
   <div class="overflow-x-auto mb-4.5 border-t border-b border-zinc-300 lg:border lg:rounded-lg">
     <table class="table-fixed min-w-full divide-y divide-zinc-300">
@@ -35,7 +33,7 @@ const accountOrders = computed(() =>
           <th
             v-for="header in headers"
             :key="header.label"
-            class="pl-6 pr-12 py-2.5 uppercase text-sm text-start whitespace-nowrap"
+            class="pl-6 pr-12 py-2.5 uppercase text-sm font-normal text-start whitespace-nowrap"
           >
             {{ header.label }}
           </th>
@@ -48,17 +46,17 @@ const accountOrders = computed(() =>
               :to="order.statusUrl"
               target="_blank"
               rel="noreferrer"
-              class="flex items-center gap-2 whitespace-nowrap"
+              class="flex items-center gap-2.5 whitespace-nowrap"
             >
-              {{ order.lineItem?.title }}
-              <Icon name="ph:arrow-up-right" class="size-4 shrink-0 text-zinc-400"/>
+              <span>{{ order.lineItem?.title }}</span>
+              <Icon
+                name="ph:arrow-up-right"
+                class="inline-block shrink-0 !size-5 text-zinc-500"
+              />
             </NuxtLink>
           </td>
           <td class="pl-6 pr-12 py-3">
             <span>{{ order.lineItem?.quantity }}</span>
-          </td>
-          <td class="pl-6 pr-12 py-3">
-            <span>{{ order.orderNumber }}</span>
           </td>
           <td class="pl-6 pr-12 py-3">
             <time>{{ formatDateByLocale('en-US', order.processedAt) }}</time>

@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import type { MailingAddressFragment } from '@@/types/shopify-storefront';
+import type { MailingAddressFragment } from '@@/types/shopify-storefront'
 
 // Props
 const props = defineProps<{
-  addresses: MailingAddressFragment[];
-  defaultAddress: MailingAddressFragment;
-}>();
+  addresses: MailingAddressFragment[]
+  defaultAddress: MailingAddressFragment
+}>()
 
 // Stores
-const appStore = useAppStore();
+const appStore = useAppStore()
 
 // State
-const selectedAddressId = ref('');
+const selectedAddressId = ref('')
 
 // Computed
 const filteredAddresses = computed(() => [
   props.defaultAddress,
-  ...props.addresses.filter((address) => address.id !== props.defaultAddress?.id)
-]);
+  ...props.addresses.filter((address) => address.id !== props.defaultAddress?.id),
+])
 
 // Actions
 const openModal = (addressId: string) => {
-  selectedAddressId.value = addressId;
-  appStore.toggle('deleteAddressModal', true);
-};
+  selectedAddressId.value = addressId
+  appStore.toggle('deleteAddressModal', true)
+}
 </script>
 
 <template>
@@ -50,24 +50,27 @@ const openModal = (addressId: string) => {
       <div class="flex gap-4">
         <NuxtLink
           :to="`/account/addresses/edit?id=${encodeURIComponent(address.id)}}`"
-          class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+          class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
         >
-          Edit Address
+          <span>Edit Address</span>
         </NuxtLink>
         <button
-          class="flex items-center justify-center p-2 px-4 text-normalize text-red-600 bg-red-50 border border-red-300 rounded-md transition duration-200 ease-in-out hover:bg-red-100"
+          class="flex items-center justify-center p-2 px-4 text-normalize text-red-600 bg-red-50 border border-red-300 rounded-md transition duration-200 hover:bg-red-100"
           @click="openModal(address.id)"
         >
-          Delete Address
+          <span>Delete Address</span>
         </button>
       </div>
     </div>
     <NuxtLink
       :to="{ name: 'account-addresses-add' }"
-      class="flex items-center justify-center gap-2 h-[8.45rem] text-normalize bg-line-pattern border border-dashed border-zinc-300 rounded-lg transition duration-200 ease-in-out hover:bg-zinc-50"
+      class="flex items-center justify-center gap-2 h-[8.45rem] text-normalize bg-line-pattern border border-dashed border-zinc-400 rounded-lg transition duration-200 hover:bg-zinc-50"
     >
-      <Icon name="ph:map-pin-plus" class="h-6 w-6 shrink-0" />
-      Add New Addresses
+      <Icon
+        name="ph:map-pin-plus"
+        class="inline-block shrink-0 !size-6"
+      />
+      <span>Add New Addresses</span>
     </NuxtLink>
   </div>
   <DeleteAddressModal :address-id="selectedAddressId" />
