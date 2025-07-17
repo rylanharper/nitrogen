@@ -5,41 +5,43 @@ import {
   createResolver,
 } from '@nuxt/kit'
 
-export default defineNuxtModule({
+// Interface
+export interface ModuleOptions {
+  apiVersion: string
+  publicApiKey: string
+  privateApiKey: string
+}
+
+// Module
+export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@nikkoel/klaviyo',
     configKey: 'klaviyo',
-    compatibility: { nuxt: '^3.0.0' },
-  },
-
-  schema: {
-    apiVersion: '',
-    publicApiKey: '',
-    privateApiKey: '',
+    compatibility: {
+      nuxt: '>=3.0.0',
+    },
   },
 
   defaults: {
     apiVersion: '2025-01-15',
+    publicApiKey: '',
+    privateApiKey: '',
   },
 
   setup(options, nuxt) {
-    nuxt.options.runtimeConfig.klaviyo = {
-      apiVersion: options.apiVersion,
-      publicApiKey: options.publicApiKey,
-      privateApiKey: options.privateApiKey,
-    }
+    nuxt.options.runtimeConfig.klaviyo = options
 
     const { resolve } = createResolver(import.meta.url)
 
     addImports({
       name: 'useKlaviyo',
-      from: resolve('runtime/composables/use-klaviyo.ts'),
+      from: resolve('runtime/composables/use-klaviyo'),
     })
 
     addServerHandler({
       method: 'post',
       route: '/api/klaviyo',
-      handler: resolve('runtime/server/api/klaviyo.post.ts'),
+      handler: resolve('runtime/server/klaviyo.post'),
     })
   },
 })
