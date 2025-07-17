@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import type { ProductFragment } from '@@/types/shopify-storefront';
+import type { ProductFragment } from '@@/types/shopify-storefront'
 
 // Model bindings
-const searchQuery = defineModel<string>();
+const searchQuery = defineModel<string>()
 
 // Props
 const props = defineProps<{
-  products: ProductFragment[];
-}>();
+  products: ProductFragment[]
+}>()
 
 // Stores
-const appStore = useAppStore();
+const appStore = useAppStore()
 
 // State
-const input = ref<HTMLInputElement | null>(null);
+const input = ref<HTMLInputElement | null>(null)
 
 // Emits
 const emit = defineEmits<{
@@ -24,13 +24,13 @@ const emit = defineEmits<{
 // Emit events
 const onKeyDown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
-    emit('submitQuery');
+    emit('submitQuery')
   }
-};
+}
 
 const closeSearch = () => {
-  emit('closeSearch');
-};
+  emit('closeSearch')
+}
 
 // Watchers
 watch(
@@ -90,7 +90,10 @@ watch(
           </button>
         </div>
         <div class="flex flex-col flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
-          <div v-if="props.products?.length" class="grid grid-cols-2 gap-x-4 gap-y-8 w-full">
+          <div
+            v-if="props.products?.length"
+            class="grid grid-cols-2 gap-x-4 gap-y-8 w-full"
+          >
             <SuggestedProductCard
               v-for="product in products"
               :key="product.id"

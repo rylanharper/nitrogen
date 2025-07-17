@@ -25,6 +25,7 @@ const accountOrders = computed(() =>
   })),
 )
 </script>
+
 <template>
   <div class="overflow-x-auto mb-4.5 border-t border-b border-zinc-300 lg:border lg:rounded-lg">
     <table class="table-fixed min-w-full divide-y divide-zinc-300">
@@ -40,7 +41,10 @@ const accountOrders = computed(() =>
         </tr>
       </thead>
       <tbody class="divide-y divide-zinc-300">
-        <tr v-for="order in accountOrders" :key="order.id">
+        <tr
+          v-for="order in accountOrders"
+          :key="order.id"
+        >
           <td class="pl-6 pr-12 py-3">
             <NuxtLink
               :to="order.statusUrl"

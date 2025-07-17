@@ -7,25 +7,25 @@ import type {
   PageInfoFragment,
 } from '@@/types/shopify-storefront'
 
-import { getCollectionSortValues, getFilterValues } from '@/helpers/shopify';
-import { flattenConnection } from '@/utils/graphql';
+import { getCollectionSortValues, getFilterValues } from '@/helpers/shopify'
+import { flattenConnection } from '@/utils/graphql'
 
 // Route data
-const route = useRoute();
-const router = useRouter();
-const handle = computed(() => route.params.handle as string);
+const route = useRoute()
+const router = useRouter()
+const handle = computed(() => route.params.handle as string)
 
 // Stores
-const appStore = useAppStore();
-const shopStore = useShopStore();
+const appStore = useAppStore()
+const shopStore = useShopStore()
 
 // Sort params/values
-const sortParam = computed(() => route.query.sort as string | null);
-const sortValues = computed(() => getCollectionSortValues(sortParam.value));
+const sortParam = computed(() => route.query.sort as string | null)
+const sortValues = computed(() => getCollectionSortValues(sortParam.value))
 
 // Filter params/values
-const filterParam = computed(() => route.query);
-const filterValues = computed(() => getFilterValues(filterParam.value));
+const filterParam = computed(() => route.query)
+const filterValues = computed(() => getFilterValues(filterParam.value))
 
 // Get the active filter options from URL query
 const activeFilterOptions = computed(() => {
@@ -42,11 +42,11 @@ const activeFilterOptions = computed(() => {
 })
 
 // State
-const limit = 12;
-const itemsPerPage = ref(Number(route.query.limit) || limit);
+const limit = 12
+const itemsPerPage = ref(Number(route.query.limit) || limit)
 
 // Shopify
-const shopify = useShopify();
+const shopify = useShopify()
 
 // Fetch Shopify data
 const collectionVars = computed<CollectionQueryVariables>(() => ({
@@ -101,44 +101,44 @@ const numberOfProducts = computed<number>(() => {
 
 // Actions
 const loadMoreProducts = () => {
-  const productLimit = itemsPerPage.value += limit;
+  const productLimit = itemsPerPage.value += limit
 
   router.replace({
     path: route.path,
-    query: { ...route.query, limit: productLimit }
-  });
-};
+    query: { ...route.query, limit: productLimit },
+  })
+}
 
 const removeActiveFilterOption = (filterName: string, filterValue: string) => {
-  const query = { ...route.query };
+  const query = { ...route.query }
 
   if (filterName === 'sort') {
-    delete query.sort;
+    delete query.sort
   } else {
-    const currentValues = (route.query[filterName] as string)?.split(',') || [];
-    const newValues = currentValues.filter((value) => value !== filterValue);
+    const currentValues = (route.query[filterName] as string)?.split(',') || []
+    const newValues = currentValues.filter((value) => value !== filterValue)
 
     if (newValues.length > 0) {
-      query[filterName] = newValues.join(',');
+      query[filterName] = newValues.join(',')
     } else {
-      delete query[filterName];
+      delete query[filterName]
     }
   }
 
   router.replace({
     path: route.path,
-    query
-  });
-};
+    query,
+  })
+}
 
 const toggleFilter = () => {
-  appStore.toggle('filterMenu');
-};
+  appStore.toggle('filterMenu')
+}
 
 // SEO
 useHead({
-  title: collection.value?.title
-});
+  title: collection.value?.title,
+})
 </script>
 
 <template>
@@ -151,7 +151,9 @@ useHead({
         name="ph:warning-circle"
         class="inline-block shrink-0 !size-5"
       />
-      <p class="text-normalize">503: No Shopify data found.</p>
+      <p class="text-normalize">
+        503: No Shopify data found.
+      </p>
     </div>
   </div>
 
@@ -167,8 +169,14 @@ useHead({
         </h1>
       </div>
       <div class="col-start-auto hidden lg:flex">
-        <div v-if="activeFilterOptions.length" class="flex flex-wrap gap-2">
-          <div v-for="option in activeFilterOptions" :key="option.value">
+        <div
+          v-if="activeFilterOptions.length"
+          class="flex flex-wrap gap-2"
+        >
+          <div
+            v-for="option in activeFilterOptions"
+            :key="option.value"
+          >
             <button
               class="flex items-center justify-center p-2 px-4 gap-2.5 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-red-50 hover:text-red-600 hover:border-red-500"
               @click="removeActiveFilterOption(option.name, option.value)"
@@ -181,7 +189,10 @@ useHead({
             </button>
           </div>
         </div>
-        <span v-else class="invisible" />
+        <span
+          v-else
+          class="invisible"
+        />
       </div>
       <div class="col-start-3 flex justify-end items-center">
         <button
@@ -194,13 +205,22 @@ useHead({
     </section>
     <!-- Products -->
     <section class="flex flex-col">
-      <div v-if="products && products.length" class="flex flex-col gap-10">
+      <div
+        v-if="products && products.length"
+        class="flex flex-col gap-10"
+      >
         <div class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full lg:grid-cols-4 lg:gap-y-12">
-          <div v-for="product in products" :key="product.id">
+          <div
+            v-for="product in products"
+            :key="product.id"
+          >
             <ProductCard :product="product" />
           </div>
         </div>
-        <div v-if="pageInfo?.hasNextPage" class="flex justify-center">
+        <div
+          v-if="pageInfo?.hasNextPage"
+          class="flex justify-center"
+        >
           <button
             class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-100"
             @click="loadMoreProducts"

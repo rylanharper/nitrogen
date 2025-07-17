@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import type { MediaFragment } from '@@/types/shopify-storefront';
+import type { MediaFragment } from '@@/types/shopify-storefront'
 
-import { isMediaVideo, isMediaImage } from '@/helpers/shopify';
+import { isMediaVideo, isMediaImage } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
-  productMedia: MediaFragment[];
-}>();
+  productMedia: MediaFragment[]
+}>()
 
 // Stores
-const appStore = useAppStore();
+const appStore = useAppStore()
 
 // State
-const mediaIndex = ref<number>(0);
+const mediaIndex = ref<number>(0)
 
 // Actions
 const toggleLightbox = (index: number) => {
-  mediaIndex.value = index;
-  appStore.toggle('mediaLightbox');
-};
+  mediaIndex.value = index
+  appStore.toggle('mediaLightbox')
+}
 
 // Watchers
-const isScrollLocked = useScrollLock(document);
+const isScrollLocked = useScrollLock(document)
 
 watch(
   () => appStore.mediaLightbox,
   (isOpen) => {
-    isScrollLocked.value = isOpen;
-  }
-);
+    isScrollLocked.value = isOpen
+  },
+)
 </script>
 
 <template>

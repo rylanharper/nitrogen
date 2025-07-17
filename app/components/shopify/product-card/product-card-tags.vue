@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import type { ProductFragment } from '@@/types/shopify-storefront';
+import type { ProductFragment } from '@@/types/shopify-storefront'
 
-import { isNewItem, isSoldOut, isOnSale } from '@/helpers/shopify';
+import { isNewItem, isSoldOut, isOnSale } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
-  product: ProductFragment;
-}>();
+  product: ProductFragment
+}>()
 
 // Computed
-const NewItem = computed(() => isNewItem(props.product?.publishedAt));
-const SoldOut = computed(() => isSoldOut(props.product));
+const NewItem = computed(() => isNewItem(props.product?.publishedAt))
+const SoldOut = computed(() => isSoldOut(props.product))
 const OnSale = computed(() => {
-  const price = props.product?.priceRange?.minVariantPrice;
-  const compareAtPrice = props.product?.compareAtPriceRange?.minVariantPrice;
+  const price = props.product?.priceRange?.minVariantPrice
+  const compareAtPrice = props.product?.compareAtPriceRange?.minVariantPrice
 
   if (compareAtPrice) {
-    return isOnSale(price, compareAtPrice);
+    return isOnSale(price, compareAtPrice)
   }
 
-  return false;
-});
+  return false
+})
 </script>
 
 <template>

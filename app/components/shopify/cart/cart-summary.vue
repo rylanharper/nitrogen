@@ -22,6 +22,8 @@ const checkoutUrl = computed(() => cartStore.checkoutUrl)
     >
       <span>Checkout</span>
     </NuxtLink>
-    <p class="uppercase text-sm text-center">Taxes &amp; shipping calculated at checkout</p>
+    <p class="uppercase text-sm text-center">
+      Taxes &amp; shipping calculated at checkout
+    </p>
   </div>
 </template>

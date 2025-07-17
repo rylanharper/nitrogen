@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type {
   CustomerQueryVariables,
-  ProductFragment,
   OrderFragment,
   MailingAddressFragment,
 } from '@@/types/shopify-storefront'
@@ -30,7 +29,6 @@ const { data: customerData } = await useAsyncData(
 
 // Response data
 const customer = computed(() => customerData.value)
-const wishlist = computed(() => customerData.value?.wishlist)
 
 // Access data nodes
 const orders = computed(() => flattenConnection(customer.value?.orders) as OrderFragment[])
@@ -57,7 +55,10 @@ definePageMeta({
         <h2 class="px-6 text-xl tracking-tight leading-none lg:p-0">
           Recent Orders
         </h2>
-        <div v-if="orders && orders.length" class="flex flex-col">
+        <div
+          v-if="orders && orders.length"
+          class="flex flex-col"
+        >
           <AccountOrders :orders="orders.slice(0, 3)" />
           <div class="flex px-6 lg:px-0">
             <NuxtLink
@@ -68,7 +69,10 @@ definePageMeta({
             </NuxtLink>
           </div>
         </div>
-        <div v-else class="flex items-center gap-2.5 px-6 lg:p-0">
+        <div
+          v-else
+          class="flex items-center gap-2.5 px-6 lg:p-0"
+        >
           <Icon
             name="ph:warning-circle"
             class="inline-block shrink-0 !size-5"
@@ -80,13 +84,19 @@ definePageMeta({
         <h2 class="px-6 text-xl tracking-tight leading-none lg:p-0">
           Saved Addresses
         </h2>
-        <div v-if="addresses && defaultAddress" class="px-6 lg:px-0">
+        <div
+          v-if="addresses && defaultAddress"
+          class="px-6 lg:px-0"
+        >
           <AccountAddress
             :addresses="addresses"
             :default-address="defaultAddress"
           />
         </div>
-        <div v-else class="flex flex-col px-6 lg:p-0">
+        <div
+          v-else
+          class="flex flex-col px-6 lg:p-0"
+        >
           <p>You have no saved shipping address.</p>
           <NuxtLink
             to="/account/addresses/add"

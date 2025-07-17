@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import type { ProductFragment } from '@@/types/shopify-storefront';
+import type { ProductFragment } from '@@/types/shopify-storefront'
 
-import { getColorOption } from '@/helpers/shopify';
-import { flattenConnection } from '@/utils/graphql';
+import { getColorOption } from '@/helpers/shopify'
+import { flattenConnection } from '@/utils/graphql'
 
 // Props
 const props = defineProps<{
-  product: ProductFragment;
-}>();
+  product: ProductFragment
+}>()
 
 // Access data nodes
 const mediaItems = computed(() => flattenConnection(props.product.media))
 
 // Computed
-const colorOption = computed(() => getColorOption(props.product.options));
-const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name);
+const colorOption = computed(() => getColorOption(props.product.options))
+const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name)
 </script>
 
 <template>

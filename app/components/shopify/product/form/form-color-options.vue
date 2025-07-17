@@ -65,7 +65,10 @@ const resetColorName = () => {
 </script>
 
 <template>
-  <div v-if="colorOption" class="flex flex-col gap-2">
+  <div
+    v-if="colorOption"
+    class="flex flex-col gap-2"
+  >
     <span class="uppercase">color: {{ colorName }}</span>
     <div class="flex flex-wrap gap-2">
       <NuxtLink
@@ -79,7 +82,7 @@ const resetColorName = () => {
             : 'outline-gray-200',
           !color.isAvailable
             ? 'text-zinc-400 after:h-px after:w-[150%] after:-rotate-[24deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-zinc-300'
-            : 'text-black'
+            : 'text-black',
         ]"
         :style="{ background: color.color }"
         :aria-label="`Color Option ${color.name}`"

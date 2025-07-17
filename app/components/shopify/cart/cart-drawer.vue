@@ -45,7 +45,9 @@ if (escape) {
     >
       <div class="flex flex-col size-full px-5">
         <div class="flex justify-between items-center py-3 border-b border-zinc-300 lg:py-4">
-          <h2 class="uppercase">Your Cart ({{ cartTotalItems }})</h2>
+          <h2 class="uppercase">
+            Your Cart ({{ cartTotalItems }})
+          </h2>
           <button
             class="flex ring-1 ring-transparent ring-offset-2 rounded-xs focus:ring-black"
             @click="closeDrawer"
@@ -56,13 +58,23 @@ if (escape) {
             />
           </button>
         </div>
-        <div v-if="lineItems?.length" class="flex flex-col size-full">
+        <div
+          v-if="lineItems?.length"
+          class="flex flex-col size-full"
+        >
           <div class="flex-1 overflow-y-scroll overflow-x-hidden no-scrollbar">
-            <CartLine v-for="line in lineItems" :key="line.id" :line="line" />
+            <CartLine
+              v-for="line in lineItems"
+              :key="line.id"
+              :line="line"
+            />
           </div>
           <CartSummary />
         </div>
-        <div v-else class="flex flex-col justify-center items-center flex-1">
+        <div
+          v-else
+          class="flex flex-col justify-center items-center flex-1"
+        >
           <p class="mb-3 text-xl tracking-tight leading-none text-center">
             Your cart is empty
           </p>

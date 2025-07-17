@@ -3,21 +3,21 @@
 const navLinksLeft = [
   { label: 'Shop', path: '/collections/latest' },
   { label: 'Catalog', path: '/collections/latest' },
-  { label: 'About', path: '/collections/latest' }
-];
+  { label: 'About', path: '/collections/latest' },
+]
 
 const navLinksRight = [
-  { label: 'Account', path: '/account' }
-];
+  { label: 'Account', path: '/account' },
+]
 
 // Stores
-const cartStore = useCartStore();
-const shopStore = useShopStore();
+const cartStore = useCartStore()
+const shopStore = useShopStore()
 
 // Computed
-const countryCode = computed(() => shopStore.buyerCountryCode);
-const currencySymbol = computed(() => shopStore.buyerCurrencySymbol);
-const cartTotalItems = computed(() => cartStore.lineItemCount);
+const countryCode = computed(() => shopStore.buyerCountryCode)
+const currencySymbol = computed(() => shopStore.buyerCurrencySymbol)
+const cartTotalItems = computed(() => cartStore.lineItemCount)
 
 // Emits
 const emit = defineEmits<{

@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import type { CountryCode } from '@@/types/shopify-storefront';
+import type { CountryCode } from '@@/types/shopify-storefront'
 
-import { useMagicKeys } from '@vueuse/core';
+import { useMagicKeys } from '@vueuse/core'
 
 // Stores
-const appStore = useAppStore();
-const cartStore = useCartStore();
-const shopStore = useShopStore();
+const appStore = useAppStore()
+const cartStore = useCartStore()
+const shopStore = useShopStore()
 
 // Shop data
-const countries = shopStore.locale?.availableCountries;
-const countryCode = shopStore.locale?.country?.isoCode;
+const countries = shopStore.locale?.availableCountries
+const countryCode = shopStore.locale?.country?.isoCode
 
 // State
-const countryLocale = ref<CountryCode>(countryCode);
-const isLoading = ref(false);
+const countryLocale = ref<CountryCode>(countryCode)
+const isLoading = ref(false)
 
 // Update localization
 const updateLocalization = async () => {
-  isLoading.value = true;
+  isLoading.value = true
 
   await Promise.all([
     cartStore.attachBuyer({ countryCode: countryLocale.value }),
-    shopStore.getLocalization(countryLocale.value)
-  ]);
+    shopStore.getLocalization(countryLocale.value),
+  ])
 
-  isLoading.value = false;
-  closeModal();
-};
+  isLoading.value = false
+  closeModal()
+}
 
 // Actions
 const closeModal = () => {
-  appStore.toggle('localeModal', false);
-};
+  appStore.toggle('localeModal', false)
+}
 
 // Watchers
 const route = useRoute()
@@ -59,8 +59,13 @@ if (escape) {
       class="fixed flex items-center justify-center size-full inset-0 z-200 pointer-events-none"
     >
       <dialog class="relative flex flex-col p-6 bg-white pointer-events-auto md:w-xl">
-        <h2 class="uppercase text-center">Select Country</h2>
-        <form class="flex flex-col my-6" @submit.prevent="updateLocalization">
+        <h2 class="uppercase text-center">
+          Select Country
+        </h2>
+        <form
+          class="flex flex-col my-6"
+          @submit.prevent="updateLocalization"
+        >
           <div class="relative w-full mb-2.5">
             <select
               id="country"
@@ -77,7 +82,10 @@ if (escape) {
               </option>
             </select>
             <span class="absolute inset-y-0 end-0 flex items-center pointer-events-none px-2.5">
-              <Icon name="ph:caret-up-down" class="size-4 shrink-0" />
+              <Icon
+                name="ph:caret-up-down"
+                class="size-4 shrink-0"
+              />
             </span>
           </div>
           <button

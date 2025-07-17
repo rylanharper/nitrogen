@@ -4,16 +4,16 @@ const navLinks = [
   { label: 'Shop', path: '/collections/latest' },
   { label: 'Catalog', path: '/collections/latest' },
   { label: 'Account', path: '/account' },
-  { label: 'About', path: '/collections/latest' }
-];
+  { label: 'About', path: '/collections/latest' },
+]
 
 // Stores
-const appStore = useAppStore();
+const appStore = useAppStore()
 
 // Actions
 const closeMenu = () => {
-  appStore.toggle('mobileMenu', false);
-};
+  appStore.toggle('mobileMenu', false)
+}
 
 // Watchers
 const route = useRoute()

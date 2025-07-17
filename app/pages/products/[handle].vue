@@ -3,14 +3,14 @@ import type {
   ProductQueryVariables,
   ProductFragment,
   MediaFragment,
-  ProductVariantFragment
-} from '@@/types/shopify-storefront';
+  ProductVariantFragment,
+} from '@@/types/shopify-storefront'
 
-import { flattenConnection } from '@/utils/graphql';
+import { flattenConnection } from '@/utils/graphql'
 
 // Route data
-const route = useRoute();
-const handle = computed(() => route.params.handle as string);
+const route = useRoute()
+const handle = computed(() => route.params.handle as string)
 
 // Stores
 const shopStore = useShopStore()
@@ -52,8 +52,8 @@ const matchingColors = computed(() => flattenConnection(product.value?.matching_
 
 // SEO
 useHead({
-  title: product.value?.title
-});
+  title: product.value?.title,
+})
 </script>
 
 <template>
@@ -66,7 +66,9 @@ useHead({
         name="ph:warning-circle"
         class="inline-block shrink-0 !size-5"
       />
-      <p class="text-normalize">503: No Shopify data found.</p>
+      <p class="text-normalize">
+        503: No Shopify data found.
+      </p>
     </div>
   </div>
 

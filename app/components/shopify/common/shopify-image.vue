@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { ImageFragment } from '@@/types/shopify-storefront';
+import type { ImageFragment } from '@@/types/shopify-storefront'
 
-import { formatImageUrl } from '@/utils/formatters';
+import { formatImageUrl } from '@/utils/formatters'
 
 // Props
 const props = defineProps<{
-  image: ImageFragment;
-  alt?: string;
-  index?: number;
-}>();
+  image: ImageFragment
+  alt?: string
+  index?: number
+}>()
 
 // Computed
 const srcset = computed(() => {

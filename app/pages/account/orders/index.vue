@@ -52,7 +52,10 @@ definePageMeta({
       <div v-if="orders && orders?.length">
         <AccountOrders :orders="orders" />
       </div>
-      <div v-else class="flex items-center gap-2.5 px-6 lg:p-0">
+      <div
+        v-else
+        class="flex items-center gap-2.5 px-6 lg:p-0"
+      >
         <Icon
           name="ph:warning-circle"
           class="inline-block shrink-0 !size-5"

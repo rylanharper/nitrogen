@@ -60,8 +60,13 @@ const updateLineQuantity = async (
     <div class="flex flex-col justify-between flex-1 gap-6 min-h-[100px]">
       <div class="flex justify-between">
         <div class="uppercase">
-          <h3 class="mb-1.5">{{ merchandise.product.title }}</h3>
-          <p v-for="option in selectedOptions" :key="option.name">
+          <h3 class="mb-1.5">
+            {{ merchandise.product.title }}
+          </h3>
+          <p
+            v-for="option in selectedOptions"
+            :key="option.name"
+          >
             {{ option.name }}: {{ option.value }}
           </p>
         </div>

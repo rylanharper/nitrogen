@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia'
 
 // Types
-type ComponentName =
-  | 'cartDrawer'
-  | 'mobileMenu'
-  | 'filterMenu'
-  | 'searchMenu'
-  | 'localeModal'
-  | 'deleteAddressModal'
-  | 'backInStockModal'
-  | 'mediaLightbox'
+type ComponentName
+  = | 'cartDrawer'
+    | 'mobileMenu'
+    | 'filterMenu'
+    | 'searchMenu'
+    | 'localeModal'
+    | 'deleteAddressModal'
+    | 'backInStockModal'
+    | 'mediaLightbox'
 
 type AppState = {
   [key in ComponentName]: boolean;

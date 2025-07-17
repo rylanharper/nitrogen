@@ -1,13 +1,13 @@
 <script setup lang="ts">
 // Route data
-const route = useRoute();
+const route = useRoute()
 const currentPath = computed(() => route.path)
 
 // Stores
-const authStore = useAuthStore();
+const authStore = useAuthStore()
 
 // Auth customer data
-const customer = authStore.customer;
+const customer = authStore.customer
 
 // Select navigation
 const pages = [
@@ -76,7 +76,7 @@ watch(currentPath, updateSelectedPage)
         <NuxtLink
           to="/account/orders"
           class="flex items-center justify-start p-2 px-2.5 gap-2.5 text-normalize rounded-md transition duration-200 hover:bg-zinc-100"
-          :class="{ 'text-black bg-zinc-100': route.path === '/account/orders'}"
+          :class="{ 'text-black bg-zinc-100': route.path === '/account/orders' }"
         >
           <Icon
             name="ph:tag"
@@ -87,7 +87,7 @@ watch(currentPath, updateSelectedPage)
         <NuxtLink
           to="/account/addresses"
           class="flex items-center justify-start p-2 px-2.5 gap-2.5 text-normalize rounded-md transition duration-200 hover:bg-zinc-100"
-          :class="{'text-black bg-zinc-100': route.path === '/account/addresses' || route.path.includes('/account/addresses/')}"
+          :class="{ 'text-black bg-zinc-100': route.path === '/account/addresses' || route.path.includes('/account/addresses/') }"
         >
           <Icon
             name="ph:map-pin"

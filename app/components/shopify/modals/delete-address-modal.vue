@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import { useMagicKeys } from '@vueuse/core';
+import { useMagicKeys } from '@vueuse/core'
 
 const props = defineProps<{
   addressId: string | null
-}>();
+}>()
 
 // Stores
-const appStore = useAppStore();
-const authStore = useAuthStore();
+const appStore = useAppStore()
+const authStore = useAuthStore()
 
 // Shopify
-const shopify = useShopify();
+const shopify = useShopify()
 
 // Delete Address
 const deleteAddress = async () => {
-  if (!props.addressId) return;
+  if (!props.addressId) return
 
   await shopify.customer.deleteAddress({
     id: props.addressId,
-    customerAccessToken: authStore.accessToken
-  });
+    customerAccessToken: authStore.accessToken,
+  })
 
-  closeModal();
-  reloadNuxtApp();
-};
+  closeModal()
+  reloadNuxtApp()
+}
 
 // Actions
 const closeModal = () => {
@@ -52,7 +52,9 @@ if (escape) {
       class="fixed flex items-center justify-center size-full inset-0 z-200 pointer-events-none"
     >
       <dialog class="relative flex flex-col w-full p-6 bg-white pointer-events-auto lg:max-w-[460px]">
-        <h2 class="uppercase text-center mb-2">Delete Address</h2>
+        <h2 class="uppercase text-center mb-2">
+          Delete Address
+        </h2>
         <p class="text-center">
           Are you sure you want to delete this address?
         </p>

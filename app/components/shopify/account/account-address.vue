@@ -38,11 +38,14 @@ const openModal = (addressId: string) => {
           class="flex items-center justify-between px-6 py-2.5 bg-zinc-50 border-b border-zinc-300"
         >
           <h3 class="uppercase text-sm">
-            {{ address.id === props.defaultAddress.id ? 'Default Address' : `Address ${index}`}}
+            {{ address.id === props.defaultAddress.id ? 'Default Address' : `Address ${index}` }}
           </h3>
         </div>
         <div class="flex flex-col px-6 py-2.5">
-          <span v-for="(line, lineIndex) in address.formatted" :key="lineIndex">
+          <span
+            v-for="(line, lineIndex) in address.formatted"
+            :key="lineIndex"
+          >
             {{ line }}
           </span>
         </div>

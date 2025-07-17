@@ -25,10 +25,10 @@ const props = defineProps<{
 }>()
 
 // Route
-const route = useRoute();
+const route = useRoute()
 
 // Stores
-const appStore = useAppStore();
+const appStore = useAppStore()
 
 // Emits
 const emit = defineEmits<{
@@ -40,20 +40,20 @@ const emit = defineEmits<{
 
 // Emit events
 const closeFilter = () => {
-  emit('closeFilter');
-};
+  emit('closeFilter')
+}
 
 const setSortOption = (sortValue: string | null) => {
-  emit('setSortOption', sortValue);
-};
+  emit('setSortOption', sortValue)
+}
 
 const setFilterOption = (filterName: string, filterValue: string) => {
-  emit('setFilterOption', filterName, filterValue);
-};
+  emit('setFilterOption', filterName, filterValue)
+}
 
 const clearAllFilters = () => {
-  emit('clearAllFilters');
-};
+  emit('clearAllFilters')
+}
 </script>
 
 <template>
@@ -84,12 +84,14 @@ const clearAllFilters = () => {
         </div>
         <div class="grid grid-cols-4 gap-10">
           <div>
-            <h3 class="mb-5 uppercase">Sort By</h3>
+            <h3 class="mb-5 uppercase">
+              Sort By
+            </h3>
             <div class="flex flex-col">
               <button
                 v-for="(option, index) in props.sortOptions"
                 :key="index"
-                :class="{ 'underline': route.query.sort === option.value || (option.value === null && !route.query.sort) }"
+                :class="{ underline: route.query.sort === option.value || (option.value === null && !route.query.sort) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
                 @click="setSortOption(option.value)"
               >
@@ -98,7 +100,9 @@ const clearAllFilters = () => {
             </div>
           </div>
           <div>
-            <h3 class="mb-5 uppercase">Color</h3>
+            <h3 class="mb-5 uppercase">
+              Color
+            </h3>
             <div class="flex flex-col">
               <button
                 v-for="(color, index) in props.colorOptions"
@@ -111,7 +115,7 @@ const clearAllFilters = () => {
                   v-if="color.swatch.color"
                   :class="{
                     'border-black': (route.query.color as string)?.split(',').includes(color.label),
-                    'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label)
+                    'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label),
                   }"
                   :style="{ backgroundColor: color.swatch.color }"
                   class="size-3 border rounded-full"
@@ -121,7 +125,7 @@ const clearAllFilters = () => {
                   :src="color.swatch.image.url"
                   :class="{
                     'border-black': (route.query.color as string)?.split(',').includes(color.label),
-                    'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label)
+                    'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label),
                   }"
                   alt="Color Swatch Image"
                   class="size-3 border rounded-full"
@@ -131,12 +135,14 @@ const clearAllFilters = () => {
             </div>
           </div>
           <div>
-            <h3 class="mb-5 uppercase">Size</h3>
+            <h3 class="mb-5 uppercase">
+              Size
+            </h3>
             <div class="flex flex-col">
               <button
                 v-for="(size, index) in props.sizeOptions"
                 :key="size.id"
-                :class="{ 'underline': (route.query.size as string)?.split(',').includes(size.label) }"
+                :class="{ underline: (route.query.size as string)?.split(',').includes(size.label) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
                 @click="setFilterOption('size', size.label)"
               >
@@ -145,12 +151,14 @@ const clearAllFilters = () => {
             </div>
           </div>
           <div>
-            <h3 class="mb-5 uppercase">Style</h3>
+            <h3 class="mb-5 uppercase">
+              Style
+            </h3>
             <div class="flex flex-col">
               <button
                 v-for="(type, index) in props.productTypeOptions"
                 :key="type.id"
-                :class="{ 'underline': (route.query.productType as string)?.split(',').includes(type.label) }"
+                :class="{ underline: (route.query.productType as string)?.split(',').includes(type.label) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
                 @click="setFilterOption('productType', type.label)"
               >

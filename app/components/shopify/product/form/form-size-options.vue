@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify-storefront';
+import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify-storefront'
 
-import { getSizeOption, isSizeSoldOut } from '@/helpers/shopify';
+import { getSizeOption, isSizeSoldOut } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
@@ -11,19 +11,19 @@ const props = defineProps<{
 }>()
 
 // Computed
-const sizeOption = computed(() => getSizeOption(props.product.options));
+const sizeOption = computed(() => getSizeOption(props.product.options))
 
 // Get size options
 const productSizes = computed(() => {
-  const sizeOption = getSizeOption(props.product.options);
-  const sizeOptions = sizeOption?.optionValues || [];
+  const sizeOption = getSizeOption(props.product.options)
+  const sizeOptions = sizeOption?.optionValues || []
 
   return sizeOptions.map((option) => ({
     id: option.id,
     name: option.name,
-    isSoldOut: isSizeSoldOut(props.variants, option.name)
-  }));
-});
+    isSoldOut: isSizeSoldOut(props.variants, option.name),
+  }))
+})
 
 // Emits
 const emit = defineEmits<{
@@ -32,12 +32,15 @@ const emit = defineEmits<{
 
 // Emit events
 const setSizeOption = (size: string) => {
-  emit('setSizeOption', size);
-};
+  emit('setSizeOption', size)
+}
 </script>
 
 <template>
-  <div v-if="sizeOption" class="flex flex-col gap-2">
+  <div
+    v-if="sizeOption"
+    class="flex flex-col gap-2"
+  >
     <div class="flex items-center justify-between">
       <span class="uppercase">Size</span>
       <button class="flex items-center justify-center gap-1.5 hover:text-gray-500">
@@ -59,7 +62,7 @@ const setSizeOption = (size: string) => {
             : 'border-zinc-300 hover:bg-zinc-200',
           size.isSoldOut
             ? 'text-zinc-400 after:h-px after:w-[150%] after:-rotate-[18deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-zinc-300'
-            : 'text-black'
+            : 'text-black',
         ]"
         :aria-label="`Size Option ${size.name}`"
         @click="setSizeOption(size.name)"

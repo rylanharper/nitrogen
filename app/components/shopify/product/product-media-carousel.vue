@@ -60,8 +60,12 @@ onUnmounted(() => {
   if (emblaApiMain.value) emblaApiMain.value.destroy()
 })
 </script>
+
 <template>
-  <div ref="emblaRef" class="relative overflow-hidden lg:hidden">
+  <div
+    ref="emblaRef"
+    class="relative overflow-hidden lg:hidden"
+  >
     <div class="flex">
       <div
         v-for="(media, index) in props.productMedia"

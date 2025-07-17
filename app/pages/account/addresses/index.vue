@@ -58,7 +58,10 @@ definePageMeta({
           :default-address="defaultAddress"
         />
       </div>
-      <div v-else class="flex flex-col px-6 lg:p-0">
+      <div
+        v-else
+        class="flex flex-col px-6 lg:p-0"
+      >
         <p>You have no saved shipping address.</p>
         <NuxtLink
           :to="{ name: 'account-addresses-add' }"

@@ -3,21 +3,21 @@
 const footerLinks1 = [
   { label: 'About', path: '/collections/latest' },
   { label: 'Campaigns', path: '/collections/latest' },
-  { label: 'Contact', path: '/collections/latest' }
-];
+  { label: 'Contact', path: '/collections/latest' },
+]
 
 const footerLinks2 = [
   { label: 'FAQ', path: '/collections/latest' },
   { label: 'Shipping & Returns', path: '/collections/latest' },
   { label: 'Privacy Policy', path: '/collections/latest' },
   { label: 'Payments', path: '/collections/latest' },
-];
+]
 
 const footerLinks3 = [
   { label: 'Instagram', path: '/collections/latest' },
   { label: 'Tiktok', path: '/collections/latest' },
-  { label: 'Github', path: '/collections/latest' }
-];
+  { label: 'Github', path: '/collections/latest' },
+]
 </script>
 
 <template>
@@ -25,7 +25,9 @@ const footerLinks3 = [
     <nav class="hidden flex-col p-6 gap-32 lg:flex">
       <div class="grid grid-cols-4 gap-10">
         <div class="flex flex-col max-w-fit">
-          <h3 class="uppercase mb-4">Company</h3>
+          <h3 class="uppercase mb-4">
+            Company
+          </h3>
           <NuxtLink
             v-for="link in footerLinks1"
             :key="link.label"
@@ -36,7 +38,9 @@ const footerLinks3 = [
           </NuxtLink>
         </div>
         <div class="flex flex-col max-w-fit">
-          <h3 class="uppercase mb-4">Support</h3>
+          <h3 class="uppercase mb-4">
+            Support
+          </h3>
           <NuxtLink
             v-for="link in footerLinks2"
             :key="link.label"
@@ -47,7 +51,9 @@ const footerLinks3 = [
           </NuxtLink>
         </div>
         <div class="flex flex-col max-w-fit">
-          <h3 class="uppercase mb-4">Connect</h3>
+          <h3 class="uppercase mb-4">
+            Connect
+          </h3>
           <NuxtLink
             v-for="link in footerLinks3"
             :key="link.label"

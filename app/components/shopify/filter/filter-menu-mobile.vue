@@ -25,10 +25,10 @@ const props = defineProps<{
 }>()
 
 // Route
-const route = useRoute();
+const route = useRoute()
 
 // Stores
-const appStore = useAppStore();
+const appStore = useAppStore()
 
 // Emits
 const emit = defineEmits<{
@@ -40,38 +40,46 @@ const emit = defineEmits<{
 
 // Emit events
 const closeFilter = () => {
-  emit('closeFilter');
-};
+  emit('closeFilter')
+}
 
 const setSortOption = (sortValue: string | null) => {
-  emit('setSortOption', sortValue);
-};
+  emit('setSortOption', sortValue)
+}
 
 const setFilterOption = (filterName: string, filterValue: string) => {
-  emit('setFilterOption', filterName, filterValue);
-};
+  emit('setFilterOption', filterName, filterValue)
+}
 
 const clearAllFilters = () => {
-  emit('clearAllFilters');
-};
+  emit('clearAllFilters')
+}
 </script>
 
 <template>
-  <Transition name="bg-fade" appear>
+  <Transition
+    name="bg-fade"
+    appear
+  >
     <div
       v-if="appStore.filterMenu"
       class="fixed inset-0 z-200 bg-black/50 pointer-events-auto lg:hidden"
       @click="closeFilter"
     />
   </Transition>
-  <Transition name="slider" appear>
+  <Transition
+    name="slider"
+    appear
+  >
     <aside
       v-if="appStore.filterMenu"
       class="fixed top-0 right-0 z-200 size-full bg-white md:max-w-[450px] lg:hidden"
     >
       <div class="flex flex-col size-full px-5">
         <div class="flex justify-between items-center py-3 border-b border-zinc-300">
-          <h2 class="uppercase">Filters</h2>
+          <h2 class="uppercase">
+            Filters
+          </h2>
           <button
             type="button"
             class="flex ring-1 ring-offset-2 ring-transparent rounded-xs focus:ring-black"
@@ -98,7 +106,7 @@ const clearAllFilters = () => {
                   <button
                     v-for="(option, index) in props.sortOptions"
                     :key="index"
-                    :class="{ 'underline': route.query.sort === option.value || (option.value === null && !route.query.sort) }"
+                    :class="{ underline: route.query.sort === option.value || (option.value === null && !route.query.sort) }"
                     class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                     @click="setSortOption(option.value)"
                   >
@@ -128,7 +136,7 @@ const clearAllFilters = () => {
                       v-if="color.swatch.color"
                       :class="{
                         'border-black': (route.query.color as string)?.split(',').includes(color.label),
-                        'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label)
+                        'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label),
                       }"
                       :style="{ backgroundColor: color.swatch.color }"
                       class="size-3 border rounded-full"
@@ -138,7 +146,7 @@ const clearAllFilters = () => {
                       :src="color.swatch.image.url"
                       :class="{
                         'border-black': (route.query.color as string)?.split(',').includes(color.label),
-                        'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label)
+                        'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label),
                       }"
                       alt="Color Swatch Image"
                       class="size-3 border rounded-full"
@@ -161,7 +169,7 @@ const clearAllFilters = () => {
                   <button
                     v-for="size in props.sizeOptions"
                     :key="size.id"
-                    :class="{ 'underline': (route.query.size as string)?.split(',').includes(size.label) }"
+                    :class="{ underline: (route.query.size as string)?.split(',').includes(size.label) }"
                     class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                     @click="setFilterOption('size', size.label)"
                   >
@@ -183,7 +191,7 @@ const clearAllFilters = () => {
                   <button
                     v-for="(type, index) in props.productTypeOptions"
                     :key="index"
-                    :class="{ 'underline': (route.query.productType as string)?.split(',').includes(type.label) }"
+                    :class="{ underline: (route.query.productType as string)?.split(',').includes(type.label) }"
                     class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px]"
                     @click="setFilterOption('productType', type.label)"
                   >

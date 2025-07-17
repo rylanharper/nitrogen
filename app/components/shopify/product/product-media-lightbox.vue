@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import type { MediaFragment } from '@@/types/shopify-storefront';
+import type { MediaFragment } from '@@/types/shopify-storefront'
 
-import { isMediaVideo, isMediaImage } from '@/helpers/shopify';
+import { isMediaVideo, isMediaImage } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
-  productMedia: MediaFragment[];
-  mediaIndex: number;
-}>();
+  productMedia: MediaFragment[]
+  mediaIndex: number
+}>()
 
 // Stores
-const appStore = useAppStore();
+const appStore = useAppStore()
 
 // Actions
 const closeLightbox = () => {
-  appStore.toggle('mediaLightbox', false);
-};
+  appStore.toggle('mediaLightbox', false)
+}
 
 // State
-const mediaRefs = ref<HTMLElement[]>([]);
+const mediaRefs = ref<HTMLElement[]>([])
 
 watchEffect(() => {
-  const selectedMediaItem = mediaRefs.value[props.mediaIndex];
-  selectedMediaItem?.scrollIntoView();
-});
+  const selectedMediaItem = mediaRefs.value[props.mediaIndex]
+  selectedMediaItem?.scrollIntoView()
+})
 
 // Watchers
-const { escape } = useMagicKeys();
+const { escape } = useMagicKeys()
 
 if (escape) {
   watch(escape, closeLightbox)
@@ -35,7 +35,7 @@ if (escape) {
 // Cleanup
 onBeforeUnmount(() => {
   closeLightbox()
-});
+})
 </script>
 
 <template>

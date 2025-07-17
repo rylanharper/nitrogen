@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cart';
+import { useCartStore } from '@/stores/cart'
 
 // Stores
-const cartStore = useCartStore();
+const cartStore = useCartStore()
 
 // Computed
-const cartTotalItems = computed(() => cartStore.lineItemCount);
+const cartTotalItems = computed(() => cartStore.lineItemCount)
 
 // Emits
 const emit = defineEmits<{

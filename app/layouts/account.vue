@@ -20,7 +20,9 @@ const customer = authStore.customer
           name="ph:warning-circle"
           class="inline-block shrink-0 !size-5"
         />
-        <p class="text-normalize">503: No Shopify data found.</p>
+        <p class="text-normalize">
+          503: No Shopify data found.
+        </p>
       </div>
     </div>
 

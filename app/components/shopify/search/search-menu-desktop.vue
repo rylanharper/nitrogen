@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import type { ProductFragment } from '@@/types/shopify-storefront';
+import type { ProductFragment } from '@@/types/shopify-storefront'
 
 // Model bindings
-const searchQuery = defineModel<string>();
+const searchQuery = defineModel<string>()
 
 // Props
 const props = defineProps<{
-  products: ProductFragment[];
-}>();
+  products: ProductFragment[]
+}>()
 
 // Stores
-const appStore = useAppStore();
+const appStore = useAppStore()
 
 // Suggested links
 const defaulSearchLinks = [
   { label: 'Mens tops', path: '/' },
   { label: 'Womens tops', path: '/' },
-  { label: 'Womens Pants', path: '/' }
-];
+  { label: 'Womens Pants', path: '/' },
+]
 
 // State
-const input = ref<HTMLInputElement | null>(null);
+const input = ref<HTMLInputElement | null>(null)
 
 // Emits
 const emit = defineEmits<{
@@ -30,13 +30,13 @@ const emit = defineEmits<{
 
 const onKeyDown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
-    emit('submitQuery');
+    emit('submitQuery')
   }
-};
+}
 
 const closeSearch = () => {
-  emit('closeSearch');
-};
+  emit('closeSearch')
+}
 
 // Watchers
 watch(
@@ -98,15 +98,23 @@ watch(
         </div>
         <div class="grid grid-cols-[280px_1fr] gap-12">
           <div class="flex flex-col gap-4">
-            <h3 class="uppercase text-sm">Suggestions</h3>
-            <div v-if="props.products?.length" class="flex flex-col">
+            <h3 class="uppercase text-sm">
+              Suggestions
+            </h3>
+            <div
+              v-if="props.products?.length"
+              class="flex flex-col"
+            >
               <SuggestedLink
                 v-for="product in products"
                 :key="product.id"
                 :product="product"
               />
             </div>
-            <div v-else class="flex flex-col">
+            <div
+              v-else
+              class="flex flex-col"
+            >
               <NuxtLink
                 v-for="link in defaulSearchLinks"
                 :key="link.label"
@@ -117,8 +125,13 @@ watch(
               </NuxtLink>
             </div>
           </div>
-          <div v-if="props.products?.length" class="flex flex-col gap-4">
-            <h3 class="uppercase text-sm">Products</h3>
+          <div
+            v-if="props.products?.length"
+            class="flex flex-col gap-4"
+          >
+            <h3 class="uppercase text-sm">
+              Products
+            </h3>
             <div class="grid grid-cols-2 gap-8 w-full">
               <SuggestedProductCard
                 v-for="product in products"
