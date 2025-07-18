@@ -73,7 +73,9 @@ NUXT_SANITY_API_READ_TOKEN=your_api_read_token
 Nitrogen features two custom modules for [Shopify](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify) and [Klaviyo](https://github.com/rylanharper/nitrogen/blob/master/modules/klaviyo), located in the `/modules` folder. The Shopify module, in particular, lets you connect to both the Storefront and Admin APIs at the same time, which is really cool for building more complex storefronts that may use Shopify to act a database in some way (think wishlist functionality or unique customer account features).
 
 > [!TIP]
-> Read over the official Nuxt [Author Module Guide](https://nuxt.com/docs/4.x/guide/going-further/modules) to learn more about how to create and manage your own modules.
+> Read the official Nuxt Author Module Guide to learn how to create and manage your own modules.
+
+[Author Module Guide](https://nuxt.com/docs/4.x/guide/going-further/modules)
 
 ### API Integration
 
