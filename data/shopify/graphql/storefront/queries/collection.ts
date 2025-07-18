@@ -63,6 +63,11 @@ export const COLLECTION_FILTERS = gql`
         filters {
           ...Filter
         }
+        edges {
+          node {
+            id
+          }
+        }
       }
     }
   }

@@ -60,6 +60,13 @@ export const SEARCH_FILTERS = gql`
       filters: productFilters {
         ...Filter
       }
+      edges {
+        node {
+          ... on Product {
+            id
+          }
+        }
+      }
     }
   }
   ${FILTER_FRAGMENT}
