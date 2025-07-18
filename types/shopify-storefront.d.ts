@@ -8863,7 +8863,7 @@ export type CollectionFiltersQueryVariables = Exact<{
 }>;
 
 
-export type CollectionFiltersQuery = { collection?: { products: { filters: Array<{ id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }> } } | null };
+export type CollectionFiltersQuery = { collection?: { products: { filters: Array<{ id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, edges: Array<{ node: { id: string } }> } } | null };
 
 export type CustomerQueryVariables = Exact<{
   customerAccessToken: Scalars['String']['input'];
@@ -8929,7 +8929,7 @@ export type SearchFiltersQueryVariables = Exact<{
 }>;
 
 
-export type SearchFiltersQuery = { search: { filters: Array<{ id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }> } };
+export type SearchFiltersQuery = { search: { filters: Array<{ id: string, label: string, type: FilterType, values: Array<{ count: number, id: string, label: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, edges: Array<{ node: { id: string } | {} }> } };
 
 export type PredictiveSearchQueryVariables = Exact<{
   query: Scalars['String']['input'];
@@ -8938,7 +8938,7 @@ export type PredictiveSearchQueryVariables = Exact<{
 }>;
 
 
-export type PredictiveSearchQuery = { predictiveSearch?: { products: Array<{ description: string, handle: string, id: string, title: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } } }>, collections: Array<{ handle: string, id: string, title: string }>, queries: Array<{ text: string }> } | null };
+export type PredictiveSearchQuery = { predictiveSearch?: { products: Array<{ description: string, handle: string, id: string, title: string, compareAtPriceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } }, featuredImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null, options: Array<{ id: string, name: string, optionValues: Array<{ id: string, name: string, swatch?: { color?: string | null, image?: { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | { alt?: string | null, id: string, mediaContentType: MediaContentType, previewImage?: { altText?: string | null, height?: number | null, id?: string | null, url: string, width?: number | null } | null } | null } | null }> }>, priceRange: { maxVariantPrice: { amount: string, currencyCode: CurrencyCode }, minVariantPrice: { amount: string, currencyCode: CurrencyCode } } }>, collections: Array<{ handle: string, id: string, title: string }>, queries: Array<{ text: string }> } | null };
 
 export type SitemapCollectionsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
