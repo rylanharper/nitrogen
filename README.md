@@ -70,12 +70,14 @@ NUXT_SANITY_API_READ_TOKEN=your_api_read_token
 
 ## ⚡ Basic Usage
 
-Nitrogen makes use of Nuxt's module system to automatically register connections to external APIs and provide simple composables for you to use. The Shopify [module](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify), in particular, lets you connect to both the Storefront and Admin APIs at the same time, which is really cool for building more complex storefronts that may use Shopify to act a database in some way (think wishlist functionality or unique customer account features).
+Nitrogen features two custom modules for [Shopify](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify) and [Klaviyo](https://github.com/rylanharper/nitrogen/blob/master/modules/klaviyo). The Shopify module, in particular, lets you connect to both the Storefront and Admin APIs at the same time, which is really cool for building more complex storefronts that may use Shopify to act a database in some way (think wishlist functionality or unique customer account features).
 
 > [!TIP]
 > Read over the official Nuxt [Author Module Guide](https://nuxt.com/docs/4.x/guide/going-further/modules) to learn more about how to create and manage your own modules.
 
-On top of this, Nitrogen provides a minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/data/shopify/utils/graphql-client.ts) that seamlessly integrates with both Shopify's Storefront and Admin APIs (at the same time). It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
+### API Integration
+
+A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/data/shopify/utils/graphql-client.ts) is provided to seamlessly integrates with both Shopify's Storefront and Admin APIs (at the same time). It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
 ### GraphQL Operations
 
