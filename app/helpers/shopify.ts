@@ -35,10 +35,15 @@ export const getCollectionSortValues = (sortParam: string | null): {
         sortKey: 'BEST_SELLING',
         reverse: false,
       }
-    default:
+    case 'newest':
       return {
         sortKey: 'CREATED',
         reverse: true,
+      }
+    default:
+      return {
+        sortKey: 'MANUAL',
+        reverse: false,
       }
   }
 }
@@ -79,9 +84,11 @@ export const getSearchSortValues = (sortParam: string | null): {
 export const getFilterValues = (query: Record<string, any>) => {
   const filters: ProductFilter[] = []
 
-  filters.push({
-    available: true,
-  })
+  if (query.color || query.size || query.productType) {
+    filters.push({
+      available: true,
+    })
+  }
 
   if (query.color) {
     const colorValues = query.color.split(',')
