@@ -93,6 +93,7 @@ const searchFilter = computed(() => filterData.value)
 
 // Access data nodes
 const products = computed(() => flattenConnection(search.value) as ProductFragment[])
+const filterIds = computed(() => flattenConnection(searchFilter.value) as ProductFragment[])
 
 // Computed data
 const pageInfo = computed(() => search.value?.pageInfo as PageInfoFragment)
@@ -100,9 +101,7 @@ const filters = computed(() => searchFilter.value?.filters as FilterFragment[])
 
 // Number of products
 const numberOfProducts = computed<number>(() => {
-  const availabilityFilter = filters.value?.find((filter) => filter.label === 'Availability')
-  const inStockOption = availabilityFilter?.values.find((option) => option.label === 'In stock')
-  return inStockOption?.count ?? 0
+  return filterValues.value.length ? products.value.length : filterIds.value.length
 })
 
 // Actions
