@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/rylanharper/nitrogen">
-    <img src="./public/logo.svg" width="175" height="175" alt="Nitrogen Logo" />
+    <img src="./public/logo.svg" width="145" height="145" alt="Nitrogen Logo" />
   </a>
 </p>
 
@@ -9,7 +9,7 @@
 Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/Shopify/hydrogen) framework for headless commerce. This template is designed to empower Nuxt developers to build fast, scalable, and customizable storefronts that incorporate key features from Hydrogen's starter theme.
 
 > [!IMPORTANT]
-> This template now features a minimal [Sanity](https://www.sanity.io/) integration on a separate `sanity` branch. This is meant to pair with the [Nitrogen Sanity Studio](https://github.com/rylanharper/nitrogen-sanity-studio) template, which synchronizes content between a Sanity dataset and your Shopify storefront.
+> This template now features a minimal Sanity studio [template](https://github.com/rylanharper/nitrogen-sanity-studio), which synchronizes content between a Sanity dataset and your Shopify storefront. This allows teams to further enhance product and collection pages with custom content or curated links — anything, really.
 
 ## ✨ Key Features
 
@@ -22,8 +22,8 @@ Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/
 - 👕 Product pages, with metafields
 - 🔍 Search functionality
 - 🌐 Shop localization
+- 💡 Sitemap, with robots
 - 📫 Klaviyo integration
-- 🧠 Sanity integration
 - 🎠 Embla Carousel
 - 🎨 Tailwind v4
 - 🔮 Codegen
@@ -41,8 +41,9 @@ To begin using Nitrogen, you'll need to add the following environment variables:
 
 ```ini
 # Shopify
-NUXT_SHOPIFY_STOREFRONT=https://your-shop-name.myshopify.com
-NUXT_SHOPIFY_ACCESS_TOKEN=your_storefront_access_token
+NUXT_SHOPIFY_DOMAIN=your-shop-name.myshopify.com
+NUXT_SHOPIFY_ADMIN_ACCESS_TOKEN=your_admin_access_token
+NUXT_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your_storefront_access_token
 NUXT_SHOPIFY_API_VERSION=2025-01
 
 # Klaviyo (optional)
@@ -59,7 +60,7 @@ NUXT_SANITY_API_READ_TOKEN=your_api_read_token
 ```
 
 > [!WARNING]
-> It is strongly recommended that you use the `2024-07` Storefront API version or higher. If not, you will not have access to new API features found within this template (this will cause breaking changes).
+> It is strongly recommended that you use the `2025-01` Storefront API version or higher. If not, you will not have access to new API features found within this template (this will cause breaking changes).
 
 ### Local Setup
 
@@ -69,25 +70,30 @@ NUXT_SANITY_API_READ_TOKEN=your_api_read_token
 
 ## ⚡ Basic Usage
 
-Nitrogen provides a minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/server/utils/graphql-client.ts) that seamlessly integrates with Shopify's Storefront API. It uses a [server-side proxy](https://github.com/rylanharper/nitrogen/blob/master/server/api/shopify.ts) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
+Nitrogen makes use of Nuxt's module system to automatically register connections to external APIs and provide simple composables for you to use. The Shopify [module](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify), in particular, lets you connect to both the Storefront and Admin APIs at the same time, which is really cool for building more complex storefronts that may use Shopify to act a database in some way (think wishlist functionality or unique customer account features).
 
-### Operations
+> [!TIP]
+> Read over the official Nuxt [Author Module Guide](https://nuxt.com/docs/4.x/guide/going-further/modules) to learn more about how to create and manage your own modules.
 
-This project includes pre-built [operations](https://github.com/rylanharper/nitrogen/tree/master/server/operations/shopify) for common Storefront API queries and mutations. Feel free to add or remove operations that fit your project needs.
+On top of this, Nitrogen provides a minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/data/shopify/utils/graphql-client.ts) that seamlessly integrates with both Shopify's Storefront and Admin APIs (at the same time). It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
+
+### GraphQL Operations
+
+This project includes pre-built GraphQL [operations](https://github.com/rylanharper/nitrogen/tree/master/data/shopify/operations) for common Storefront and Admin API queries and mutations. Feel free to add or remove operations that fit your project needs.
 
 ### Composable
 
 To get GraphQL operations, use the `useShopify` composable:
 
 ```ts
-const shopify = useShopify();
+const shopify = useShopify()
 ```
 
 Operations can be referenced using this composable with dot notation:
 
 ```ts
 // Shopify
-const shopify = useShopify();
+const shopify = useShopify()
 
 // With dot notation
 await shopify.cart.addLines(cart.id, [ ... ])
@@ -100,22 +106,22 @@ Perfect for reactive data fetching in pages or components:
 
 ```ts
 // Shopify
-const shopify = useShopify();
+const shopify = useShopify()
 
-// Fetch data
+// Fetch Shopify data
 const productVars = computed<ProductQueryVariables>(() => ({
   handle: handle.value,
   country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode
+  language: shopStore.buyerLanguageCode,
 }))
 
 const { data: productData } = await useAsyncData(
   `product-${handle.value}`,
   () => shopify.product.get(productVars.value),
-  { watch: [productVars] }
-);
+  { watch: [productVars] },
+)
 
-// Computed data
+// Response data
 const product = computed(() => productData.value)
 ```
 
@@ -125,28 +131,28 @@ Ideal for working with actions in your Pinia stores:
 
 ```ts
 // Shopify
-const shopify = useShopify();
+const shopify = useShopify()
 
-// Cart actions
+// Cart store actions
 actions: {
   async createCart(input?: CartInput, optionalParams?: CartOptionalInput) {
     try {
       const response = await shopify.cart.create({
         input: input,
-        ...optionalParams
-      });
+        ...optionalParams,
+      })
 
       if (response?.userErrors?.length) {
-        throw new Error(response?.userErrors[0]?.message);
+        throw new Error(response?.userErrors[0]?.message)
       }
 
-      this.cart = response?.cart;
+      this.cart = response?.cart
     } catch (error: any) {
-      console.error('Cannot create cart:', error.message);
-      throw error;
+      console.error('Cannot create cart:', error.message)
+      throw error
     }
   },
-  // More actions...
+  // More cart actions...
 }
 ```
 
