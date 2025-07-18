@@ -4,26 +4,26 @@ const navLinks = [
   { label: 'Shop', path: '/collections/latest' },
   { label: 'Catalog', path: '/collections/latest' },
   { label: 'Account', path: '/account' },
-  { label: 'About', path: '/collections/latest' }
-];
+  { label: 'About', path: '/collections/latest' },
+]
 
 // Stores
-const appStore = useAppStore();
+const appStore = useAppStore()
 
 // Actions
 const closeMenu = () => {
-  appStore.toggle('mobileMenu', false);
-};
+  appStore.toggle('mobileMenu', false)
+}
 
 // Watchers
-const route = useRoute();
+const route = useRoute()
+const { escape } = useMagicKeys()
 
-watch(
-  () => route.path,
-  () => {
-    closeMenu();
-  }
-);
+watch(() => route.path, closeMenu)
+
+if (escape) {
+  watch(escape, closeMenu)
+}
 </script>
 
 <template>
@@ -34,24 +34,29 @@ watch(
     />
   </Transition>
   <Transition name="clip">
-    <aside v-if="appStore.mobileMenu" class="fixed inset-0 size-full z-50 bg-white">
-      <div class="flex flex-col gap-8 size-full px-6">
-        <div class="flex flex-col gap-1 flex-1 mt-16 overflow-y-scroll overflow-x-hidden no-scrollbar">
+    <aside
+      v-if="appStore.mobileMenu"
+      class="fixed inset-0 size-full z-50 bg-white"
+    >
+      <div class="flex flex-col size-full px-6">
+        <div class="flex flex-col flex-1 mt-(--header-height) py-6 overflow-y-scroll overflow-x-hidden no-scrollbar">
           <NuxtLink
             v-for="link in navLinks"
             :key="link.label"
             :to="link.path"
-            class="text-xl tracking-tight"
+            class="py-1 text-xl tracking-tight"
           >
-            {{ link.label }}
+            <span>{{ link.label }}</span>
           </NuxtLink>
         </div>
         <div class="flex flex-col mb-4">
           <button
-            class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md"
+            class="flex items-center justify-center p-2 px-4 bg-transparent border border-zinc-300 rounded-md"
             @click="closeMenu"
           >
-            Close Menu
+            <span class="text-normalize">
+              Close Menu
+            </span>
           </button>
         </div>
       </div>

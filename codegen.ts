@@ -1,13 +1,15 @@
-import type { CodegenConfig } from '@graphql-codegen/cli';
+import type { CodegenConfig } from '@graphql-codegen/cli'
 
-import { storefrontApiCustomScalars } from './codegen.helpers';
-import { storefrontApiSchema } from './codegen.schema';
+import { adminApiCustomScalars, storefrontApiCustomScalars } from './codegen.helpers'
+import { adminApiSchema, storefrontApiSchema } from './codegen.schema'
 
 const config: CodegenConfig = {
-  schema: storefrontApiSchema,
-  documents: './server/graphql/**/*.ts',
+  overwrite: true,
   generates: {
-    './types/shopify.d.ts': {
+    // Admin
+    './types/shopify-admin.d.ts': {
+      schema: adminApiSchema,
+      documents: './data/shopify/graphql/admin/**/*.ts',
       plugins: ['typescript', 'typescript-operations'],
       config: {
         skipTypename: true,
@@ -15,10 +17,24 @@ const config: CodegenConfig = {
         defaultScalarType: 'unknown',
         useImplementingTypes: true,
         enumsAsTypes: true,
-        scalars: storefrontApiCustomScalars
-      }
-    }
-  }
-};
+        scalars: adminApiCustomScalars,
+      },
+    },
+    // Storefront
+    './types/shopify-storefront.d.ts': {
+      schema: storefrontApiSchema,
+      documents: './data/shopify/graphql/storefront/**/*.ts',
+      plugins: ['typescript', 'typescript-operations'],
+      config: {
+        skipTypename: true,
+        useTypeImports: true,
+        defaultScalarType: 'unknown',
+        useImplementingTypes: true,
+        enumsAsTypes: true,
+        scalars: storefrontApiCustomScalars,
+      },
+    },
+  },
+}
 
-export default config;
+export default config

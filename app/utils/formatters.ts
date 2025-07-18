@@ -5,9 +5,9 @@
  * @returns The formatted date string
  */
 export const formatDateByLocale = (locale: string, d: Date | string): string => {
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };
-  return new Date(d).toLocaleDateString(locale, options);
-};
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric' }
+  return new Date(d).toLocaleDateString(locale, options)
+}
 
 /**
  * Formats an image URL to include a specified width.
@@ -16,13 +16,13 @@ export const formatDateByLocale = (locale: string, d: Date | string): string => 
  * @returns The formatted image URL or an empty string if undefined
  */
 export const formatImageUrl = (src: string | undefined, width: number): string => {
-  if (!src) return '';
+  if (!src) return ''
 
-  const url = new URL(src);
-  url.searchParams.set('width', String(width));
+  const url = new URL(src)
+  url.searchParams.set('width', String(width))
 
-  return url.href;
-};
+  return url.href
+}
 
 /**
  * Formats a number as a currency string.
@@ -32,13 +32,22 @@ export const formatImageUrl = (src: string | undefined, width: number): string =
  * @returns The formatted currency string
  */
 export const formatCurrency = (amount: string | number, currencyCode: string = 'USD', locale: string = 'en-US'): string => {
-  const numericAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+  const numericAmount = typeof amount === 'string' ? parseFloat(amount) : amount
 
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currencyCode,
-    minimumFractionDigits: 2
+    minimumFractionDigits: 2,
   })
     .format(numericAmount)
-    .replace(/\.00/g, '');
-};
+    .replace(/\.00/g, '')
+}
+
+/**
+ * Formats a product variant ID to its numeric form.
+ * @param gid - The variant ID (e.g., 'gid://shopify/ProductVariant/44284874064058')
+ * @returns The numeric portion of the ID (e.g., '44284874064058')
+ */
+export const formatVariantId = (gid: string): string => {
+  return gid.split('/').pop() ?? ''
+}
