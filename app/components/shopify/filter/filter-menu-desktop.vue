@@ -89,7 +89,7 @@ const clearAllFilters = () => {
             </h3>
             <div class="flex flex-col">
               <button
-                v-for="(option, index) in props.sortOptions"
+                v-for="option in props.sortOptions"
                 :key="index"
                 :class="{ underline: route.query.sort === option.value || (option.value === null && !route.query.sort) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
@@ -105,7 +105,7 @@ const clearAllFilters = () => {
             </h3>
             <div class="flex flex-col">
               <button
-                v-for="(color, index) in props.colorOptions"
+                v-for="color in props.colorOptions"
                 :key="color.id"
                 :class="{ 'underline border-black': (route.query.color as string)?.split(',').includes(color.label) }"
                 class="flex items-center gap-3 max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
@@ -140,7 +140,7 @@ const clearAllFilters = () => {
             </h3>
             <div class="flex flex-col">
               <button
-                v-for="(size, index) in props.sizeOptions"
+                v-for="size in props.sizeOptions"
                 :key="size.id"
                 :class="{ underline: (route.query.size as string)?.split(',').includes(size.label) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
@@ -156,7 +156,7 @@ const clearAllFilters = () => {
             </h3>
             <div class="flex flex-col">
               <button
-                v-for="(type, index) in props.productTypeOptions"
+                v-for="type in props.productTypeOptions"
                 :key="type.id"
                 :class="{ underline: (route.query.productType as string)?.split(',').includes(type.label) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"

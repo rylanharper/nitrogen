@@ -4,8 +4,8 @@ import { FILTER_FRAGMENT } from '../fragments/filter'
 import { IMAGE_FRAGMENT } from '../fragments/image'
 import { PAGE_INFO_FRAGMENT } from '../fragments/pageInfo'
 import { PRICE_RANGE_FRAGMENT } from '../fragments/priceRange'
-import { PRODUCT_OPTION_FRAGMENT } from '../fragments/productOption'
 import { PRODUCT_FRAGMENT } from '../fragments/product'
+import { PRODUCT_OPTION_FRAGMENT } from '../fragments/productOption'
 
 export const SEARCH = gql`
   query search(
