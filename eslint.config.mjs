@@ -24,6 +24,19 @@ export default withNuxt(
           caughtErrorsIgnorePattern: '^_',
         },
       ],
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'type',
+            ['builtin', 'external'],
+            ['internal', 'parent', 'sibling', 'index', 'object'],
+          ],
+          alphabetize: {
+            order: 'asc',
+          },
+        },
+      ],
     },
   },
 )
