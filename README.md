@@ -33,7 +33,7 @@ Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/
 > [!TIP]
 > Read through the docs to learn how to configure your Shopify store to work with Nitrogen!
 
-[Nitrogen documentation](https://nitrogendocs.netlify.app/)
+[Nitrogen documentation](https://nitrogen-docs.netlify.app/)
 
 ## 💻 Development
 
