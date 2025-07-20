@@ -189,8 +189,8 @@ const updateDefaultAddress = async (
 
 /**
  * Updates one or more metafields on the customer.
- * @param options - The variables for the customer update mutation, including metafields and customer ID.
- * @returns A Promise resolving to the customerUpdate payload.
+ * @param options - The variables for the customer update mutation, (customer ID, customer metafields)
+ * @returns A Promise resolving to the customerUpdate payload
  * @see https://shopify.dev/docs/api/admin-graphql/2025-01/mutations/customerUpdate
  */
 const updateMetafields = async (
