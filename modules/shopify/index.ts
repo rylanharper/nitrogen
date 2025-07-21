@@ -17,7 +17,7 @@ export interface ModuleOptions {
 // Module
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: '@nikkoel/shopify',
+    name: '@nitrogen/shopify',
     configKey: 'shopify',
     compatibility: {
       nuxt: '>=3.0.0',

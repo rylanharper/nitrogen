@@ -15,7 +15,7 @@ export interface ModuleOptions {
 // Module
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: '@nikkoel/klaviyo',
+    name: '@nitrogen/klaviyo',
     configKey: 'klaviyo',
     compatibility: {
       nuxt: '>=3.0.0',
