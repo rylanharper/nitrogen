@@ -184,7 +184,7 @@ export const useAuthStore = defineStore('@nikkoel/auth', {
 
   getters: {
     isAuthenticated: (state) => !!state.accessToken,
-    currentToken: (state) => state.accessToken ?? '',
+    currentToken: (state) => state.accessToken,
   },
 
   persist: {
