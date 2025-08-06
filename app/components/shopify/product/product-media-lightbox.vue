@@ -17,25 +17,24 @@ const closeLightbox = () => {
   appStore.toggle('mediaLightbox', false)
 }
 
-// State
-const mediaRefs = ref<HTMLElement[]>([])
-
-watchEffect(() => {
-  const selectedMediaItem = mediaRefs.value[props.mediaIndex]
-  selectedMediaItem?.scrollIntoView()
-})
+// Refs
+const mediaRefs = useTemplateRef('mediaRefs')
 
 // Watchers
 const { escape } = useMagicKeys()
 
+watch(
+  () => props.mediaIndex,
+  async (index) => {
+    await nextTick()
+    const el = mediaRefs.value?.[index]
+    el?.scrollIntoView()
+  },
+)
+
 if (escape) {
   watch(escape, closeLightbox)
 }
-
-// Cleanup
-onBeforeUnmount(() => {
-  closeLightbox()
-})
 </script>
 
 <template>
@@ -55,8 +54,8 @@ onBeforeUnmount(() => {
     <div class="flex flex-col overflow-auto size-full">
       <div
         v-for="(media, index) in productMedia"
-        ref="mediaRefs"
         :key="media.id"
+        ref="mediaRefs"
         class="aspect-square cursor-zoom-out"
         @click="closeLightbox"
       >

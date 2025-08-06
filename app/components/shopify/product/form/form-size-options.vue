@@ -10,6 +10,11 @@ const props = defineProps<{
   selectedSize: string
 }>()
 
+// Emits
+const emits = defineEmits<{
+  setSizeOption: [size: string]
+}>()
+
 // Computed
 const sizeOption = computed(() => getSizeOption(props.product.options))
 
@@ -25,14 +30,9 @@ const productSizes = computed(() => {
   }))
 })
 
-// Emits
-const emit = defineEmits<{
-  setSizeOption: [size: string]
-}>()
-
 // Emit events
 const setSizeOption = (size: string) => {
-  emit('setSizeOption', size)
+  emits('setSizeOption', size)
 }
 </script>
 

@@ -1,30 +1,30 @@
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cart'
 
+// Emits
+const emits = defineEmits<{
+  toggleMobileMenu: []
+  toggleSearchMenu: []
+  toggleCartDrawer: []
+}>()
+
 // Stores
 const cartStore = useCartStore()
 
 // Computed
 const cartTotalItems = computed(() => cartStore.lineItemCount)
 
-// Emits
-const emit = defineEmits<{
-  toggleMobileMenu: []
-  toggleSearchMenu: []
-  toggleCartDrawer: []
-}>()
-
 // Emit events
 const toggleMobileMenu = () => {
-  emit('toggleMobileMenu')
+  emits('toggleMobileMenu')
 }
 
 const toggleSearchMenu = () => {
-  emit('toggleSearchMenu')
+  emits('toggleSearchMenu')
 }
 
 const toggleCartDrawer = () => {
-  emit('toggleCartDrawer')
+  emits('toggleCartDrawer')
 }
 </script>
 

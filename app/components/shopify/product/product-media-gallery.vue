@@ -17,7 +17,7 @@ const mediaIndex = ref<number>(0)
 // Actions
 const toggleLightbox = (index: number) => {
   mediaIndex.value = index
-  appStore.toggle('mediaLightbox')
+  appStore.toggle('mediaLightbox', true)
 }
 
 // Watchers
