@@ -9,11 +9,20 @@ export default withNuxt(
   },
   {
     rules: {
+      // Vue
       'vue/no-v-html': 'off',
       'vue/html-self-closing': 'off',
-      '@stylistic/semi': ['error', 'never'],
-      '@stylistic/brace-style': ['error', '1tbs'],
-      '@stylistic/arrow-parens': ['error', 'always'],
+      'vue/require-typed-ref': ['error'],
+      'vue/prefer-use-template-ref': ['error'],
+      'vue/define-props-declaration': ['error', 'type-based'],
+      'vue/define-emits-declaration': ['error', 'type-based'],
+      'vue/define-macros-order': [
+        'error',
+        {
+          order: ['defineProps', 'defineEmits'],
+        },
+      ],
+      // TypeScript
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
       '@typescript-eslint/no-unused-vars': [
@@ -24,6 +33,7 @@ export default withNuxt(
           caughtErrorsIgnorePattern: '^_',
         },
       ],
+      // Imports
       'import/order': [
         'error',
         {
@@ -37,6 +47,10 @@ export default withNuxt(
           },
         },
       ],
+      // Styles
+      '@stylistic/semi': ['error', 'never'],
+      '@stylistic/brace-style': ['error', '1tbs'],
+      '@stylistic/arrow-parens': ['error', 'always'],
     },
   },
 )

@@ -1,4 +1,11 @@
 <script setup lang="ts">
+// Emits
+const emits = defineEmits<{
+  toggleLocaleModal: []
+  toggleSearchMenu: []
+  toggleCartDrawer: []
+}>()
+
 // Links
 const navLinksLeft = [
   { label: 'Shop', path: '/collections/latest' },
@@ -19,24 +26,17 @@ const countryCode = computed(() => shopStore.buyerCountryCode)
 const currencySymbol = computed(() => shopStore.buyerCurrencySymbol)
 const cartTotalItems = computed(() => cartStore.lineItemCount)
 
-// Emits
-const emit = defineEmits<{
-  toggleLocaleModal: []
-  toggleSearchMenu: []
-  toggleCartDrawer: []
-}>()
-
 // Emit events
 const toggleLocaleModal = () => {
-  emit('toggleLocaleModal')
+  emits('toggleLocaleModal')
 }
 
 const toggleSearchMenu = () => {
-  emit('toggleSearchMenu')
+  emits('toggleSearchMenu')
 }
 
 const toggleCartDrawer = () => {
-  emit('toggleCartDrawer')
+  emits('toggleCartDrawer')
 }
 </script>
 

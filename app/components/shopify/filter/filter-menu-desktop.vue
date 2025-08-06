@@ -24,35 +24,35 @@ const props = defineProps<{
   activeFilterCount: number
 }>()
 
-// Route
-const route = useRoute()
-
-// Stores
-const appStore = useAppStore()
-
 // Emits
-const emit = defineEmits<{
+const emits = defineEmits<{
   closeFilter: []
   setSortOption: [sortValue: string | null]
   setFilterOption: [filterName: string, filterValue: string]
   clearAllFilters: []
 }>()
 
+// Route
+const route = useRoute()
+
+// Stores
+const appStore = useAppStore()
+
 // Emit events
 const closeFilter = () => {
-  emit('closeFilter')
+  emits('closeFilter')
 }
 
 const setSortOption = (sortValue: string | null) => {
-  emit('setSortOption', sortValue)
+  emits('setSortOption', sortValue)
 }
 
 const setFilterOption = (filterName: string, filterValue: string) => {
-  emit('setFilterOption', filterName, filterValue)
+  emits('setFilterOption', filterName, filterValue)
 }
 
 const clearAllFilters = () => {
-  emit('clearAllFilters')
+  emits('clearAllFilters')
 }
 </script>
 
@@ -89,7 +89,7 @@ const clearAllFilters = () => {
             </h3>
             <div class="flex flex-col">
               <button
-                v-for="option in props.sortOptions"
+                v-for="(option, index) in props.sortOptions"
                 :key="index"
                 :class="{ underline: route.query.sort === option.value || (option.value === null && !route.query.sort) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"

@@ -1,36 +1,36 @@
 <script setup lang="ts">
 import type { ProductFragment } from '@@/types/shopify-storefront'
 
-// Model bindings
-const searchQuery = defineModel<string>()
-
 // Props
 const props = defineProps<{
   products: ProductFragment[]
 }>()
 
-// Stores
-const appStore = useAppStore()
-
-// State
-const input = ref<HTMLInputElement | null>(null)
-
 // Emits
-const emit = defineEmits<{
+const emits = defineEmits<{
   submitQuery: []
   closeSearch: []
 }>()
 
+// Model bindings
+const searchQuery = defineModel<string>()
+
+// Stores
+const appStore = useAppStore()
+
 // Emit events
 const onKeyDown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
-    emit('submitQuery')
+    emits('submitQuery')
   }
 }
 
 const closeSearch = () => {
-  emit('closeSearch')
+  emits('closeSearch')
 }
+
+// Refs
+const input = useTemplateRef('inputRef')
 
 // Watchers
 watch(
@@ -62,7 +62,7 @@ watch(
       <div class="flex flex-col gap-10 size-full px-5">
         <div class="relative flex">
           <input
-            ref="input"
+            ref="inputRef"
             v-model="searchQuery"
             type="text"
             name="searchInput"
