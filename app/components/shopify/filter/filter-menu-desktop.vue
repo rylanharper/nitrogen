@@ -89,7 +89,7 @@ const clearAllFilters = () => {
             </h3>
             <div class="flex flex-col">
               <button
-                v-for="option in props.sortOptions"
+                v-for="(option, index) in props.sortOptions"
                 :key="index"
                 :class="{ underline: route.query.sort === option.value || (option.value === null && !route.query.sort) }"
                 class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
