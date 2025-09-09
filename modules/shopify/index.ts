@@ -36,15 +36,20 @@ export default defineNuxtModule<ModuleOptions>({
 
     const { resolve } = createResolver(import.meta.url)
 
-    addImports({
-      name: 'useShopify',
-      from: resolve('runtime/composables/use-shopify'),
-    })
+    const imports = [
+      {
+        name: 'useShopify',
+        from: resolve('runtime/composables/use-shopify'),
+      },
+      {
+        name: 'flattenConnection',
+        from: resolve('runtime/utils/flatten-connection'),
+      },
+    ]
 
-    addServerImports([{
-      name: 'useShopify',
-      from: resolve('runtime/composables/use-shopify'),
-    }])
+    addImports(imports)
+
+    addServerImports(imports)
 
     addServerHandler({
       method: 'post',
