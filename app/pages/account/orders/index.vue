@@ -4,8 +4,6 @@ import type {
   OrderFragment,
 } from '@@/types/shopify-storefront'
 
-import { flattenConnection } from '@/utils/graphql'
-
 // Stores
 const authStore = useAuthStore()
 const shopStore = useShopStore()
@@ -44,7 +42,7 @@ definePageMeta({
 </script>
 
 <template>
-  <section class="relative flex flex-col lg:col-span-2 2xl:col-span-1 mb-20">
+  <section class="flex flex-col lg:col-span-2 2xl:col-span-1 mb-20">
     <div class="flex flex-col gap-6 lg:mt-6 lg:px-8">
       <h2 class="px-6 text-xl tracking-tight leading-none lg:p-0">
         Orders ({{ orders?.length }})

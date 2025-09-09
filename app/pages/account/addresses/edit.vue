@@ -72,8 +72,10 @@ const handleUpdateAddress = async () => {
     if (response?.customerAddress) {
       await navigateTo('/account/addresses')
     }
-  } catch (error: any) {
-    errorMessage.value = `${error.message}. Please verify your address details and try again.`
+  } catch (error) {
+    if (error instanceof Error) {
+      errorMessage.value = `${error.message}. Please verify your address details and try again.`
+    }
   } finally {
     isLoading.value = false
   }

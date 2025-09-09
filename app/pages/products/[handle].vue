@@ -6,8 +6,6 @@ import type {
   ProductVariantFragment,
 } from '@@/types/shopify-storefront'
 
-import { flattenConnection } from '@/utils/graphql'
-
 // Route data
 const route = useRoute()
 const handle = computed(() => route.params.handle as string)

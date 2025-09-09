@@ -51,8 +51,10 @@ const handleReset = async () => {
     if (isAuth.value) {
       await navigateTo('/account')
     }
-  } catch (error: any) {
-    errorMessage.value = `${error.message}. Please try again later.`
+  } catch (error) {
+    if (error instanceof Error) {
+      errorMessage.value = `${error.message}. Please try again later.`
+    }
   } finally {
     isLoading.value = false
   }
@@ -78,7 +80,7 @@ useHead({
 </script>
 
 <template>
-  <section class="wrapper px-6 pt-28 mx-auto md:pt-32 md:max-w-[400px] md:px-0">
+  <section class="wrapper px-6 pt-28 md:pt-32 md:max-w-[400px] md:px-0">
     <h1 class="text-xl tracking-tight leading-none text-center">
       Enter a new password
     </h1>

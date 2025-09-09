@@ -2,7 +2,6 @@
 import type { ProductFragment } from '@@/types/shopify-storefront'
 
 import { getColorOption } from '@/helpers/shopify'
-import { flattenConnection } from '@/utils/graphql'
 
 // Props
 const props = defineProps<{

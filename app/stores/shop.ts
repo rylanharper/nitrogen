@@ -50,8 +50,8 @@ export const useShopStore = defineStore('@nikkoel/shop', {
         this.locale.availableLanguages = response.availableLanguages
         this.locale.country = response.country
         this.locale.language = response.language
-      } catch (error: any) {
-        console.error('Connot get localization data:', error.message)
+      } catch (error) {
+        console.error('Connot get localization data:', error)
         throw error
       }
     },
