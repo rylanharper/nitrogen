@@ -42,8 +42,10 @@ const handleLogin = async () => {
       await cartStore.attachBuyer({ customerAccessToken: authStore.accessToken })
       await navigateTo('/account')
     }
-  } catch (error: any) {
-    errorMessage.value = `${error.message}. Please try again later.`
+  } catch (error) {
+    if (error instanceof Error) {
+      errorMessage.value = `${error.message}. Please try again later.`
+    }
   } finally {
     isLoading.value = false
   }

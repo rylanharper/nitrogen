@@ -42,8 +42,8 @@ export const useAuthStore = defineStore('@nikkoel/auth', {
           this.accessToken = response.customerAccessToken.accessToken
           await this.getCustomer()
         }
-      } catch (error: any) {
-        console.error('Cannot create customer access token:', error.message)
+      } catch (error) {
+        console.error('Cannot create customer access token:', error)
         throw error
       }
     },
@@ -70,8 +70,8 @@ export const useAuthStore = defineStore('@nikkoel/auth', {
         }
 
         this.customer = customerInfo
-      } catch (error: any) {
-        console.error('Cannot get customer data:', error.message)
+      } catch (error) {
+        console.error('Cannot get customer data:', error)
         throw error
       }
     },
@@ -93,8 +93,8 @@ export const useAuthStore = defineStore('@nikkoel/auth', {
           email: input.email,
           password: input.password,
         })
-      } catch (error: any) {
-        console.error('Cannot create new customer:', error.message)
+      } catch (error) {
+        console.error('Cannot create new customer:', error)
         throw error
       }
     },
@@ -126,8 +126,8 @@ export const useAuthStore = defineStore('@nikkoel/auth', {
           this.accessToken = ''
           this.customer = null
         }
-      } catch (error: any) {
-        console.error('Cannot delete access token:', error.message)
+      } catch (error) {
+        console.error('Cannot delete access token:', error)
         throw error
       }
     },
@@ -146,8 +146,8 @@ export const useAuthStore = defineStore('@nikkoel/auth', {
         }
 
         return response
-      } catch (error: any) {
-        console.error('Cannot recover customer password:', error.message)
+      } catch (error) {
+        console.error('Cannot recover customer password:', error)
         throw error
       }
     },
@@ -175,8 +175,8 @@ export const useAuthStore = defineStore('@nikkoel/auth', {
           this.accessToken = response.customerAccessToken.accessToken
           await this.getCustomer()
         }
-      } catch (error: any) {
-        console.error('Cannot reset customer password:', error.message)
+      } catch (error) {
+        console.error('Cannot reset customer password:', error)
         throw error
       }
     },

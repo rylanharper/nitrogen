@@ -48,8 +48,8 @@ export const useCartStore = defineStore('@nikkoel/cart', {
         }
 
         this.cart = response?.cart
-      } catch (error: any) {
-        console.error('Cannot create cart:', error.message)
+      } catch (error) {
+        console.error('Cannot create cart:', error)
         throw error
       }
     },
@@ -78,8 +78,8 @@ export const useCartStore = defineStore('@nikkoel/cart', {
         }
 
         this.cart = response
-      } catch (error: any) {
-        console.error('Connot get cart data:', error.message)
+      } catch (error) {
+        console.error('Connot get cart data:', error)
         throw error
       }
     },
@@ -106,8 +106,8 @@ export const useCartStore = defineStore('@nikkoel/cart', {
         }
 
         this.cart = response?.cart
-      } catch (error: any) {
-        console.error('Cannot add lines:', error.message)
+      } catch (error) {
+        console.error('Cannot add lines:', error)
         throw error
       }
     },
@@ -134,8 +134,8 @@ export const useCartStore = defineStore('@nikkoel/cart', {
         }
 
         this.cart = response?.cart
-      } catch (error: any) {
-        console.error('Cannot remove lines:', error.message)
+      } catch (error) {
+        console.error('Cannot remove lines:', error)
         throw error
       }
     },
@@ -162,8 +162,8 @@ export const useCartStore = defineStore('@nikkoel/cart', {
         }
 
         this.cart = response?.cart
-      } catch (error: any) {
-        console.error('Cannot update cart lines:', error.message)
+      } catch (error) {
+        console.error('Cannot update cart lines:', error)
         throw error
       }
     },
@@ -190,8 +190,8 @@ export const useCartStore = defineStore('@nikkoel/cart', {
         }
 
         this.cart = response?.cart
-      } catch (error: any) {
-        console.error('Cannot update cart buyer identity:', error.message)
+      } catch (error) {
+        console.error('Cannot update cart buyer identity:', error)
         throw error
       }
     },
