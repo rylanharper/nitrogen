@@ -2,7 +2,6 @@
 import type { CartLineFragment } from '@@/types/shopify-storefront'
 
 import { useMagicKeys } from '@vueuse/core'
-import { flattenConnection } from '@/utils/graphql'
 
 // Stores
 const appStore = useAppStore()

@@ -8,7 +8,6 @@ import type {
 } from '@@/types/shopify-storefront'
 
 import { getCollectionSortValues, getFilterValues } from '@/helpers/shopify'
-import { flattenConnection } from '@/utils/graphql'
 
 // Route data
 const route = useRoute()

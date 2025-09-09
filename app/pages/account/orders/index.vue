@@ -4,8 +4,6 @@ import type {
   OrderFragment,
 } from '@@/types/shopify-storefront'
 
-import { flattenConnection } from '@/utils/graphql'
-
 // Stores
 const authStore = useAuthStore()
 const shopStore = useShopStore()
