@@ -16,40 +16,40 @@ import { query } from '../utils/graphql-client'
 
 /**
  * Fetches the product data.
- * @param options - The variables for the product query (handle)
+ * @param variables - The variables for the product query (handle)
  * @returns A Promise resolving to the product data
  * @see https://shopify.dev/docs/api/storefront/2025-01/queries/product
  */
 const get = async (
-  options: ProductQueryVariables,
+  variables: ProductQueryVariables,
 ): Promise<ProductQuery['product']> => {
-  const response = await query(PRODUCT, options)
+  const response = await query(PRODUCT, variables)
   return response.data?.product
 }
 
 /**
  * Fetches multiple products based on IDs.
- * @param options - The variables for the products query (IDs)
+ * @param variables - The variables for the products query (IDs)
  * @returns A Promise resolving to an array of products
  * @see https://shopify.dev/docs/api/storefront/2025-01/queries/nodes
  */
 const getIds = async (
-  options: ProductIdsQueryVariables,
+  variables: ProductIdsQueryVariables,
 ): Promise<ProductIdsQuery['nodes']> => {
-  const response = await query(PRODUCT_IDS, options)
+  const response = await query(PRODUCT_IDS, variables)
   return response.data?.nodes
 }
 
 /**
  * Fetches the recommended product data.
- * @param options - The variables for the recommendation query (handle)
+ * @param variables - The variables for the recommendation query (handle)
  * @returns A Promise resolving to an array of recommended products
- * @see https://shopify.dev/docs/api/storefront/2024-10/queries/productRecommendations
+ * @see https://shopify.dev/docs/api/storefront/2025-01/queries/productRecommendations
  */
 async function getRecommended(
-  options: ProductRecommendationsQueryVariables,
+  variables: ProductRecommendationsQueryVariables,
 ): Promise<ProductRecommendationsQuery['recommended']> {
-  const response = await query(RECOMMENDED_PRODUCTS, options)
+  const response = await query(RECOMMENDED_PRODUCTS, variables)
   return response.data?.recommended
 }
 
