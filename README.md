@@ -81,9 +81,29 @@ Nitrogen features two custom modules for [Shopify](https://github.com/rylanharpe
 
 A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/resources/utils/graphql-client.ts) is provided to seamlessly integrate with both the Shopify Storefront and Admin APIs. It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
+The client also accepts three optional parameters:
+
+- `api` – Choose between the `storefront` (default) or `admin` API.
+- `maxRetries` – Number of retry attempts on failure (default: `3`).
+- `cacheable` – Enable response caching for common queries like product, collection, and search (default: `true`).
+
 ### GraphQL Operations
 
-This project includes pre-built GraphQL [operations](https://github.com/rylanharper/nitrogen/tree/master/modules/shopify/runtime/resources/operations) for common queries and mutations frequently used in headless storefront environments. Feel free to add or remove operations that fit your project needs.
+This project includes pre-built GraphQL [operations](https://github.com/rylanharper/nitrogen/tree/master/modules/shopify/runtime/resources/operations) for common queries and mutations frequently used in headless storefront environments. All operations are powered by the GraphQL client, so you can also pass optional parameters when needed:
+
+```ts
+import type { MyQuery, MyQueryVariables } from '@@/types/storefront'
+import { MY_QUERY } from '../graphql/custom'
+import { query } from '../utils/graphql-client'
+
+const response = await query(
+  MY_QUERY,
+  { handle: 'example' },
+  { api: 'storefront', maxRetries: 5, cacheable: false },
+)
+```
+
+Feel free to add or remove operations that fit your project needs!
 
 ### `useShopify`
 
@@ -104,9 +124,7 @@ await shopify.cart.addLines(cart.id, [ ... ])
 await shopify.product.get({ handle: 'example-product' })
 ```
 
-### With `useAsyncData`
-
-Perfect for reactive data fetching in pages or components:
+Perfect for reactive data fetching using `useAsyncData`:
 
 ```ts
 // Shopify
@@ -129,9 +147,7 @@ const { data: productData } = await useAsyncData(
 const product = computed(() => productData.value)
 ```
 
-### With `Pinia`
-
-Ideal for working with actions in your Pinia stores:
+Ideal for working with actions in `Pinia`:
 
 ```ts
 // Shopify
@@ -166,13 +182,13 @@ The Shopify module provides a `flattenConnection` utility function designed to s
 
 ```ts
 // Access product variant nodes
-const productVariants = computed(() => 
+const variants = computed(() => 
   flattenConnection(product.value?.variants) as ProductVariantFragment[]
 )
 
 // Use node data for something...
 const currentVariant = computed(() =>
-  props.variants.find((variant) =>
+  variants.find((variant) =>
     variant.selectedOptions.every(({ name, value }) =>
       isSizeOption(name) ? value === selectedSize.value : true,
     ),
