@@ -1,10 +1,10 @@
-import cart from '@@/data/shopify/operations/cart'
-import collection from '@@/data/shopify/operations/collection'
-import customer from '@@/data/shopify/operations/customer'
-import localization from '@@/data/shopify/operations/localization'
-import product from '@@/data/shopify/operations/product'
-import search from '@@/data/shopify/operations/search'
-import sitemap from '@@/data/shopify/operations/sitemap'
+import cart from '../resources/operations/cart'
+import collection from '../resources/operations/collection'
+import customer from '../resources/operations/customer'
+import localization from '../resources/operations/localization'
+import product from '../resources/operations/product'
+import search from '../resources/operations/search'
+import sitemap from '../resources/operations/sitemap'
 
 export const useShopify = () => ({
   cart,

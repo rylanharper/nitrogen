@@ -1,4 +1,4 @@
-import subscribe from '@@/data/klaviyo/subscribe'
+import subscribe from '../resources/http/subscribe'
 
 export const useKlaviyo = () => ({
   subscribe,

@@ -2,7 +2,11 @@ import type { DocumentNode } from 'graphql'
 
 import { print } from 'graphql'
 
-type ShopifyAPI = 'storefront' | 'admin'
+type QueryOptions = {
+  api?: string
+  maxRetries?: number
+  cacheable?: boolean
+}
 
 const cache = new Map<string, any>()
 
@@ -14,15 +18,21 @@ const cache = new Map<string, any>()
  */
 export const query = async (
   query: DocumentNode,
-  variables = {},
-  api: ShopifyAPI = 'storefront', // Default
-  maxRetries = 3,
+  variables: Record<string, any> = {},
+  options: QueryOptions = {},
 ) => {
+  const {
+    api = 'storefront',
+    maxRetries = 3,
+    cacheable = true,
+  } = options
+
+  // Serialize query and create cache key
   const serializedQuery = print(query)
   const cacheKey = JSON.stringify({ query: serializedQuery, variables })
 
   // Cache only collection, product, and search queries
-  const shouldCache = /query Collection|query Product|query Search/i.test(serializedQuery)
+  const shouldCache = cacheable && /query Collection|query Product|query Search/i.test(serializedQuery)
 
   // Return cached response if applicable
   if (shouldCache && cache.has(cacheKey)) {

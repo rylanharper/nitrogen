@@ -79,13 +79,13 @@ Nitrogen features two custom modules for [Shopify](https://github.com/rylanharpe
 
 ### API Integration
 
-A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/data/shopify/utils/graphql-client.ts) is provided to seamlessly integrate with both the Shopify Storefront and Admin APIs. It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
+A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/resources/utils/graphql-client.ts) is provided to seamlessly integrate with both the Shopify Storefront and Admin APIs. It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
 ### GraphQL Operations
 
-This project includes pre-built GraphQL [operations](https://github.com/rylanharper/nitrogen/tree/master/data/shopify/operations) for common queries and mutations frequently used in headless storefront environments. Feel free to add or remove operations that fit your project needs.
+This project includes pre-built GraphQL [operations](https://github.com/rylanharper/nitrogen/tree/master/modules/shopify/runtime/resources/operations) for common queries and mutations frequently used in headless storefront environments. Feel free to add or remove operations that fit your project needs.
 
-### Composable
+### `useShopify`
 
 To get GraphQL operations, use the `useShopify` composable:
 
@@ -158,6 +158,26 @@ actions: {
   },
   // More cart actions...
 }
+```
+
+### `flattenConnection`
+
+The Shopify module provides a `flattenConnection` utility function designed to simplify working with GraphQL connection objects. GraphQL connections often contain nested node arrays, which can make accessing the actual data cumbersome. This utility extracts and flattens these nodes, making your data easier to work with:
+
+```ts
+// Access product variant nodes
+const productVariants = computed(() => 
+  flattenConnection(product.value?.variants) as ProductVariantFragment[]
+)
+
+// Use node data for something...
+const currentVariant = computed(() =>
+  props.variants.find((variant) =>
+    variant.selectedOptions.every(({ name, value }) =>
+      isSizeOption(name) ? value === selectedSize.value : true,
+    ),
+  ),
+)
 ```
 
 ## 🌱 Contribute

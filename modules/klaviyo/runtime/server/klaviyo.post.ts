@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     default:
       throw createError({
         statusCode: 400,
-        statusMessage: 'Invalid type specified.',
+        statusMessage: 'Invalid data type specified.',
       })
   }
 

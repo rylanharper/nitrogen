@@ -9,7 +9,7 @@ const config: CodegenConfig = {
     // Admin
     './types/shopify-admin.d.ts': {
       schema: adminApiSchema,
-      documents: './data/shopify/graphql/admin/**/*.ts',
+      documents: './modules/shopify/runtime/resources/graphql/admin/**/*.ts',
       plugins: ['typescript', 'typescript-operations'],
       config: {
         skipTypename: true,
@@ -23,7 +23,7 @@ const config: CodegenConfig = {
     // Storefront
     './types/shopify-storefront.d.ts': {
       schema: storefrontApiSchema,
-      documents: './data/shopify/graphql/storefront/**/*.ts',
+      documents: './modules/shopify/runtime/resources/graphql/storefront/**/*.ts',
       plugins: ['typescript', 'typescript-operations'],
       config: {
         skipTypename: true,

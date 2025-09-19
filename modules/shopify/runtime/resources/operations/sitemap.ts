@@ -13,25 +13,27 @@ import { query } from '../utils/graphql-client'
 
 /**
  * Fetches all collections for the sitemap.
- * @param options - The variables for the collections query
+ * @param variables - The variables for the collections query
  * @returns A Promise resolving to the collections data
+ * @see https://shopify.dev/docs/api/storefront/2025-01/queries/collections
  */
 export const getCollections = async (
-  options: SitemapCollectionsQueryVariables,
+  variables: SitemapCollectionsQueryVariables,
 ): Promise<SitemapCollectionsQuery['collections']> => {
-  const response = await query(SITEMAP_COLLECTIONS, options)
+  const response = await query(SITEMAP_COLLECTIONS, variables)
   return response.data?.collections
 }
 
 /**
  * Fetches all products for the sitemap.
- * @param options - The variables for the products query
+ * @param variables - The variables for the products query
  * @returns A Promise resolving to the products data
+ * @see https://shopify.dev/docs/api/storefront/2025-01/queries/products
  */
 export const getProducts = async (
-  options: SitemapProductsQueryVariables,
+  variables: SitemapProductsQueryVariables,
 ): Promise<SitemapProductsQuery['products']> => {
-  const response = await query(SITEMAP_PRODUCTS, options)
+  const response = await query(SITEMAP_PRODUCTS, variables)
   return response.data?.products
 }
 
