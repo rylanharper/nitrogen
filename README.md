@@ -79,7 +79,7 @@ Nitrogen features two custom modules for [Shopify](https://github.com/rylanharpe
 
 ### API Integration
 
-A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/resources/utils/graphql-client.ts) is provided to seamlessly integrate with both the Shopify Storefront and Admin APIs. It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
+A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/resources/utils/graphql-client.ts) is provided to seamlessly integrate with both the Storefront API and Admin API. It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
 The client also accepts three optional parameters:
 
@@ -113,7 +113,7 @@ To get GraphQL operations, use the `useShopify` composable:
 const shopify = useShopify()
 ```
 
-Operations can be referenced using this composable with dot notation:
+Operations can be referenced using dot notation:
 
 ```ts
 // Shopify
@@ -178,7 +178,7 @@ actions: {
 
 ### `flattenConnection`
 
-The Shopify module provides a `flattenConnection` utility function designed to simplify working with GraphQL connection objects. GraphQL connections often contain nested node arrays, which can make accessing the actual data cumbersome. This utility extracts and flattens these nodes, making your data easier to work with:
+A handy `flattenConnection` utility function is provided to make working with GraphQL connection objects much more simple. This utility extracts and flattens nested node arrays, making your data easier to work with:
 
 ```ts
 // Access product variant nodes
