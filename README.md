@@ -85,7 +85,10 @@ The client also accepts three optional parameters:
 
 - `api` – Choose between the `storefront` (default) or `admin` API.
 - `maxRetries` – Number of retry attempts on failure (default: `3`).
-- `cacheable` – Enable response caching for common queries like product, collection, and search (default: `true`).
+- `cacheable` – Enable response caching for common queries (default: `true`).
+
+> [!WARNING]
+> By default, the GraphQL client only caches collection, product, and search queries. Avoid caching global queries or frequently updated mutations, as this can lead to hydration issues.
 
 ### GraphQL Operations
 
@@ -178,7 +181,7 @@ actions: {
 
 ### `flattenConnection`
 
-A handy `flattenConnection` utility function is provided to make working with GraphQL connection objects much more simple. This utility extracts and flattens nested node arrays, making your data easier to work with:
+A handy `flattenConnection` utility function is provided to make working with GraphQL connection objects much more simple. This utility extracts and flattens nested node arrays, making your node data easier to work with:
 
 ```ts
 // Access product variant nodes
