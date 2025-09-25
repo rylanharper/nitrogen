@@ -81,29 +81,31 @@ Nitrogen features two custom modules for [Shopify](https://github.com/rylanharpe
 
 A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/resources/utils/graphql-client.ts) is provided to seamlessly integrate with both the Storefront API and Admin API. It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
-The client also accepts three optional parameters:
+The client `query` function accepts three optional parameters:
 
 - `api` – Choose between the `storefront` (default) or `admin` API.
 - `maxRetries` – Number of retry attempts on failure (default: `3`).
 - `cacheable` – Enable response caching for common queries (default: `true`).
 
 > [!WARNING]
-> By default, the GraphQL client only caches collection, product, and search queries. Avoid caching global queries or frequently updated mutations, as this can lead to hydration issues.
+> By default, the GraphQL client only caches collection, product, and search queries. Avoid caching global queries or frequently updated mutations, as this can lead to hydration errors.
 
 ### GraphQL Operations
 
-This project includes pre-built GraphQL [operations](https://github.com/rylanharper/nitrogen/tree/master/modules/shopify/runtime/resources/operations) for common queries and mutations frequently used in headless storefront environments. All operations are powered by the GraphQL client, so you can also pass optional parameters when needed:
+This project includes pre-built GraphQL [operations](https://github.com/rylanharper/nitrogen/tree/master/modules/shopify/runtime/resources/operations) for common queries and mutations frequently used in headless storefront environments. All operations are powered by the GraphQL client `query`, so you can also pass optional parameters when needed:
 
 ```ts
 import type { MyQuery, MyQueryVariables } from '@@/types/storefront'
 import { MY_QUERY } from '../graphql/custom'
 import { query } from '../utils/graphql-client'
 
-const response = await query(
-  MY_QUERY,
-  { handle: 'example' },
-  { api: 'storefront', maxRetries: 5, cacheable: false },
-)
+// Fetch example with optional params
+const fetchExample = async (
+  variables: MyQueryVariables,
+): Promise<MyQuery['item']> => {
+  const response = await query(MY_QUERY, variables, { api: 'admin' })
+  return response.data?.item
+}
 ```
 
 Feel free to add or remove operations that fit your project needs!
