@@ -172,8 +172,8 @@ actions: {
       }
 
       this.cart = response?.cart
-    } catch (error: any) {
-      console.error('Cannot create cart:', error.message)
+    } catch (error) {
+      console.error('Cannot create cart:', error)
       throw error
     }
   },
