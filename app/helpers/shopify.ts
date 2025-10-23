@@ -2,7 +2,6 @@ import type {
   ProductCollectionSortKeys,
   SearchSortKeys,
   ProductFilter,
-  ProductFragment,
   MoneyFragment,
   VideoFragment,
   MediaImageFragment,
@@ -35,15 +34,10 @@ export const getCollectionSortValues = (sortParam: string | null): {
         sortKey: 'BEST_SELLING',
         reverse: false,
       }
-    case 'newest':
+    default:
       return {
         sortKey: 'CREATED',
         reverse: true,
-      }
-    default:
-      return {
-        sortKey: 'MANUAL',
-        reverse: false,
       }
   }
 }
@@ -83,16 +77,16 @@ export const getSearchSortValues = (sortParam: string | null): {
  */
 export const getFilterValues = (query: Record<string, any>) => {
   const filters: ProductFilter[] = []
+  const { color, size, productType } = query
 
-  if (query.color || query.size || query.productType) {
+  if (color || size || productType) {
     filters.push({
       available: true,
     })
   }
 
-  if (query.color) {
-    const colorValues = query.color.split(',')
-    colorValues.forEach((color: any) => {
+  if (color) {
+    color.split(',').forEach((color: any) => {
       filters.push({
         variantOption: {
           name: 'Color',
@@ -102,9 +96,8 @@ export const getFilterValues = (query: Record<string, any>) => {
     })
   }
 
-  if (query.size) {
-    const sizeValues = query.size.split(',')
-    sizeValues.forEach((size: any) => {
+  if (size) {
+    size.split(',').forEach((size: any) => {
       filters.push({
         variantOption: {
           name: 'Size',
@@ -114,9 +107,8 @@ export const getFilterValues = (query: Record<string, any>) => {
     })
   }
 
-  if (query.productType) {
-    const productTypeValues = query.productType.split(',')
-    productTypeValues.forEach((productType: any) => {
+  if (productType) {
+    productType.split(',').forEach((productType: any) => {
       filters.push({
         productType: productType,
       })
@@ -163,10 +155,8 @@ export const sortSizeOptions = (sizes: string[]) => {
  * @returns A boolean indicating if the product is new
  */
 export const isNewItem = (date: string, daysOld = 30): boolean => {
-  return (
-    new Date(date).valueOf()
-      > new Date().setDate(new Date().getDate() - daysOld).valueOf()
-  )
+  const dayInMs = 24 * 60 * 60 * 1000
+  return new Date(date).getTime() > Date.now() - daysOld * dayInMs
 }
 
 /**
@@ -174,8 +164,8 @@ export const isNewItem = (date: string, daysOld = 30): boolean => {
  * @param product - The product object containing availability information
  * @returns A boolean indicating if the product is sold out
  */
-export const isSoldOut = (product: ProductFragment): boolean => {
-  return !product.availableForSale
+export const isSoldOut = (availableForSale: boolean): boolean => {
+  return !availableForSale
 }
 
 /**
@@ -257,6 +247,7 @@ export const isSizeSoldOut = (variants: ProductVariantFragment[], sizeValue: str
     ),
   )
 
+  if (!sizeVariants.length) return false
   return sizeVariants.every((variant) => !variant.availableForSale)
 }
 
@@ -273,5 +264,6 @@ export const isColorSoldOut = (variants: ProductVariantFragment[], colorValue: s
     ),
   )
 
+  if (!colorVariants.length) return false
   return colorVariants.every((variant) => !variant.availableForSale)
 }
