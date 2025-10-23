@@ -200,9 +200,9 @@ export const useCartStore = defineStore('@nikkoel/cart', {
   getters: {
     buyerCountryCode: (state) => state.cart?.buyerIdentity?.countryCode,
     checkoutUrl: (state) => state.cart?.checkoutUrl,
-    subtotalAmount: (state) => state.cart?.cost?.subtotalAmount,
     lineItems: (state) => state.cart?.lines,
     lineItemCount: (state) => state.cart?.totalQuantity,
+    subtotalAmount: (state) => state.cart?.cost?.subtotalAmount,
   },
 
   persist: {

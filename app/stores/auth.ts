@@ -66,7 +66,7 @@ export const useAuthStore = defineStore('@nikkoel/auth', {
           addresses: response.addresses,
           firstName: response.firstName,
           lastName: response.lastName,
-          // Add more if needed...
+          // ...
         }
 
         this.customer = customerInfo
