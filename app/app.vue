@@ -1,12 +1,4 @@
 <script setup lang="ts">
-const shopStore = useShopStore()
-const cartStore = useCartStore()
-
-await Promise.all([
-  shopStore.getLocalization(),
-  cartStore.getCart(),
-])
-
 useHead({
   titleTemplate: (title) => title ? `${title} · Nitrogen` : 'Nitrogen: A Nuxt Shopify Template',
   meta: [
