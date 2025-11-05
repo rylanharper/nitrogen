@@ -63,12 +63,13 @@ body {
 a,
 button {
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 span {
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 svg,
