@@ -100,7 +100,9 @@ const filters = computed(() => searchFilter.value?.filters as FilterFragment[])
 
 // Number of products
 const numberOfProducts = computed<number>(() => {
-  return filterValues.value.length ? products.value.length : filterIds.value.length
+  return filterValues.value.length
+    ? products.value.length
+    : filterIds.value.length
 })
 
 // Actions

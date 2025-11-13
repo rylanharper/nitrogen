@@ -94,7 +94,9 @@ const filters = computed(() => collectionFilter.value?.products?.filters as Filt
 
 // Number of products
 const numberOfProducts = computed<number>(() => {
-  return filterValues.value.length ? products.value.length : filterIds.value.length
+  return filterValues.value.length
+    ? products.value.length
+    : filterIds.value.length
 })
 
 // Actions

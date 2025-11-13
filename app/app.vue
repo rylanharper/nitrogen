@@ -1,6 +1,8 @@
 <script setup lang="ts">
 useHead({
-  titleTemplate: (title) => title ? `${title} · Nitrogen` : 'Nitrogen: A Nuxt Shopify Template',
+  titleTemplate: (title) => title
+    ? `${title} · Nitrogen`
+    : 'Nitrogen: A Nuxt Shopify Template',
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1' },
     { key: 'theme-color', name: 'theme-color', content: '#181717' },
