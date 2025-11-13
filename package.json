@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@nuxt/fonts": "^0.11.4",
+    "@nuxt/fonts": "^0.12.1",
     "@nuxt/icon": "^2.1.0",
     "@nuxtjs/robots": "^5.5.6",
     "@nuxtjs/sitemap": "^7.4.7",
@@ -26,20 +26,20 @@
     "pinia-plugin-persistedstate": "^4.7.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^6.0.1",
-    "@graphql-codegen/typescript": "^5.0.2",
-    "@graphql-codegen/typescript-operations": "^5.0.2",
+    "@graphql-codegen/cli": "^6.0.2",
+    "@graphql-codegen/typescript": "^5.0.4",
+    "@graphql-codegen/typescript-operations": "^5.0.4",
     "@iconify-json/ph": "^1.2.2",
     "@nuxt/eslint": "^1.10.0",
     "@nuxthub/core": "0.9.0",
-    "@tailwindcss/vite": "^4.1.16",
+    "@tailwindcss/vite": "^4.1.17",
     "eslint": "^9.39.1",
-    "nuxt": "^4.2.0",
-    "tailwindcss": "^4.1.16",
+    "nuxt": "^4.2.1",
+    "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
-    "vue": "^3.5.22",
+    "vue": "^3.5.24",
     "vue-router": "^4.6.3",
-    "wrangler": "^4.45.4"
+    "wrangler": "^4.48.0"
   },
   "packageManager": "pnpm@10.20.0"
 }
