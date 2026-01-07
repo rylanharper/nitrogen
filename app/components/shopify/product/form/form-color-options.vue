@@ -81,7 +81,7 @@ const resetColorName = () => {
             ? 'outline-black border-4 border-white'
             : 'outline-gray-200',
           !color.isAvailable
-            ? 'text-zinc-400 after:h-px after:w-[150%] after:-rotate-[24deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-zinc-300'
+            ? 'text-zinc-400 after:h-px after:w-[150%] after:-rotate-24 after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-zinc-300'
             : 'text-black',
         ]"
         :style="{ background: color.color || undefined }"
