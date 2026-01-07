@@ -44,7 +44,7 @@ To begin using Nitrogen, you'll need to add the following environment variables:
 NUXT_SHOPIFY_DOMAIN=your-shop-name.myshopify.com
 NUXT_SHOPIFY_ADMIN_ACCESS_TOKEN=your_admin_access_token
 NUXT_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your_storefront_access_token
-NUXT_SHOPIFY_API_VERSION=2025-01
+NUXT_SHOPIFY_API_VERSION=2026-01
 
 # Klaviyo (optional)
 NUXT_KLAVIYO_PUBLIC_API_KEY=your_public_api_key
@@ -60,7 +60,7 @@ NUXT_SANITY_API_READ_TOKEN=your_api_read_token
 ```
 
 > [!WARNING]
-> It is strongly recommended that you use the `2025-01` Storefront API version or higher. If not, you will not have access to new API features found within this template (this will cause breaking changes).
+> It is strongly recommended that you use the `2026-01` Storefront API version or higher. If not, you will not have access to new API features found within this template (this will cause breaking changes).
 
 ### Local Setup
 
@@ -70,12 +70,12 @@ NUXT_SANITY_API_READ_TOKEN=your_api_read_token
 
 ## ⚡ Basic Usage
 
-Nitrogen features two custom modules for [Shopify](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify) and [Klaviyo](https://github.com/rylanharper/nitrogen/blob/master/modules/klaviyo), located in the `/modules` folder. The Shopify module, in particular, lets you connect to both the Storefront API and Admin API at the same time, which is ideal for building complex storefronts that may use Shopify to act a database in some way (think wishlist functionality or unique customer account features).
+Nitrogen features two custom modules for [Shopify](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify) and [Klaviyo](https://github.com/rylanharper/nitrogen/blob/master/modules/klaviyo), located in the `/modules` folder. The Shopify module lets you connect to both the Storefront API and Admin API at the same time, which is ideal for building complex storefronts that may use Shopify to act a database in some way.
 
 > [!TIP]
 > Read the official Nuxt Author Module Guide to learn how to create and manage your own modules!
 
-[Author Module Guide](https://nuxt.com/docs/4.x/guide/going-further/modules)
+[Author Module Guide](https://nuxt.com/docs/4.x/guide/modules/getting-started)
 
 ### API Integration
 
@@ -83,12 +83,12 @@ A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/m
 
 The client `query` function accepts three optional parameters:
 
-- `api` – Choose between the `storefront` (default) or `admin` API.
+- `api` – Choose between `storefront` (default) or `admin`.
 - `maxRetries` – Number of retry attempts on failure (default: `3`).
 - `cacheable` – Enable response caching for common queries (default: `true`).
 
 > [!WARNING]
-> By default, the GraphQL client only caches collection, product, and search queries. Avoid caching global queries or frequently updated mutations, as this can lead to hydration errors.
+> By default, the GraphQL client only caches collection, product, and search queries. Avoid caching global queries or mutations, as this can lead to hydration errors.
 
 ### GraphQL Operations
 
@@ -200,6 +200,13 @@ const currentVariant = computed(() =>
   ),
 )
 ```
+
+## 🚀 Deployment
+
+This project is deployed using Cloudflare Workers. For headless ecommerce, Cloudflare offers better SSR performance and more cost-effective pricing at scale compared to providers like Vercel or Netlify.
+
+> [!IMPORTANT]
+> If you do not want to deploy on Cloudflare, no worries! Simply remove the `@nuxthub/core` dependency, `wrangler.jsonc` file, and the `deploy` command found in the `package.json`.
 
 ## 🌱 Contribute
 

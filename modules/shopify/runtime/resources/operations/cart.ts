@@ -27,7 +27,7 @@ import { query } from '../utils/graphql-client'
  * Fetches the cart data.
  * @param variables - The variables for the cart query (cart ID)
  * @returns A Promise resolving to the cart data
- * @see https://shopify.dev/docs/api/storefront/2025-01/queries/cart
+ * @see https://shopify.dev/docs/api/storefront/latest/queries/cart
  */
 const get = async (
   variables: CartQueryVariables,
@@ -40,7 +40,7 @@ const get = async (
  * Creates a new cart.
  * @param variables - The variables for the cart creation mutation (input details)
  * @returns A Promise resolving to the created cart
- * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/cartCreate
+ * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartCreate
  */
 const create = async (
   variables: CartCreateMutationVariables,
@@ -53,7 +53,7 @@ const create = async (
  * Adds line items to the cart.
  * @param variables - The variables for the cart lines add mutation (cart ID, lines)
  * @returns A Promise resolving to the updated cart after adding lines
- * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/cartLinesAdd
+ * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartLinesAdd
  */
 const addLines = async (
   variables: CartLinesAddMutationVariables,
@@ -66,7 +66,7 @@ const addLines = async (
  * Removes line items from the cart.
  * @param variables - The variables for the cart lines remove mutation (cart ID, line IDs)
  * @returns A Promise resolving to the updated cart after removing lines
- * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/cartLinesRemove
+ * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartLinesRemove
  */
 const removeLines = async (
   variables: CartLinesRemoveMutationVariables,
@@ -79,7 +79,7 @@ const removeLines = async (
  * Updates line items in the cart.
  * @param variables - The variables for the cart lines update mutation (cart ID, lines)
  * @returns A Promise resolving to the updated cart after updating lines
- * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/cartLinesUpdate
+ * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartLinesUpdate
  */
 const updateLines = async (
   variables: CartLinesUpdateMutationVariables,
@@ -92,7 +92,7 @@ const updateLines = async (
  * Updates the buyer's identity in the cart.
  * @param variables - The variables for the cart buyer identity update mutation (cart ID, buyer identity)
  * @returns A Promise resolving to the updated cart with the new buyer identity
- * @see https://shopify.dev/docs/api/storefront/2025-01/mutations/cartBuyerIdentityUpdate
+ * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartBuyerIdentityUpdate
  */
 const updateBuyerIdentity = async (
   variables: CartBuyerIdentityUpdateMutationVariables,

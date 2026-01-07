@@ -18,7 +18,7 @@ import { query } from '../utils/graphql-client'
  * Fetches the product data.
  * @param variables - The variables for the product query (handle)
  * @returns A Promise resolving to the product data
- * @see https://shopify.dev/docs/api/storefront/2025-01/queries/product
+ * @see https://shopify.dev/docs/api/storefront/latest/queries/product
  */
 const get = async (
   variables: ProductQueryVariables,
@@ -31,7 +31,7 @@ const get = async (
  * Fetches multiple products based on IDs.
  * @param variables - The variables for the products query (IDs)
  * @returns A Promise resolving to an array of products
- * @see https://shopify.dev/docs/api/storefront/2025-01/queries/nodes
+ * @see https://shopify.dev/docs/api/storefront/latest/queries/nodes
  */
 const getIds = async (
   variables: ProductIdsQueryVariables,
@@ -44,7 +44,7 @@ const getIds = async (
  * Fetches the recommended product data.
  * @param variables - The variables for the recommendation query (handle)
  * @returns A Promise resolving to an array of recommended products
- * @see https://shopify.dev/docs/api/storefront/2025-01/queries/productRecommendations
+ * @see https://shopify.dev/docs/api/storefront/latest/queries/productRecommendations
  */
 async function getRecommended(
   variables: ProductRecommendationsQueryVariables,

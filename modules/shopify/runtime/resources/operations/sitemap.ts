@@ -15,7 +15,7 @@ import { query } from '../utils/graphql-client'
  * Fetches all collections for the sitemap.
  * @param variables - The variables for the collections query
  * @returns A Promise resolving to the collections data
- * @see https://shopify.dev/docs/api/storefront/2025-01/queries/collections
+ * @see https://shopify.dev/docs/api/storefront/latest/queries/collections
  */
 export const getCollections = async (
   variables: SitemapCollectionsQueryVariables,
@@ -28,7 +28,7 @@ export const getCollections = async (
  * Fetches all products for the sitemap.
  * @param variables - The variables for the products query
  * @returns A Promise resolving to the products data
- * @see https://shopify.dev/docs/api/storefront/2025-01/queries/products
+ * @see https://shopify.dev/docs/api/storefront/latest/queries/products
  */
 export const getProducts = async (
   variables: SitemapProductsQueryVariables,

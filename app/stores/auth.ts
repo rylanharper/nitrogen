@@ -189,5 +189,10 @@ export const useAuthStore = defineStore('@nikkoel/auth', {
 
   persist: {
     pick: ['accessToken', 'customer'],
+    storage: piniaPluginPersistedstate.cookies({
+      sameSite: 'strict',
+      secure: !import.meta.dev,
+      maxAge: 60 * 60 * 24, // 24 hours
+    }),
   },
 })

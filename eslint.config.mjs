@@ -25,6 +25,7 @@ export default withNuxt(
       // TypeScript
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
+      '@typescript-eslint/operator-linebreak': 'before',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
