@@ -26,7 +26,7 @@ export default defineNuxtModule<ModuleOptions>({
 
   defaults: {
     domain: '',
-    apiVersion: '2025-01',
+    apiVersion: '',
     adminAccessToken: '',
     storefrontAccessToken: '',
   },
