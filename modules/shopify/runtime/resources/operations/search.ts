@@ -18,7 +18,7 @@ import { query } from '../utils/graphql-client'
  * Fetches the search data.
  * @param options - The variables for the search query (query, filters, etc.)
  * @returns A Promise resolving to the search results
- * @see https://shopify.dev/docs/api/storefront/2025-01/queries/search
+ * @see https://shopify.dev/docs/api/storefront/latest/queries/search
  */
 const get = async (
   options: SearchQueryVariables,
@@ -31,7 +31,7 @@ const get = async (
  * Fetches the search filter data.
  * @param options - The variables for the search query (query)
  * @returns A Promise resolving to the search results
- * @see https://shopify.dev/docs/api/storefront/2025-01/queries/search
+ * @see https://shopify.dev/docs/api/storefront/latest/queries/search
  */
 const getFilters = async (
   options: SearchFiltersQueryVariables,
@@ -44,7 +44,7 @@ const getFilters = async (
  * Fetches the predictive search data.
  * @param options - The variables for the predictive search query (query)
  * @returns A Promise resolving to the predictive search results
- * @see https://shopify.dev/docs/api/storefront/2025-01/queries/predictiveSearch
+ * @see https://shopify.dev/docs/api/storefront/latest/queries/predictiveSearch
  */
 const getPredictive = async (
   options: PredictiveSearchQueryVariables,
