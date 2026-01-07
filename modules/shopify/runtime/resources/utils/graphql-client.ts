@@ -1,6 +1,7 @@
 import type { DocumentNode } from 'graphql'
 
 import { print } from 'graphql'
+import { hash } from 'ohash'
 
 type QueryOptions = {
   api?: string
@@ -9,6 +10,9 @@ type QueryOptions = {
 }
 
 const cache = new Map<string, any>()
+const CACHEABLE_QUERY = /query Collection|query Product|query Search/i // Cache only collections, products, and search queries
+const MAX_CACHE_SIZE = 50 // Maximum number of entries in the cache, 25-100 is recommended
+const CACHE_TTL = 5 * 60 * 1000 // Individual cache keys expire after 5 minutes
 
 /**
  * A minimal GraphQL client that sends a query to the Shopify API.
@@ -27,12 +31,12 @@ export const query = async (
     cacheable = true,
   } = options
 
-  // Serialize query and create cache key
+  // Serialize query and evaluate cacheability
   const serializedQuery = print(query)
-  const cacheKey = JSON.stringify({ query: serializedQuery, variables })
+  const shouldCache = cacheable && CACHEABLE_QUERY.test(serializedQuery)
 
-  // Cache only collection, product, and search queries
-  const shouldCache = cacheable && /query Collection|query Product|query Search/i.test(serializedQuery)
+  // Use `ohash` for efficient cache key generation
+  const cacheKey = shouldCache ? hash({ query: serializedQuery, variables }) : ''
 
   // Return cached response if applicable
   if (shouldCache && cache.has(cacheKey)) {
@@ -49,8 +53,13 @@ export const query = async (
 
       // Cache response only if applicable
       if (shouldCache) {
+        if (cache.size >= MAX_CACHE_SIZE) {
+          const firstKey = cache.keys().next().value
+          if (firstKey) cache.delete(firstKey)
+        }
+
         cache.set(cacheKey, response)
-        setTimeout(() => cache.delete(cacheKey), 5 * 60 * 1000) // 5 minutes
+        setTimeout(() => cache.delete(cacheKey), CACHE_TTL)
       }
 
       return response
