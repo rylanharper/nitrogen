@@ -207,5 +207,10 @@ export const useCartStore = defineStore('@nikkoel/cart', {
 
   persist: {
     pick: ['cart'],
+    storage: piniaPluginPersistedstate.cookies({
+      sameSite: 'lax',
+      secure: !import.meta.dev,
+      maxAge: 60 * 60 * 24 * 365, // 1 year
+    }),
   },
 })

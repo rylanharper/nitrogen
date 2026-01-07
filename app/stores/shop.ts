@@ -66,5 +66,10 @@ export const useShopStore = defineStore('@nikkoel/shop', {
 
   persist: {
     pick: ['locale.country', 'locale.language'],
+    storage: piniaPluginPersistedstate.cookies({
+      sameSite: 'lax',
+      secure: !import.meta.dev,
+      maxAge: 60 * 60 * 24 * 365, // 1 year
+    }),
   },
 })
