@@ -12,14 +12,13 @@
     "deploy": "pnpm run build && wrangler deploy"
   },
   "dependencies": {
-    "@nuxt/fonts": "^0.12.1",
-    "@nuxt/icon": "^2.2.0",
-    "@nuxt/kit": "^4.2.2",
-    "@nuxtjs/robots": "^5.6.7",
-    "@nuxtjs/sitemap": "^7.5.1",
+    "@nuxt/fonts": "^0.13.0",
+    "@nuxt/icon": "^2.2.1",
+    "@nuxtjs/robots": "^5.7.0",
+    "@nuxtjs/sitemap": "^7.6.0",
     "@pinia/nuxt": "0.11.3",
-    "@vueuse/core": "^14.1.0",
-    "@vueuse/nuxt": "^14.1.0",
+    "@vueuse/core": "^14.2.0",
+    "@vueuse/nuxt": "^14.2.0",
     "dotenv": "^17.2.3",
     "embla-carousel": "^8.6.0",
     "embla-carousel-vue": "^8.6.0",
@@ -30,20 +29,21 @@
     "pinia-plugin-persistedstate": "^4.7.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^6.1.0",
+    "@graphql-codegen/cli": "^6.1.1",
     "@graphql-codegen/typescript": "^5.0.7",
     "@graphql-codegen/typescript-operations": "^5.0.7",
     "@iconify-json/ph": "^1.2.2",
-    "@nuxt/eslint": "^1.12.1",
-    "@nuxthub/core": "0.10.4",
+    "@nuxt/eslint": "^1.13.0",
+    "@nuxt/kit": "^4.3.0",
+    "@nuxthub/core": "0.10.6",
     "@tailwindcss/vite": "^4.1.18",
     "eslint": "^9.39.2",
-    "nuxt": "^4.2.2",
+    "nuxt": "^4.3.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
-    "vue": "^3.5.26",
-    "vue-router": "^4.6.4",
-    "wrangler": "^4.54.0"
+    "vue": "^3.5.27",
+    "vue-router": "^5.0.1",
+    "wrangler": "^4.61.1"
   },
   "packageManager": "pnpm@10.24.0"
 }
