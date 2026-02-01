@@ -21,44 +21,44 @@ const footerLinks3 = [
 </script>
 
 <template>
-  <footer class="relative bg-white border-t border-zinc-300">
-    <nav class="hidden flex-col p-6 gap-32 lg:flex">
+  <footer class="bg-white border-t border-zinc-300">
+    <nav class="hidden flex-col p-6 gap-40 lg:flex">
       <div class="grid grid-cols-4 gap-10">
         <div class="flex flex-col max-w-fit">
-          <h3 class="uppercase mb-4">
+          <h3 class="uppercase mb-6">
             Company
           </h3>
           <NuxtLink
             v-for="link in footerLinks1"
             :key="link.label"
             :to="link.path"
-            class="hover:text-gray-500"
+            class="hover:text-zinc-500"
           >
             {{ link.label }}
           </NuxtLink>
         </div>
         <div class="flex flex-col max-w-fit">
-          <h3 class="uppercase mb-4">
+          <h3 class="uppercase mb-6">
             Support
           </h3>
           <NuxtLink
             v-for="link in footerLinks2"
             :key="link.label"
             :to="link.path"
-            class="hover:text-gray-500"
+            class="hover:text-zinc-500"
           >
             {{ link.label }}
           </NuxtLink>
         </div>
         <div class="flex flex-col max-w-fit">
-          <h3 class="uppercase mb-4">
+          <h3 class="uppercase mb-6">
             Connect
           </h3>
           <NuxtLink
             v-for="link in footerLinks3"
             :key="link.label"
             :to="link.path"
-            class="hover:text-gray-500"
+            class="hover:text-zinc-500"
           >
             {{ link.label }}
           </NuxtLink>
@@ -66,10 +66,12 @@ const footerLinks3 = [
         <KlaviyoNewsletter />
       </div>
       <div class="flex justify-between">
-        <span class="uppercase text-sm">© Nitrogen 2025</span>
+        <span class="uppercase whitespace-nowrap">
+          © Nitrogen 2026
+        </span>
       </div>
     </nav>
-    <nav class="flex flex-col p-6 gap-8 lg:hidden">
+    <nav class="flex flex-col px-6 py-8 gap-8 lg:hidden">
       <KlaviyoNewsletter />
       <div class="flex flex-col divide-y divide-zinc-300">
         <details class="group">
@@ -134,7 +136,7 @@ const footerLinks3 = [
         </details>
       </div>
       <div class="flex justify-between">
-        <span class="uppercase text-sm">© Nitrogen 2025</span>
+        <span class="uppercase">© Nitrogen 2025</span>
       </div>
     </nav>
   </footer>

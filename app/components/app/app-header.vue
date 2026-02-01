@@ -21,7 +21,7 @@ const toggleSearchMenu = () => {
 </script>
 
 <template>
-  <header class="fixed top-0 inset-x-0 z-100 bg-white border-b border-zinc-200">
+  <header class="fixed top-0 inset-x-0 z-100 bg-white border-b border-zinc-300">
     <NavDesktop
       @toggle-cart-drawer="toggleCartDrawer"
       @toggle-locale-modal="toggleLocaleModal"

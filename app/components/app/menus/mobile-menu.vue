@@ -44,9 +44,9 @@ if (escape) {
             v-for="link in navLinks"
             :key="link.label"
             :to="link.path"
-            class="py-1 text-xl tracking-tight"
+            class="py-1.5 text-xl tracking-tight"
           >
-            <span>{{ link.label }}</span>
+            {{ link.label }}
           </NuxtLink>
         </div>
         <div class="flex flex-col mb-4">
@@ -54,7 +54,7 @@ if (escape) {
             class="flex items-center justify-center p-2 px-4 bg-transparent border border-zinc-300 rounded-md"
             @click="closeMenu"
           >
-            <span class="text-normalize">
+            <span class="uppercase whitespace-nowrap">
               Close Menu
             </span>
           </button>
