@@ -117,9 +117,11 @@ if (escape) {
           <button
             type="submit"
             :disabled="isLoading"
-            class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
+            class="flex items-center justify-center p-2 px-4 bg-zinc-100 border border-zinc-300 rounded-md transition-colors duration-200 ease-out hover:bg-zinc-200"
           >
-            <span>{{ isLoading ? 'Submitting...' : 'Submit' }}</span>
+            <span class="uppercase whitespace-nowrap">
+              {{ isLoading ? 'Submitting...' : 'Submit' }}
+            </span>
           </button>
         </form>
         <button
@@ -128,20 +130,15 @@ if (escape) {
         >
           <Icon
             name="ph:x"
-            class="inline-block shrink-0 !size-5"
+            class="inline-block shrink-0 size-5!"
           />
         </button>
         <p
-          v-if="errorMessage"
-          class="w-[75%] mt-6 mx-auto text-red-500 text-center"
+          v-if="errorMessage || successMessage"
+          class="w-[75%] mt-6 mx-auto text-center"
+          :class="errorMessage ? 'text-red-500' : 'text-blue-700'"
         >
-          {{ errorMessage }}
-        </p>
-        <p
-          v-if="successMessage"
-          class="w-[75%] mt-6 mx-auto text-blue-600 text-center"
-        >
-          {{ successMessage }}
+          {{ errorMessage || successMessage }}
         </p>
       </dialog>
     </div>

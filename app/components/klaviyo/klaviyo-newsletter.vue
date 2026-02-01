@@ -47,7 +47,7 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-6">
     <h3 class="uppercase">
       Newsletter
       <span class="normal-case">
@@ -75,22 +75,18 @@ watch(
       <button
         type="submit"
         :disabled="isLoading"
-        class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
+        class="flex items-center justify-center p-2 px-4 bg-zinc-100 border border-zinc-300 rounded-md transition-colors duration-200 ease-out hover:bg-zinc-200"
       >
-        <span>{{ isLoading ? 'Subscribing...' : 'Subscribe' }}</span>
+        <span class="uppercase whitespace-nowrap">
+          {{ isLoading ? 'Subscribing...' : 'Subscribe' }}
+        </span>
       </button>
     </form>
     <p
-      v-if="errorMessage"
-      class="text-red-500"
+      v-if="errorMessage || successMessage"
+      :class="errorMessage ? 'text-red-500' : 'text-blue-700'"
     >
-      {{ errorMessage }}
-    </p>
-    <p
-      v-if="successMessage"
-      class="text-blue-600"
-    >
-      {{ successMessage }}
+      {{ errorMessage || successMessage }}
     </p>
   </div>
 </template>
