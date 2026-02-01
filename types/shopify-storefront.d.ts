@@ -744,6 +744,16 @@ export type CartCardSource =
    */
   | 'SAVED_CREDIT_CARD';
 
+/** Return type for `cartClone` mutation. */
+export type CartClonePayload = {
+  /** The newly created cart without PII. This is a different cart from the source. */
+  cart?: Maybe<Cart>;
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<CartUserError>;
+  /** A list of warnings that occurred during the mutation. */
+  warnings: Array<CartWarning>;
+};
+
 /** The discount that has been applied to the cart line using a discount code. */
 export type CartCodeDiscountAllocation = CartDiscountAllocation & {
   /** The code used to apply the discount. */
@@ -1009,6 +1019,16 @@ export type CartDeliveryAddressesRemovePayload = {
   warnings: Array<CartWarning>;
 };
 
+/** Return type for `cartDeliveryAddressesReplace` mutation. */
+export type CartDeliveryAddressesReplacePayload = {
+  /** The updated cart. */
+  cart?: Maybe<Cart>;
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<CartUserError>;
+  /** A list of warnings that occurred during the mutation. */
+  warnings: Array<CartWarning>;
+};
+
 /** Return type for `cartDeliveryAddressesUpdate` mutation. */
 export type CartDeliveryAddressesUpdatePayload = {
   /** The updated cart. */
@@ -1248,10 +1268,14 @@ export type CartErrorCode =
   | 'ADDRESS_FIELD_IS_REQUIRED'
   /** The specified address field is too long. */
   | 'ADDRESS_FIELD_IS_TOO_LONG'
+  /** Bundles and addons cannot be mixed. */
+  | 'BUNDLES_AND_ADDONS_CANNOT_BE_MIXED'
   /** Buyer cannot purchase for company location. */
   | 'BUYER_CANNOT_PURCHASE_FOR_COMPANY_LOCATION'
   /** The cart is too large to save. */
   | 'CART_TOO_LARGE'
+  /** The specified gift card recipient is invalid. */
+  | 'GIFT_CARD_RECIPIENT_INVALID'
   /** The input value is invalid. */
   | 'INVALID'
   /** Company location not found or not allowed. */
@@ -1282,6 +1306,8 @@ export type CartErrorCode =
   | 'LESS_THAN'
   /** The quantity must be below the specified maximum for the item. */
   | 'MAXIMUM_EXCEEDED'
+  /** Item cannot be purchased as configured. */
+  | 'MERCHANDISE_NOT_APPLICABLE'
   /** The quantity must be above the specified minimum for the item. */
   | 'MINIMUM_NOT_MET'
   /** The customer access token is required when setting a company location. */
@@ -1294,6 +1320,14 @@ export type CartErrorCode =
   | 'NOTE_TOO_LONG'
   /** Only one delivery address can be selected. */
   | 'ONLY_ONE_DELIVERY_ADDRESS_CAN_BE_SELECTED'
+  /** Cannot reference existing parent lines by variant_id. */
+  | 'PARENT_LINE_INVALID_REFERENCE'
+  /** Parent line nesting is too deep or circular. */
+  | 'PARENT_LINE_NESTING_TOO_DEEP'
+  /** Parent line not found. */
+  | 'PARENT_LINE_NOT_FOUND'
+  /** Nested cartlines are blocked due to an incompatibility. */
+  | 'PARENT_LINE_OPERATION_BLOCKED'
   /** Credit card has expired. */
   | 'PAYMENTS_CREDIT_CARD_BASE_EXPIRED'
   /** Credit card gateway is not supported. */
@@ -1358,6 +1392,16 @@ export type CartEstimatedCost = {
 export type CartFreePaymentMethodInput = {
   /** The customer's billing address. */
   billingAddress: MailingAddressInput;
+};
+
+/** Return type for `cartGiftCardCodesAdd` mutation. */
+export type CartGiftCardCodesAddPayload = {
+  /** The updated cart. */
+  cart?: Maybe<Cart>;
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<CartUserError>;
+  /** A list of warnings that occurred during the mutation. */
+  warnings: Array<CartWarning>;
 };
 
 /** Return type for `cartGiftCardCodesRemove` mutation. */
@@ -1462,8 +1506,12 @@ export type CartLine = BaseCartLine & Node & {
   estimatedCost: CartLineEstimatedCost;
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
+  /** The instructions for the line item. */
+  instructions: CartLineInstructions;
   /** The merchandise that the buyer intends to purchase. */
   merchandise: Merchandise;
+  /** The parent of the line item. */
+  parentRelationship?: Maybe<CartLineParentRelationship>;
   /** The quantity of the merchandise that the customer intends to purchase. */
   quantity: Scalars['Int']['output'];
   /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
@@ -1513,10 +1561,34 @@ export type CartLineInput = {
   attributes?: InputMaybe<Array<AttributeInput>>;
   /** The ID of the merchandise that the buyer intends to purchase. */
   merchandiseId: Scalars['ID']['input'];
+  /** The parent line item of the cart line. */
+  parent?: InputMaybe<CartLineParentInput>;
   /** The quantity of the merchandise. */
   quantity?: InputMaybe<Scalars['Int']['input']>;
   /** The ID of the selling plan that the merchandise is being purchased with. */
   sellingPlanId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+/** Represents instructions for a cart line item. */
+export type CartLineInstructions = {
+  /** Whether the line item can be removed from the cart. */
+  canRemove: Scalars['Boolean']['output'];
+  /** Whether the line item quantity can be updated. */
+  canUpdateQuantity: Scalars['Boolean']['output'];
+};
+
+/** The parent line item of the cart line. */
+export type CartLineParentInput = {
+  /** The id of the parent line item. */
+  lineId?: InputMaybe<Scalars['ID']['input']>;
+  /** The ID of the parent line merchandise. */
+  merchandiseId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+/** Represents the parent relationship of a cart line. */
+export type CartLineParentRelationship = {
+  /** The parent cart line. */
+  parent: CartLine;
 };
 
 /** The input fields to update a line item on a cart. */
@@ -1885,6 +1957,8 @@ export type CartWarningCode =
   | 'MERCHANDISE_NOT_ENOUGH_STOCK'
   /** The merchandise is out of stock. */
   | 'MERCHANDISE_OUT_OF_STOCK'
+  /** Only one-time purchase is available for B2B orders. */
+  | 'MERCHANDISE_SELLING_PLAN_NOT_APPLICABLE_ON_COMPANY_LOCATION'
   /** Gift cards are not available as a payment method. */
   | 'PAYMENTS_GIFT_CARDS_UNAVAILABLE';
 
@@ -3108,6 +3182,8 @@ export type Customer = HasMetafields & {
   acceptsMarketing: Scalars['Boolean']['output'];
   /** A list of addresses for the customer. */
   addresses: MailingAddressConnection;
+  /** The URL of the customer's avatar image. */
+  avatarUrl?: Maybe<Scalars['String']['output']>;
   /** The date and time when the customer was created. */
   createdAt: Scalars['DateTime']['output'];
   /** The customer’s default address. */
@@ -3132,6 +3208,8 @@ export type Customer = HasMetafields & {
   orders: OrderConnection;
   /** The customer’s phone number. */
   phone?: Maybe<Scalars['String']['output']>;
+  /** The social login provider associated with the customer. */
+  socialLoginProvider?: Maybe<SocialLoginProvider>;
   /**
    * A comma separated list of tags that have been added to the customer.
    * Additional access scope required: unauthenticated_read_customer_tags.
@@ -4907,7 +4985,7 @@ export type MetafieldParentResource = Article | Blog | Cart | Collection | Compa
  * Returns the resource which is being referred to by a metafield.
  *
  */
-export type MetafieldReference = Collection | GenericFile | MediaImage | Metaobject | Model3d | Page | Product | ProductVariant | Video;
+export type MetafieldReference = Article | Collection | GenericFile | MediaImage | Metaobject | Model3d | Page | Product | ProductVariant | Video;
 
 /**
  * An auto-generated type for paginating through multiple MetafieldReferences.
@@ -5130,16 +5208,22 @@ export type Mutation = {
    *
    */
   cartBuyerIdentityUpdate?: Maybe<CartBuyerIdentityUpdatePayload>;
+  /** Creates a clone of the specified cart with all personally identifiable information removed. */
+  cartClone?: Maybe<CartClonePayload>;
   /** Creates a new cart. */
   cartCreate?: Maybe<CartCreatePayload>;
   /** Adds delivery addresses to the cart. */
   cartDeliveryAddressesAdd?: Maybe<CartDeliveryAddressesAddPayload>;
   /** Removes delivery addresses from the cart. */
   cartDeliveryAddressesRemove?: Maybe<CartDeliveryAddressesRemovePayload>;
+  /** Replaces delivery addresses on the cart. */
+  cartDeliveryAddressesReplace?: Maybe<CartDeliveryAddressesReplacePayload>;
   /** Updates one or more delivery addresses on a cart. */
   cartDeliveryAddressesUpdate?: Maybe<CartDeliveryAddressesUpdatePayload>;
   /** Updates the discount codes applied to the cart. */
   cartDiscountCodesUpdate?: Maybe<CartDiscountCodesUpdatePayload>;
+  /** Adds gift card codes to the cart without replacing existing ones. */
+  cartGiftCardCodesAdd?: Maybe<CartGiftCardCodesAddPayload>;
   /** Removes the gift card codes applied to the cart. */
   cartGiftCardCodesRemove?: Maybe<CartGiftCardCodesRemovePayload>;
   /** Updates the gift card codes applied to the cart. */
@@ -5266,6 +5350,12 @@ export type MutationCartBuyerIdentityUpdateArgs = {
 
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type MutationCartCloneArgs = {
+  cartId: Scalars['ID']['input'];
+};
+
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export type MutationCartCreateArgs = {
   input?: InputMaybe<CartInput>;
 };
@@ -5286,6 +5376,13 @@ export type MutationCartDeliveryAddressesRemoveArgs = {
 
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type MutationCartDeliveryAddressesReplaceArgs = {
+  addresses: Array<CartSelectableAddressInput>;
+  cartId: Scalars['ID']['input'];
+};
+
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export type MutationCartDeliveryAddressesUpdateArgs = {
   addresses: Array<CartSelectableAddressUpdateInput>;
   cartId: Scalars['ID']['input'];
@@ -5295,7 +5392,14 @@ export type MutationCartDeliveryAddressesUpdateArgs = {
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export type MutationCartDiscountCodesUpdateArgs = {
   cartId: Scalars['ID']['input'];
-  discountCodes?: InputMaybe<Array<Scalars['String']['input']>>;
+  discountCodes: Array<Scalars['String']['input']>;
+};
+
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type MutationCartGiftCardCodesAddArgs = {
+  cartId: Scalars['ID']['input'];
+  giftCardCodes: Array<Scalars['String']['input']>;
 };
 
 
@@ -7763,6 +7867,8 @@ export type SellingPlanRecurringDeliveryPolicy = {
 export type Shop = HasMetafields & Node & {
   /** The shop's branding configuration. */
   brand?: Maybe<Brand>;
+  /** Translations for customer accounts. */
+  customerAccountTranslations?: Maybe<Array<Translation>>;
   /** The URL for the customer account (only present if shop has a customer account vanity domain). */
   customerAccountUrl?: Maybe<Scalars['String']['output']>;
   /** A description of the shop. */
@@ -7791,6 +7897,8 @@ export type Shop = HasMetafields & Node & {
   shipsToCountries: Array<CountryCode>;
   /** The Shop Pay Installments pricing information for the shop. */
   shopPayInstallmentsPricing?: Maybe<ShopPayInstallmentsPricing>;
+  /** The social login providers for customer accounts. */
+  socialLoginProviders: Array<SocialLoginProvider>;
   /** The shop’s subscription policy. */
   subscriptionPolicy?: Maybe<ShopPolicyWithDefault>;
   /** The shop’s terms of service. */
@@ -8333,6 +8441,12 @@ export type SitemapType =
   /** Products present in the sitemap. */
   | 'PRODUCT';
 
+/** A social login provider for customer accounts. */
+export type SocialLoginProvider = {
+  /** The handle of the social login provider. */
+  handle: Scalars['String']['output'];
+};
+
 /**
  * The availability of a product variant at a particular location.
  * Local pick-up must be enabled in the  store's shipping settings, otherwise this will return an empty result.
@@ -8578,6 +8692,14 @@ export type Trackable = {
   trackingParameters?: Maybe<Scalars['String']['output']>;
 };
 
+/** Translation represents a translation of a key-value pair. */
+export type Translation = {
+  /** The key of the translation. */
+  key: Scalars['String']['output'];
+  /** The value of the translation. */
+  value: Scalars['String']['output'];
+};
+
 /**
  * The measurement used to calculate a unit price for a product variant (e.g. $9.99 / 100ml).
  *
@@ -8763,6 +8885,18 @@ export type VideoSource = {
   url: Scalars['String']['output'];
   /** The width of the video. */
   width: Scalars['Int']['output'];
+};
+
+/** The visitor's consent to data processing purposes for the shop. true means accepting the purposes, false means declining them, and null means that the visitor didn't express a preference. */
+export type VisitorConsent = {
+  /** The visitor accepts or rejects the analytics data processing purpose. */
+  analytics?: InputMaybe<Scalars['Boolean']['input']>;
+  /** The visitor accepts or rejects the first and third party marketing data processing purposes. */
+  marketing?: InputMaybe<Scalars['Boolean']['input']>;
+  /** The visitor accepts or rejects the preferences data processing purpose. */
+  preferences?: InputMaybe<Scalars['Boolean']['input']>;
+  /** The visitor accepts or rejects the sale or sharing of their data with third parties. */
+  saleOfData?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Units of measurement for weight. */
