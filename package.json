@@ -15,11 +15,11 @@
     "@nuxt/fonts": "^0.14.0",
     "@nuxt/icon": "^2.2.1",
     "@nuxtjs/robots": "^6.0.6",
-    "@nuxtjs/sitemap": "^8.0.11",
+    "@nuxtjs/sitemap": "^8.0.12",
     "@pinia/nuxt": "0.11.3",
     "@vueuse/core": "^14.2.1",
     "@vueuse/nuxt": "^14.2.1",
-    "dotenv": "^17.4.0",
+    "dotenv": "^17.4.1",
     "embla-carousel": "^8.6.0",
     "embla-carousel-vue": "^8.6.0",
     "graphql": "^16.13.2",
@@ -37,13 +37,13 @@
     "@nuxt/kit": "^4.4.2",
     "@nuxthub/core": "0.10.7",
     "@tailwindcss/vite": "^4.2.2",
-    "eslint": "^10.1.0",
+    "eslint": "^10.2.0",
     "nuxt": "^4.4.2",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4",
-    "wrangler": "^4.80.0"
+    "wrangler": "^4.81.1"
   },
   "packageManager": "pnpm@10.32.1"
 }
