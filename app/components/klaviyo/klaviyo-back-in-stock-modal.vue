@@ -8,9 +8,6 @@ const props = defineProps<{
   variantId: string | undefined
 }>()
 
-// Stores
-const appStore = useAppStore()
-
 // State
 const email = ref('')
 const errorMessage = ref('')
@@ -49,13 +46,15 @@ const handleBackInStock = async () => {
   }
 }
 
+// Composables
+const appStore = useAppStore()
+
 // Actions
-const closeModal = () => {
-  appStore.toggle('backInStockModal', false)
-}
+const closeModal = () => appStore.toggle('backInStockModal', false)
 
 // Watchers
 const { escape } = useMagicKeys()
+if (escape) watch(escape, closeModal)
 
 watch(
   () => appStore.backInStockModal,
@@ -66,10 +65,6 @@ watch(
     }
   },
 )
-
-if (escape) {
-  watch(escape, closeModal)
-}
 </script>
 
 <template>

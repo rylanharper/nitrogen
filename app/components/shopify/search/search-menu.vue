@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import type { ProductFragment } from '@@/types/shopify-storefront'
+import type {
+  PredictiveSearchQueryVariables,
+  ProductFragment,
+} from '@@/types/shopify-storefront'
 
 import { useDebounceFn, useMagicKeys } from '@vueuse/core'
 
-// Stores
+// Composables
+const route = useRoute()
+const shopify = useShopify()
 const appStore = useAppStore()
 const shopStore = useShopStore()
 
@@ -11,24 +16,21 @@ const shopStore = useShopStore()
 const searchQuery = ref('')
 const searchResults = ref<ProductFragment[]>([])
 
-// Shopify
-const shopify = useShopify()
+// Search vars
+const searchVars = computed<PredictiveSearchQueryVariables>(() => ({
+  query: searchQuery.value.trim(),
+  country: shopStore.buyerCountryCode,
+  language: shopStore.buyerLanguageCode,
+}))
 
 // Search (predictive)
 const handleSearch = useDebounceFn(async () => {
-  const trimmedQuery = searchQuery.value.trim()
-
-  if (!trimmedQuery) {
+  if (!searchVars.value.query) {
     searchResults.value = []
     return
   }
 
-  const response = await shopify.search.getPredictive({
-    query: trimmedQuery,
-    country: shopStore.buyerCountryCode,
-    language: shopStore.buyerLanguageCode,
-  })
-
+  const response = await shopify.search.getPredictive(searchVars.value)
   searchResults.value = response?.products as ProductFragment[]
 }, 300)
 
@@ -48,18 +50,11 @@ const submitQuery = async () => {
 }
 
 // Watchers
-const route = useRoute()
 const { escape } = useMagicKeys()
 
-watch(searchQuery, () => {
-  handleSearch()
-})
-
+watch(searchQuery, handleSearch)
 watch(() => route.path, closeSearch)
-
-if (escape) {
-  watch(escape, closeSearch)
-}
+if (escape) watch(escape, closeSearch)
 </script>
 
 <template>

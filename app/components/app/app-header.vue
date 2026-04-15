@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// Stores
+// Composables
 const appStore = useAppStore()
 
 // Actions

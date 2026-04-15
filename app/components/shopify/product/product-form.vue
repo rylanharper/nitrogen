@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify-storefront'
+import type { LocationQuery } from 'vue-router'
 
-import { isSizeOption } from '@/helpers/shopify'
-import { formatVariantId } from '@/utils/formatters'
+import { isSizeOption, parseVariantId } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
@@ -11,15 +11,16 @@ const props = defineProps<{
   matchingColors: ProductFragment[]
 }>()
 
-// Route data
+// Composables
 const route = useRoute()
 const router = useRouter()
-const variantQuery = computed(() => route.query.variant as string | undefined)
 
 // State
 const selectedSize = ref('')
 
-// Computed
+// Variant matching
+const variantQuery = computed(() => route.query.variant as string | undefined)
+
 const currentVariant = computed(() =>
   props.variants.find((variant) =>
     variant.selectedOptions.every(({ name, value }) =>
@@ -28,29 +29,22 @@ const currentVariant = computed(() =>
   ),
 )
 
-// Set formatted variant ID to URL
+// Actions
 const setVariantId = (variant: ProductVariantFragment | undefined) => {
-  const query = { ...route.query }
-
-  if (variant) {
-    query.variant = formatVariantId(variant.id)
-  } else {
-    delete query.variant
-  }
-
+  const query: LocationQuery = { ...route.query }
+  query.variant = variant ? parseVariantId(variant.id) : undefined as any
   router.replace({ query })
 }
 
-// Set initial variant from URL or default to first
-// Defaults to undefined if no match is found
-onMounted(() => {
-  let initialVariant: ProductVariantFragment | undefined
+const setSizeOption = (size: string) => {
+  selectedSize.value = size
+}
 
-  if (props.variants.length === 1) {
-    initialVariant = props.variants[0]
-  } else if (variantQuery.value) {
-    initialVariant = props.variants.find((value) => formatVariantId(value.id) === variantQuery.value)
-  }
+// Initialization
+onMounted(() => {
+  const initialVariant = props.variants.length === 1
+    ? props.variants[0]
+    : props.variants.find((v) => parseVariantId(v.id) === variantQuery.value)
 
   if (initialVariant) {
     const sizeOption = initialVariant.selectedOptions.find((option) => isSizeOption(option.name))
@@ -58,11 +52,6 @@ onMounted(() => {
     setVariantId(initialVariant)
   }
 })
-
-// Actions
-const setSizeOption = (size: string) => {
-  selectedSize.value = size
-}
 
 // Watchers
 watch(currentVariant, setVariantId)

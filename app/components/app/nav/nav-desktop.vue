@@ -6,26 +6,6 @@ const emit = defineEmits<{
   toggleCartDrawer: []
 }>()
 
-// Links
-const navLinksLeft = [
-  { label: 'Shop', path: '/collections/latest' },
-  { label: 'Catalog', path: '/collections/latest' },
-  { label: 'About', path: '/collections/latest' },
-]
-
-const navLinksRight = [
-  { label: 'Account', path: '/account' },
-]
-
-// Stores
-const cartStore = useCartStore()
-const shopStore = useShopStore()
-
-// Computed
-const countryCode = computed(() => shopStore.buyerCountryCode)
-const currencySymbol = computed(() => shopStore.buyerCurrencySymbol)
-const cartTotalItems = computed(() => cartStore.lineItemCount)
-
 // Emit events
 const toggleLocaleModal = () => {
   emit('toggleLocaleModal')
@@ -38,6 +18,26 @@ const toggleSearchMenu = () => {
 const toggleCartDrawer = () => {
   emit('toggleCartDrawer')
 }
+
+// Links
+const navLinksLeft = [
+  { label: 'Shop', path: '/collections/latest' },
+  { label: 'Catalog', path: '/collections/latest' },
+  { label: 'About', path: '/collections/latest' },
+]
+
+const navLinksRight = [
+  { label: 'Account', path: '/' },
+]
+
+// Composables
+const cartStore = useCartStore()
+const shopStore = useShopStore()
+
+// Computed
+const countryCode = computed(() => shopStore.buyerCountryCode)
+const currencySymbol = computed(() => shopStore.buyerCurrencySymbol)
+const cartTotalItems = computed(() => cartStore.lineItemCount)
 </script>
 
 <template>

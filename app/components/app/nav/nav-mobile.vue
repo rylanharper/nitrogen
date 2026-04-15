@@ -8,12 +8,6 @@ const emit = defineEmits<{
   toggleCartDrawer: []
 }>()
 
-// Stores
-const cartStore = useCartStore()
-
-// Computed
-const cartTotalItems = computed(() => cartStore.lineItemCount)
-
 // Emit events
 const toggleMobileMenu = () => {
   emit('toggleMobileMenu')
@@ -26,6 +20,12 @@ const toggleSearchMenu = () => {
 const toggleCartDrawer = () => {
   emit('toggleCartDrawer')
 }
+
+// Composables
+const cartStore = useCartStore()
+
+// Computed
+const cartTotalItems = computed(() => cartStore.lineItemCount)
 </script>
 
 <template>

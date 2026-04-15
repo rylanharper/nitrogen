@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import type { CartLineFragment } from '@@/types/shopify-storefront'
 
-import { formatVariantId } from '@/utils/formatters'
+import { parseVariantId } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
   line: CartLineFragment
 }>()
 
-// Stores
-const cartStore = useCartStore()
-
 // Computed
 const merchandise = computed(() => props.line.merchandise)
-const variantId = computed(() => formatVariantId(props.line.merchandise.id))
+const variantId = computed(() => parseVariantId(props.line.merchandise.id))
 
 // Filters out default name and value from selected options
 // Appears only when products with default options are added to the cart
@@ -24,22 +21,19 @@ const selectedOptions = computed(() => {
 })
 
 // Actions
-const removeLineFromCart = async (lineId: string) => {
-  await cartStore.removeFromCart([lineId])
-}
+const MAX_QUANTITY = 10
+const cartStore = useCartStore()
 
-const updateLineQuantity = async (
-  line: CartLineFragment,
-  newQuantity: number,
-) => {
+const removeLineFromCart = () => cartStore.removeFromCart([props.line.id])
+
+const updateLineQuantity = async (newQuantity: number) => {
   if (newQuantity <= 0) {
-    await removeLineFromCart(line.id)
+    await removeLineFromCart()
   } else {
-    const quantityAvailable = Math.min(newQuantity, 10)
     await cartStore.updateCart([
       {
-        id: line.id,
-        quantity: quantityAvailable,
+        id: props.line.id,
+        quantity: Math.min(newQuantity, MAX_QUANTITY),
       },
     ])
   }
@@ -78,27 +72,27 @@ const updateLineQuantity = async (
         <div class="flex items-center gap-4">
           <button
             class="flex items-center justify-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 hover:lg:border-black"
-            @click="updateLineQuantity(line, line.quantity - 1)"
+            @click="updateLineQuantity(line.quantity - 1)"
           >
             <Icon
               name="ph:minus"
-              class="inline-block shrink-0 !size-3"
+              class="inline-block shrink-0 size-3!"
             />
           </button>
           <span>{{ line.quantity }}</span>
           <button
             class="flex items-center justify-center p-2 bg-transparent border border-zinc-300 rounded-full transition duration-200 hover:lg:border-black"
-            @click="updateLineQuantity(line, line.quantity + 1)"
+            @click="updateLineQuantity(line.quantity + 1)"
           >
             <Icon
               name="ph:plus"
-              class="inline-block shrink-0 !size-3"
+              class="inline-block shrink-0 size-3!"
             />
           </button>
         </div>
         <button
           class="max-w-fit underline decoration-dotted decoration-1 underline-offset-[3px] hover:text-gray-500"
-          @click="removeLineFromCart(line.id)"
+          @click="removeLineFromCart()"
         >
           <span>Remove</span>
         </button>

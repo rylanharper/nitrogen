@@ -34,9 +34,10 @@ const handleNewsletter = async () => {
   }
 }
 
-// Watchers
+// Composables
 const route = useRoute()
 
+// Watchers
 watch(
   () => route.fullPath,
   () => {

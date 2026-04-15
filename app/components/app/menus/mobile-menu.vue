@@ -1,29 +1,22 @@
 <script setup lang="ts">
-// Links
 const navLinks = [
   { label: 'Shop', path: '/collections/latest' },
   { label: 'Catalog', path: '/collections/latest' },
-  { label: 'Account', path: '/account' },
+  { label: 'Account', path: '/' },
   { label: 'About', path: '/collections/latest' },
 ]
 
-// Stores
+// Composables
+const route = useRoute()
 const appStore = useAppStore()
 
 // Actions
-const closeMenu = () => {
-  appStore.toggle('mobileMenu', false)
-}
+const closeMenu = () => appStore.toggle('mobileMenu', false)
 
 // Watchers
-const route = useRoute()
 const { escape } = useMagicKeys()
-
 watch(() => route.path, closeMenu)
-
-if (escape) {
-  watch(escape, closeMenu)
-}
+if (escape) watch(escape, closeMenu)
 </script>
 
 <template>
