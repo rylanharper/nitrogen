@@ -60,7 +60,6 @@ a,
 button {
   cursor: pointer;
   touch-action: manipulation;
-  text-transform: inherit;
 }
 
 span {
