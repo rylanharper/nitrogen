@@ -4,7 +4,7 @@ import type {
 } from '@@/types/shopify-storefront'
 
 import { LOCALIZATION } from '../graphql/storefront/queries/localization'
-import { query } from '../utils/graphql-client'
+import { query } from '../graphql-client'
 
 /**
  * Fetches the localization data.
@@ -12,13 +12,11 @@ import { query } from '../utils/graphql-client'
  * @returns A Promise resolving to the localization data
  * @see https://shopify.dev/docs/api/storefront/latest/queries/localization
  */
-export const get = async (
-  variables: LocalizationQueryVariables,
-): Promise<LocalizationQuery['localization']> => {
-  const response = await query(LOCALIZATION, variables)
-  return response.data?.localization
+const get = async (variables: LocalizationQueryVariables) => {
+  const { data } = await query<{ data: LocalizationQuery }>(LOCALIZATION, variables)
+  return data?.localization
 }
 
-export default {
+export const localization = {
   get,
 }

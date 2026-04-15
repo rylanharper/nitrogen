@@ -31,6 +31,7 @@ export const PRODUCT_VARIANT_FRAGMENT = gql`
       value
     }
     sku
+    taxable
     title
     unitPrice {
       ...Money

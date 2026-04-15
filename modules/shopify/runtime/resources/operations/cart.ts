@@ -21,7 +21,7 @@ import {
   CART_BUYER_IDENTITY_UPDATE,
 } from '../graphql/storefront/mutations/cart'
 import { CART } from '../graphql/storefront/queries/cart'
-import { query } from '../utils/graphql-client'
+import { query } from '../graphql-client'
 
 /**
  * Fetches the cart data.
@@ -29,11 +29,9 @@ import { query } from '../utils/graphql-client'
  * @returns A Promise resolving to the cart data
  * @see https://shopify.dev/docs/api/storefront/latest/queries/cart
  */
-const get = async (
-  variables: CartQueryVariables,
-): Promise<CartQuery['cart']> => {
-  const response = await query(CART, variables)
-  return response.data?.cart
+const get = async (variables: CartQueryVariables) => {
+  const { data } = await query<{ data: CartQuery }>(CART, variables)
+  return data?.cart
 }
 
 /**
@@ -42,11 +40,9 @@ const get = async (
  * @returns A Promise resolving to the created cart
  * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartCreate
  */
-const create = async (
-  variables: CartCreateMutationVariables,
-): Promise<CartCreateMutation['cartCreate']> => {
-  const response = await query(CART_CREATE, variables)
-  return response.data?.cartCreate
+const create = async (variables: CartCreateMutationVariables) => {
+  const { data } = await query<{ data: CartCreateMutation }>(CART_CREATE, variables)
+  return data?.cartCreate
 }
 
 /**
@@ -55,11 +51,9 @@ const create = async (
  * @returns A Promise resolving to the updated cart after adding lines
  * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartLinesAdd
  */
-const addLines = async (
-  variables: CartLinesAddMutationVariables,
-): Promise<CartLinesAddMutation['cartLinesAdd']> => {
-  const response = await query(CART_LINES_ADD, variables)
-  return response.data?.cartLinesAdd
+const addLines = async (variables: CartLinesAddMutationVariables) => {
+  const { data } = await query<{ data: CartLinesAddMutation }>(CART_LINES_ADD, variables)
+  return data?.cartLinesAdd
 }
 
 /**
@@ -68,11 +62,9 @@ const addLines = async (
  * @returns A Promise resolving to the updated cart after removing lines
  * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartLinesRemove
  */
-const removeLines = async (
-  variables: CartLinesRemoveMutationVariables,
-): Promise<CartLinesRemoveMutation['cartLinesRemove']> => {
-  const response = await query(CART_LINES_REMOVE, variables)
-  return response.data?.cartLinesRemove
+const removeLines = async (variables: CartLinesRemoveMutationVariables) => {
+  const { data } = await query<{ data: CartLinesRemoveMutation }>(CART_LINES_REMOVE, variables)
+  return data?.cartLinesRemove
 }
 
 /**
@@ -81,11 +73,9 @@ const removeLines = async (
  * @returns A Promise resolving to the updated cart after updating lines
  * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartLinesUpdate
  */
-const updateLines = async (
-  variables: CartLinesUpdateMutationVariables,
-): Promise<CartLinesUpdateMutation['cartLinesUpdate']> => {
-  const response = await query(CART_LINES_UPDATE, variables)
-  return response.data?.cartLinesUpdate
+const updateLines = async (variables: CartLinesUpdateMutationVariables) => {
+  const { data } = await query<{ data: CartLinesUpdateMutation }>(CART_LINES_UPDATE, variables)
+  return data?.cartLinesUpdate
 }
 
 /**
@@ -94,14 +84,12 @@ const updateLines = async (
  * @returns A Promise resolving to the updated cart with the new buyer identity
  * @see https://shopify.dev/docs/api/storefront/latest/mutations/cartBuyerIdentityUpdate
  */
-const updateBuyerIdentity = async (
-  variables: CartBuyerIdentityUpdateMutationVariables,
-): Promise<CartBuyerIdentityUpdateMutation['cartBuyerIdentityUpdate']> => {
-  const response = await query(CART_BUYER_IDENTITY_UPDATE, variables)
-  return response.data?.cartBuyerIdentityUpdate
+const updateBuyerIdentity = async (variables: CartBuyerIdentityUpdateMutationVariables) => {
+  const { data } = await query<{ data: CartBuyerIdentityUpdateMutation }>(CART_BUYER_IDENTITY_UPDATE, variables)
+  return data?.cartBuyerIdentityUpdate
 }
 
-export default {
+export const cart = {
   get,
   create,
   addLines,

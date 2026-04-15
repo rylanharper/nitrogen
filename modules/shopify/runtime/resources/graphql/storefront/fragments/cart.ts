@@ -7,6 +7,10 @@ import { PAGE_INFO_FRAGMENT } from './pageInfo'
 
 export const CART_FRAGMENT = gql`
   fragment Cart on Cart {
+    attributes {
+      key
+      value
+    }
     buyerIdentity {
       ...BuyerIdentity
     }
@@ -31,6 +35,7 @@ export const CART_FRAGMENT = gql`
         ...PageInfo
       }
     }
+    note
     totalQuantity
     updatedAt
   }

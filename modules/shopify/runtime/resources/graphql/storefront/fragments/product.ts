@@ -37,11 +37,16 @@ export const PRODUCT_FRAGMENT = gql`
     }
     productType
     publishedAt
+    seo {
+      description
+      title
+    }
     tags
     title
     totalInventory
     trackingParameters
     updatedAt
+    vendor
     variants(first: 250) {
       edges {
         node {

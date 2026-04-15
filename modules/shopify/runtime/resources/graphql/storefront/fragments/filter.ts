@@ -10,6 +10,7 @@ export const FILTER_FRAGMENT = gql`
     values {
       count
       id
+      input
       label
       swatch {
         color
