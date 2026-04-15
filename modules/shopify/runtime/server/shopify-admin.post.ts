@@ -10,13 +10,13 @@ export default defineEventHandler(async (event) => {
 
   const endpoint = `https://${options.domain}/admin/api/${options.apiVersion}/graphql.json`
 
-  return await $fetch(endpoint, {
+  return $fetch(endpoint, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': options.adminAccessToken,
     },
-    body: JSON.stringify({ query, variables }),
+    body: { query, variables },
   })
 })
