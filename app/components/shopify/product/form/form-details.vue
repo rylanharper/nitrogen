@@ -72,7 +72,7 @@ const shippingContent = computed(() => parseContent(props.shipping))
         <span class="truncate uppercase">Description</span>
         <Icon
           name="ph:caret-down"
-          class="inline-block shrink-0 !size-5 transition group-open:rotate-180"
+          class="inline-block shrink-0 size-5! transition group-open:rotate-180"
         />
       </summary>
       <div class="h-0 overflow-hidden group-open:h-auto">
@@ -98,7 +98,7 @@ const shippingContent = computed(() => parseContent(props.shipping))
         <span class="truncate uppercase">Details</span>
         <Icon
           name="ph:caret-down"
-          class="inline-block shrink-0 !size-5 transition group-open:rotate-180"
+          class="inline-block shrink-0 size-5! transition group-open:rotate-180"
         />
       </summary>
       <div class="h-0 overflow-hidden group-open:h-auto">
@@ -124,7 +124,7 @@ const shippingContent = computed(() => parseContent(props.shipping))
         <span class="truncate uppercase">Shipping</span>
         <Icon
           name="ph:caret-down"
-          class="inline-block shrink-0 !size-5 transition group-open:rotate-180"
+          class="inline-block shrink-0 size-5! transition group-open:rotate-180"
         />
       </summary>
       <div class="h-0 overflow-hidden group-open:h-auto">

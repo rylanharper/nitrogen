@@ -156,6 +156,8 @@ export type AbandonedCheckoutLineItem = Node & {
   originalTotalPriceSet: MoneyBag;
   /** Original price for a single unit of this line item, before discounts. */
   originalUnitPriceSet: MoneyBag;
+  /** The parent relationship for this line item. */
+  parentRelationship?: Maybe<AbandonedCheckoutLineItemParentRelationship>;
   /**
    * Product for this line item.
    * NULL for custom line items and products that were deleted after checkout began.
@@ -222,6 +224,12 @@ export type AbandonedCheckoutLineItemEdge = {
   cursor: Scalars['String']['output'];
   /** The item at the end of AbandonedCheckoutLineItemEdge. */
   node: AbandonedCheckoutLineItem;
+};
+
+/** The line relationship between two line items in an abandoned checkout. */
+export type AbandonedCheckoutLineItemParentRelationship = {
+  /** The parent line item of the current line item. */
+  parent: AbandonedCheckoutLineItem;
 };
 
 /** The set of valid sort keys for the AbandonedCheckout query. */
@@ -870,7 +878,7 @@ export type AppInstallation = HasMetafields & Node & {
   app: App;
   /**
    * Channel associated with the installed application.
-   * @deprecated Use `publication` instead.
+   * @deprecated Use the root-level `channels` query instead.
    */
   channel?: Maybe<Channel>;
   /** Credits that can be used towards future app purchases. */
@@ -892,7 +900,10 @@ export type AppInstallation = HasMetafields & Node & {
   metafields: MetafieldConnection;
   /** One-time purchases to a shop. */
   oneTimePurchases: AppPurchaseOneTimeConnection;
-  /** The publication associated with the installed application. */
+  /**
+   * The publication associated with the installed application.
+   * @deprecated Use the root-level `publications` query instead.
+   */
   publication?: Maybe<Publication>;
   /** The records that track the externally-captured revenue for the app. The records are used for revenue attribution purposes. */
   revenueAttributionRecords: AppRevenueAttributionRecordConnection;
@@ -2295,6 +2306,34 @@ export type BalanceTransactionSortKeys =
   /** Sort by the `transaction_type` value. */
   | 'TRANSACTION_TYPE';
 
+/** Represents a bank account payment instrument. */
+export type BankAccount = {
+  /** The type of account holder. */
+  accountHolderType: BankAccountHolderType;
+  /** The type of bank account. */
+  accountType: BankAccountType;
+  /** The name of the bank. */
+  bankName: Scalars['String']['output'];
+  /** The billing address associated with the bank account. */
+  billingAddress?: Maybe<CustomerPaymentInstrumentBillingAddress>;
+  /** The last four digits of the account number. */
+  lastDigits: Scalars['String']['output'];
+};
+
+/** The type of bank account holder. */
+export type BankAccountHolderType =
+  /** A company account holder. */
+  | 'COMPANY'
+  /** An individual account holder. */
+  | 'INDIVIDUAL';
+
+/** The type of bank account. */
+export type BankAccountType =
+  /** A checking account. */
+  | 'CHECKING'
+  /** A savings account. */
+  | 'SAVINGS';
+
 /** The valid types of actions a user should be able to perform in an financial app. */
 export type BankingFinanceAppAccess =
   /** Indication that the user has blocked money movement due to MFA disabled. */
@@ -2432,7 +2471,7 @@ export type BillingAttemptUserErrorCode =
   | 'CONTRACT_PAUSED'
   /** Subscription contract cannot be billed once terminated. */
   | 'CONTRACT_TERMINATED'
-  /** Subscription contract is under review. */
+  /** Subscription contract is under review, origin order is high risk and unfulfilled. */
   | 'CONTRACT_UNDER_REVIEW'
   /** Billing cycle selector cannot select billing cycle outside of index range. */
   | 'CYCLE_INDEX_OUT_OF_RANGE'
@@ -2444,6 +2483,8 @@ export type BillingAttemptUserErrorCode =
   | 'ORIGIN_TIME_BEFORE_CONTRACT_CREATION'
   /** Origin time needs to be within the selected billing cycle's start and end at date. */
   | 'ORIGIN_TIME_OUT_OF_RANGE'
+  /** Billing attempt rate limit exceeded - try later. */
+  | 'THROTTLED'
   /** Billing cycle selector cannot select upcoming billing cycle past limit. */
   | 'UPCOMING_CYCLE_LIMIT_EXCEEDED';
 
@@ -2863,6 +2904,24 @@ export type BulkOperationCancelPayload = {
   userErrors: Array<UserError>;
 };
 
+/** An auto-generated type for paginating through multiple BulkOperations. */
+export type BulkOperationConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  edges: Array<BulkOperationEdge>;
+  /** A list of nodes that are contained in BulkOperationEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  nodes: Array<BulkOperation>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  pageInfo: PageInfo;
+};
+
+/** An auto-generated type which holds one BulkOperation and a cursor during pagination. */
+export type BulkOperationEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of BulkOperationEdge. */
+  node: BulkOperation;
+};
+
 /** Error codes for failed bulk operations. */
 export type BulkOperationErrorCode =
   /**
@@ -2918,7 +2977,7 @@ export type BulkOperationStatus =
    * [BulkOperation.errorCode](https://shopify.dev/api/admin-graphql/latest/enums/bulkoperationerrorcode).
    */
   | 'FAILED'
-  /** The bulk operation is runnning. */
+  /** The bulk operation is running. */
   | 'RUNNING';
 
 /** The valid values for the bulk operation's type. */
@@ -2946,6 +3005,13 @@ export type BulkOperationUserErrorCode =
   | 'LIMIT_REACHED'
   /** A bulk operation is already in progress. */
   | 'OPERATION_IN_PROGRESS';
+
+/** The set of valid sort keys for the BulkOperations query. */
+export type BulkOperationsSortKeys =
+  /** Sort by the `completed_at` value. */
+  | 'COMPLETED_AT'
+  /** Sort by the `created_at` value. */
+  | 'CREATED_AT';
 
 /** Return type for `bulkProductResourceFeedbackCreate` mutation. */
 export type BulkProductResourceFeedbackCreatePayload = {
@@ -2975,6 +3041,8 @@ export type BulkProductResourceFeedbackCreateUserErrorCode =
   | 'LESS_THAN_OR_EQUAL_TO'
   /** The operation was attempted on too many feedback objects. The maximum number of feedback objects that you can operate on is 50. */
   | 'MAXIMUM_FEEDBACK_LIMIT_EXCEEDED'
+  /** The channel was not found or does not belong to this app. */
+  | 'NOT_FOUND'
   /** The feedback for a later version of this resource was already accepted. */
   | 'OUTDATED_FEEDBACK'
   /** The input value needs to be blank. */
@@ -3042,7 +3110,13 @@ export type BusinessCustomerUserError = DisplayableError & {
   message: Scalars['String']['output'];
 };
 
-/** Represents a merchant's Business Entity. */
+/**
+ * A legal entity through which a merchant operates. Each business entity contains its own [`BusinessEntityAddress`](https://shopify.dev/docs/api/admin-graphql/latest/objects/BusinessEntityAddress), company information, and can be associated with its own [`ShopifyPaymentsAccount`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsAccount). [`Market`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) objects can be assigned to a business entity to determine payment processing and [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) attribution.
+ *
+ * Every shop must have one primary business entity. Additional entities enable international operations by establishing legal presence in multiple countries.
+ *
+ * Learn more about [managing multiple legal entities](https://shopify.dev/docs/apps/build/markets/multiple-entities).
+ */
 export type BusinessEntity = Node & {
   /** The address of the merchant's Business Entity. */
   address: BusinessEntityAddress;
@@ -3056,7 +3130,11 @@ export type BusinessEntity = Node & {
   id: Scalars['ID']['output'];
   /** Whether it's the merchant's primary Business Entity. */
   primary: Scalars['Boolean']['output'];
-  /** Shopify Payments account information, including balances and payouts. */
+  /**
+   * Returns the Shopify Payments account information for the shop. Includes current balances across all currencies, payout schedules, and bank account configurations.
+   *
+   * The account includes [`ShopifyPaymentsBalanceTransaction`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBalanceTransaction) records showing charges, refunds, and adjustments that affect your balance. Also includes [`ShopifyPaymentsDispute`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute) records and [`ShopifyPaymentsPayout`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout) history between the account and connected [`ShopifyPaymentsBankAccount`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBankAccount) configurations.
+   */
   shopifyPaymentsAccount?: Maybe<ShopifyPaymentsAccount>;
 };
 
@@ -3226,7 +3304,14 @@ export type CalculatedDiscountCodeApplication = CalculatedDiscountApplication & 
   value: PricingValue;
 };
 
-/** The calculated fields for a draft order. */
+/**
+ * Calculated pricing, taxes, and discounts for a [`DraftOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder). Includes the complete financial breakdown with line items, discounts, shipping costs, tax calculations, and totals in both shop and presentment currencies.
+ *
+ * Available [`ShippingRate`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShippingRate) options are included when a valid shipping address and line items are present.
+ *
+ * > Note:
+ * > Returns alerts and warnings when issues occur during calculation, such as insufficient inventory or incompatible discounts.
+ */
 export type CalculatedDraftOrder = {
   /**
    * Whether or not to accept automatic discounts on the draft order during calculation.
@@ -3537,7 +3622,11 @@ export type CalculatedManualDiscountApplication = CalculatedDiscountApplication 
   value: PricingValue;
 };
 
-/** An order with edits applied but not saved. */
+/**
+ * An order during an active edit session with all proposed changes applied but not yet committed. When you begin editing an order with the [`orderEditBegin`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditBegin) mutation, the system creates a [`CalculatedOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CalculatedOrder) that shows how the [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) will look after your changes. The calculated order tracks the original order state and all staged modifications (added or removed [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects, quantity adjustments, discount changes, and [`ShippingLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShippingLine) updates). Use the calculated order to preview the financial impact of edits before committing them with the [`orderEditCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditCommit) mutation.
+ *
+ * Learn more about [editing existing orders](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders).
+ */
 export type CalculatedOrder = Node & {
   /** Returns only the new discount applications being added to the order in the current edit. */
   addedDiscountApplications: CalculatedDiscountApplicationConnection;
@@ -3585,7 +3674,11 @@ export type CalculatedOrder = Node & {
 };
 
 
-/** An order with edits applied but not saved. */
+/**
+ * An order during an active edit session with all proposed changes applied but not yet committed. When you begin editing an order with the [`orderEditBegin`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditBegin) mutation, the system creates a [`CalculatedOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CalculatedOrder) that shows how the [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) will look after your changes. The calculated order tracks the original order state and all staged modifications (added or removed [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects, quantity adjustments, discount changes, and [`ShippingLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShippingLine) updates). Use the calculated order to preview the financial impact of edits before committing them with the [`orderEditCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditCommit) mutation.
+ *
+ * Learn more about [editing existing orders](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders).
+ */
 export type CalculatedOrderAddedDiscountApplicationsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -3595,7 +3688,11 @@ export type CalculatedOrderAddedDiscountApplicationsArgs = {
 };
 
 
-/** An order with edits applied but not saved. */
+/**
+ * An order during an active edit session with all proposed changes applied but not yet committed. When you begin editing an order with the [`orderEditBegin`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditBegin) mutation, the system creates a [`CalculatedOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CalculatedOrder) that shows how the [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) will look after your changes. The calculated order tracks the original order state and all staged modifications (added or removed [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects, quantity adjustments, discount changes, and [`ShippingLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShippingLine) updates). Use the calculated order to preview the financial impact of edits before committing them with the [`orderEditCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditCommit) mutation.
+ *
+ * Learn more about [editing existing orders](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders).
+ */
 export type CalculatedOrderAddedLineItemsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -3605,7 +3702,11 @@ export type CalculatedOrderAddedLineItemsArgs = {
 };
 
 
-/** An order with edits applied but not saved. */
+/**
+ * An order during an active edit session with all proposed changes applied but not yet committed. When you begin editing an order with the [`orderEditBegin`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditBegin) mutation, the system creates a [`CalculatedOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CalculatedOrder) that shows how the [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) will look after your changes. The calculated order tracks the original order state and all staged modifications (added or removed [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects, quantity adjustments, discount changes, and [`ShippingLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShippingLine) updates). Use the calculated order to preview the financial impact of edits before committing them with the [`orderEditCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditCommit) mutation.
+ *
+ * Learn more about [editing existing orders](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders).
+ */
 export type CalculatedOrderLineItemsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -3616,7 +3717,11 @@ export type CalculatedOrderLineItemsArgs = {
 };
 
 
-/** An order with edits applied but not saved. */
+/**
+ * An order during an active edit session with all proposed changes applied but not yet committed. When you begin editing an order with the [`orderEditBegin`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditBegin) mutation, the system creates a [`CalculatedOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CalculatedOrder) that shows how the [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) will look after your changes. The calculated order tracks the original order state and all staged modifications (added or removed [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects, quantity adjustments, discount changes, and [`ShippingLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShippingLine) updates). Use the calculated order to preview the financial impact of edits before committing them with the [`orderEditCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditCommit) mutation.
+ *
+ * Learn more about [editing existing orders](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders).
+ */
 export type CalculatedOrderStagedChangesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -3955,7 +4060,11 @@ export type CartTransformCreateUserErrorCode =
   /** Failed to create cart transform due to invalid input. */
   | 'INPUT_INVALID'
   /** Could not create or update metafields. */
-  | 'INVALID_METAFIELDS';
+  | 'INVALID_METAFIELDS'
+  /** Either function_id or function_handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function_id or function_handle can be provided, not both. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS';
 
 /** Return type for `cartTransformDelete` mutation. */
 export type CartTransformDeletePayload = {
@@ -4176,6 +4285,8 @@ export type CashTrackingSessionsSortKeys =
 /**
  * A list of products with publishing and pricing information.
  * A catalog can be associated with a specific context, such as a [`Market`](https://shopify.dev/api/admin-graphql/current/objects/market), [`CompanyLocation`](https://shopify.dev/api/admin-graphql/current/objects/companylocation), or [`App`](https://shopify.dev/api/admin-graphql/current/objects/app).
+ *
+ * Catalogs can optionally include a publication to control product visibility and a price list to customize pricing. When a publication isn't associated with a catalog, product availability is determined by the sales channel.
  */
 export type Catalog = {
   /** A globally-unique ID. */
@@ -4224,7 +4335,7 @@ export type CatalogCreateInput = {
   context: CatalogContextInput;
   /** The ID of the price list to associate to the catalog. */
   priceListId?: InputMaybe<Scalars['ID']['input']>;
-  /** The ID of the publication to associate to the catalog. */
+  /** The ID of the publication to associate to the catalog. Only include this if you need to control which products are visible in the catalog. When omitted, product availability is determined by the sales channel. */
   publicationId?: InputMaybe<Scalars['ID']['input']>;
   /** The status of the catalog. */
   status: CatalogStatus;
@@ -4358,6 +4469,8 @@ export type CatalogUserErrorCode =
   | 'CATALOG_CONTEXT_DOES_NOT_SUPPORT_QUANTITY_PRICE_BREAKS'
   /** Quantity rules can be associated only with company location catalogs or catalogs associated with compatible markets. */
   | 'CATALOG_CONTEXT_DOES_NOT_SUPPORT_QUANTITY_RULES'
+  /** The catalog context is currently being modified. Please try again later. */
+  | 'CATALOG_CONTEXT_LOCKED'
   /** Catalog failed to save. */
   | 'CATALOG_FAILED_TO_SAVE'
   /** The catalog wasn't found. */
@@ -4418,9 +4531,11 @@ export type CatalogUserErrorCode =
   | 'UNSUPPORTED_CATALOG_ACTION';
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type Channel = Node & {
   /** The underlying app used by the channel. */
@@ -4429,7 +4544,7 @@ export type Channel = Node & {
   collectionPublicationsV3: ResourcePublicationConnection;
   /** The list of collections published to the channel. */
   collections: CollectionConnection;
-  /** The unique identifier for the channel. */
+  /** A unique, human-readable identifier for the channel within the shop. Set during [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) or auto-generated from the specification handle and account ID. Use with [`channelByHandle`](https://shopify.dev/docs/api/admin-graphql/latest/queries/channelByHandle) for lookups. */
   handle: Scalars['String']['output'];
   /** Whether the collection is available to the channel. */
   hasCollection: Scalars['Boolean']['output'];
@@ -4466,9 +4581,11 @@ export type Channel = Node & {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelCollectionPublicationsV3Args = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4480,9 +4597,11 @@ export type ChannelCollectionPublicationsV3Args = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelCollectionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4494,9 +4613,11 @@ export type ChannelCollectionsArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelHasCollectionArgs = {
   id: Scalars['ID']['input'];
@@ -4504,9 +4625,11 @@ export type ChannelHasCollectionArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelProductPublicationsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4518,9 +4641,11 @@ export type ChannelProductPublicationsArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelProductPublicationsV3Args = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4532,9 +4657,11 @@ export type ChannelProductPublicationsV3Args = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelProductsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4546,9 +4673,11 @@ export type ChannelProductsArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelProductsCountArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6226,6 +6355,8 @@ export type CodeDiscountSortKeys =
  * Learn about [using metafields with smart collections](https://shopify.dev/docs/apps/build/custom-data/metafields/use-metafield-capabilities).
  */
 export type Collection = HasEvents & HasMetafieldDefinitions & HasMetafields & HasPublishedTranslations & Node & Publishable & {
+  /** Collection duplicate operations involving this collection, either as a source (copying products from this collection to another) or a target (copying products to this collection from another). */
+  activeOperations: CollectionOperations;
   /**
    * The number of
    * [publications](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication)
@@ -6306,6 +6437,7 @@ export type Collection = HasEvents & HasMetafieldDefinitions & HasMetafields & H
    * Whether the resource is published to the app's
    * [publication](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
    * For example, the resource might be published to the app's online store channel.
+   * @deprecated Use `publishedOnPublication` instead.
    */
   publishedOnCurrentPublication: Scalars['Boolean']['output'];
   /**
@@ -7110,6 +7242,60 @@ export type CollectionDeletePayload = {
   userErrors: Array<UserError>;
 };
 
+/** The input fields for duplicating a collection. */
+export type CollectionDuplicateInput = {
+  /** The ID of the collection to be duplicated. */
+  collectionId: Scalars['ID']['input'];
+  /** Whether to duplicate the collection's publications (channel availability). When `true` (default), the duplicated collection will be published to the same channels as the original. When `false`, the duplicated collection will be unpublished on all channels. */
+  copyPublications?: InputMaybe<Scalars['Boolean']['input']>;
+  /** The new title of the collection. */
+  newTitle: Scalars['String']['input'];
+};
+
+/** Represents an in-progress collection duplication operation. Collection duplication is a synchronous operation for simple collections, and an asynchronous operation for collections containing too many products to process synchronously. */
+export type CollectionDuplicateOperation = {
+  /** Whether the collection is the source that products are being duplicated from, or the target collection that products are being duplicated onto. */
+  collectionRole: CollectionDuplicateOperationRole;
+  /** The background job performing the duplication. */
+  job: Job;
+};
+
+/** The role a collection plays in a duplication operation. */
+export type CollectionDuplicateOperationRole =
+  /** Products are being duplicated from this collection. */
+  | 'SOURCE'
+  /** Products are being duplicated onto this collection. */
+  | 'TARGET';
+
+/** Return type for `collectionDuplicate` mutation. */
+export type CollectionDuplicatePayload = {
+  /**
+   * The newly created duplicate collection. Will contain all data if duplication completed synchronously.
+   * If async processing is required, the collection will be created but products will be added in the background
+   * and can be tracked via the job field or the collection's active_operations field.
+   */
+  collection?: Maybe<Collection>;
+  /** The background job copying manually included products onto the target collection. Only returned if async processing is required, otherwise products will be copied synchronously when the collection is created. */
+  job?: Maybe<Job>;
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<CollectionDuplicateUserError>;
+};
+
+/** Errors related to collection duplication. */
+export type CollectionDuplicateUserError = DisplayableError & {
+  /** The error code. */
+  code?: Maybe<CollectionDuplicateUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  field?: Maybe<Array<Scalars['String']['output']>>;
+  /** The error message. */
+  message: Scalars['String']['output'];
+};
+
+/** Possible error codes that can be returned by `CollectionDuplicateUserError`. */
+export type CollectionDuplicateUserErrorCode =
+  /** The collection was not found. Please check the collection ID and try again. */
+  | 'COLLECTION_NOT_FOUND';
+
 /** An auto-generated type which holds one Collection and a cursor during pagination. */
 export type CollectionEdge = {
   /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
@@ -7157,6 +7343,12 @@ export type CollectionInput = {
   templateSuffix?: InputMaybe<Scalars['String']['input']>;
   /** The title of the collection. Required for creating a new collection. */
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Represents operations involving a collection. */
+export type CollectionOperations = {
+  /** Collection duplicate operations. */
+  duplicate: Array<CollectionDuplicateOperation>;
 };
 
 /**
@@ -7252,8 +7444,29 @@ export type CollectionReorderProductsPayload = {
   /** The asynchronous job reordering the products. */
   job?: Maybe<Job>;
   /** The list of errors that occurred from executing the mutation. */
-  userErrors: Array<UserError>;
+  userErrors: Array<CollectionReorderProductsUserError>;
 };
+
+/** Errors related to order customer removal. */
+export type CollectionReorderProductsUserError = DisplayableError & {
+  /** The error code. */
+  code?: Maybe<CollectionReorderProductsUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  field?: Maybe<Array<Scalars['String']['output']>>;
+  /** The error message. */
+  message: Scalars['String']['output'];
+};
+
+/** Possible error codes that can be returned by `CollectionReorderProductsUserError`. */
+export type CollectionReorderProductsUserErrorCode =
+  /** The collection was not found. Please check the collection ID and try again. */
+  | 'COLLECTION_NOT_FOUND'
+  /** The move is invalid. */
+  | 'INVALID_MOVE'
+  /** The collection is not manually sorted. Can't reorder products unless collection is manually sorted. */
+  | 'MANUALLY_SORTED_COLLECTION'
+  /** Products are currently being reordered. Please try again later. */
+  | 'TOO_MANY_ATTEMPTS_TO_REORDER_PRODUCTS';
 
 /** Represents at rule that's used to assign products to a collection. */
 export type CollectionRule = {
@@ -7489,6 +7702,65 @@ export type CollectionUpdatePayload = {
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<UserError>;
 };
+
+/** The data type of a column. */
+export type ColumnDataType =
+  /** Represents an array of values. */
+  | 'ARRAY'
+  /** Represents a boolean value. */
+  | 'BOOLEAN'
+  /** Represents a duration in days. */
+  | 'DAY_DURATION'
+  /** Represents a day of week value. */
+  | 'DAY_OF_WEEK'
+  /** Represents a day-level timestamp value. */
+  | 'DAY_TIMESTAMP'
+  /** Represents a decimal value. */
+  | 'DECIMAL'
+  /** Represents a floating point value. */
+  | 'FLOAT'
+  /** Represents a duration in hours. */
+  | 'HOUR_DURATION'
+  /** Represents an hour of day value. */
+  | 'HOUR_OF_DAY'
+  /** Represents a hour-level timestamp value. */
+  | 'HOUR_TIMESTAMP'
+  /** Represents an identity value. */
+  | 'IDENTITY'
+  /** Represents an integer value. */
+  | 'INTEGER'
+  /** Represents a duration in milliseconds. */
+  | 'MILLISECOND_DURATION'
+  /** Represents a duration in minutes. */
+  | 'MINUTE_DURATION'
+  /** Represents a minute-level timestamp value. */
+  | 'MINUTE_TIMESTAMP'
+  /** Represents a monetary value. */
+  | 'MONEY'
+  /** Represents a month of year value. */
+  | 'MONTH_OF_YEAR'
+  /** Represents a month-level timestamp value. */
+  | 'MONTH_TIMESTAMP'
+  /** Represents a percentage value. */
+  | 'PERCENT'
+  /** Represents a quarter-level timestamp value. */
+  | 'QUARTER_TIMESTAMP'
+  /** Represents a duration in seconds. */
+  | 'SECOND_DURATION'
+  /** Represents a second-level timestamp value. */
+  | 'SECOND_TIMESTAMP'
+  /** Represents a string value. */
+  | 'STRING'
+  /** Represents a timestamp value in seconds. */
+  | 'TIMESTAMP'
+  /** Represents an unspecified data type. */
+  | 'UNSPECIFIED'
+  /** Represents a week of year value. */
+  | 'WEEK_OF_YEAR'
+  /** Represents a week-level timestamp value. */
+  | 'WEEK_TIMESTAMP'
+  /** Represents a year-level timestamp value. */
+  | 'YEAR_TIMESTAMP';
 
 /** A combined listing of products. */
 export type CombinedListing = {
@@ -8562,7 +8834,7 @@ export type CompanyInput = {
  *
  * Each location can have its own [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) objects that determine which products are published and their pricing. The [`BuyerExperienceConfiguration`](https://shopify.dev/docs/api/admin-graphql/latest/objects/BuyerExperienceConfiguration) determines checkout behavior including [`PaymentTerms`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentTerms), and whether orders require merchant review. B2B customers select which location they're purchasing for, which determines the applicable catalogs, pricing, [`TaxExemption`](https://shopify.dev/docs/api/admin-graphql/latest/enums/TaxExemption) values, and checkout settings for their [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) objects.
  */
-export type CompanyLocation = CommentEventSubject & HasEvents & HasMetafieldDefinitions & HasMetafields & Navigable & Node & {
+export type CompanyLocation = CommentEventSubject & HasEvents & HasMetafieldDefinitions & HasMetafields & HasStoreCreditAccounts & Navigable & Node & {
   /** The address used as billing address for the location. */
   billingAddress?: Maybe<CompanyAddress>;
   /** The configuration for the buyer's B2B checkout. */
@@ -8635,6 +8907,11 @@ export type CompanyLocation = CommentEventSubject & HasEvents & HasMetafieldDefi
   shippingAddress?: Maybe<CompanyAddress>;
   /** The list of staff members assigned to the company location. */
   staffMemberAssignments: CompanyLocationStaffMemberAssignmentConnection;
+  /**
+   * Returns a list of store credit accounts that belong to the owner resource.
+   * A store credit account owner can hold multiple accounts each with a different currency.
+   */
+  storeCreditAccounts: StoreCreditAccountConnection;
   /**
    * The list of tax exemptions applied to the location.
    * @deprecated Use `taxSettings` instead.
@@ -8811,6 +9088,20 @@ export type CompanyLocationStaffMemberAssignmentsArgs = {
   sortKey?: InputMaybe<CompanyLocationStaffMemberAssignmentSortKeys>;
 };
 
+
+/**
+ * A location or branch of a [`Company`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Company) that's a customer of the shop. Company locations enable B2B customers to manage multiple branches with distinct billing and shipping addresses, tax settings, and checkout configurations.
+ *
+ * Each location can have its own [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) objects that determine which products are published and their pricing. The [`BuyerExperienceConfiguration`](https://shopify.dev/docs/api/admin-graphql/latest/objects/BuyerExperienceConfiguration) determines checkout behavior including [`PaymentTerms`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentTerms), and whether orders require merchant review. B2B customers select which location they're purchasing for, which determines the applicable catalogs, pricing, [`TaxExemption`](https://shopify.dev/docs/api/admin-graphql/latest/enums/TaxExemption) values, and checkout settings for their [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) objects.
+ */
+export type CompanyLocationStoreCreditAccountsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** Return type for `companyLocationAssignAddress` mutation. */
 export type CompanyLocationAssignAddressPayload = {
   /** The list of updated addresses on the company location. */
@@ -8843,7 +9134,11 @@ export type CompanyLocationAssignTaxExemptionsPayload = {
   userErrors: Array<BusinessCustomerUserError>;
 };
 
-/** A list of products with publishing and pricing information associated with company locations. */
+/**
+ * A list of products with publishing and pricing information associated with company locations.
+ *
+ * Company location catalogs can include an optional publication to control product visibility and a price list to customize pricing. When a publication isn't associated with the catalog, product availability is determined by the sales channel.
+ */
 export type CompanyLocationCatalog = Catalog & Node & {
   /** The company locations associated with the catalog. */
   companyLocations: CompanyLocationConnection;
@@ -8864,7 +9159,11 @@ export type CompanyLocationCatalog = Catalog & Node & {
 };
 
 
-/** A list of products with publishing and pricing information associated with company locations. */
+/**
+ * A list of products with publishing and pricing information associated with company locations.
+ *
+ * Company location catalogs can include an optional publication to control product visibility and a price list to customize pricing. When a publication isn't associated with the catalog, product availability is determined by the sales channel.
+ */
 export type CompanyLocationCatalogCompanyLocationsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -9141,6 +9440,30 @@ export type CompanyUpdatePayload = {
   company?: Maybe<Company>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<BusinessCustomerUserError>;
+};
+
+/** An option on the bundle parent product that is consolidated from multiple different components. */
+export type ComponentizedProductsBundleConsolidatedOption = {
+  /** The name of the consolidated option. */
+  name: Scalars['String']['output'];
+  /** The selections of the consolidated option. */
+  selections: Array<ComponentizedProductsBundleConsolidatedOptionSelection>;
+};
+
+/** An option selection for a bundle consolidated option. */
+export type ComponentizedProductsBundleConsolidatedOptionSelection = {
+  /** The component values that are included in the consolidated option selection. */
+  components: Array<ComponentizedProductsBundleConsolidatedOptionSelectionComponent>;
+  /** The value of the consolidated option on the bundle parent. */
+  value: Scalars['String']['output'];
+};
+
+/** A component that's included in a bundle consolidated option selection. */
+export type ComponentizedProductsBundleConsolidatedOptionSelectionComponent = {
+  /** The ID of the component's option that's included in this consolidated option selection. */
+  optionId: Scalars['ID']['output'];
+  /** The value of the component's option value that's included in this consolidated option selection. */
+  value: Scalars['String']['output'];
 };
 
 /**
@@ -9799,8 +10122,8 @@ export type CountryHarmonizedSystemCodeEdge = {
 
 /** The input fields required to specify a harmonized system code. */
 export type CountryHarmonizedSystemCodeInput = {
-  /** The ISO 3166-1 alpha-2 country code for the country that issued the specified harmonized system code. */
-  countryCode: CountryCode;
+  /** The ISO 3166-1 alpha-2 country code for the country that issued the specified harmonized system code. Represents global harmonized system code when set to null. */
+  countryCode?: InputMaybe<CountryCode>;
   /** Country specific harmonized system code. */
   harmonizedSystemCode: Scalars['String']['input'];
 };
@@ -10238,7 +10561,10 @@ export type CustomShippingPackageInput = {
  * > Only use this data if it's required for your app's functionality. Shopify will restrict [access to scopes](https://shopify.dev/api/usage/access-scopes) for apps that don't have a legitimate use for the associated data.
  */
 export type Customer = CommentEventSubject & HasEvents & HasMetafieldDefinitions & HasMetafields & HasStoreCreditAccounts & LegacyInteroperability & Node & {
-  /** A list of addresses associated with the customer. */
+  /**
+   * A list of addresses associated with the customer. Limited to 250 addresses. Use `addressesV2` for paginated access to all addresses.
+   * @deprecated Limited to 250 addresses. Use `addressesV2` for paginated access to all addresses.
+   */
   addresses: Array<MailingAddress>;
   /** The addresses associated with the customer. */
   addressesV2: MailingAddressConnection;
@@ -10894,10 +11220,7 @@ export type CustomerEmailMarketingConsentInput = {
   consentUpdatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** The customer opt-in level at the time of subscribing to marketing material. */
   marketingOptInLevel?: InputMaybe<CustomerMarketingOptInLevel>;
-  /**
-   * The current marketing state associated with the customer's email.
-   *           If the customer doesn't have an email, then this field is `null`.
-   */
+  /** The marketing state to set. Accepted values: SUBSCRIBED, UNSUBSCRIBED, and PENDING. NOT_SUBSCRIBED, REDACTED, and INVALID are rejected if sent as input. */
   marketingState: CustomerEmailMarketingState;
   /** Identifies the location where the customer consented to receiving marketing material by email. */
   sourceLocationId?: InputMaybe<Scalars['ID']['input']>;
@@ -10961,9 +11284,13 @@ export type CustomerEmailMarketingConsentUpdateUserErrorCode =
 
 /** The possible email marketing states for a customer. */
 export type CustomerEmailMarketingState =
-  /** The customer’s email address marketing state is invalid. */
+  /** This value is internally-set and read-only. */
   | 'INVALID'
-  /** The customer isn't subscribed to email marketing. */
+  /**
+   * Default state for customers who have never subscribed to email marketing.
+   * This value cannot be set via the mutation; use UNSUBSCRIBED instead to indicate
+   * a customer has opted out.
+   */
   | 'NOT_SUBSCRIBED'
   /** The customer is in the process of subscribing to email marketing. */
   | 'PENDING'
@@ -10996,8 +11323,6 @@ export type CustomerIdentifierInput = {
 
 /** The input fields and values to use when creating or updating a customer. */
 export type CustomerInput = {
-  /** The addresses for a customer. */
-  addresses?: InputMaybe<Array<MailingAddressInput>>;
   /** The unique email address of the customer. */
   email?: InputMaybe<Scalars['String']['input']>;
   /**
@@ -11016,6 +11341,8 @@ export type CustomerInput = {
   locale?: InputMaybe<Scalars['String']['input']>;
   /** Additional metafields to associate to the customer. */
   metafields?: InputMaybe<Array<MetafieldInput>>;
+  /** A unique identifier for the customer that's used with Multipass login. */
+  multipassIdentifier?: InputMaybe<Scalars['String']['input']>;
   /** A note about the customer. */
   note?: InputMaybe<Scalars['String']['input']>;
   /** The unique phone number for the customer. */
@@ -11386,7 +11713,7 @@ export type CustomerMomentEdge = {
 };
 
 /** All possible instruments for CustomerPaymentMethods. */
-export type CustomerPaymentInstrument = CustomerCreditCard | CustomerPaypalBillingAgreement | CustomerShopPayAgreement;
+export type CustomerPaymentInstrument = BankAccount | CustomerCreditCard | CustomerPaypalBillingAgreement | CustomerShopPayAgreement;
 
 /** The billing address of a payment instrument. */
 export type CustomerPaymentInstrumentBillingAddress = {
@@ -11426,12 +11753,28 @@ export type CustomerPaymentMethod = Node & {
   id: Scalars['ID']['output'];
   /** The instrument for this payment method. */
   instrument?: Maybe<CustomerPaymentInstrument>;
+  /** The mandates associated with the payment method. */
+  mandates: PaymentMandateResourceConnection;
   /** The time that the payment method was revoked. */
   revokedAt?: Maybe<Scalars['DateTime']['output']>;
   /** The revocation reason for this payment method. */
   revokedReason?: Maybe<CustomerPaymentMethodRevocationReason>;
   /** List Subscription Contracts. */
   subscriptionContracts: SubscriptionContractConnection;
+};
+
+
+/**
+ * A customer's saved payment method. Stores the payment instrument details and billing information for recurring charges.
+ *
+ * The payment method supports types included in the [`CustomerPaymentInstrument`](https://shopify.dev/docs/api/admin-graphql/latest/unions/CustomerPaymentInstrument) union.
+ */
+export type CustomerPaymentMethodMandatesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -12915,7 +13258,11 @@ export type DeliveryCarrierServiceAvailableServicesForCountriesArgs = {
   restOfWorld: Scalars['Boolean']['input'];
 };
 
-/** A carrier service and the associated list of shop locations. */
+/**
+ * Links a [`DeliveryCarrierService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/DeliveryCarrierService) with the associated shop [locations](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) where it can calculate shipping rates. Each pairing indicates the locations that can use a specific carrier service for real-time rate calculations during checkout.
+ *
+ * The carrier service provides the shipping rate calculation logic, while the locations represent physical or virtual fulfillment points that can ship orders using that service.
+ */
 export type DeliveryCarrierServiceAndLocations = {
   /** The carrier service. */
   carrierService: DeliveryCarrierService;
@@ -13192,6 +13539,10 @@ export type DeliveryCustomizationErrorCode =
   | 'INVALID_METAFIELDS'
   /** Maximum delivery customizations are already enabled. */
   | 'MAXIMUM_ACTIVE_DELIVERY_CUSTOMIZATIONS'
+  /** Either function_id or function_handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function_id or function_handle can be provided, not both. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS'
   /** Required input field must be present. */
   | 'REQUIRED_INPUT_FIELD'
   /** Unauthorized app scope. */
@@ -13201,8 +13552,8 @@ export type DeliveryCustomizationErrorCode =
 export type DeliveryCustomizationInput = {
   /** The enabled status of the delivery customization. */
   enabled?: InputMaybe<Scalars['Boolean']['input']>;
-  /** The ID of the function providing the delivery customization. */
-  functionId?: InputMaybe<Scalars['String']['input']>;
+  /** Function handle scoped to your current app ID. Only finds functions within your app. */
+  functionHandle?: InputMaybe<Scalars['String']['input']>;
   /** Additional metafields to associate to the delivery customization. */
   metafields?: InputMaybe<Array<MetafieldInput>>;
   /** The title of the delivery customization. */
@@ -13577,7 +13928,7 @@ export type DeliveryProfile = Node & {
   id: Scalars['ID']['output'];
   /**
    * Whether this shop has enabled legacy compatibility mode for delivery profiles.
-   * @deprecated Legacy mode profiles are no longer supported.
+   * @deprecated Legacy mode profiles are no longer supported. This will be removed in 2026-04.
    */
   legacyMode: Scalars['Boolean']['output'];
   /** The number of locations without rates defined. */
@@ -13603,6 +13954,8 @@ export type DeliveryProfile = Node & {
   unassignedLocations: Array<Location>;
   /** List of locations that have not been assigned to a location group for this profile. */
   unassignedLocationsPaginated: LocationConnection;
+  /** The version of the delivery profile. */
+  version: Scalars['Int']['output'];
   /** The number of countries with active rates to deliver to. */
   zoneCountryCount: Scalars['Int']['output'];
 };
@@ -13970,11 +14323,7 @@ export type DeliveryRateDefinitionInput = {
 /** A rate provided by a merchant-defined rate or a participant. */
 export type DeliveryRateProvider = DeliveryParticipant | DeliveryRateDefinition;
 
-/**
- * The `DeliverySetting` object enables you to manage shop-wide shipping settings.
- * You can enable legacy compatibility mode for the multi-location delivery profiles feature
- * if the legacy mode isn't blocked.
- */
+/** The `DeliverySetting` object enables you to manage shop-wide shipping settings. */
 export type DeliverySetting = {
   /** Whether the shop is blocked from converting to full multi-location delivery profiles mode. If the shop is blocked, then the blocking reasons are also returned. Note: this field is effectively deprecated and will be removed in a future version of the API. */
   legacyModeBlocked: DeliveryLegacyModeBlocked;
@@ -14272,6 +14621,8 @@ export type DiscountAutomaticApp = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith: DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  context: DiscountContext;
   /** The date and time when the discount was created. */
   createdAt: Scalars['DateTime']['output'];
   /**
@@ -14351,6 +14702,12 @@ export type DiscountAutomaticAppInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith?: InputMaybe<DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   * Discounts automatically apply on Point of Sale (POS) for Pro locations. For app discounts using Admin UI Extensions, merchants can control POS eligibility when the context is set to ALL.
+   */
+  context?: InputMaybe<DiscountContextInput>;
   /** Determines which discount effects the discount can apply. */
   discountClasses?: InputMaybe<Array<DiscountClass>>;
   /**
@@ -14358,13 +14715,8 @@ export type DiscountAutomaticAppInput = {
    * For discounts without a fixed expiration date, specify `null`.
    */
   endsAt?: InputMaybe<Scalars['DateTime']['input']>;
-  /**
-   * The
-   * [function ID](https://shopify.dev/docs/apps/build/functions/input-output/metafields-for-input-queries)
-   * associated with the app extension providing the
-   * [discount type](https://help.shopify.com/manual/discounts/discount-types).
-   */
-  functionId?: InputMaybe<Scalars['String']['input']>;
+  /** The handle of the function providing the discount. */
+  functionHandle?: InputMaybe<Scalars['String']['input']>;
   /**
    * Additional metafields to associate to the discount.
    * [Metafields](https://shopify.dev/docs/apps/build/custom-data)
@@ -14433,6 +14785,8 @@ export type DiscountAutomaticBasic = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith: DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  context: DiscountContext;
   /** The date and time when the discount was created. */
   createdAt: Scalars['DateTime']['output'];
   /** The items in the order that qualify for the discount, their quantities, and the total value of the discount. */
@@ -14515,6 +14869,12 @@ export type DiscountAutomaticBasicInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith?: InputMaybe<DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   * Discounts automatically apply on Point of Sale (POS) for Pro locations when the context is not set to ALL.
+   */
+  context?: InputMaybe<DiscountContextInput>;
   /** Information about the qualifying items and their discount. */
   customerGets?: InputMaybe<DiscountCustomerGetsInput>;
   /**
@@ -14592,6 +14952,8 @@ export type DiscountAutomaticBxgy = HasEvents & Node & {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith: DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  context: DiscountContext;
   /** The date and time when the discount was created. */
   createdAt: Scalars['DateTime']['output'];
   /** The items eligible for the discount and the required quantity of each to receive the discount. */
@@ -14703,6 +15065,12 @@ export type DiscountAutomaticBxgyInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith?: InputMaybe<DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   * Discounts automatically apply on Point of Sale (POS) for Pro locations when the context is not set to ALL.
+   */
+  context?: InputMaybe<DiscountContextInput>;
   /** The items eligible for the discount and the required quantity of each to receive the discount. */
   customerBuys?: InputMaybe<DiscountCustomerBuysInput>;
   /** The items in the order that qualify for the discount, their quantities, and the total value of the discount. */
@@ -14815,6 +15183,8 @@ export type DiscountAutomaticFreeShipping = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith: DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  context: DiscountContext;
   /** The date and time when the discount was created. */
   createdAt: Scalars['DateTime']['output'];
   /**
@@ -14915,6 +15285,12 @@ export type DiscountAutomaticFreeShippingInput = {
    * that you can use in combination with the shipping discount.
    */
   combinesWith?: InputMaybe<DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   * Discounts automatically apply on Point of Sale (POS) for Pro locations when the context is not set to ALL.
+   */
+  context?: InputMaybe<DiscountContextInput>;
   /** A list of destinations where the discount will apply. */
   destination?: InputMaybe<DiscountShippingDestinationSelectionInput>;
   /**
@@ -15061,6 +15437,23 @@ export type DiscountAutomaticNodeEdge = {
   node: DiscountAutomaticNode;
 };
 
+/** All buyers are eligible for the discount. */
+export type DiscountBuyerSelection =
+  /** All buyers are eligible for the discount. */
+  | 'ALL';
+
+/**
+ * Indicates that a discount applies to all buyers without restrictions, enabling universal promotions that reach every customer. This selection removes buyer-specific limitations from discount eligibility.
+ *
+ * For example, a flash sale or grand opening promotion would target all buyers to maximize participation and store visibility.
+ *
+ * Learn more about [discount targeting](https://shopify.dev/docs/api/admin-graphql/latest/objects/DiscountApplication).
+ */
+export type DiscountBuyerSelectionAll = {
+  /** All buyers are eligible for the discount. */
+  all: DiscountBuyerSelection;
+};
+
 /**
  * The [discount class](https://help.shopify.com/manual/discounts/combining-discounts/discount-combinations)
  * that's used to control how discounts can be combined.
@@ -15151,6 +15544,8 @@ export type DiscountCodeApp = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith: DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  context: DiscountContext;
   /** The date and time when the discount was created. */
   createdAt: Scalars['DateTime']['output'];
   /**
@@ -15211,8 +15606,8 @@ export type DiscountCodeApp = {
   /** The date and time when the discount was updated. */
   updatedAt: Scalars['DateTime']['output'];
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: Maybe<Scalars['Int']['output']>;
 };
@@ -15256,7 +15651,6 @@ export type DiscountCodeAppCreatePayload = {
 /**
  * The input fields for creating or updating a code discount, where the discount type is provided by an app extension that uses [Shopify Functions](https://shopify.dev/docs/apps/build/functions).
  *
- *
  * Use these input fields when you need advanced or custom discount capabilities that aren't supported by [Shopify's native discount types](https://help.shopify.com/manual/discounts/discount-types).
  */
 export type DiscountCodeAppInput = {
@@ -15275,6 +15669,11 @@ export type DiscountCodeAppInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith?: InputMaybe<DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   */
+  context?: InputMaybe<DiscountContextInput>;
   /** Determines which discount effects the discount can apply. */
   discountClasses?: InputMaybe<Array<DiscountClass>>;
   /**
@@ -15282,8 +15681,8 @@ export type DiscountCodeAppInput = {
    * For discounts without a fixed expiration date, specify `null`.
    */
   endsAt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** The [function ID](https://shopify.dev/docs/apps/build/functions/input-output/metafields-for-input-queries) associated with the app extension that's providing the [discount type](https://help.shopify.com/manual/discounts/discount-types). */
-  functionId?: InputMaybe<Scalars['String']['input']>;
+  /** The handle of the function providing the discount. */
+  functionHandle?: InputMaybe<Scalars['String']['input']>;
   /** Additional metafields to associate to the discount. [Metafields](https://shopify.dev/docs/apps/build/custom-data) provide dynamic function configuration with different parameters, such as `percentage` for a percentage discount. Merchants can set metafield values in the Shopify admin, which makes the discount function more flexible and customizable. */
   metafields?: InputMaybe<Array<MetafieldInput>>;
   /** The number of times a discount applies on recurring purchases (subscriptions).         0 will apply infinitely whereas 1 will only apply to the first checkout. */
@@ -15293,8 +15692,8 @@ export type DiscountCodeAppInput = {
   /** The discount's name that displays to merchants in the Shopify admin and to customers. */
   title?: InputMaybe<Scalars['String']['input']>;
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -15374,6 +15773,8 @@ export type DiscountCodeBasic = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith: DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  context: DiscountContext;
   /** The date and time when the discount was created. */
   createdAt: Scalars['DateTime']['output'];
   /** The items in the order that qualify for the discount, their quantities, and the total value of the discount. */
@@ -15439,8 +15840,8 @@ export type DiscountCodeBasic = {
   /** The date and time when the discount was updated. */
   updatedAt: Scalars['DateTime']['output'];
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: Maybe<Scalars['Int']['output']>;
 };
@@ -15506,6 +15907,11 @@ export type DiscountCodeBasicInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith?: InputMaybe<DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   */
+  context?: InputMaybe<DiscountContextInput>;
   /** The items in the order that qualify for the discount, their quantities, and the total value of the discount. */
   customerGets?: InputMaybe<DiscountCustomerGetsInput>;
   /**
@@ -15522,8 +15928,8 @@ export type DiscountCodeBasicInput = {
   /** The discount's name that displays to merchants in the Shopify admin and to customers. */
   title?: InputMaybe<Scalars['String']['input']>;
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -15604,6 +16010,8 @@ export type DiscountCodeBxgy = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith: DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  context: DiscountContext;
   /** The date and time when the discount was created. */
   createdAt: Scalars['DateTime']['output'];
   /** The items eligible for the discount and the required quantity of each to receive the discount. */
@@ -15656,8 +16064,8 @@ export type DiscountCodeBxgy = {
   /** The date and time when the discount was updated. */
   updatedAt: Scalars['DateTime']['output'];
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: Maybe<Scalars['Int']['output']>;
   /** The maximum number of times that the discount can be applied to an order. */
@@ -15729,6 +16137,11 @@ export type DiscountCodeBxgyInput = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith?: InputMaybe<DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   */
+  context?: InputMaybe<DiscountContextInput>;
   /** The items eligible for the discount and the required quantity of each to receive the discount. */
   customerBuys?: InputMaybe<DiscountCustomerBuysInput>;
   /** The items in the order that qualify for the discount, their quantities, and the total value of the discount. */
@@ -15743,8 +16156,8 @@ export type DiscountCodeBxgyInput = {
   /** The discount's name that displays to merchants in the Shopify admin and to customers. */
   title?: InputMaybe<Scalars['String']['input']>;
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: InputMaybe<Scalars['Int']['input']>;
   /** The maximum number of times that the discount can be applied to an order. */
@@ -15833,6 +16246,8 @@ export type DiscountCodeFreeShipping = {
    * [Shopify discount types](https://help.shopify.com/manual/discounts/discount-types).
    */
   combinesWith: DiscountCombinesWith;
+  /** The context defining which buyers can use the discount. */
+  context: DiscountContext;
   /** The date and time when the discount was created. */
   createdAt: Scalars['DateTime']['output'];
   /**
@@ -15906,8 +16321,8 @@ export type DiscountCodeFreeShipping = {
   /** The date and time when the discount was updated. */
   updatedAt: Scalars['DateTime']['output'];
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: Maybe<Scalars['Int']['output']>;
 };
@@ -15976,6 +16391,11 @@ export type DiscountCodeFreeShippingInput = {
    * that you can use in combination with the shipping discount.
    */
   combinesWith?: InputMaybe<DiscountCombinesWithInput>;
+  /**
+   * The context defining which buyers can use the discount.
+   * You can target specific customer IDs, customer segments, or make the discount available to all buyers.
+   */
+  context?: InputMaybe<DiscountContextInput>;
   /** The shipping destinations where the free shipping discount can be applied. You can specify whether the discount applies to all countries, or specify individual countries. */
   destination?: InputMaybe<DiscountShippingDestinationSelectionInput>;
   /**
@@ -16002,8 +16422,8 @@ export type DiscountCodeFreeShippingInput = {
   /** The discount's name that displays to merchants in the Shopify admin and to customers. */
   title?: InputMaybe<Scalars['String']['input']>;
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -16223,6 +16643,19 @@ export type DiscountCombinesWithInput = {
    * class.
    */
   shippingDiscounts?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** The type used to define which buyers can use the discount. */
+export type DiscountContext = DiscountBuyerSelectionAll | DiscountCustomerSegments | DiscountCustomers;
+
+/** The input fields for the buyers who can use this discount. */
+export type DiscountContextInput = {
+  /** All buyers are eligible for this discount. */
+  all?: InputMaybe<DiscountBuyerSelection>;
+  /** The list of customer segment IDs to add or remove from the list of customer segments. */
+  customerSegments?: InputMaybe<DiscountCustomerSegmentsInput>;
+  /** The list of customer IDs to add or remove from the list of customers. */
+  customers?: InputMaybe<DiscountCustomersInput>;
 };
 
 /**
@@ -16479,6 +16912,10 @@ export type DiscountErrorCode =
   | 'MINIMUM_SUBTOTAL_AND_QUANTITY_RANGE_BOTH_PRESENT'
   /** Missing a required argument. */
   | 'MISSING_ARGUMENT'
+  /** Either function ID or function handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function ID or function handle is allowed. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS'
   /** Recurring cycle limit must be 1 when discount does not apply to subscription items. */
   | 'MULTIPLE_RECURRING_CYCLE_LIMIT_FOR_NON_SUBSCRIPTION_ITEMS'
   /** The input value needs to be blank. */
@@ -17764,7 +18201,11 @@ export type DraftOrderInvoiceSendPayload = {
   userErrors: Array<UserError>;
 };
 
-/** The line item for a draft order. */
+/**
+ * A line item in a draft order. Line items are either [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects or custom items created manually with specific pricing and attributes.
+ *
+ * Each line item includes [quantity](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrderLineItem#field-DraftOrderLineItem.fields.quantity), [pricing](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrderLineItem#field-DraftOrderLineItem.fields.originalUnitPrice), [discounts](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrderLineItem#field-DraftOrderLineItem.fields.discountedTotal), [tax information](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrderLineItem#field-DraftOrderLineItem.fields.taxLines), and [custom attributes](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrderLineItem#field-DraftOrderLineItem.fields.customAttributes). For [bundle products](https://shopify.dev/docs/apps/build/products/bundles), the line item includes components that define the individual products within the bundle.
+ */
 export type DraftOrderLineItem = Node & {
   /** The custom applied discount. */
   appliedDiscount?: Maybe<DraftOrderAppliedDiscount>;
@@ -19075,11 +19516,11 @@ export type FlowTriggerReceivePayload = {
 };
 
 /**
- * Represents a fulfillment.
- * In Shopify, a fulfillment represents a shipment of one or more items in an order.
- * When an order has been completely fulfilled, it means that all the items that are included
- * in the order have been sent to the customer.
- * There can be more than one fulfillment for an order.
+ * A shipment of one or more items from an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). Tracks which [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects ship, their quantities, and the shipment's tracking information.
+ *
+ * Includes tracking details such as the carrier, tracking numbers, and URLs. The fulfillment connects to both the original order and any associated [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) objects. [`FulfillmentEvent`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentEvent) objects record milestones throughout the shipment lifecycle, from creation through delivery.
+ *
+ * Multiple fulfillments can exist for a single order when items either ship separately or from different locations.
  */
 export type Fulfillment = LegacyInteroperability & Node & {
   /** The date and time when the fulfillment was created. */
@@ -19129,11 +19570,11 @@ export type Fulfillment = LegacyInteroperability & Node & {
 
 
 /**
- * Represents a fulfillment.
- * In Shopify, a fulfillment represents a shipment of one or more items in an order.
- * When an order has been completely fulfilled, it means that all the items that are included
- * in the order have been sent to the customer.
- * There can be more than one fulfillment for an order.
+ * A shipment of one or more items from an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). Tracks which [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects ship, their quantities, and the shipment's tracking information.
+ *
+ * Includes tracking details such as the carrier, tracking numbers, and URLs. The fulfillment connects to both the original order and any associated [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) objects. [`FulfillmentEvent`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentEvent) objects record milestones throughout the shipment lifecycle, from creation through delivery.
+ *
+ * Multiple fulfillments can exist for a single order when items either ship separately or from different locations.
  */
 export type FulfillmentEventsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -19146,11 +19587,11 @@ export type FulfillmentEventsArgs = {
 
 
 /**
- * Represents a fulfillment.
- * In Shopify, a fulfillment represents a shipment of one or more items in an order.
- * When an order has been completely fulfilled, it means that all the items that are included
- * in the order have been sent to the customer.
- * There can be more than one fulfillment for an order.
+ * A shipment of one or more items from an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). Tracks which [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects ship, their quantities, and the shipment's tracking information.
+ *
+ * Includes tracking details such as the carrier, tracking numbers, and URLs. The fulfillment connects to both the original order and any associated [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) objects. [`FulfillmentEvent`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentEvent) objects record milestones throughout the shipment lifecycle, from creation through delivery.
+ *
+ * Multiple fulfillments can exist for a single order when items either ship separately or from different locations.
  */
 export type FulfillmentFulfillmentLineItemsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -19162,11 +19603,11 @@ export type FulfillmentFulfillmentLineItemsArgs = {
 
 
 /**
- * Represents a fulfillment.
- * In Shopify, a fulfillment represents a shipment of one or more items in an order.
- * When an order has been completely fulfilled, it means that all the items that are included
- * in the order have been sent to the customer.
- * There can be more than one fulfillment for an order.
+ * A shipment of one or more items from an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). Tracks which [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects ship, their quantities, and the shipment's tracking information.
+ *
+ * Includes tracking details such as the carrier, tracking numbers, and URLs. The fulfillment connects to both the original order and any associated [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) objects. [`FulfillmentEvent`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentEvent) objects record milestones throughout the shipment lifecycle, from creation through delivery.
+ *
+ * Multiple fulfillments can exist for a single order when items either ship separately or from different locations.
  */
 export type FulfillmentFulfillmentOrdersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -19178,11 +19619,11 @@ export type FulfillmentFulfillmentOrdersArgs = {
 
 
 /**
- * Represents a fulfillment.
- * In Shopify, a fulfillment represents a shipment of one or more items in an order.
- * When an order has been completely fulfilled, it means that all the items that are included
- * in the order have been sent to the customer.
- * There can be more than one fulfillment for an order.
+ * A shipment of one or more items from an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). Tracks which [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects ship, their quantities, and the shipment's tracking information.
+ *
+ * Includes tracking details such as the carrier, tracking numbers, and URLs. The fulfillment connects to both the original order and any associated [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) objects. [`FulfillmentEvent`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentEvent) objects record milestones throughout the shipment lifecycle, from creation through delivery.
+ *
+ * Multiple fulfillments can exist for a single order when items either ship separately or from different locations.
  */
 export type FulfillmentTrackingInfoArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -19279,7 +19720,11 @@ export type FulfillmentConstraintRuleCreateUserErrorCode =
   /** Failed to create fulfillment constraint rule due to invalid input. */
   | 'INPUT_INVALID'
   /** Maximum number of fulfillment constraint rules reached. Limit is 10. */
-  | 'MAXIMUM_FULFILLMENT_CONSTRAINT_RULES_REACHED';
+  | 'MAXIMUM_FULFILLMENT_CONSTRAINT_RULES_REACHED'
+  /** Either function_id or function_handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function_id or function_handle can be provided, not both. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS';
 
 /** Return type for `fulfillmentConstraintRuleDelete` mutation. */
 export type FulfillmentConstraintRuleDeletePayload = {
@@ -19353,6 +19798,8 @@ export type FulfillmentDisplayStatus =
   | 'ATTEMPTED_DELIVERY'
   /** Displayed as **Canceled**. */
   | 'CANCELED'
+  /** Displayed as **Picked up by carrier**. */
+  | 'CARRIER_PICKED_UP'
   /** Displayed as **Confirmed**. */
   | 'CONFIRMED'
   /** Displayed as **Delayed**. */
@@ -19392,7 +19839,11 @@ export type FulfillmentEdge = {
   node: Fulfillment;
 };
 
-/** The fulfillment event that describes the fulfilllment status at a particular time. */
+/**
+ * A tracking event that records the status and location of a fulfillment at a specific point in time. Each event captures details such as the [status](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentEvent#field-FulfillmentEvent.fields.status) (for example, in transit, out for delivery, delivered) and any [messages](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentEvent#field-FulfillmentEvent.fields.message) associated with the event.
+ *
+ * Fulfillment events provide a chronological history of a package's journey from shipment to delivery. They include timestamps, geographic coordinates, and estimated delivery dates to track fulfillment progress.
+ */
 export type FulfillmentEvent = Node & {
   /** The street address where this fulfillment event occurred. */
   address1?: Maybe<Scalars['String']['output']>;
@@ -19487,6 +19938,8 @@ export type FulfillmentEventSortKeys =
 export type FulfillmentEventStatus =
   /** A delivery was attempted. */
   | 'ATTEMPTED_DELIVERY'
+  /** The fulfillment has been picked up by the carrier. */
+  | 'CARRIER_PICKED_UP'
   /** The fulfillment is confirmed. This is the default value when no other information is available. */
   | 'CONFIRMED'
   /** The fulfillment is delayed. */
@@ -19569,7 +20022,11 @@ export type FulfillmentInput = {
   trackingInfo?: InputMaybe<FulfillmentTrackingInput>;
 };
 
-/** Represents a line item from an order that's included in a fulfillment. */
+/**
+ * A line item from an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) that's included in a [`Fulfillment`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Fulfillment). Links the fulfillment to specific items from the original order, tracking how many units were fulfilled.
+ *
+ * > Note: The discounted total excludes order-level discounts, showing only line-item specific discount amounts.
+ */
 export type FulfillmentLineItem = Node & {
   /**
    * The total price after discounts are applied.
@@ -20984,7 +21441,11 @@ export type FulfillmentOrderInternationalDuties = {
   incoterm: Scalars['String']['output'];
 };
 
-/** Associates an order line item with quantities requiring fulfillment from the respective fulfillment order. */
+/**
+ * Associates an order line item with the quantities that require fulfillment as part of a fulfillment order. Each Fulfillment Order Line Item object tracks the total quantity to fulfill and the remaining quantity yet to be fulfilled, along with details about the line item being fulfilled and pricing information.
+ *
+ * The line item provides additional fulfillment data including whether the item requires shipping. Financial summaries show pricing details with discounts applied, while warning messages alert merchants to any issues that might affect fulfillment.
+ */
 export type FulfillmentOrderLineItem = Node & {
   /** The financial summary for the Fulfillment Order's Line Items. */
   financialSummaries: Array<FulfillmentOrderLineItemFinancialSummary>;
@@ -21076,6 +21537,7 @@ export type FulfillmentOrderLineItemsInput = {
   /**
    * The fulfillment order line items to be fulfilled.
    * If left blank, all line items of the fulfillment order will be fulfilled.
+   * Accepts a maximum of 512 line items.
    */
   fulfillmentOrderLineItems?: InputMaybe<Array<FulfillmentOrderLineItemInput>>;
 };
@@ -21537,6 +21999,45 @@ export type FulfillmentOrderSupportedAction = {
   externalUrl?: Maybe<Scalars['URL']['output']>;
 };
 
+/** Return type for `fulfillmentOrdersReroute` mutation. */
+export type FulfillmentOrdersReroutePayload = {
+  /** The fulfillment orders which contains the moved line items. */
+  movedFulfillmentOrders?: Maybe<Array<FulfillmentOrder>>;
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<FulfillmentOrdersRerouteUserError>;
+};
+
+/** An error that occurs during the execution of `FulfillmentOrdersReroute`. */
+export type FulfillmentOrdersRerouteUserError = DisplayableError & {
+  /** The error code. */
+  code?: Maybe<FulfillmentOrdersRerouteUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  field?: Maybe<Array<Scalars['String']['output']>>;
+  /** The error message. */
+  message: Scalars['String']['output'];
+};
+
+/** Possible error codes that can be returned by `FulfillmentOrdersRerouteUserError`. */
+export type FulfillmentOrdersRerouteUserErrorCode =
+  /** Cannot move a fulfillment order that has progress reported. */
+  | 'CANNOT_MOVE_FULFILLMENT_ORDER_WITH_REPORTED_PROGRESS'
+  /** Cannot reassign location for fulfillment orders. */
+  | 'CANNOT_REASSIGN_LOCATION_FOR_FULFILLMENT_ORDERS'
+  /** The delivery method type is not supported. */
+  | 'DELIVERY_METHOD_TYPE_NOT_SUPPORTED'
+  /** Fulfillment orders must belong to the same location. */
+  | 'FULFILLMENT_ORDERS_MUST_BELONG_TO_SAME_LOCATION'
+  /** Fulfillment orders are not from the same order. */
+  | 'FULFILLMENT_ORDERS_NOT_FROM_THE_SAME_ORDER'
+  /** All fulfillment orders must have status and request status compatible with reroutable states. */
+  | 'FULFILLMENT_ORDERS_STATE_NOT_SUPPORTED'
+  /** Fulfillment order could not be found. */
+  | 'FULFILLMENT_ORDER_NOT_FOUND'
+  /** No fulfillment order IDs were provided. */
+  | 'NO_FULFILLMENT_ORDER_IDS'
+  /** This feature is only supported for multi-location shops. */
+  | 'SINGLE_LOCATION_SHOP_NOT_SUPPORTED';
+
 /** Return type for `fulfillmentOrdersSetFulfillmentDeadline` mutation. */
 export type FulfillmentOrdersSetFulfillmentDeadlinePayload = {
   /** Whether the fulfillment deadline was successfully set. */
@@ -21689,6 +22190,7 @@ export type FulfillmentService = {
    * Whether the fulfillment service can stock inventory alongside other locations.
    * @deprecated Fulfillment services are all migrating to permit SKU sharing.
    * Setting permits SKU sharing to false [is no longer supported](https://shopify.dev/changelog/setting-permitsskusharing-argument-to-false-when-creating-a-fulfillment-service-returns-an-error).
+   * As of API version `2026-04` this field will be removed.
    *
    */
   permitsSkuSharing: Scalars['Boolean']['output'];
@@ -22836,7 +23338,7 @@ export type HasStoreCreditAccountsStoreCreditAccountsArgs = {
 };
 
 /** Represents an image resource. */
-export type Image = HasMetafields & {
+export type Image = HasMetafields & HasPublishedTranslations & {
   /** A word or phrase to share the nature or contents of an image. */
   altText?: Maybe<Scalars['String']['output']>;
   /** The original height of the image in pixels. Returns `null` if the image isn't hosted by Shopify. */
@@ -22880,6 +23382,8 @@ export type Image = HasMetafields & {
    * @deprecated Use `url(transform:)` instead
    */
   transformedSrc: Scalars['URL']['output'];
+  /** The published translations associated with the resource. */
+  translations: Array<Translation>;
   /**
    * The location of the image as a URL.
    *
@@ -22921,6 +23425,13 @@ export type ImageTransformedSrcArgs = {
   maxWidth?: InputMaybe<Scalars['Int']['input']>;
   preferredContentType?: InputMaybe<ImageContentType>;
   scale?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Represents an image resource. */
+export type ImageTranslationsArgs = {
+  locale: Scalars['String']['input'];
+  marketId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
@@ -23099,6 +23610,12 @@ export type InventoryAdjustQuantitiesUserError = DisplayableError & {
 export type InventoryAdjustQuantitiesUserErrorCode =
   /** The quantities couldn't be adjusted. Try again. */
   | 'ADJUST_QUANTITIES_FAILED'
+  /** The changeFromQuantity argument no longer matches the persisted quantity. */
+  | 'CHANGE_FROM_QUANTITY_STALE'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** Internal (gid://shopify/) ledger documents are not allowed to be adjusted via API. */
   | 'INTERNAL_LEDGER_DOCUMENT'
   /** A ledger document URI is not allowed when adjusting available. */
@@ -23126,9 +23643,15 @@ export type InventoryAdjustQuantitiesUserErrorCode =
   /** All changes must have the same ledger document URI or, in the case of adjusting available, no ledger document URI. */
   | 'MAX_ONE_LEDGER_DOCUMENT'
   /** The specified inventory item is not allowed to be adjusted via API. Example: if the inventory item is a parent bundle. */
-  | 'NON_MUTABLE_INVENTORY_ITEM';
+  | 'NON_MUTABLE_INVENTORY_ITEM'
+  /** The service is temporarily unavailable. Try again later. */
+  | 'SERVICE_UNAVAILABLE';
 
-/** Represents a group of adjustments made as part of the same operation. */
+/**
+ * Records a batch of inventory changes made together in a single operation. Tracks which [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) or [`StaffMember`](https://shopify.dev/docs/api/admin-graphql/latest/objects/StaffMember) initiated the changes, when they occurred, and why they were made.
+ *
+ * Provides an audit trail through its reason and reference document URI. The reference document URI links to the source that triggered the adjustment, such as an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order), [`InventoryTransfer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransfer), or external system event. Use the [`changes`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryAdjustmentGroup#field-InventoryAdjustmentGroup.fields.changes) field to retrieve the specific quantity adjustments for each inventory state at affected [locations](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location).
+ */
 export type InventoryAdjustmentGroup = Node & {
   /** The app that triggered the inventory event, if one exists. */
   app?: Maybe<App>;
@@ -23152,11 +23675,25 @@ export type InventoryAdjustmentGroup = Node & {
 };
 
 
-/** Represents a group of adjustments made as part of the same operation. */
+/**
+ * Records a batch of inventory changes made together in a single operation. Tracks which [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) or [`StaffMember`](https://shopify.dev/docs/api/admin-graphql/latest/objects/StaffMember) initiated the changes, when they occurred, and why they were made.
+ *
+ * Provides an audit trail through its reason and reference document URI. The reference document URI links to the source that triggered the adjustment, such as an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order), [`InventoryTransfer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransfer), or external system event. Use the [`changes`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryAdjustmentGroup#field-InventoryAdjustmentGroup.fields.changes) field to retrieve the specific quantity adjustments for each inventory state at affected [locations](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location).
+ */
 export type InventoryAdjustmentGroupChangesArgs = {
   inventoryItemIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   locationIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   quantityNames?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+/** The input fields required to adjust the available quantity of a product variant at a location. */
+export type InventoryAdjustmentInput = {
+  /** The adjustment of the available quantity at the location. If the value is `null`, then the product variant is no longer stocked at the location. */
+  adjustment?: InputMaybe<Scalars['Int']['input']>;
+  /** The quantity to compare against before applying the delta. */
+  changeFromQuantity?: InputMaybe<Scalars['Int']['input']>;
+  /** The ID of the location where the available quantity should be adjusted. */
+  locationId: Scalars['ID']['input'];
 };
 
 /** The input fields to specify whether the inventory item should be activated or not at the specified location. */
@@ -23243,6 +23780,16 @@ export type InventoryChange = {
 
 /** The input fields for the change to be made to an inventory item at a location. */
 export type InventoryChangeInput = {
+  /**
+   * The quantity currently expected at this location, before the delta is applied.
+   *
+   * This field enables a compare-and-swap (CAS) safety check. If the location’s current quantity doesn't equal the value you provide, then the mutation fails with a `CHANGE_FROM_QUANTITY_STALE` error. This prevents accidental overwrites when the client is operating on stale inventory data.
+   *
+   * To skip the CAS check, pass `null`. This is appropriate when your system is the source of truth for inventory at this location and you don’t need protection against concurrent updates.
+   *
+   * For more information, refer to the [compare and swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap).
+   */
+  changeFromQuantity?: InputMaybe<Scalars['Int']['input']>;
   /** The amount by which the inventory quantity will be changed. */
   delta: Scalars['Int']['input'];
   /** Specifies the inventory item to which the change will be applied. */
@@ -23272,9 +23819,9 @@ export type InventoryDeactivatePayload = {
 };
 
 /**
- * Represents the goods available to be shipped to a customer.
- * It holds essential information about the goods, including SKU and whether it is tracked.
- * Learn [more about the relationships between inventory objects](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
+ * A [product variant's](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) inventory information across all locations. The inventory item connects the product variant to its [inventory levels](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel) at different locations, tracking stock keeping unit (SKU), whether quantities are tracked, shipping requirements, and customs information for the product.
+ *
+ * Learn more about [inventory object relationships](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
  */
 export type InventoryItem = LegacyInteroperability & Node & {
   /** The ISO 3166-1 alpha-2 country code of where the item originated from. */
@@ -23315,15 +23862,20 @@ export type InventoryItem = LegacyInteroperability & Node & {
   unitCost?: Maybe<MoneyV2>;
   /** The date and time when the inventory item was updated. */
   updatedAt: Scalars['DateTime']['output'];
-  /** The variant that owns this inventory item. */
+  /**
+   * The variant that owns this inventory item.
+   * @deprecated Use `variants` instead.
+   */
   variant: ProductVariant;
+  /** A paginated list of the variants that reference this inventory item. */
+  variants?: Maybe<ProductVariantConnection>;
 };
 
 
 /**
- * Represents the goods available to be shipped to a customer.
- * It holds essential information about the goods, including SKU and whether it is tracked.
- * Learn [more about the relationships between inventory objects](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
+ * A [product variant's](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) inventory information across all locations. The inventory item connects the product variant to its [inventory levels](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel) at different locations, tracking stock keeping unit (SKU), whether quantities are tracked, shipping requirements, and customs information for the product.
+ *
+ * Learn more about [inventory object relationships](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
  */
 export type InventoryItemCountryHarmonizedSystemCodesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -23335,9 +23887,9 @@ export type InventoryItemCountryHarmonizedSystemCodesArgs = {
 
 
 /**
- * Represents the goods available to be shipped to a customer.
- * It holds essential information about the goods, including SKU and whether it is tracked.
- * Learn [more about the relationships between inventory objects](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
+ * A [product variant's](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) inventory information across all locations. The inventory item connects the product variant to its [inventory levels](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel) at different locations, tracking stock keeping unit (SKU), whether quantities are tracked, shipping requirements, and customs information for the product.
+ *
+ * Learn more about [inventory object relationships](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
  */
 export type InventoryItemInventoryLevelArgs = {
   locationId: Scalars['ID']['input'];
@@ -23345,9 +23897,9 @@ export type InventoryItemInventoryLevelArgs = {
 
 
 /**
- * Represents the goods available to be shipped to a customer.
- * It holds essential information about the goods, including SKU and whether it is tracked.
- * Learn [more about the relationships between inventory objects](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
+ * A [product variant's](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) inventory information across all locations. The inventory item connects the product variant to its [inventory levels](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel) at different locations, tracking stock keeping unit (SKU), whether quantities are tracked, shipping requirements, and customs information for the product.
+ *
+ * Learn more about [inventory object relationships](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
  */
 export type InventoryItemInventoryLevelsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -23356,6 +23908,19 @@ export type InventoryItemInventoryLevelsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   query?: InputMaybe<Scalars['String']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+/**
+ * A [product variant's](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) inventory information across all locations. The inventory item connects the product variant to its [inventory levels](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel) at different locations, tracking stock keeping unit (SKU), whether quantities are tracked, shipping requirements, and customs information for the product.
+ *
+ * Learn more about [inventory object relationships](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
+ */
+export type InventoryItemVariantsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** An auto-generated type for paginating through multiple InventoryItems. */
@@ -23408,6 +23973,8 @@ export type InventoryItemMeasurement = Node & {
 
 /** The input fields for an inventory item measurement. */
 export type InventoryItemMeasurementInput = {
+  /** Shipping package associated with inventory item. */
+  shippingPackageId?: InputMaybe<Scalars['ID']['input']>;
   /** The weight of the inventory item. */
   weight?: InputMaybe<WeightInput>;
 };
@@ -23421,8 +23988,9 @@ export type InventoryItemUpdatePayload = {
 };
 
 /**
- * The quantities of an inventory item that are related to a specific location.
- * Learn [more about the relationships between inventory objects](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
+ * The quantities of an inventory item at a specific location. Each inventory level connects one [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) to one [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location), tracking multiple quantity states like available, on-hand, incoming, and committed.
+ *
+ * The [`quantities`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel#field-InventoryLevel.fields.quantities) field provides access to different inventory states. Learn [more about inventory states and relationships](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
  */
 export type InventoryLevel = Node & {
   /** Whether the inventory items associated with the inventory level can be deactivated. */
@@ -23442,7 +24010,10 @@ export type InventoryLevel = Node & {
    * [name](https://shopify.dev/docs/apps/fulfillment/inventory-management-apps#inventory-states).
    */
   quantities: Array<InventoryQuantity>;
-  /** Scheduled changes for the requested quantity names. */
+  /**
+   * Scheduled changes for the requested quantity names.
+   * @deprecated Scheduled changes will be phased out in a future version.
+   */
   scheduledChanges: InventoryScheduledChangeConnection;
   /** The date and time when the inventory level was updated. */
   updatedAt: Scalars['DateTime']['output'];
@@ -23450,8 +24021,9 @@ export type InventoryLevel = Node & {
 
 
 /**
- * The quantities of an inventory item that are related to a specific location.
- * Learn [more about the relationships between inventory objects](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
+ * The quantities of an inventory item at a specific location. Each inventory level connects one [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) to one [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location), tracking multiple quantity states like available, on-hand, incoming, and committed.
+ *
+ * The [`quantities`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel#field-InventoryLevel.fields.quantities) field provides access to different inventory states. Learn [more about inventory states and relationships](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
  */
 export type InventoryLevelQuantitiesArgs = {
   names: Array<Scalars['String']['input']>;
@@ -23459,8 +24031,9 @@ export type InventoryLevelQuantitiesArgs = {
 
 
 /**
- * The quantities of an inventory item that are related to a specific location.
- * Learn [more about the relationships between inventory objects](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
+ * The quantities of an inventory item at a specific location. Each inventory level connects one [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) to one [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location), tracking multiple quantity states like available, on-hand, incoming, and committed.
+ *
+ * The [`quantities`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel#field-InventoryLevel.fields.quantities) field provides access to different inventory states. Learn [more about inventory states and relationships](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
  */
 export type InventoryLevelScheduledChangesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -23548,8 +24121,14 @@ export type InventoryMoveQuantitiesUserError = DisplayableError & {
 
 /** Possible error codes that can be returned by `InventoryMoveQuantitiesUserError`. */
 export type InventoryMoveQuantitiesUserErrorCode =
+  /** The changeFromQuantity argument no longer matches the persisted quantity. */
+  | 'CHANGE_FROM_QUANTITY_STALE'
   /** The quantities can't be moved between different locations. */
   | 'DIFFERENT_LOCATIONS'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** Internal (gid://shopify/) ledger documents are not allowed to be adjusted via API. */
   | 'INTERNAL_LEDGER_DOCUMENT'
   /** A ledger document URI is not allowed when adjusting available. */
@@ -23581,7 +24160,9 @@ export type InventoryMoveQuantitiesUserErrorCode =
   /** The specified inventory item is not allowed to be adjusted via API. Example: if the inventory item is a parent bundle. */
   | 'NON_MUTABLE_INVENTORY_ITEM'
   /** The quantity names for each change can't be the same. */
-  | 'SAME_QUANTITY_NAME';
+  | 'SAME_QUANTITY_NAME'
+  /** The service is temporarily unavailable. Try again later. */
+  | 'SERVICE_UNAVAILABLE';
 
 /**
  * Represents the change to be made to an inventory item at a location.
@@ -23601,6 +24182,16 @@ export type InventoryMoveQuantityChange = {
 
 /** The input fields representing the change to be made to an inventory item at a location. */
 export type InventoryMoveQuantityTerminalInput = {
+  /**
+   * The quantity currently expected at this location, before the move is applied.
+   *
+   * This field enables a compare-and-swap (CAS) safety check. If the location’s current quantity doesn't match the value you provide, then the mutation fails with a `CHANGE_FROM_QUANTITY_STALE` error. This helps prevent unintended overwrites when the request is based on stale inventory data.
+   *
+   * To skip the CAS check, pass `null`. This is appropriate when your system is the source of truth for inventory at this location and you don’t need to guard against concurrent updates.
+   *
+   * For more information, refer to the [compare and swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap).
+   */
+  changeFromQuantity?: InputMaybe<Scalars['Int']['input']>;
   /**
    * A non-Shopify URI that identifies what specific inventory transaction or ledger entry was changed. Represents the exact inventory movement being referenced, distinct from the business reason for the change.
    *
@@ -23659,6 +24250,16 @@ export type InventoryQuantity = Node & {
 
 /** The input fields for the quantity to be set for an inventory item at a location. */
 export type InventoryQuantityInput = {
+  /**
+   * The quantity currently expected at this location, before setting the new quantity.
+   *
+   * This field enables a compare-and-swap (CAS) safety check. If the location’s current quantity doesn't match the value you provide, then the mutation fails with a `CHANGE_FROM_QUANTITY_STALE` error. This helps prevent unintended overwrites when the request is based on stale inventory data.
+   *
+   * To skip the CAS check, pass `null`. This is appropriate when your system is the source of truth for inventory at this location and you don’t need to guard against concurrent updates.
+   *
+   * For more information, refer to the [compare and swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap).
+   */
+  changeFromQuantity?: InputMaybe<Scalars['Int']['input']>;
   /** Specifies the inventory item to which the quantity will be set. */
   inventoryItemId: Scalars['ID']['input'];
   /** Specifies the location at which the quantity will be set. */
@@ -23819,8 +24420,14 @@ export type InventorySetOnHandQuantitiesUserError = DisplayableError & {
 
 /** Possible error codes that can be returned by `InventorySetOnHandQuantitiesUserError`. */
 export type InventorySetOnHandQuantitiesUserErrorCode =
+  /** The changeFromQuantity argument no longer matches the persisted quantity. */
+  | 'CHANGE_FROM_QUANTITY_STALE'
   /** The compareQuantity value does not match persisted value. */
   | 'COMPARE_QUANTITY_STALE'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The specified inventory item could not be found. */
   | 'INVALID_INVENTORY_ITEM'
   /** The specified location could not be found. */
@@ -23837,6 +24444,8 @@ export type InventorySetOnHandQuantitiesUserErrorCode =
   | 'ITEM_NOT_STOCKED_AT_LOCATION'
   /** The specified inventory item is not allowed to be adjusted via API. Example: if the inventory item is a parent bundle. */
   | 'NON_MUTABLE_INVENTORY_ITEM'
+  /** The service is temporarily unavailable. Try again later. */
+  | 'SERVICE_UNAVAILABLE'
   /** The on-hand quantities couldn't be set. Try again. */
   | 'SET_ON_HAND_QUANTITIES_FAILED';
 
@@ -23892,10 +24501,16 @@ export type InventorySetQuantitiesUserError = DisplayableError & {
 
 /** Possible error codes that can be returned by `InventorySetQuantitiesUserError`. */
 export type InventorySetQuantitiesUserErrorCode =
+  /** The changeFromQuantity value does not match persisted value. */
+  | 'CHANGE_FROM_QUANTITY_STALE'
   /** The compareQuantity argument must be given to each quantity or ignored using ignoreCompareQuantity. */
   | 'COMPARE_QUANTITY_REQUIRED'
   /** The compareQuantity value does not match persisted value. */
   | 'COMPARE_QUANTITY_STALE'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The specified inventory item could not be found. */
   | 'INVALID_INVENTORY_ITEM'
   /** The specified location could not be found. */
@@ -23921,6 +24536,8 @@ export type InventorySetQuantitiesUserErrorCode =
 
 /** The input fields for the quantity to be set for an inventory item at a location. */
 export type InventorySetQuantityInput = {
+  /** The current quantity to be compared against the persisted quantity. For more information, refer to the [Compare and Swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap). */
+  changeFromQuantity?: InputMaybe<Scalars['Int']['input']>;
   /** Specifies the inventory item to which the quantity will be set. */
   inventoryItemId: Scalars['ID']['input'];
   /** Specifies the location at which the quantity will be set. */
@@ -23982,6 +24599,10 @@ export type InventorySetScheduledChangesUserErrorCode =
   | 'DUPLICATE_TO_NAME'
   /** There was an error updating the scheduled changes. */
   | 'ERROR_UPDATING_SCHEDULED'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The specified field is invalid. */
   | 'INCLUSION'
   /** The specified fromName is invalid. */
@@ -24005,6 +24626,12 @@ export type InventorySetScheduledChangesUserErrorCode =
 
 /** Represents an inventory shipment. */
 export type InventoryShipment = Node & {
+  /** The date the shipment was created in UTC. */
+  dateCreated?: Maybe<Scalars['DateTime']['output']>;
+  /** The date the shipment was initially received in UTC. */
+  dateReceived?: Maybe<Scalars['DateTime']['output']>;
+  /** The date the shipment was shipped in UTC. */
+  dateShipped?: Maybe<Scalars['DateTime']['output']>;
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
   /** The total quantity of all items in the shipment. */
@@ -24068,12 +24695,20 @@ export type InventoryShipmentAddItemsUserError = DisplayableError & {
 
 /** Possible error codes that can be returned by `InventoryShipmentAddItemsUserError`. */
 export type InventoryShipmentAddItemsUserErrorCode =
+  /** Failed to activate inventory at location. */
+  | 'ACTIVATION_FAILED'
   /** A single item can't be listed twice. */
   | 'DUPLICATE_ITEM'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The quantity is invalid. */
   | 'INVALID_QUANTITY'
   /** Current shipment status does not support this operation. */
   | 'INVALID_SHIPMENT_STATUS'
+  /** The item is not stocked at the intended location. */
+  | 'INVENTORY_STATE_NOT_ACTIVE'
   /** The item was not found. */
   | 'ITEM_NOT_FOUND'
   /** The location selected is not active. */
@@ -24119,6 +24754,10 @@ export type InventoryShipmentCreateInTransitUserErrorCode =
   | 'DUPLICATE_ITEM'
   /** The shipment input cannot be empty. */
   | 'EMPTY_SHIPMENT_INPUT'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** One or more items are not valid. */
   | 'INVALID_ITEM'
   /** The quantity is invalid. */
@@ -24137,6 +24776,8 @@ export type InventoryShipmentCreateInTransitUserErrorCode =
   | 'ITEM_NOT_FOUND'
   /** The location selected is not active. */
   | 'LOCATION_NOT_ACTIVE'
+  /** The shipment was not found. */
+  | 'SHIPMENT_NOT_FOUND'
   /** The transfer was not found. */
   | 'TRANSFER_NOT_FOUND'
   /** The item does not track inventory. */
@@ -24144,6 +24785,8 @@ export type InventoryShipmentCreateInTransitUserErrorCode =
 
 /** The input fields to add a shipment. */
 export type InventoryShipmentCreateInput = {
+  /** The date the shipment was created. */
+  dateCreated?: InputMaybe<Scalars['DateTime']['input']>;
   /** The list of line items for the inventory shipment. */
   lineItems: Array<InventoryShipmentLineItemInput>;
   /** The ID of the inventory movement (transfer or purchase order) this shipment belongs to. */
@@ -24172,12 +24815,22 @@ export type InventoryShipmentCreateUserError = DisplayableError & {
 
 /** Possible error codes that can be returned by `InventoryShipmentCreateUserError`. */
 export type InventoryShipmentCreateUserErrorCode =
+  /** This barcode is already assigned to another shipment. */
+  | 'BARCODE_DUPLICATE'
+  /** Barcode must be 255 characters or less. */
+  | 'BARCODE_TOO_LONG'
   /** Bundled items cannot be used for this operation. */
   | 'BUNDLED_ITEM'
   /** A single item can't be listed twice. */
   | 'DUPLICATE_ITEM'
   /** The shipment input cannot be empty. */
   | 'EMPTY_SHIPMENT_INPUT'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
+  /** The idempotency record was found but the associated scheduled changes no longer exist. */
+  | 'IDEMPOTENCY_RECORD_NOT_FOUND'
   /** One or more items are not valid. */
   | 'INVALID_ITEM'
   /** The quantity is invalid. */
@@ -24348,6 +25001,10 @@ export type InventoryShipmentReceiveUserError = DisplayableError & {
 
 /** Possible error codes that can be returned by `InventoryShipmentReceiveUserError`. */
 export type InventoryShipmentReceiveUserErrorCode =
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** Unexpected internal error happened. */
   | 'INTERNAL_ERROR'
   /** The quantity is invalid. */
@@ -24521,7 +25178,11 @@ export type InventoryShipmentUpdateItemQuantitiesUserErrorCode =
   /** The shipment was not found. */
   | 'SHIPMENT_NOT_FOUND';
 
-/** Represents the intention to move inventory between locations. */
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
 export type InventoryTransfer = CommentEventSubject & HasEvents & HasMetafieldDefinitions & HasMetafields & Node & {
   /** The date and time the inventory transfer was created in UTC format. */
   dateCreated?: Maybe<Scalars['DateTime']['output']>;
@@ -24574,7 +25235,11 @@ export type InventoryTransfer = CommentEventSubject & HasEvents & HasMetafieldDe
 };
 
 
-/** Represents the intention to move inventory between locations. */
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
 export type InventoryTransferEventsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -24586,7 +25251,11 @@ export type InventoryTransferEventsArgs = {
 };
 
 
-/** Represents the intention to move inventory between locations. */
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
 export type InventoryTransferLineItemsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -24597,21 +25266,33 @@ export type InventoryTransferLineItemsArgs = {
 };
 
 
-/** Represents the intention to move inventory between locations. */
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
 export type InventoryTransferLineItemsCountArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   query?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-/** Represents the intention to move inventory between locations. */
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
 export type InventoryTransferMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-/** Represents the intention to move inventory between locations. */
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
 export type InventoryTransferMetafieldDefinitionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -24625,7 +25306,11 @@ export type InventoryTransferMetafieldDefinitionsArgs = {
 };
 
 
-/** Represents the intention to move inventory between locations. */
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
 export type InventoryTransferMetafieldsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -24637,7 +25322,11 @@ export type InventoryTransferMetafieldsArgs = {
 };
 
 
-/** Represents the intention to move inventory between locations. */
+/**
+ * Tracks the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects. A transfer includes origin and destination information, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects with quantities, and shipment details.
+ *
+ * Transfers progress through multiple [`statuses`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus). The transfer maintains [`LocationSnapshot`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LocationSnapshot) objects of location details to preserve historical data even if locations change or are deleted later.
+ */
 export type InventoryTransferShipmentsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -24688,13 +25377,13 @@ export type InventoryTransferCreateAsReadyToShipInput = {
   /** The date and time the inventory transfer was created. If left blank, defaults to the current date and time in UTC format. */
   dateCreated?: InputMaybe<Scalars['DateTime']['input']>;
   /** The destination location for the inventory transfer. */
-  destinationLocationId: Scalars['ID']['input'];
+  destinationLocationId?: InputMaybe<Scalars['ID']['input']>;
   /** The list of line items for the inventory transfer. */
   lineItems?: Array<InventoryTransferLineItemInput>;
   /** A note to add to the Inventory Transfer. */
   note?: InputMaybe<Scalars['String']['input']>;
   /** The origin location for the inventory transfer. */
-  originLocationId: Scalars['ID']['input'];
+  originLocationId?: InputMaybe<Scalars['ID']['input']>;
   /** The reference name to add to the inventory transfer. */
   referenceName?: InputMaybe<Scalars['String']['input']>;
   /** The tags to add to the inventory transfer. */
@@ -24725,6 +25414,10 @@ export type InventoryTransferCreateAsReadyToShipUserErrorCode =
   | 'BUNDLED_ITEM'
   /** A single item can't be listed twice. */
   | 'DUPLICATE_ITEM'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The quantity is invalid. */
   | 'INVALID_QUANTITY'
   /** Current transfer status does not support this operation. */
@@ -24792,6 +25485,10 @@ export type InventoryTransferCreateUserErrorCode =
   | 'BUNDLED_ITEM'
   /** A single item can't be listed twice. */
   | 'DUPLICATE_ITEM'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The quantity is invalid. */
   | 'INVALID_QUANTITY'
   /** The item is not stocked at the intended location. */
@@ -24856,6 +25553,10 @@ export type InventoryTransferDuplicateUserError = DisplayableError & {
 
 /** Possible error codes that can be returned by `InventoryTransferDuplicateUserError`. */
 export type InventoryTransferDuplicateUserErrorCode =
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The transfer was not found. */
   | 'TRANSFER_NOT_FOUND';
 
@@ -25096,6 +25797,10 @@ export type InventoryTransferSetItemsUserErrorCode =
   | 'BUNDLED_ITEM'
   /** A single item can't be listed twice. */
   | 'DUPLICATE_ITEM'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** The quantity is invalid. */
   | 'INVALID_QUANTITY'
   /** Current transfer status does not support this operation. */
@@ -25612,6 +26317,8 @@ export type LineItem = Node & {
   sku?: Maybe<Scalars['String']['output']>;
   /** Staff attributed to the line item. */
   staffMember?: Maybe<StaffMember>;
+  /** Return reasons suggested based on the line item's product category in Shopify's product taxonomy. Use [`returnReasonDefinitions`](https://shopify.dev/docs/api/admin-graphql/latest/queries/returnReasonDefinitions) to access the full library of available reasons. */
+  suggestedReturnReasonDefinitions?: Maybe<ReturnReasonDefinitionConnection>;
   /** The taxes charged for the line item, including taxes charged for refunded and removed quantities. */
   taxLines: Array<TaxLine>;
   /** Whether the variant is taxable. */
@@ -25673,6 +26380,36 @@ export type LineItem = Node & {
  */
 export type LineItemDiscountedTotalSetArgs = {
   withCodeDiscounts?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+/**
+ * The `LineItem` object represents a single product or service that a customer purchased in an
+ * [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order).
+ * Each line item is associated with a
+ * [product variant](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant)
+ * and can have multiple [discount allocations](https://shopify.dev/docs/api/admin-graphql/latest/objects/DiscountAllocation).
+ * Line items contain details about what was purchased, including the product variant, quantity, pricing,
+ * and fulfillment status.
+ *
+ * Use the `LineItem` object to manage the following processes:
+ *
+ * - [Track the quantity of items](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/build-fulfillment-solutions) ordered, fulfilled, and unfulfilled.
+ * - [Calculate prices](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders), including discounts and taxes.
+ * - Manage fulfillment through [fulfillment services](https://shopify.dev/docs/apps/build/orders-fulfillment/fulfillment-service-apps).
+ * - Manage [returns](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/build-return-management) and [exchanges](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-exchanges).
+ * - Handle [subscriptions](https://shopify.dev/docs/apps/build/purchase-options/subscriptions) and recurring orders.
+ *
+ * Line items can also include custom attributes and properties, allowing merchants to add specific details
+ * about each item in an order. Learn more about
+ * [managing orders and fulfillment](https://shopify.dev/docs/apps/build/orders-fulfillment).
+ */
+export type LineItemSuggestedReturnReasonDefinitionsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -26114,9 +26851,9 @@ export type LocalizedFieldPurpose =
   | 'TAX';
 
 /**
- * Represents the location where the physical good resides. You can stock inventory at active locations. Active
- * locations that have `fulfills_online_orders: true` and are configured with a shipping rate, pickup enabled or
- * local delivery will be able to sell from their storefront.
+ * A physical location where merchants store and fulfill inventory. Locations include retail stores, warehouses, popups, dropshippers, or other places where inventory is managed or stocked.
+ *
+ * Active locations can fulfill online orders when configured with shipping rates, local pickup, or local delivery options. Locations track inventory quantities for [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and process [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) fulfillment. Third-party apps using [`FulfillmentService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentService) can create and manage their own locations.
  */
 export type Location = HasMetafieldDefinitions & HasMetafields & LegacyInteroperability & Node & {
   /**
@@ -26192,7 +26929,7 @@ export type Location = HasMetafieldDefinitions & HasMetafields & LegacyInteroper
   metafields: MetafieldConnection;
   /** The name of the location. */
   name: Scalars['String']['output'];
-  /** Whether this location is used for calculating shipping rates. In multi-origin shipping mode, this flag is ignored. */
+  /** Legacy field indicating this location was designated for shipping. All locations with valid addresses can now ship. */
   shipsInventory: Scalars['Boolean']['output'];
   /** List of suggested addresses for this location (empty if none). */
   suggestedAddresses: Array<LocationSuggestedAddress>;
@@ -26202,9 +26939,9 @@ export type Location = HasMetafieldDefinitions & HasMetafields & LegacyInteroper
 
 
 /**
- * Represents the location where the physical good resides. You can stock inventory at active locations. Active
- * locations that have `fulfills_online_orders: true` and are configured with a shipping rate, pickup enabled or
- * local delivery will be able to sell from their storefront.
+ * A physical location where merchants store and fulfill inventory. Locations include retail stores, warehouses, popups, dropshippers, or other places where inventory is managed or stocked.
+ *
+ * Active locations can fulfill online orders when configured with shipping rates, local pickup, or local delivery options. Locations track inventory quantities for [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and process [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) fulfillment. Third-party apps using [`FulfillmentService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentService) can create and manage their own locations.
  */
 export type LocationInventoryLevelArgs = {
   inventoryItemId: Scalars['ID']['input'];
@@ -26212,9 +26949,9 @@ export type LocationInventoryLevelArgs = {
 
 
 /**
- * Represents the location where the physical good resides. You can stock inventory at active locations. Active
- * locations that have `fulfills_online_orders: true` and are configured with a shipping rate, pickup enabled or
- * local delivery will be able to sell from their storefront.
+ * A physical location where merchants store and fulfill inventory. Locations include retail stores, warehouses, popups, dropshippers, or other places where inventory is managed or stocked.
+ *
+ * Active locations can fulfill online orders when configured with shipping rates, local pickup, or local delivery options. Locations track inventory quantities for [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and process [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) fulfillment. Third-party apps using [`FulfillmentService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentService) can create and manage their own locations.
  */
 export type LocationInventoryLevelsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -26227,9 +26964,9 @@ export type LocationInventoryLevelsArgs = {
 
 
 /**
- * Represents the location where the physical good resides. You can stock inventory at active locations. Active
- * locations that have `fulfills_online_orders: true` and are configured with a shipping rate, pickup enabled or
- * local delivery will be able to sell from their storefront.
+ * A physical location where merchants store and fulfill inventory. Locations include retail stores, warehouses, popups, dropshippers, or other places where inventory is managed or stocked.
+ *
+ * Active locations can fulfill online orders when configured with shipping rates, local pickup, or local delivery options. Locations track inventory quantities for [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and process [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) fulfillment. Third-party apps using [`FulfillmentService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentService) can create and manage their own locations.
  */
 export type LocationMetafieldArgs = {
   key: Scalars['String']['input'];
@@ -26238,9 +26975,9 @@ export type LocationMetafieldArgs = {
 
 
 /**
- * Represents the location where the physical good resides. You can stock inventory at active locations. Active
- * locations that have `fulfills_online_orders: true` and are configured with a shipping rate, pickup enabled or
- * local delivery will be able to sell from their storefront.
+ * A physical location where merchants store and fulfill inventory. Locations include retail stores, warehouses, popups, dropshippers, or other places where inventory is managed or stocked.
+ *
+ * Active locations can fulfill online orders when configured with shipping rates, local pickup, or local delivery options. Locations track inventory quantities for [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and process [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) fulfillment. Third-party apps using [`FulfillmentService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentService) can create and manage their own locations.
  */
 export type LocationMetafieldDefinitionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -26256,9 +26993,9 @@ export type LocationMetafieldDefinitionsArgs = {
 
 
 /**
- * Represents the location where the physical good resides. You can stock inventory at active locations. Active
- * locations that have `fulfills_online_orders: true` and are configured with a shipping rate, pickup enabled or
- * local delivery will be able to sell from their storefront.
+ * A physical location where merchants store and fulfill inventory. Locations include retail stores, warehouses, popups, dropshippers, or other places where inventory is managed or stocked.
+ *
+ * Active locations can fulfill online orders when configured with shipping rates, local pickup, or local delivery options. Locations track inventory quantities for [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and process [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) fulfillment. Third-party apps using [`FulfillmentService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentService) can create and manage their own locations.
  */
 export type LocationMetafieldsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -26296,6 +27033,10 @@ export type LocationActivateUserErrorCode =
   | 'HAS_NON_UNIQUE_NAME'
   /** This location currently cannot be activated as inventory, pending orders or transfers are being relocated from this location. */
   | 'HAS_ONGOING_RELOCATION'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** Shop has reached its location limit. */
   | 'LOCATION_LIMIT'
   /** Location not found. */
@@ -26465,10 +27206,19 @@ export type LocationDeactivateUserErrorCode =
   | 'HAS_ACTIVE_RETAIL_SUBSCRIPTIONS'
   /** Location could not be deactivated because it has pending orders. */
   | 'HAS_FULFILLMENT_ORDERS_ERROR'
+  /**
+   * Location could not be deactivated because it has incoming inventory quantities from third party
+   *         applications.
+   */
+  | 'HAS_INCOMING_FROM_EXTERNAL_DOCUMENT_SOURCES'
   /** Location could not be deactivated because it has open Shopify Fulfillment Network transfers. */
   | 'HAS_INCOMING_MOVEMENTS_ERROR'
   /** Location could not be deactivated because it has open purchase orders. */
   | 'HAS_OPEN_PURCHASE_ORDERS_ERROR'
+  /** This request is currently in progress, please try again. */
+  | 'IDEMPOTENCY_CONCURRENT_REQUEST'
+  /** The same idempotency key cannot be used with different operation parameters. */
+  | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
   /** Location not found. */
   | 'LOCATION_NOT_FOUND'
   /** Location either has a fulfillment service or is the only location with a shipping address. */
@@ -26702,9 +27452,9 @@ export type LocationsConditionLocationsArgs = {
 };
 
 /**
- * Represents a customer mailing address.
+ * A physical mailing address. For example, a [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer)'s default address and an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order)'s billing address are both mailing addresses. Stores standard address components, customer name information, and company details.
  *
- * For example, a customer's default address and an order's billing address are both mailling addresses.
+ * The address includes geographic coordinates ([`latitude`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MailingAddress#field-MailingAddress.fields.latitude) and [`longitude`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MailingAddress#field-MailingAddress.fields.longitude)). You can format addresses for display using the [`formatted`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MailingAddress#field-MailingAddress.fields.formatted) field with options to include or exclude name and company information.
  */
 export type MailingAddress = Node & {
   /** The first line of the address. Typically the street address or PO Box number. */
@@ -26771,9 +27521,9 @@ export type MailingAddress = Node & {
 
 
 /**
- * Represents a customer mailing address.
+ * A physical mailing address. For example, a [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer)'s default address and an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order)'s billing address are both mailing addresses. Stores standard address components, customer name information, and company details.
  *
- * For example, a customer's default address and an order's billing address are both mailling addresses.
+ * The address includes geographic coordinates ([`latitude`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MailingAddress#field-MailingAddress.fields.latitude) and [`longitude`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MailingAddress#field-MailingAddress.fields.longitude)). You can format addresses for display using the [`formatted`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MailingAddress#field-MailingAddress.fields.formatted) field with options to include or exclude name and company information.
  */
 export type MailingAddressFormattedArgs = {
   withCompany?: InputMaybe<Scalars['Boolean']['input']>;
@@ -26837,6 +27587,19 @@ export type MailingAddressValidationResult =
   | 'NO_ISSUES'
   /** Indicates that the address has been validated and might contain invalid information. */
   | 'WARNING';
+
+/** The type of resource a payment mandate can be used for. */
+export type MandateResourceType =
+  /** A credential stored on file for checkout. */
+  | 'CHECKOUT'
+  /** A credential stored on file for merchant and customer initiated transactions. */
+  | 'CREDENTIAL_ON_FILE'
+  /** A credential stored on file for a Draft Order. */
+  | 'DRAFT_ORDER'
+  /** A credential stored on file for an Order. */
+  | 'ORDER'
+  /** A credential stored for subscription billing attempts. */
+  | 'SUBSCRIPTIONS';
 
 /**
  * Manual discount applications capture the intentions of a discount that was manually created for an order.
@@ -27073,7 +27836,13 @@ export type MarketWebPresencesArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** A list of products with publishing and pricing information associated with markets. */
+/**
+ * A catalog for managing product availability and pricing for specific [`Market`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) contexts. Each catalog links to one or more markets. The catalog can optionally include a [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) to control which [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) objects customers see, and a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for market-specific pricing adjustments. When a publication isn't associated with the catalog, product availability is determined by the sales channel.
+ *
+ * Use catalogs to create distinct shopping experiences for different geographic regions or customer segments.
+ *
+ * Learn more about [building a catalog](https://shopify.dev/docs/apps/build/markets/build-catalog) and [managing markets](https://shopify.dev/docs/apps/build/markets).
+ */
 export type MarketCatalog = Catalog & Node & {
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
@@ -27094,7 +27863,13 @@ export type MarketCatalog = Catalog & Node & {
 };
 
 
-/** A list of products with publishing and pricing information associated with markets. */
+/**
+ * A catalog for managing product availability and pricing for specific [`Market`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) contexts. Each catalog links to one or more markets. The catalog can optionally include a [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) to control which [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) objects customers see, and a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for market-specific pricing adjustments. When a publication isn't associated with the catalog, product availability is determined by the sales channel.
+ *
+ * Use catalogs to create distinct shopping experiences for different geographic regions or customer segments.
+ *
+ * Learn more about [building a catalog](https://shopify.dev/docs/apps/build/markets/build-catalog) and [managing markets](https://shopify.dev/docs/apps/build/markets).
+ */
 export type MarketCatalogMarketsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -27106,7 +27881,13 @@ export type MarketCatalogMarketsArgs = {
 };
 
 
-/** A list of products with publishing and pricing information associated with markets. */
+/**
+ * A catalog for managing product availability and pricing for specific [`Market`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) contexts. Each catalog links to one or more markets. The catalog can optionally include a [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) to control which [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) objects customers see, and a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for market-specific pricing adjustments. When a publication isn't associated with the catalog, product availability is determined by the sales channel.
+ *
+ * Use catalogs to create distinct shopping experiences for different geographic regions or customer segments.
+ *
+ * Learn more about [building a catalog](https://shopify.dev/docs/apps/build/markets/build-catalog) and [managing markets](https://shopify.dev/docs/apps/build/markets).
+ */
 export type MarketCatalogMarketsCountArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   query?: InputMaybe<Scalars['String']['input']>;
@@ -27670,6 +28451,8 @@ export type MarketUserErrorCode =
   | 'MARKET_NOT_FOUND'
   /** Can't add another web presence to the market. */
   | 'MARKET_REACHED_WEB_PRESENCE_LIMIT'
+  /** The country code is missing. */
+  | 'MISSING_COUNTRY_CODE'
   /** The province code is missing. */
   | 'MISSING_PROVINCE_CODE'
   /** All retail locations in a market must be in the same country. */
@@ -28397,6 +29180,8 @@ export type MarketingChannel =
 export type MarketingEngagement = {
   /** The total ad spend for the marketing content. Recurring weekly, monthly, or yearly spend needs to be divided into daily amounts. */
   adSpend?: Maybe<MoneyV2>;
+  /** The number of all conversions from the marketing content. This field supports ad platforms that track conversions beyond traditional sales metrics. All conversions include both primary and secondary conversion goals as defined by the ad platform, such as purchases, add-to-carts, page views, and sign-ups. */
+  allConversions?: Maybe<Scalars['Decimal']['output']>;
   /** The unique string identifier of the channel to which the engagement metrics are being provided. This should be set when and only when providing channel-level engagements. This should be nil when providing activity-level engagements. For the correct handle for your channel, contact your partner manager. */
   channelHandle?: Maybe<Scalars['String']['output']>;
   /** The total number of interactions, such as a button press or a screen touch, that occurred on the marketing content. */
@@ -28421,6 +29206,8 @@ export type MarketingEngagement = {
   occurredOn: Scalars['Date']['output'];
   /** The number of orders generated from the marketing content. */
   orders?: Maybe<Scalars['Decimal']['output']>;
+  /** The number of primary conversions from the marketing content. This field supports ad platforms that track conversions beyond traditional sales metrics. Primary conversions represent the main conversion goal defined by the ad platform, such as purchases, sign-ups, or add-to-carts. */
+  primaryConversions?: Maybe<Scalars['Decimal']['output']>;
   /** The number of returning customers that have placed an order. Doesn't include adjustments such as edits, exchanges, or returns. */
   returningCustomers?: Maybe<Scalars['Decimal']['output']>;
   /** The amount of sales generated from the marketing content. */
@@ -28455,6 +29242,8 @@ export type MarketingEngagementCreatePayload = {
 export type MarketingEngagementInput = {
   /** The total ad spend for the marketing content. Recurring weekly, monthly, or yearly spend needs to be divided into daily amounts. */
   adSpend?: InputMaybe<MoneyInput>;
+  /** The number of all conversions from the marketing content. This field supports ad platforms that track conversions beyond traditional sales metrics. All conversions include both primary and secondary conversion goals as defined by the ad platform, such as purchases, add-to-carts, page views, and sign-ups. */
+  allConversions?: InputMaybe<Scalars['Decimal']['input']>;
   /** The total number of interactions, such as a button press or a screen touch, that occurred on the marketing content. */
   clicksCount?: InputMaybe<Scalars['Int']['input']>;
   /** The total number of comments on the marketing content. */
@@ -28475,6 +29264,8 @@ export type MarketingEngagementInput = {
   occurredOn: Scalars['Date']['input'];
   /** The number of orders generated from the marketing content. */
   orders?: InputMaybe<Scalars['Decimal']['input']>;
+  /** The number of primary conversions from the marketing content. This field supports ad platforms that track conversions beyond traditional sales metrics. Primary conversions represent the main conversion goal defined by the ad platform, such as purchases, sign-ups, or add-to-carts. */
+  primaryConversions?: InputMaybe<Scalars['Decimal']['input']>;
   /** The number of returning customers that have placed an order. Doesn't include adjustments such as edits, exchanges, or returns. */
   returningCustomers?: InputMaybe<Scalars['Decimal']['input']>;
   /** The amount of sales generated from the marketing content. */
@@ -28872,7 +29663,7 @@ export type MediaHost =
  * [product variants](https://shopify.dev/docs/apps/build/online-store/product-variant-media), and
  * [asynchronous media management](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components#asynchronous-media-management).
  */
-export type MediaImage = File & HasMetafields & Media & Node & {
+export type MediaImage = File & HasMetafields & HasPublishedTranslations & Media & Node & {
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']['output']>;
   /** The date and time ([ISO 8601 format](http://en.wikipedia.org/wiki/ISO_8601)) when the file was created. */
@@ -28912,6 +29703,8 @@ export type MediaImage = File & HasMetafields & Media & Node & {
   preview?: Maybe<MediaPreviewImage>;
   /** Current status of the media. */
   status: MediaStatus;
+  /** The published translations associated with the resource. */
+  translations: Array<Translation>;
   /** The date and time ([ISO 8601 format](http://en.wikipedia.org/wiki/ISO_8601)) when the file was last updated. */
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -28983,6 +29776,38 @@ export type MediaImageMetafieldsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   namespace?: InputMaybe<Scalars['String']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+/**
+ * The `MediaImage` object represents an image hosted on Shopify's
+ * [content delivery network (CDN)](https://shopify.dev/docs/storefronts/themes/best-practices/performance/platform#shopify-cdn).
+ * Shopify CDN is a content system that serves as the primary way to store,
+ * manage, and deliver visual content for products, variants, and other resources across the Shopify platform.
+ *
+ * The `MediaImage` object provides information to:
+ *
+ * - Store and display product and variant images across online stores, admin interfaces, and mobile apps.
+ * - Retrieve visual branding elements, including logos, banners, favicons, and background images in checkout flows.
+ * - Retrieve signed URLs for secure, time-limited access to original image files.
+ *
+ * Each `MediaImage` object provides both the processed image data (with automatic optimization and CDN delivery)
+ * and access to the original source file. The image processing is handled asynchronously, so images
+ * might not be immediately available after upload. The
+ * [`status`](https://shopify.dev/docs/api/admin-graphql/latest/objects/mediaimage#field-MediaImage.fields.status)
+ * field indicates when processing is complete and the image is ready for use.
+ *
+ * The `MediaImage` object implements the [`Media`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Media)
+ * interface alongside other media types, like videos and 3D models.
+ *
+ * Learn about
+ * managing media for [products](https://shopify.dev/docs/apps/build/online-store/product-media),
+ * [product variants](https://shopify.dev/docs/apps/build/online-store/product-variant-media), and
+ * [asynchronous media management](https://shopify.dev/docs/apps/build/graphql/migrate/new-product-model/product-model-components#asynchronous-media-management).
+ */
+export type MediaImageTranslationsArgs = {
+  locale: Scalars['String']['input'];
+  marketId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 /** The original source for an image. */
@@ -29432,7 +30257,7 @@ export type Metafield = HasCompareDigest & LegacyInteroperability & Node & {
   /** A list of reference objects if the metafield's type is a resource reference list. */
   references?: Maybe<MetafieldReferenceConnection>;
   /**
-   * The type of data that is stored in the metafield.
+   * The type of data that's stored in the metafield.
    * Refer to the list of [supported types](https://shopify.dev/apps/metafields/types).
    */
   type: Scalars['String']['output'];
@@ -29857,6 +30682,8 @@ export type MetafieldDefinitionCreateUserErrorCode =
   | 'LIMIT_EXCEEDED'
   /** You have reached the maximum allowed definitions for automated collections. */
   | 'OWNER_TYPE_LIMIT_EXCEEDED_FOR_AUTOMATED_COLLECTIONS'
+  /** You have reached the maximum allowed definitions to be used as admin filters. */
+  | 'OWNER_TYPE_LIMIT_EXCEEDED_FOR_USE_AS_ADMIN_FILTERS'
   /** The pinned limit has been reached for the owner type. */
   | 'PINNED_LIMIT_REACHED'
   /** The input value needs to be blank. */
@@ -30224,6 +31051,8 @@ export type MetafieldDefinitionUpdateUserErrorCode =
   | 'NOT_FOUND'
   /** You have reached the maximum allowed definitions for automated collections. */
   | 'OWNER_TYPE_LIMIT_EXCEEDED_FOR_AUTOMATED_COLLECTIONS'
+  /** You have reached the maximum allowed definitions to be used as admin filters. */
+  | 'OWNER_TYPE_LIMIT_EXCEEDED_FOR_USE_AS_ADMIN_FILTERS'
   /** The pinned limit has been reached for the owner type. */
   | 'PINNED_LIMIT_REACHED'
   /** The input value needs to be blank. */
@@ -30310,7 +31139,7 @@ export type MetafieldIdentifierInput = {
  * [metafieldsSet](https://shopify.dev/api/admin-graphql/latest/mutations/metafieldsSet) mutation.
  */
 export type MetafieldInput = {
-  /** The unique ID of the metafield. Using `owner_id`, `namespace`, and `key` is preferred for creating and updating. */
+  /** The unique ID of the metafield. Using `namespace` and `key` is preferred for creating and updating. */
   id?: InputMaybe<Scalars['ID']['input']>;
   /**
    * The unique identifier for a metafield within its namespace.
@@ -30396,7 +31225,7 @@ export type MetafieldOwnerType =
   | 'VALIDATION';
 
 /** The resource referenced by the metafield value. */
-export type MetafieldReference = Collection | Company | Customer | GenericFile | MediaImage | Metaobject | Model3d | Order | Page | Product | ProductVariant | TaxonomyValue | Video;
+export type MetafieldReference = Article | Collection | Company | Customer | GenericFile | MediaImage | Metaobject | Model3d | Order | Page | Product | ProductVariant | TaxonomyValue | Video;
 
 /** An auto-generated type for paginating through multiple MetafieldReferences. */
 export type MetafieldReferenceConnection = {
@@ -30596,6 +31425,8 @@ export type MetafieldsSetUserErrorCode =
 export type Metaobject = Node & {
   /** Metaobject capabilities for this Metaobject. */
   capabilities: MetaobjectCapabilityData;
+  /** When the object was created. */
+  createdAt: Scalars['DateTime']['output'];
   /** The app used to create the object. */
   createdBy: App;
   /** The app used to create the object. */
@@ -30657,6 +31488,8 @@ export type MetaobjectReferencedByArgs = {
 export type MetaobjectAccess = {
   /** The access permitted on the Admin API. */
   admin: MetaobjectAdminAccess;
+  /** The access permitted on the Customer Account API. */
+  customerAccount: MetaobjectCustomerAccountAccess;
   /** The access permitted on the Storefront API. */
   storefront: MetaobjectStorefrontAccess;
 };
@@ -30665,6 +31498,8 @@ export type MetaobjectAccess = {
 export type MetaobjectAccessInput = {
   /** The access permitted on the Admin API. */
   admin?: InputMaybe<MetaobjectAdminAccessInput>;
+  /** The access permitted on the Customer Account API. */
+  customerAccount?: InputMaybe<MetaobjectCustomerAccountAccess>;
   /** The access permitted on the Storefront API. */
   storefront?: InputMaybe<MetaobjectStorefrontAccess>;
 };
@@ -30919,6 +31754,13 @@ export type MetaobjectCreatePayload = {
   userErrors: Array<MetaobjectUserError>;
 };
 
+/** Metaobject access permissions for the Customer Account API. */
+export type MetaobjectCustomerAccountAccess =
+  /** No access. */
+  | 'NONE'
+  /** Read-only access. */
+  | 'READ';
+
 /**
  * Defines the structure and configuration for a custom data type in Shopify. Each definition specifies the fields, validation rules, and capabilities that apply to all [`Metaobject`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Metaobject) entries created from it.
  *
@@ -31100,11 +31942,27 @@ export type MetaobjectFieldReferencesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
+/** Information about the admin filterable capability. */
+export type MetaobjectFieldCapabilityAdminFilterable = {
+  /** Indicates if the definition is eligible to have the capability. */
+  eligible: Scalars['Boolean']['output'];
+  /** Indicates if the capability is enabled. */
+  enabled: Scalars['Boolean']['output'];
+};
+
+/** The input fields for enabling and disabling the admin filterable capability. */
+export type MetaobjectFieldCapabilityAdminFilterableInput = {
+  /** Indicates whether the capability should be enabled or disabled. */
+  enabled: Scalars['Boolean']['input'];
+};
+
 /**
  * Defines a field for a MetaobjectDefinition with properties
  * such as the field's data type and validations.
  */
 export type MetaobjectFieldDefinition = {
+  /** Capabilities available for this metaobject field definition. */
+  capabilities: MetaobjectFieldDefinitionCapabilities;
   /** The administrative description. */
   description?: Maybe<Scalars['String']['output']>;
   /** A key name used to identify the field within the metaobject composition. */
@@ -31122,8 +31980,22 @@ export type MetaobjectFieldDefinition = {
   validations: Array<MetafieldDefinitionValidation>;
 };
 
+/** Capabilities available for a metaobject field definition. */
+export type MetaobjectFieldDefinitionCapabilities = {
+  /** Indicate whether a metaobject field definition is configured for filtering. */
+  adminFilterable: MetaobjectFieldCapabilityAdminFilterable;
+};
+
+/** The input fields for creating capabilities on a metaobject field definition. */
+export type MetaobjectFieldDefinitionCapabilityCreateInput = {
+  /** The input for configuring the admin filterable capability. */
+  adminFilterable?: InputMaybe<MetaobjectFieldCapabilityAdminFilterableInput>;
+};
+
 /** The input fields for creating a metaobject field definition. */
 export type MetaobjectFieldDefinitionCreateInput = {
+  /** Capabilities configuration for this field. */
+  capabilities?: InputMaybe<MetaobjectFieldDefinitionCapabilityCreateInput>;
   /** An administrative description of the field. */
   description?: InputMaybe<Scalars['String']['input']>;
   /**
@@ -31160,6 +32032,8 @@ export type MetaobjectFieldDefinitionOperationInput = {
 
 /** The input fields for updating a metaobject field definition. */
 export type MetaobjectFieldDefinitionUpdateInput = {
+  /** Capabilities configuration for this field. */
+  capabilities?: InputMaybe<MetaobjectFieldDefinitionCapabilityCreateInput>;
   /** An administrative description of the field. */
   description?: InputMaybe<Scalars['String']['input']>;
   /** The key of the field definition to update. */
@@ -31846,13 +32720,44 @@ export type Mutation = {
    * Learn more about [managing cart transforms](https://shopify.dev/docs/apps/selling-strategies/bundles).
    */
   cartTransformDelete?: Maybe<CartTransformDeletePayload>;
-  /** Updates the context of a catalog. */
+  /**
+   * Modifies which contexts, like [markets](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) or B2B [company locations](https://shopify.dev/docs/api/admin-graphql/latest/objects/CompanyLocation), can access a [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog). You can add or remove contexts to control where the catalog's products and prices are available.
+   *
+   * Learn more about [managing catalog contexts](https://shopify.dev/docs/apps/build/markets/new-markets/catalogs) and [managing B2B catalogs](https://shopify.dev/docs/apps/build/b2b/manage-catalogs).
+   */
   catalogContextUpdate?: Maybe<CatalogContextUpdatePayload>;
-  /** Creates a new catalog. For a complete explanation of a [`Catalog`](https://shopify.dev/api/admin-graphql/latest/interfaces/catalog)'s behaviour, and how you can use it with [`Publication`s](https://shopify.dev/api/admin-graphql/latest/objects/Publication) and [`PriceList`s](https://shopify.dev/api/admin-graphql/latest/objects/PriceList), see [here](https://shopify.dev/docs/apps/build/markets/catalogs-different-markets). */
+  /**
+   * Creates a [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) that controls product availability and pricing for specific contexts like [markets](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) or B2B [company locations](https://shopify.dev/docs/api/admin-graphql/latest/objects/CompanyLocation).
+   *
+   * ### Publications and Price Lists
+   *
+   * - **[`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication)** objects control which products are visible in a catalog. Publications are **optional**. When a publication isn't associated with a catalog, product availability is determined by the sales channel.
+   * - **[`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList)** objects define custom pricing for products in a catalog.
+   *
+   * You can optionally associate a publication and price list when creating the catalog, or add them later using separate mutations.
+   *
+   * ### When to use Publications
+   *
+   * **Create a publication only if you need to:**
+   * - Limit which products are visible in a specific context (e.g., show different products to different company locations or markets)
+   * - Publish a curated subset of your product catalog
+   *
+   * **Do NOT create a publication if:**
+   * - You want product availability determined by the sales channel
+   * - You only need to customize pricing (use a price list without a publication)
+   *
+   * > **Important:** For company location catalogs that only require custom pricing, create the catalog with a price list but without a publication.
+   *
+   * Learn more about [managing catalog contexts](https://shopify.dev/docs/apps/build/markets/new-markets/catalogs) and [using catalogs for different markets](https://shopify.dev/docs/apps/build/markets/catalogs-different-markets).
+   */
   catalogCreate?: Maybe<CatalogCreatePayload>;
   /** Delete a catalog. */
   catalogDelete?: Maybe<CatalogDeletePayload>;
-  /** Updates an existing catalog. */
+  /**
+   * Updates an existing [catalog's](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) configuration. Catalogs control product publishing and pricing for specific contexts like [markets](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) or B2B [company locations](https://shopify.dev/docs/api/admin-graphql/latest/objects/CompanyLocation).
+   *
+   * You can modify the catalog's title, status, and associated context. You can also update the [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) that determines pricing adjustments or the [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) that controls which products customers see.
+   */
   catalogUpdate?: Maybe<CatalogUpdatePayload>;
   /**
    * Updates the visual branding for a [`CheckoutProfile`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutProfile), customizing how checkout displays to customers. Creates new branding settings if none exist, or modifies existing settings.
@@ -31862,6 +32767,7 @@ export type Mutation = {
    * Changes to a published checkout profile display immediately in the store's checkout. You can preview draft profiles in the Shopify admin's checkout editor before publishing.
    *
    * Learn more about [checkout styling](https://shopify.dev/docs/apps/checkout/styling).
+   * @deprecated Use `checkoutAndAccountsConfigurationUpdate` instead.
    */
   checkoutBrandingUpsert?: Maybe<CheckoutBrandingUpsertPayload>;
   /**
@@ -31882,7 +32788,14 @@ export type Mutation = {
    * Learn more about [collection management](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection).
    */
   collectionAddProducts?: Maybe<CollectionAddProductsPayload>;
-  /** Asynchronously adds a set of products to a given collection. It can take a long time to run. Instead of returning a collection, it returns a job which should be polled. */
+  /**
+   * Adds products to a [`Collection`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) asynchronously and returns a [`Job`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Job) to track the operation's progress. This mutation handles large product sets efficiently by processing them in the background.
+   *
+   * You can poll the returned job using the [`job`](https://shopify.dev/docs/api/admin-graphql/latest/queries/job) query to monitor completion status.
+   *
+   * > Note:
+   * > This mutation adds products in the order specified in the [`productIds`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionAddProducts#arguments-productIds) argument.
+   */
   collectionAddProductsV2?: Maybe<CollectionAddProductsV2Payload>;
   /**
    * Creates a [collection](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection)
@@ -31926,6 +32839,19 @@ export type Mutation = {
    * Learn more about [collection management](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection).
    */
   collectionDelete?: Maybe<CollectionDeletePayload>;
+  /**
+   * Duplicates a [collection](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection).
+   *
+   * An existing collection ID and new title are required.
+   *
+   * ## Publication Duplication
+   *
+   * Publications may be excluded by passing `copyPublications: false` in the input.
+   *
+   * ## Metafields
+   * Metafield values are not duplicated if the unique values capability is enabled.
+   */
+  collectionDuplicate?: Maybe<CollectionDuplicatePayload>;
   /**
    * Publishes a collection to a channel.
    * @deprecated Use `publishablePublish` instead.
@@ -32204,7 +33130,13 @@ export type Mutation = {
    * Apps using protected customer data must meet Shopify's [protected customer data requirements](https://shopify.dev/docs/apps/launch/protected-customer-data#requirements).
    */
   customerDelete?: Maybe<CustomerDeletePayload>;
-  /** Updates a [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer)'s email marketing consent information. The customer must have an email address to update their consent. Records the [marketing state](https://shopify.dev/docs/api/admin-graphql/latest/objects/CustomerEmailAddress#field-marketingState) (such as subscribed, pending, unsubscribed), [opt-in level](https://shopify.dev/docs/api/admin-graphql/latest/objects/CustomerEmailAddress#field-marketingOptInLevel), and when and where the customer gave or withdrew consent. */
+  /**
+   * Updates a [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer)'s email marketing consent information. The customer must have an email address to update their consent. Records the [marketing state](https://shopify.dev/docs/api/admin-graphql/latest/objects/CustomerEmailAddress#field-marketingState) (such as subscribed, pending, unsubscribed), [opt-in level](https://shopify.dev/docs/api/admin-graphql/latest/objects/CustomerEmailAddress#field-marketingOptInLevel), and when and where the customer gave or withdrew consent.
+   *
+   * Only three values are accepted as input: SUBSCRIBED, UNSUBSCRIBED, and PENDING.
+   * NOT_SUBSCRIBED, REDACTED, and INVALID cannot be set via this mutation; they are
+   * read-only or internally-set states.
+   */
   customerEmailMarketingConsentUpdate?: Maybe<CustomerEmailMarketingConsentUpdatePayload>;
   /**
    * Generates a one-time activation URL for a [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer) whose legacy customer account isn't yet enabled. Use this after importing customers or creating accounts that need activation.
@@ -32367,7 +33299,11 @@ export type Mutation = {
   deliveryPromiseProviderUpsert?: Maybe<DeliveryPromiseProviderUpsertPayload>;
   /** Set the delivery settings for a shop. */
   deliverySettingUpdate?: Maybe<DeliverySettingUpdatePayload>;
-  /** Assigns a location as the shipping origin while using legacy compatibility mode for multi-location delivery profiles. */
+  /**
+   * Assigns a location as the shipping origin while using legacy compatibility mode for multi-location delivery profiles.
+   * Deprecated as of 2026-04 and will be removed in a future version as single origin shipping mode has been retired.
+   * @deprecated Single origin shipping mode is no longer supported.
+   */
   deliveryShippingOriginAssign?: Maybe<DeliveryShippingOriginAssignPayload>;
   /** Activates an automatic discount. */
   discountAutomaticActivate?: Maybe<DiscountAutomaticActivatePayload>;
@@ -32672,8 +33608,9 @@ export type Mutation = {
   /** Removes tags from multiple draft orders. */
   draftOrderBulkRemoveTags?: Maybe<DraftOrderBulkRemoveTagsPayload>;
   /**
-   * Calculates the properties of a draft order. Useful for determining information
-   * such as total taxes or price without actually creating a draft order.
+   * Calculates the properties of a [`DraftOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder) without creating it. Returns pricing information including [`CalculatedDraftOrderLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CalculatedDraftOrderLineItem) totals, shipping charges, applicable discounts, and tax calculations based on the provided [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer) and [`MailingAddress`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MailingAddress) information.
+   *
+   * Use this mutation to preview total taxes and prices before creating a draft order. It's particularly useful when working with B2B [`PurchasingEntity`](https://shopify.dev/docs/api/admin-graphql/latest/unions/PurchasingEntity) or when you need to determine costs without committing to a draft order. Learn more about [calculating draft orders for B2B purchasing entities](https://shopify.dev/docs/apps/build/b2b/draft-orders#step-1-calculate-a-draft-order-for-a-purchasing-entity).
    */
   draftOrderCalculate?: Maybe<DraftOrderCalculatePayload>;
   /**
@@ -32887,7 +33824,13 @@ export type Mutation = {
   flowGenerateSignature?: Maybe<FlowGenerateSignaturePayload>;
   /** Triggers any workflows that begin with the trigger specified in the request body. To learn more, refer to [_Create Shopify Flow triggers_](https://shopify.dev/apps/flow/triggers). */
   flowTriggerReceive?: Maybe<FlowTriggerReceivePayload>;
-  /** Cancels a fulfillment. */
+  /**
+   * Cancels an existing [`Fulfillment`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Fulfillment) and reverses its effects on associated [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) objects. When you cancel a fulfillment, the system creates new fulfillment orders for the cancelled items so they can be fulfilled again.
+   *
+   * The cancellation affects fulfillment orders differently based on their fulfillment status. If a fulfillment order was entirely fulfilled, then it automatically closes. If a fulfillment order is partially fulfilled, then the remaining quantities adjust to include the cancelled items. The system creates new fulfillment orders at the original [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) when items are still stocked there, or at alternative locations based on the store's fulfillment priority settings.
+   *
+   * Learn more about [canceling fulfillments](https://shopify.dev/docs/apps/build/orders-fulfillment/fulfillment-service-apps/build-for-fulfillment-services#step-7-cancel-a-fulfillment).
+   */
   fulfillmentCancel?: Maybe<FulfillmentCancelPayload>;
   /** Creates a fulfillment constraint rule and its metafield. */
   fulfillmentConstraintRuleCreate?: Maybe<FulfillmentConstraintRuleCreatePayload>;
@@ -32896,8 +33839,11 @@ export type Mutation = {
   /** Update a fulfillment constraint rule. */
   fulfillmentConstraintRuleUpdate?: Maybe<FulfillmentConstraintRuleUpdatePayload>;
   /**
-   * Creates a fulfillment for one or many fulfillment orders.
-   * The fulfillment orders are associated with the same order and are assigned to the same location.
+   * Creates a fulfillment for one or more [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) objects. The fulfillment orders are associated with the same [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) and are assigned to the same [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location).
+   *
+   * Use this mutation to mark items as fulfilled when they're ready to ship. You can specify tracking information, customer notification preferences, and which [`FulfillmentOrderLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/fulfillmentorderlineitem) objects to fulfill from each fulfillment order. If you don't specify line items, then the mutation fulfills all items in the fulfillment order.
+   *
+   * Learn more about [building fulfillment solutions](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/build-fulfillment-solutions#create-a-fulfillment).
    */
   fulfillmentCreate?: Maybe<FulfillmentCreatePayload>;
   /**
@@ -32906,13 +33852,27 @@ export type Mutation = {
    * @deprecated Use `fulfillmentCreate` instead.
    */
   fulfillmentCreateV2?: Maybe<FulfillmentCreateV2Payload>;
-  /** Creates a fulfillment event for a specified fulfillment. */
+  /**
+   * Creates a [`FulfillmentEvent`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentEvent) to track the shipment status and location of items that have shipped. Events capture status updates like carrier pickup, in transit, out for delivery, or delivered.
+   *
+   * Each event records the timestamp and current status of the [`Fulfillment`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Fulfillment). You can include optional details such as the location where the event occurred, estimated arrival time, and messages for tracking purposes.
+   */
   fulfillmentEventCreate?: Maybe<FulfillmentEventCreatePayload>;
   /** Accept a cancellation request sent to a fulfillment service for a fulfillment order. */
   fulfillmentOrderAcceptCancellationRequest?: Maybe<FulfillmentOrderAcceptCancellationRequestPayload>;
-  /** Accepts a fulfillment request sent to a fulfillment service for a fulfillment order. */
+  /**
+   * Accepts a fulfillment request that the fulfillment service has received for a [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) which signals that the fulfillment service will process and fulfill the order. The fulfillment service can optionally provide a message to the merchant and an estimated shipped date when accepting the request.
+   *
+   * Learn more about [accepting fulfillment requests](https://shopify.dev/docs/apps/build/orders-fulfillment/fulfillment-service-apps/build-for-fulfillment-services#accept-a-fulfillment-request).
+   */
   fulfillmentOrderAcceptFulfillmentRequest?: Maybe<FulfillmentOrderAcceptFulfillmentRequestPayload>;
-  /** Marks a fulfillment order as canceled. */
+  /**
+   * Cancels a [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) and creates a replacement fulfillment order to represent the work left to be done. The original fulfillment order will be marked as closed.
+   *
+   * This mutation works when the fulfillment order has a `SUBMITTED` or `CANCELLATION_REQUESTED` status. For `SUBMITTED` orders, cancellation happens immediately because the fulfillment service hasn't accepted the request.
+   *
+   * > Note: Orders that have had cancellation requested but the cancellation has yet to be accepted by the fulfillment service might still have work completed despite cancellation.
+   */
   fulfillmentOrderCancel?: Maybe<FulfillmentOrderCancelPayload>;
   /**
    * Marks an in-progress fulfillment order as incomplete,
@@ -32949,10 +33909,9 @@ export type Mutation = {
    */
   fulfillmentOrderHold?: Maybe<FulfillmentOrderHoldPayload>;
   /**
-   * Mark line items associated with a fulfillment order as being ready for pickup by a customer.
+   * Marks [fulfillment order line items](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrderLineItem) as ready for customer pickup. When executed, this mutation automatically sends a "Ready For Pickup" notification to the customer.
    *
-   * Sends a Ready For Pickup notification to the customer to let them know that their order is ready
-   * to be picked up.
+   * Use this mutation for local pickup orders after the items have been prepared and are available for the customer to collect. You can specify one or more [fulfillment order](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) objects by providing the fulfillment order IDs in the [`lineItemsByFulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/input-objects/PreparedFulfillmentOrderLineItemsInput) field. This allows you to mark fulfillment order line items from different fulfillment orders as ready for pickup.
    */
   fulfillmentOrderLineItemsPreparedForPickup?: Maybe<FulfillmentOrderLineItemsPreparedForPickupPayload>;
   /**
@@ -33018,12 +33977,28 @@ export type Mutation = {
    * The fulfillment order will be marked as ready for fulfillment at this date and time.
    */
   fulfillmentOrderReschedule?: Maybe<FulfillmentOrderReschedulePayload>;
-  /** Splits a fulfillment order or orders based on line item inputs and quantities. */
+  /**
+   * Splits [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) objects by moving the specified [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects and quantities into a new fulfillment order.
+   *
+   * If the original fulfillment order can't be split due to its current state, then the mutation creates a replacement fulfillment order instead.
+   */
   fulfillmentOrderSplit?: Maybe<FulfillmentOrderSplitPayload>;
   /** Sends a cancellation request to the fulfillment service of a fulfillment order. */
   fulfillmentOrderSubmitCancellationRequest?: Maybe<FulfillmentOrderSubmitCancellationRequestPayload>;
-  /** Sends a fulfillment request to the fulfillment service of a fulfillment order. */
+  /**
+   * Sends a fulfillment request to the fulfillment service assigned to a [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder). The fulfillment service must then accept or reject the request before processing can begin.
+   *
+   * You can either request fulfillment for all line items or specify individual items with quantities for partial fulfillment. When requesting partial fulfillment, Shopify splits the original fulfillment order into two: one with the submitted items and another with the remaining unsubmitted items. Include an optional message to communicate special instructions to the fulfillment service, such as gift wrapping or handling requirements.
+   *
+   * Learn more about [managing fulfillment requests as a fulfillment service](https://shopify.dev/docs/apps/build/orders-fulfillment/fulfillment-service-apps/build-for-fulfillment-services#step-4-act-on-fulfillment-requests).
+   */
   fulfillmentOrderSubmitFulfillmentRequest?: Maybe<FulfillmentOrderSubmitFulfillmentRequestPayload>;
+  /**
+   * Route the fulfillment orders to an alternative location, according to the shop's order routing settings. This involves:
+   * * Finding an alternate location that can fulfill the fulfillment orders.
+   * * Assigning the fulfillment orders to the new location.
+   */
+  fulfillmentOrdersReroute?: Maybe<FulfillmentOrdersReroutePayload>;
   /** Sets the latest date and time by which the fulfillment orders need to be fulfilled. */
   fulfillmentOrdersSetFulfillmentDeadline?: Maybe<FulfillmentOrdersSetFulfillmentDeadlinePayload>;
   /**
@@ -33045,12 +34020,25 @@ export type Mutation = {
   /** Deletes a fulfillment service. */
   fulfillmentServiceDelete?: Maybe<FulfillmentServiceDeletePayload>;
   /**
-   * Updates a fulfillment service.
+   * Updates the [`FulfillmentService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentService) configuration, including its name, callback URL, and operational settings.
    *
-   * If you need to update the location managed by the fulfillment service (for example, to change the address of a fulfillment service), use the [LocationEdit](https://shopify.dev/api/admin-graphql/latest/mutations/locationEdit) mutation.
+   * The mutation modifies how the fulfillment service handles inventory tracking, shipping requirements, and package tracking support.
+   *
+   * > Note:
+   * > To update the physical address or other location details of the fulfillment service, use the [`locationEdit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/locationEdit) mutation instead.
+   *
+   * Learn more about [editing fulfillment service locations](https://shopify.dev/docs/apps/build/orders-fulfillment/fulfillment-service-apps/build-for-fulfillment-services#step-2-edit-locations).
    */
   fulfillmentServiceUpdate?: Maybe<FulfillmentServiceUpdatePayload>;
-  /** Updates tracking information for a fulfillment. */
+  /**
+   * Updates tracking information for a fulfillment, including the carrier name, tracking numbers, and tracking URLs. You can provide either single or multiple tracking numbers for shipments with multiple packages.
+   *
+   * The mutation accepts a [`FulfillmentTrackingInput`](https://shopify.dev/docs/api/admin-graphql/latest/input-objects/FulfillmentTrackingInput) that supports both single tracking (using [`number`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentTrackingInfoUpdate#arguments-trackingInfoInput.fields.number) and [`url`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentTrackingInfoUpdate#arguments-trackingInfoInput.fields.url) fields) and multi-package tracking (using [`numbers`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentTrackingInfoUpdate#arguments-trackingInfoInput.fields.numbers) and [`urls`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentTrackingInfoUpdate#arguments-trackingInfoInput.fields.urls) fields). When you specify a [supported carrier name](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentTrackingInfo#supported-tracking-companies), Shopify automatically generates tracking URLs for the provided tracking numbers.
+   *
+   * You can optionally notify customers about tracking updates with the [`notifyCustomer`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/fulfillmentTrackingInfoUpdate#arguments-notifyCustomer) argument. When enabled, customers receive shipping update emails with tracking details and receive notifications about future updates to the fulfillment.
+   *
+   * Learn more about [enabling tracking support](https://shopify.dev/docs/apps/build/orders-fulfillment/fulfillment-service-apps/build-for-fulfillment-services#step-9-optional-enable-tracking-support) for fulfillment services.
+   */
   fulfillmentTrackingInfoUpdate?: Maybe<FulfillmentTrackingInfoUpdatePayload>;
   /**
    * Updates tracking information for a fulfillment.
@@ -33078,20 +34066,64 @@ export type Mutation = {
   giftCardSendNotificationToRecipient?: Maybe<GiftCardSendNotificationToRecipientPayload>;
   /** Update a gift card. */
   giftCardUpdate?: Maybe<GiftCardUpdatePayload>;
-  /** Activate an inventory item at a location. */
+  /**
+   * Activates an inventory item at a [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) by creating an [`InventoryLevel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel) that tracks stock quantities. This enables you to manage inventory for a [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) at the specified location.
+   *
+   * When you activate an inventory item, you can set its initial quantities. The [`available`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/inventoryActivate#arguments-available) argument sets the quantity that's available for sale. [`onHand`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/inventoryActivate#arguments-onHand) argument sets the total physical quantity at the location. If you don't specify quantities, then `available` and `onHand` default to zero.
+   *
+   * > Caution:
+   * > As of version `2026-01`, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of version `2026-04`, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   *
+   * Learn more about [managing inventory quantities and states](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states).
+   */
   inventoryActivate?: Maybe<InventoryActivatePayload>;
-  /** Apply changes to inventory quantities. */
+  /**
+   * Adjusts quantities for inventory items by applying incremental changes at specific locations. Each adjustment modifies the quantity by a delta value rather than setting an absolute amount.
+   *
+   * The mutation tracks adjustments with a reason code and optional reference URI for audit trails. Returns an [`InventoryAdjustmentGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryAdjustmentGroup) that records all changes made in the operation.
+   *
+   * Learn more about [managing inventory quantities and states](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#adjust-inventory-quantities).
+   *
+   * > Caution:
+   * > As of version `2026-01`, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of version `2026-04`, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   inventoryAdjustQuantities?: Maybe<InventoryAdjustQuantitiesPayload>;
-  /** Modify the activation status of an inventory item at locations. Activating an inventory item at a particular location allows that location to stock that inventory item. Deactivating an inventory item at a location removes the inventory item's quantities and turns off the inventory item from that location. */
+  /**
+   * Activates or deactivates an inventory item at multiple locations. When you activate an [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) at a [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location), that location can stock and track quantities for that item. When you deactivate an inventory item at a location, the inventory item is no longer stocked at that location.
+   *
+   * The mutation accepts an inventory item ID and a list of location-specific activation settings. It returns the updated inventory item and any activated [`InventoryLevel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryLevel) objects.
+   *
+   * Learn more about [managing inventory quantities and states](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#inventory-object-relationships).
+   */
   inventoryBulkToggleActivation?: Maybe<InventoryBulkToggleActivationPayload>;
   /** Removes an inventory item's quantities from a location, and turns off inventory at the location. */
   inventoryDeactivate?: Maybe<InventoryDeactivatePayload>;
-  /** Updates an inventory item. */
+  /** Updates an [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem)'s properties including whether inventory is tracked, cost, SKU, and whether shipping is required. Inventory items represent the goods available to be shipped to customers. */
   inventoryItemUpdate?: Maybe<InventoryItemUpdatePayload>;
-  /** Moves inventory between inventory quantity names at a single location. */
+  /**
+   * Moves inventory quantities for a single inventory item between different states at a single location. Use this mutation to reallocate inventory across quantity states without moving it between locations.
+   *
+   * Each change specifies the quantity to move, the source state and location, and the destination state and location. The mutation returns an [`InventoryAdjustmentGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryAdjustmentGroup) that tracks all changes made in a single operation, providing an audit trail with the reason and reference document URI.
+   *
+   * > Caution:
+   * > As of version `2026-01`, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of version `2026-04`, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   inventoryMoveQuantities?: Maybe<InventoryMoveQuantitiesPayload>;
   /**
-   * Set inventory on-hand quantities using absolute values.
+   * Sets an inventory item's on-hand quantities to specific absolute values at designated locations. The mutation takes a reason for tracking purposes and a reference document URI for audit trails.
+   *
+   * Returns an [`InventoryAdjustmentGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryAdjustmentGroup) that tracks all changes made in this operation, including the delta values calculated from the previous quantities.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
    * @deprecated Use `inventorySetQuantities` to set on_hand or available quantites instead.
    */
   inventorySetOnHandQuantities?: Maybe<InventorySetOnHandQuantitiesPayload>;
@@ -33110,21 +34142,62 @@ export type Mutation = {
    * > Opting out of the `compareQuantity` check can lead to inaccurate inventory quantities if multiple requests are made concurrently.
    * > It is recommended to always include the `compareQuantity` value to ensure the accuracy of the inventory quantities and to opt out
    * > of the check using `ignoreCompareQuantity` only when necessary.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
    */
   inventorySetQuantities?: Maybe<InventorySetQuantitiesPayload>;
-  /** Set up scheduled changes of inventory items. */
+  /**
+   * Set up scheduled changes of inventory items.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   * @deprecated Scheduled changes will be phased out in 2026-07.
+   */
   inventorySetScheduledChanges?: Maybe<InventorySetScheduledChangesPayload>;
-  /** Adds items to an inventory shipment. */
+  /**
+   * Adds items to an inventory shipment.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   inventoryShipmentAddItems?: Maybe<InventoryShipmentAddItemsPayload>;
-  /** Adds a draft shipment to an inventory transfer. */
+  /**
+   * Adds a draft shipment to an inventory transfer.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   inventoryShipmentCreate?: Maybe<InventoryShipmentCreatePayload>;
-  /** Adds an in-transit shipment to an inventory transfer. */
+  /**
+   * Adds an in-transit shipment to an inventory transfer.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   inventoryShipmentCreateInTransit?: Maybe<InventoryShipmentCreateInTransitPayload>;
   /** Deletes an inventory shipment. Only draft shipments can be deleted. */
   inventoryShipmentDelete?: Maybe<InventoryShipmentDeletePayload>;
   /** Marks a draft inventory shipment as in transit. */
   inventoryShipmentMarkInTransit?: Maybe<InventoryShipmentMarkInTransitPayload>;
-  /** Receive an inventory shipment. */
+  /**
+   * Receive an inventory shipment.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   inventoryShipmentReceive?: Maybe<InventoryShipmentReceivePayload>;
   /** Remove items from an inventory shipment. */
   inventoryShipmentRemoveItems?: Maybe<InventoryShipmentRemoveItemsPayload>;
@@ -33134,15 +34207,36 @@ export type Mutation = {
   inventoryShipmentUpdateItemQuantities?: Maybe<InventoryShipmentUpdateItemQuantitiesPayload>;
   /** Cancels an inventory transfer. */
   inventoryTransferCancel?: Maybe<InventoryTransferCancelPayload>;
-  /** Creates an inventory transfer. */
+  /**
+   * Creates a draft inventory transfer to move inventory items between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects in your store. The transfer tracks which items to move, their quantities, and the origin and destination locations.
+   *
+   * Use [`inventoryTransferMarkAsReadyToShip`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/inventoryTransferMarkAsReadyToShip) to mark the transfer as ready to ship.
+   *
+   * > Caution:
+   * > As of version `2026-01`, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of version `2026-04`, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   inventoryTransferCreate?: Maybe<InventoryTransferCreatePayload>;
-  /** Creates an inventory transfer in ready to ship. */
+  /**
+   * Creates an inventory transfer in ready to ship.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   inventoryTransferCreateAsReadyToShip?: Maybe<InventoryTransferCreateAsReadyToShipPayload>;
   /** Deletes an inventory transfer. */
   inventoryTransferDelete?: Maybe<InventoryTransferDeletePayload>;
   /**
    * This mutation allows duplicating an existing inventory transfer. The duplicated transfer will have the same
    * line items and quantities as the original transfer, but will be in a draft state with no shipments.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
    */
   inventoryTransferDuplicate?: Maybe<InventoryTransferDuplicatePayload>;
   /** Edits an inventory transfer. */
@@ -33154,25 +34248,53 @@ export type Mutation = {
    * It removes all quantities of the item from the transfer that are not associated with shipments.
    */
   inventoryTransferRemoveItems?: Maybe<InventoryTransferRemoveItemsPayload>;
-  /** This mutation allows for the setting of line items on a Transfer. Will replace the items already set, if any. */
+  /**
+   * This mutation allows for the setting of line items on a Transfer. Will replace the items already set, if any.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   inventoryTransferSetItems?: Maybe<InventoryTransferSetItemsPayload>;
   /**
    * Activates a location so that you can stock inventory at the location. Refer to the
    * [`isActive`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location#field-isactive) and
    * [`activatable`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location#field-activatable)
    * fields on the `Location` object.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
    */
   locationActivate?: Maybe<LocationActivatePayload>;
-  /** Adds a new location. */
+  /**
+   * Adds a new [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) where you can stock inventory and fulfill orders. Locations represent physical places like warehouses, retail stores, or fulfillment centers.
+   *
+   * The location requires a name and address with at least a country code. You can specify whether the location fulfills online orders, which determines if its inventory is available for online sales. You can also attach custom [metafields](https://shopify.dev/docs/apps/build/custom-data) to store additional information about the location.
+   */
   locationAdd?: Maybe<LocationAddPayload>;
-  /** Deactivates a location and moves inventory, pending orders, and moving transfers to a destination location. */
+  /**
+   * Deactivates a location and moves inventory, pending orders, and moving transfers " "to a destination location.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   locationDeactivate?: Maybe<LocationDeactivatePayload>;
   /** Deletes a location. */
   locationDelete?: Maybe<LocationDeletePayload>;
   /**
-   * Edits an existing location.
+   * Updates the properties of an existing [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location). You can modify the location's name, address, whether it fulfills online orders, and custom [`metafields`](https://shopify.dev/docs/apps/build/custom-data).
    *
-   * [As of the 2023-10 API version](https://shopify.dev/changelog/apps-can-now-change-the-name-and-address-of-their-fulfillment-service-locations), apps can change the name and address of their fulfillment service locations.
+   * Apps that created a [`FulfillmentService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentService) can edit the associated location to ensure accurate representation of their fulfillment network.
+   *
+   * > Note:
+   * > You can't disable the [`fulfillsOnlineOrders`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/locationEdit#arguments-input.fields.fulfillsOnlineOrders) setting for fulfillment service locations.
+   *
+   * Learn more about [editing locations for fulfillment services](https://shopify.dev/docs/apps/build/orders-fulfillment/fulfillment-service-apps/build-for-fulfillment-services#step-2-edit-locations).
    */
   locationEdit?: Maybe<LocationEditPayload>;
   /** Disables local pickup for a location. */
@@ -33494,7 +34616,13 @@ export type Mutation = {
    * [order management and fulfillment processes](https://shopify.dev/docs/apps/build/orders-fulfillment).
    */
   orderCreate?: Maybe<OrderCreatePayload>;
-  /** Creates a payment for an order by mandate. */
+  /**
+   * Creates a payment for an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) using a stored [`PaymentMandate`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentMandate). A payment mandate represents the customer's authorization to charge their payment method for deferred payments, such as pre-orders or try-before-you-buy purchases.
+   *
+   * The mutation processes the payment asynchronously and returns a [`Job`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Job) for tracking the payment status. You can specify the payment amount to collect, and use the [`autoCapture`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderCreateMandatePayment#arguments-autoCapture) argument to either immediately capture the payment or only authorize it for later capture. Each payment request requires a unique [`idempotencyKey`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderCreateMandatePayment#arguments-idempotencyKey) to prevent duplicate charges. Subsequent calls with the same key return the original payment result rather than creating a new payment.
+   *
+   * Learn more about [deferred payments and payment mandates](https://shopify.dev/docs/apps/build/purchase-options/deferred#charging-the-remaining-balance) and [idempotent requests](https://shopify.dev/docs/api/usage/idempotent-requests).
+   */
   orderCreateMandatePayment?: Maybe<OrderCreateMandatePaymentPayload>;
   /**
    * Records a manual payment for an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) that isn't fully paid. Use this mutation to track payments received outside the standard checkout process, such as cash, check, bank transfer, or other offline payment methods.
@@ -33515,9 +34643,21 @@ export type Mutation = {
    * > This action is irreversible. You can't recover deleted orders.
    */
   orderDelete?: Maybe<OrderDeletePayload>;
-  /** Adds a custom line item to an existing order. For example, you could add a gift wrapping service as a [custom line item](https://shopify.dev/apps/fulfillment/order-management-apps/order-editing#add-a-custom-line-item). To learn how to edit existing orders, refer to [Edit an existing order with Admin API](https://shopify.dev/apps/fulfillment/order-management-apps/order-editing). */
+  /**
+   * Adds a custom line item to an existing [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). Custom line items represent products or services not in your catalog, such as gift wrapping, installation fees, or one-off charges.
+   *
+   * Creates a [`CalculatedLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CalculatedLineItem) with the specified title, price, and quantity. Changes remain in the edit session until you commit them with the [`orderEditCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditCommit) mutation.
+   *
+   * Learn more about [adding custom line items](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders#add-a-custom-line-item).
+   */
   orderEditAddCustomItem?: Maybe<OrderEditAddCustomItemPayload>;
-  /** Adds a discount to a line item on the current order edit. For more information on how to use the GraphQL Admin API to edit an existing order, refer to [Edit existing orders](https://shopify.dev/apps/fulfillment/order-management-apps/order-editing). */
+  /**
+   * Applies a discount to a [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) during an order edit session. The discount can be either a fixed amount or percentage value.
+   *
+   * To modify pricing on specific line items, use this mutation after starting an order edit with the [`orderEditBegin`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditBegin) mutation. The changes remain staged until you commit them with the [`orderEditCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditCommit) mutation.
+   *
+   * Learn more about [editing existing orders](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders).
+   */
   orderEditAddLineItemDiscount?: Maybe<OrderEditAddLineItemDiscountPayload>;
   /**
    * Adds a custom shipping line to an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) during an edit session. Specify the shipping title and price to create a new [`ShippingLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShippingLine).
@@ -33527,16 +34667,30 @@ export type Mutation = {
    * Learn more about [editing existing orders](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders).
    */
   orderEditAddShippingLine?: Maybe<OrderEditAddShippingLinePayload>;
-  /** Adds a line item from an existing product variant. As of API version 2025-04, the [orderEditAddVariant](https://shopify.dev/api/admin-graphql/latest/mutations/ordereditaddvariant) API will respect the contextual pricing of the variant. */
+  /**
+   * Adds a [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) as a line item to an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) that's being edited. The mutation respects the variant's contextual pricing.
+   *
+   * You can specify a [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) to check for inventory availability and control whether duplicate variants are allowed. The [`quantity`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditAddVariant#arguments-quantity) must be a positive value.
+   *
+   * Learn more about [editing existing orders](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders#add-a-new-variant).
+   */
   orderEditAddVariant?: Maybe<OrderEditAddVariantPayload>;
   /**
-   * Starts editing an order. Mutations are operating on `OrderEdit`.
-   * All order edits start with `orderEditBegin`, have any number of `orderEdit`* mutations made, and end with `orderEditCommit`.
+   * Starts an order editing session that enables you to modify an existing [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). This mutation creates an [`OrderEditSession`](https://shopify.dev/docs/api/admin-graphql/latest/objects/OrderEditSession) and returns a [`CalculatedOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CalculatedOrder) showing how the order looks with your changes applied.
+   *
+   * Order editing follows a three-step workflow: Begin the edit with [`orderEditBegin`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditBegin), apply changes using mutations like [`orderEditAddVariant`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditAddVariant) or [`orderEditSetQuantity`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditSetQuantity), and then save the changes with the [`orderEditCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditCommit) mutation. The session tracks all staged changes until you commit or abandon them.
+   *
+   * Learn more about [editing existing orders](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders).
    */
   orderEditBegin?: Maybe<OrderEditBeginPayload>;
   /**
-   * Applies and saves staged changes to an order. Mutations are operating on `OrderEdit`.
-   * All order edits start with `orderEditBegin`, have any number of `orderEdit`* mutations made, and end with `orderEditCommit`.
+   * Applies staged changes from an order editing session to the original order. This finalizes all modifications made during the edit session, including changes to line items, quantities, discounts, and shipping lines.
+   *
+   * Order editing follows a three-step workflow: start with [`orderEditBegin`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditBegin) to create an editing session, apply changes using various orderEdit mutations, and then save the changes with the [`orderEditCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderEditCommit) mutation. The mutation can optionally notify the customer of changes and add staff notes for internal tracking.
+   *
+   * You can only edit unfulfilled line items. If an edit changes the total order value, then the customer might need to pay a balance or receive a refund.
+   *
+   * Learn more about [editing existing orders](https://shopify.dev/docs/apps/build/orders-fulfillment/order-management-apps/edit-orders).
    */
   orderEditCommit?: Maybe<OrderEditCommitPayload>;
   /** Removes a discount on the current order edit. For more information on how to use the GraphQL Admin API to edit an existing order, refer to [Edit existing orders](https://shopify.dev/apps/fulfillment/order-management-apps/order-editing). */
@@ -33560,7 +34714,14 @@ export type Mutation = {
   orderEditUpdateDiscount?: Maybe<OrderEditUpdateDiscountPayload>;
   /** Updates a shipping line on the current order edit. For more information on how to use the GraphQL Admin API to edit an existing order, refer to [Edit existing orders](https://shopify.dev/apps/fulfillment/order-management-apps/order-editing). */
   orderEditUpdateShippingLine?: Maybe<OrderEditUpdateShippingLinePayload>;
-  /** Sends an email invoice for an order. */
+  /**
+   * Sends an email invoice for an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order).
+   *
+   * You can customize the email recipient, sender, and subject line using the [`email`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderInvoiceSend#arguments-email) argument.
+   *
+   * > Note:
+   * > Use store or staff account email addresses for the [`from`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderInvoiceSend#arguments-email.fields.from) and [`bcc`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderInvoiceSend#arguments-email.fields.bcc) input fields.
+   */
   orderInvoiceSend?: Maybe<OrderInvoiceSendPayload>;
   /**
    * Marks an order as paid by recording a payment transaction for the outstanding amount.
@@ -33660,21 +34821,42 @@ export type Mutation = {
   paymentTermsDelete?: Maybe<PaymentTermsDeletePayload>;
   /** Update payment terms on an order. To update payment terms on a draft order, use a draft order mutation and include the request with the `DraftOrderInput`. */
   paymentTermsUpdate?: Maybe<PaymentTermsUpdatePayload>;
-  /** Creates a price list. You can use the `priceListCreate` mutation to create a new price list and associate it with a catalog. This enables you to sell your products with contextual pricing. */
+  /**
+   * Creates a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList). Price lists enable contextual pricing by defining fixed prices or percentage-based adjustments.
+   *
+   * The price list requires a unique name, currency for fixed prices, and parent adjustment settings that determine how the system calculates prices relative to base prices. To apply contextual pricing, link the price list to a [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog). When that catalog's context is matched, customers receive the price list's prices.
+   *
+   * Learn more about [building catalogs with price lists](https://shopify.dev/docs/apps/build/markets/build-catalog#step-2-associate-a-price-list-with-the-catalog).
+   */
   priceListCreate?: Maybe<PriceListCreatePayload>;
   /** Deletes a price list. For example, you can delete a price list so that it no longer applies for products in the associated market. */
   priceListDelete?: Maybe<PriceListDeletePayload>;
-  /** Creates or updates fixed prices on a price list. You can use the `priceListFixedPricesAdd` mutation to set a fixed price for specific product variants. This lets you change product variant pricing on a per country basis. Any existing fixed price list prices for these variants will be overwritten. */
+  /**
+   * Creates or updates fixed prices on a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList). Use this mutation to set specific prices for [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects that override the price list's default percentage-based adjustments.
+   *
+   * When you add fixed prices, the mutation replaces any existing fixed prices for those variants on the price list.
+   */
   priceListFixedPricesAdd?: Maybe<PriceListFixedPricesAddPayload>;
-  /** Updates the fixed prices for all variants for a product on a price list. You can use the `priceListFixedPricesByProductUpdate` mutation to set or remove a fixed price for all variants of a product associated with the price list. */
+  /**
+   * Sets or removes fixed prices for all variants of a [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) on a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList). Simplifies pricing management when all variants of a product should have the same price on a price list, rather than setting individual variant prices.
+   *
+   * When you add a fixed price for a product, all its [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects receive the same price on the price list. When you remove a product's fixed prices, all variant prices revert to the price list's adjustment rules.
+   */
   priceListFixedPricesByProductUpdate?: Maybe<PriceListFixedPricesByProductUpdatePayload>;
   /** Deletes specific fixed prices from a price list using a product variant ID. You can use the `priceListFixedPricesDelete` mutation to delete a set of fixed prices from a price list. After deleting the set of fixed prices from the price list, the price of each product variant reverts to the original price that was determined by the price list adjustment. */
   priceListFixedPricesDelete?: Maybe<PriceListFixedPricesDeletePayload>;
-  /** Updates fixed prices on a price list. You can use the `priceListFixedPricesUpdate` mutation to set a fixed price for specific product variants or to delete prices for variants associated with the price list. */
+  /**
+   * Updates fixed prices on a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList). This mutation lets you add new fixed prices for specific [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects and remove existing prices in a single operation.
+   *
+   * Use this mutation to modify variant pricing on a price list by providing prices to add and variant IDs to delete.
+   *
+   * Learn more about [setting fixed prices for product variants](https://shopify.dev/docs/apps/build/markets/build-catalog#step-3-set-fixed-prices-for-specific-product-variants).
+   */
   priceListFixedPricesUpdate?: Maybe<PriceListFixedPricesUpdatePayload>;
   /**
-   * Updates a price list.
-   * If you modify the currency, then any fixed prices set on the price list will be deleted.
+   * Updates a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList)'s configuration, including its name, currency, [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) association, and pricing adjustments.
+   *
+   * Changing the currency removes all fixed prices from the price list. The affected [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects revert to prices calculated from the price list's adjustment settings.
    */
   priceListUpdate?: Maybe<PriceListUpdatePayload>;
   /** Disable a shop's privacy features. */
@@ -33734,7 +34916,11 @@ export type Mutation = {
    */
   productCreate?: Maybe<ProductCreatePayload>;
   /**
-   * Creates media for a product.
+   * Adds media files to a [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product), such as images, videos, or 3D models. Media files enhance product listings by providing visual representations that help customers understand the product.
+   *
+   * The mutation accepts an array of [`CreateMediaInput`](https://shopify.dev/docs/api/admin-graphql/latest/input-objects/CreateMediaInput) objects, each specifying the source URL, content type, and optional alt text.
+   *
+   * You can add multiple media files in a single request. The mutation adds all valid files and returns errors for any invalid ones.
    * @deprecated Use `productUpdate` or `productSet` instead.
    */
   productCreateMedia?: Maybe<ProductCreateMediaPayload>;
@@ -33786,7 +34972,12 @@ export type Mutation = {
    */
   productDelete?: Maybe<ProductDeletePayload>;
   /**
-   * Deletes media for a product.
+   * Deletes media from a [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product), such as images, videos, and 3D models.
+   *
+   * When you delete media images, the mutation also removes any corresponding product images. The mutation returns the IDs of both the deleted media and any product images that the deletion removed.
+   *
+   * > Caution:
+   * > This action is irreversible. You can't recover deleted media.
    * @deprecated Use `fileUpdate` instead.
    */
   productDeleteMedia?: Maybe<ProductDeleteMediaPayload>;
@@ -33991,23 +35182,23 @@ export type Mutation = {
    */
   productOptionsReorder?: Maybe<ProductOptionsReorderPayload>;
   /**
-   * Publishes a product. Products that are sold exclusively on subscription (`requiresSellingPlan: true`) can only be published on online stores.
+   * Publishes a [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) to specified [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) objects.
+   *
+   * Products sold exclusively on subscription (`requiresSellingPlan: true`) can only be published to online stores.
    * @deprecated Use `publishablePublish` instead.
    */
   productPublish?: Maybe<ProductPublishPayload>;
   /**
-   * Asynchronously reorders the media attached to a product, changing the sequence in which images, videos, and other media appear in product displays. This affects how media is presented across all sales channels.
+   * Reorders [media](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Media) attached to a product, changing their sequence in product displays. The operation processes asynchronously to handle [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) with large media collections.
    *
-   * For example, merchants can move their best product photo to the first position or reorder images to tell a better product story, with changes appearing in storefronts once processing completes.
+   * Specify the [product ID](https://shopify.dev/docs/api/admin-graphql/latest/mutations/productReorderMedia#arguments-id) and an array of [moves](https://shopify.dev/docs/api/admin-graphql/latest/mutations/productReorderMedia#arguments-moves), where each move contains a media ID and its new zero-based position.
    *
-   * Use `ProductReorderMedia` to:
-   * - Optimize media presentation order for better customer experience
-   * - Implement drag-and-drop media management interfaces
-   * - Automate media sequencing based on performance or quality metrics
+   * > Note:
+   * > Only include media items that need repositioning. Unchanged items maintain their relative order automatically.
    *
-   * The operation processes asynchronously to handle products with large media collections without blocking other operations.
+   * The mutation returns a [`Job`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Job) to track the reordering progress. Poll the job status to determine when the operation completes and media positions update across all sales channels.
    *
-   * Learn more about [product media](https://shopify.dev/docs/api/admin-graphql/latest/objects/Media).
+   * Learn more about [reordering product media](https://shopify.dev/docs/apps/build/online-store/product-media#step-6-reorder-media-objects).
    */
   productReorderMedia?: Maybe<ProductReorderMediaPayload>;
   /**
@@ -34089,7 +35280,9 @@ export type Mutation = {
    */
   productUpdate?: Maybe<ProductUpdatePayload>;
   /**
-   * Updates media for a product.
+   * Updates properties of media attached to a [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product). You can modify alt text for accessibility or change preview images for existing media items.
+   *
+   * Provide the product ID and an array of [`UpdateMediaInput`](https://shopify.dev/docs/api/admin-graphql/latest/input-objects/UpdateMediaInput) objects. Each update specifies the media's ID and the properties to change. Updates apply only to media already attached to the product and don't affect their position in the product gallery.
    * @deprecated Use `fileUpdate` instead.
    */
   productUpdateMedia?: Maybe<ProductUpdateMediaPayload>;
@@ -34223,21 +35416,69 @@ export type Mutation = {
    * @deprecated Use `webhookSubscriptionUpdate` instead.
    */
   pubSubWebhookSubscriptionUpdate?: Maybe<PubSubWebhookSubscriptionUpdatePayload>;
-  /** Creates a publication. */
+  /**
+   * Creates a [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) that controls which [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`Collection`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) customers can access through a [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog).
+   *
+   * ### When to create a publication
+   *
+   * Publications are **optional** for catalogs. Only create a publication if you need to control which products are visible in a specific catalog context. When a publication isn't associated with a catalog, product availability is determined by the sales channel.
+   *
+   * **Create a publication if you need to:**
+   * - Restrict product visibility to a subset of your inventory for a specific market or company location
+   * - Publish different product selections to different contexts
+   *
+   * **Do NOT create a publication if:**
+   * - You want product availability determined by the sales channel
+   * - You only need custom pricing (use a price list on the catalog instead)
+   *
+   * ### Configuration options
+   *
+   * You can create an empty publication and add products later, or prepopulate it with all existing products. The [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/publicationCreate#arguments-input.fields.autoPublish) field determines whether the publication automatically adds newly created products.
+   */
   publicationCreate?: Maybe<PublicationCreatePayload>;
   /** Deletes a publication. */
   publicationDelete?: Maybe<PublicationDeletePayload>;
-  /** Updates a publication. */
+  /**
+   * Updates a [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
+   *
+   * You can add or remove [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) from the publication, with a maximum of 50 items per operation. The [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/publicationUpdate#arguments-input.fields.autoPublish) field determines whether new products automatically display in this publication.
+   */
   publicationUpdate?: Maybe<PublicationUpdatePayload>;
-  /** Publishes a resource to a channel. If the resource is a product, then it's visible in the channel only if the product status is `active`. Products that are sold exclusively on subscription (`requiresSellingPlan: true`) can be published only on online stores. */
+  /**
+   * Publishes a resource, such as a [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) or [`Collection`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection), to one or more [publications](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
+   *
+   * For products to be visible in a channel, they must have an active [`ProductStatus`](https://shopify.dev/docs/api/admin-graphql/latest/enums/ProductStatus). Products sold exclusively on subscription (`requiresSellingPlan: true`) can only be published to online stores.
+   *
+   * You can schedule future publication by providing a publish date. Only online store channels support [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing).
+   */
   publishablePublish?: Maybe<PublishablePublishPayload>;
-  /** Publishes a resource to current channel. If the resource is a product, then it's visible in the channel only if the product status is `active`. Products that are sold exclusively on subscription (`requiresSellingPlan: true`) can be published only on online stores. */
+  /**
+   * Publishes a resource to the current [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) associated with the requesting app. The system determines the current channel by the app's API client ID. Resources include [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`Collection`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) objects that implement the [`Publishable`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Publishable) interface.
+   *
+   * For products to be visible in the channel, they must have an active [`ProductStatus`](https://shopify.dev/docs/api/admin-graphql/latest/enums/ProductStatus). Products sold exclusively on subscription ([`requiresSellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product#field-Product.fields.requiresSellingPlan): `true`) can only be published to online stores.
+   * @deprecated Use `publishablePublish` instead.
+   */
   publishablePublishToCurrentChannel?: Maybe<PublishablePublishToCurrentChannelPayload>;
-  /** Unpublishes a resource from a channel. If the resource is a product, then it's visible in the channel only if the product status is `active`. */
+  /**
+   * Unpublishes a resource, such as a [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) or [`Collection`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection), from one or more [publications](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication). The resource remains in your store but becomes unavailable to customers.
+   *
+   * For products to be visible in a channel, they must have an active [`ProductStatus`](https://shopify.dev/docs/api/admin-graphql/latest/enums/ProductStatus).
+   */
   publishableUnpublish?: Maybe<PublishableUnpublishPayload>;
-  /** Unpublishes a resource from the current channel. If the resource is a product, then it's visible in the channel only if the product status is `active`. */
+  /**
+   * Unpublishes a resource from the current channel. If the resource is a product, then it's visible in the channel only if the product status is `active`.
+   * @deprecated Use `publishableUnpublish` instead.
+   */
   publishableUnpublishToCurrentChannel?: Maybe<PublishableUnpublishToCurrentChannelPayload>;
-  /** Updates quantity pricing on a price list. You can use the `quantityPricingByVariantUpdate` mutation to set fixed prices, quantity rules, and quantity price breaks. This mutation does not allow partial successes. If any of the requested resources fail to update, none of the requested resources will be updated. Delete operations are executed before create operations. */
+  /**
+   * Updates quantity pricing on a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for specific [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects. You can set fixed prices (see [`PriceListPrice`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceListPrice)), quantity rules, and quantity price breaks in a single operation.
+   *
+   * [`QuantityRule`](https://shopify.dev/docs/api/admin-graphql/latest/objects/QuantityRule) objects define minimum, maximum, and increment constraints for ordering. [`QuantityPriceBreak`](https://shopify.dev/docs/api/admin-graphql/latest/objects/QuantityPriceBreak) objects offer tiered pricing based on purchase volume.
+   *
+   * The mutation executes delete operations before create operations and doesn't allow partial updates.
+   *
+   * > Note: If any requested change fails, then the mutation doesn't apply any of the changes.
+   */
   quantityPricingByVariantUpdate?: Maybe<QuantityPricingByVariantUpdatePayload>;
   /**
    * Creates or updates existing quantity rules on a price list.
@@ -34282,6 +35523,11 @@ export type Mutation = {
    * mutation. The key difference is that the `refundCreate` mutation lets you to specify restocking behavior
    * for line items, whereas the `returnRefund` mutation focuses solely on handling the financial refund without
    * any restocking input.
+   *
+   * > Caution:
+   * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
+   * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
+   * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
    */
   refundCreate?: Maybe<RefundCreatePayload>;
   /** Removes return and/or exchange lines from a return. */
@@ -34343,10 +35589,16 @@ export type Mutation = {
    * @deprecated Use `removeFromReturn` instead.
    */
   returnLineItemRemoveFromReturn?: Maybe<ReturnLineItemRemoveFromReturnPayload>;
-  /** Process a return. */
+  /**
+   * Processes a return by confirming which items customers return and exchange, handling their disposition, and optionally issuing refunds. This mutation confirms the quantities for [`ReturnLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ReturnLineItem) and [`ExchangeLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ExchangeLineItem) objects previously created on the [`Return`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Return).
+   *
+   * For returned items, you specify how to handle them through dispositions such as restocking or disposal. The mutation creates [`FulfillmentOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentOrder) objects for exchange items and records all transactions in the merchant's financial reports. You can optionally issue refunds through financial transfers, apply refund duties, and refund shipping costs.
+   *
+   * Learn more about [processing returns](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/build-return-management).
+   */
   returnProcess?: Maybe<ReturnProcessPayload>;
   /**
-   * Refunds a return when its status is `OPEN` or `CLOSED` and associates it with the related return request.
+   * Creates a refund for items being returned when the return status is `OPEN` or `CLOSED`. This mutation processes the financial aspects of a return by refunding line items, shipping costs, and duties back to the customer.
    * @deprecated Use `returnProcess` instead.
    */
   returnRefund?: Maybe<ReturnRefundPayload>;
@@ -34417,7 +35669,13 @@ export type Mutation = {
   sellingPlanGroupAddProductVariants?: Maybe<SellingPlanGroupAddProductVariantsPayload>;
   /** Adds multiple products to a selling plan group. */
   sellingPlanGroupAddProducts?: Maybe<SellingPlanGroupAddProductsPayload>;
-  /** Creates a Selling Plan Group. */
+  /**
+   * Creates a selling plan group that defines how products can be sold and purchased. A selling plan group represents a selling method such as "Subscribe and save", "Pre-order", or "Try before you buy" and contains one or more selling plans with specific billing, delivery, and pricing policies.
+   *
+   * Use the [`resources`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/sellingPlanGroupCreate#arguments-resources) argument to associate products or product variants with the group during creation. You can also add products later using [`sellingPlanGroupAddProducts`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/sellingPlanGroupAddProducts) or [`sellingPlanGroupAddProductVariants`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/sellingPlanGroupAddProductVariants).
+   *
+   * Learn more about [building selling plan groups](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/selling-plans/build-a-selling-plan#step-1-create-a-selling-plan-group) or explore [examples of creating TBYB and other selling plan groups](https://shopify.dev/docs/api/admin-graphql/latest/mutations/sellingPlanGroupCreate?example=create-a-tbyb-selling-plan-group).
+   */
   sellingPlanGroupCreate?: Maybe<SellingPlanGroupCreatePayload>;
   /** Delete a Selling Plan Group. This does not affect subscription contracts. */
   sellingPlanGroupDelete?: Maybe<SellingPlanGroupDeletePayload>;
@@ -34458,11 +35716,14 @@ export type Mutation = {
    *
    * ## Sending feedback on a shop
    *
-   * You can send resource feedback on a shop to let the merchant know what steps they need to take to make sure that your app is set up correctly. Feedback can have one of two states: `requires_action` or `success`. You need to send a `requires_action` feedback request for each step that the merchant is required to complete.
+   * You can send resource feedback on a shop to let the merchant know what steps they need to take to make sure that your app is set up correctly. Feedback can have one of two states: `REQUIRES_ACTION` or `ACCEPTED`. You need to send a `REQUIRES_ACTION` feedback request for each step that the merchant is required to complete.
    *
-   * If there are multiple set-up steps that require merchant action, then send feedback with a state of `requires_action` as merchants complete prior steps. And to remove the feedback message from the Shopify admin, send a `success` feedback request.
+   * If there are multiple set-up steps that require merchant action, then send feedback with a state of `REQUIRES_ACTION` as merchants complete prior steps. When all required actions are resolved, send an `ACCEPTED` feedback request to clear the active feedback signal.
    *
-   * #### Important
+   * ### Clearing feedback with ACCEPTED
+   * Sending `state: ACCEPTED` removes the active feedback entry. After this mutation succeeds, reading `channel.resourceFeedback`, `app.feedback`, or the `feedback` field on this payload may return `null`—this is expected behavior, not a mutation failure. A `null` result means no outstanding feedback exists for the channel.
+   *
+   * ### Important
    * Sending feedback replaces previously sent feedback for the shop. Send a new `shopResourceFeedbackCreate` mutation to push the latest state of a shop or its resources to Shopify.
    */
   shopResourceFeedbackCreate?: Maybe<ShopResourceFeedbackCreatePayload>;
@@ -34550,7 +35811,18 @@ export type Mutation = {
   storefrontAccessTokenCreate?: Maybe<StorefrontAccessTokenCreatePayload>;
   /** Deletes a storefront access token. */
   storefrontAccessTokenDelete?: Maybe<StorefrontAccessTokenDeletePayload>;
-  /** Creates a new subscription billing attempt. For more information, refer to [Create a subscription contract](https://shopify.dev/docs/apps/selling-strategies/subscriptions/contracts/create#step-4-create-a-billing-attempt). */
+  /**
+   * Creates a billing attempt to charge for a [`SubscriptionContract`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract). The mutation processes either the payment for the current billing cycle or for a specific cycle, if selected.
+   *
+   * The mutation creates an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) when successful. Failed billing attempts include a [`processingError`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/subscriptionBillingAttemptCreate#returns-subscriptionBillingAttempt.fields.processingError) field with error details.
+   *
+   * > Tip:
+   * > Use the [`idempotencyKey`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/subscriptionBillingAttemptCreate#arguments-subscriptionBillingAttemptInput.fields.idempotencyKey) to ensure the billing attempt executes only once, preventing duplicate charges if the request is retried.
+   *
+   * You can target a specific billing cycle using the [`billingCycleSelector`](https://shopify.dev/docs/api/admin-graphql/latest/input-objects/SubscriptionBillingCycleSelector) to bill past or future cycles. The [`originTime`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingAttempt#field-SubscriptionBillingAttempt.fields.originTime) parameter adjusts fulfillment scheduling for attempts completed after the expected billing date.
+   *
+   * Learn more about [creating billing attempts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract#step-4-create-a-billing-attempt).
+   */
   subscriptionBillingAttemptCreate?: Maybe<SubscriptionBillingAttemptCreatePayload>;
   /** Asynchronously queries and charges all subscription billing cycles whose [billingAttemptExpectedDate](https://shopify.dev/api/admin-graphql/latest/objects/SubscriptionBillingCycle#field-billingattemptexpecteddate) values fall within a specified date range and meet additional filtering criteria. The results of this action can be retrieved using the [subscriptionBillingCycleBulkResults](https://shopify.dev/api/admin-graphql/latest/queries/subscriptionBillingCycleBulkResults) query. */
   subscriptionBillingCycleBulkCharge?: Maybe<SubscriptionBillingCycleBulkChargePayload>;
@@ -34581,10 +35853,13 @@ export type Mutation = {
   /** Cancels a Subscription Contract. */
   subscriptionContractCancel?: Maybe<SubscriptionContractCancelPayload>;
   /**
-   * Creates a Subscription Contract Draft.
-   * You can submit all the desired information for the draft using [Subscription Draft Input object](https://shopify.dev/docs/api/admin-graphql/latest/input-objects/SubscriptionDraftInput).
-   * You can also update the draft using the [Subscription Contract Update](https://shopify.dev/docs/api/admin-graphql/latest/mutations/subscriptionContractUpdate) mutation.
-   * The draft is not saved until you call the [Subscription Draft Commit](https://shopify.dev/docs/api/admin-graphql/latest/mutations/subscriptionDraftCommit) mutation.
+   * Creates a subscription contract draft, which is an intention to create a new subscription. The draft lets you incrementally build and modify subscription details before committing them to create the actual [`SubscriptionContract`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract).
+   *
+   * The mutation requires [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer) information, billing details, and contract configuration including the [`SubscriptionBillingPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingPolicy) and [`SubscriptionDeliveryPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionDeliveryPolicy). You can specify the [`CustomerPaymentMethod`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CustomerPaymentMethod), the [`MailingAddress`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MailingAddress) for shipping, and subscription intervals.
+   *
+   * After you create the draft, you can either modify it with the [`subscriptionDraftUpdate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/subscriptionDraftUpdate) mutation or finalize and create the active subscription contract with [`subscriptionDraftCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/subscriptionDraftCommit).
+   *
+   * Learn more about [building subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract).
    */
   subscriptionContractCreate?: Maybe<SubscriptionContractCreatePayload>;
   /** Expires a Subscription Contract. */
@@ -34602,7 +35877,13 @@ export type Mutation = {
    *         which provide auto-computed billing dates and additional functionalities.
    */
   subscriptionContractSetNextBillingDate?: Maybe<SubscriptionContractSetNextBillingDatePayload>;
-  /** The subscriptionContractUpdate mutation allows you to create a draft of an existing subscription contract. This [draft](https://shopify.dev/api/admin-graphql/latest/objects/SubscriptionDraft) can be reviewed and modified as needed. Once the draft is committed with [subscriptionDraftCommit](https://shopify.dev/api/admin-graphql/latest/mutations/subscriptionDraftCommit), the changes are applied to the original subscription contract. */
+  /**
+   * Creates a draft of an existing [`SubscriptionContract`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract). The draft captures the current state of the contract and allows incremental modifications through draft mutations such as [`subscriptionDraftLineAdd`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/subscriptionDraftLineAdd), [`subscriptionDraftDiscountAdd`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/subscriptionDraftDiscountAdd), and [`subscriptionDraftUpdate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/subscriptionDraftUpdate).
+   *
+   * Changes remain in draft state and don't affect the live contract until committed. After you've made all necessary changes to the draft, commit it using [`subscriptionDraftCommit`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/subscriptionDraftCommit) to apply the updates to the original contract.
+   *
+   * Learn more about [updating subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract#step-2-create-a-draft-of-an-existing-contract).
+   */
   subscriptionContractUpdate?: Maybe<SubscriptionContractUpdatePayload>;
   /** Commits the updates of a Subscription Contract draft. */
   subscriptionDraftCommit?: Maybe<SubscriptionDraftCommitPayload>;
@@ -34626,20 +35907,37 @@ export type Mutation = {
   subscriptionDraftLineUpdate?: Maybe<SubscriptionDraftLineUpdatePayload>;
   /** Updates a Subscription Draft. */
   subscriptionDraftUpdate?: Maybe<SubscriptionDraftUpdatePayload>;
-  /** Add tags to an order, a draft order, a customer, a product, or an online store article. */
+  /**
+   * Adds tags to a resource in the store. Supported resources include [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order), [`DraftOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder), [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer), [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product), and [`Article`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Article).
+   *
+   * Tags help merchants organize and filter resources. See the [`tags`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/tagsAdd#arguments-tags) argument for supported input formats.
+   *
+   * Learn more about [using tags to organize subscription orders](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/fulfillments/sync-orders-subscriptions#order-tagging).
+   */
   tagsAdd?: Maybe<TagsAddPayload>;
-  /** Remove tags from an order, a draft order, a customer, a product, or an online store article. */
+  /**
+   * Removes tags from an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order), [`DraftOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder), [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer), [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product), or [`Article`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Article).
+   *
+   * Tags are searchable keywords that help organize and filter these resources.
+   */
   tagsRemove?: Maybe<TagsRemovePayload>;
   /** Allows tax app configurations for tax partners. */
   taxAppConfigure?: Maybe<TaxAppConfigurePayload>;
   /**
-   * Creates a theme using an external URL or for files that were previously uploaded using the
-   * [stagedUploadsCreate mutation](https://shopify.dev/api/admin-graphql/latest/mutations/stageduploadscreate).
-   * These themes are added to the [Themes page](https://admin.shopify.com/themes) in Shopify admin.
+   * Creates a tax summary for a given order.
+   * If both an order ID and a start and end time are provided, the order ID will be used.
+   */
+  taxSummaryCreate?: Maybe<TaxSummaryCreatePayload>;
+  /**
+   * Creates a theme from an external URL or staged upload. The theme source can either be a ZIP file hosted at a public URL or files previously uploaded using the [`stagedUploadsCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/stageduploadscreate) mutation. The theme displays in the [Themes page](https://admin.shopify.com/themes) in the Shopify admin.
+   *
+   * New themes have an [`UNPUBLISHED`](https://shopify.dev//docs/api/admin-graphql/latest/mutations/themeCreate#arguments-role.enums.UNPUBLISHED) role by default. You can optionally specify a [`DEVELOPMENT`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/themeCreate#arguments-role.enums.DEVELOPMENT) role for temporary themes used during development.
    */
   themeCreate?: Maybe<ThemeCreatePayload>;
   /** Deletes a theme. */
   themeDelete?: Maybe<ThemeDeletePayload>;
+  /** Duplicates a theme. */
+  themeDuplicate?: Maybe<ThemeDuplicatePayload>;
   /** Copy theme files. Copying to existing theme files will overwrite them. */
   themeFilesCopy?: Maybe<ThemeFilesCopyPayload>;
   /** Deletes a theme's files. */
@@ -34894,7 +36192,6 @@ export type MutationBulkOperationCancelArgs = {
 /** The schema's entry point for all mutation operations. */
 export type MutationBulkOperationRunMutationArgs = {
   clientIdentifier?: InputMaybe<Scalars['String']['input']>;
-  groupObjects?: Scalars['Boolean']['input'];
   mutation: Scalars['String']['input'];
   stagedUploadPath: Scalars['String']['input'];
 };
@@ -34934,7 +36231,7 @@ export type MutationCarrierServiceUpdateArgs = {
 /** The schema's entry point for all mutation operations. */
 export type MutationCartTransformCreateArgs = {
   blockOnFailure?: InputMaybe<Scalars['Boolean']['input']>;
-  functionId: Scalars['String']['input'];
+  functionHandle?: InputMaybe<Scalars['String']['input']>;
   metafields?: InputMaybe<Array<MetafieldInput>>;
 };
 
@@ -35003,6 +36300,12 @@ export type MutationCollectionCreateArgs = {
 /** The schema's entry point for all mutation operations. */
 export type MutationCollectionDeleteArgs = {
   input: CollectionDeleteInput;
+};
+
+
+/** The schema's entry point for all mutation operations. */
+export type MutationCollectionDuplicateArgs = {
+  input: CollectionDuplicateInput;
 };
 
 
@@ -35938,7 +37241,7 @@ export type MutationFulfillmentCancelArgs = {
 /** The schema's entry point for all mutation operations. */
 export type MutationFulfillmentConstraintRuleCreateArgs = {
   deliveryMethodTypes: Array<DeliveryMethodType>;
-  functionId: Scalars['String']['input'];
+  functionHandle?: InputMaybe<Scalars['String']['input']>;
   metafields?: InputMaybe<Array<MetafieldInput>>;
 };
 
@@ -36091,6 +37394,14 @@ export type MutationFulfillmentOrderSubmitFulfillmentRequestArgs = {
 
 
 /** The schema's entry point for all mutation operations. */
+export type MutationFulfillmentOrdersRerouteArgs = {
+  excludedLocationIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+  fulfillmentOrderIds: Array<Scalars['ID']['input']>;
+  includedLocationIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+};
+
+
+/** The schema's entry point for all mutation operations. */
 export type MutationFulfillmentOrdersSetFulfillmentDeadlineArgs = {
   fulfillmentDeadline: Scalars['DateTime']['input'];
   fulfillmentOrderIds: Array<Scalars['ID']['input']>;
@@ -36099,7 +37410,7 @@ export type MutationFulfillmentOrdersSetFulfillmentDeadlineArgs = {
 
 /** The schema's entry point for all mutation operations. */
 export type MutationFulfillmentServiceCreateArgs = {
-  callbackUrl: Scalars['URL']['input'];
+  callbackUrl?: InputMaybe<Scalars['URL']['input']>;
   inventoryManagement?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
   requiresShippingMethod?: InputMaybe<Scalars['Boolean']['input']>;
@@ -36274,6 +37585,7 @@ export type MutationInventoryShipmentDeleteArgs = {
 
 /** The schema's entry point for all mutation operations. */
 export type MutationInventoryShipmentMarkInTransitArgs = {
+  dateShipped?: InputMaybe<Scalars['DateTime']['input']>;
   id: Scalars['ID']['input'];
 };
 
@@ -36281,6 +37593,7 @@ export type MutationInventoryShipmentMarkInTransitArgs = {
 /** The schema's entry point for all mutation operations. */
 export type MutationInventoryShipmentReceiveArgs = {
   bulkReceiveAction?: InputMaybe<InventoryShipmentReceiveLineItemReason>;
+  dateReceived?: InputMaybe<Scalars['DateTime']['input']>;
   id: Scalars['ID']['input'];
   lineItems?: InputMaybe<Array<InventoryShipmentReceiveItemInput>>;
 };
@@ -37893,6 +39206,14 @@ export type MutationTaxAppConfigureArgs = {
 
 
 /** The schema's entry point for all mutation operations. */
+export type MutationTaxSummaryCreateArgs = {
+  endTime?: InputMaybe<Scalars['DateTime']['input']>;
+  orderId?: InputMaybe<Scalars['ID']['input']>;
+  startTime?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+
+/** The schema's entry point for all mutation operations. */
 export type MutationThemeCreateArgs = {
   name?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<ThemeRole>;
@@ -37903,6 +39224,13 @@ export type MutationThemeCreateArgs = {
 /** The schema's entry point for all mutation operations. */
 export type MutationThemeDeleteArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+/** The schema's entry point for all mutation operations. */
+export type MutationThemeDuplicateArgs = {
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -38869,6 +40197,8 @@ export type Order = CommentEventSubject & HasEvents & HasLocalizationExtensions 
    * This date and time might not match the date and time when the order was created.
    */
   processedAt: Scalars['DateTime']['output'];
+  /** Whether the customer also purchased items from other stores in the network. */
+  productNetwork: Scalars['Boolean']['output'];
   /** The sales channel that the order was created from, such as the [Online Store](https://shopify.dev/docs/apps/build/app-surfaces#online-store) or [Shopify POS](https://shopify.dev/docs/apps/build/app-surfaces#point-of-sale). */
   publication?: Maybe<Publication>;
   /**
@@ -39872,7 +41202,11 @@ export type OrderAgreementSalesArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** The [application](https://shopify.dev/apps) that created the order. */
+/**
+ * Identifies the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created an order. Common sources include "online store" for web purchases, "Point of Sale" for in-person sales, or custom app names for orders created through third-party integrations.
+ *
+ * Use this information to track order attribution, analyze sales channels, and route orders to appropriate fulfillment workflows based on their source.
+ */
 export type OrderApp = {
   /** The application icon. */
   icon: Image;
@@ -40458,7 +41792,7 @@ export type OrderCreateShippingLineInput = {
 export type OrderCreateTaxLineInput = {
   /** Whether the channel that submitted the tax line is liable for remitting. A value of `null` indicates unknown liability for the tax line. */
   channelLiable?: InputMaybe<Scalars['Boolean']['input']>;
-  /** The amount of tax to be charged on the item. */
+  /** The amount added to the order for this tax in shop and presentment currencies after discounts are applied. */
   priceSet?: InputMaybe<MoneyBagInput>;
   /** The proportion of the item price that the tax represents as a decimal. */
   rate: Scalars['Decimal']['input'];
@@ -40683,6 +42017,8 @@ export type OrderEditAddCustomItemPayload = {
   calculatedLineItem?: Maybe<CalculatedLineItem>;
   /** An order with the edits applied but not saved. */
   calculatedOrder?: Maybe<CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<UserError>;
 };
@@ -40695,6 +42031,8 @@ export type OrderEditAddLineItemDiscountPayload = {
   calculatedLineItem?: Maybe<CalculatedLineItem>;
   /** An order with the edits applied but not saved. */
   calculatedOrder?: Maybe<CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<UserError>;
 };
@@ -40719,6 +42057,8 @@ export type OrderEditAddShippingLinePayload = {
    * that's added during this order edit.
    */
   calculatedShippingLine?: Maybe<CalculatedShippingLine>;
+  /** The order edit session with the edits applied but not saved. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<OrderEditAddShippingLineUserError>;
 };
@@ -40750,6 +42090,8 @@ export type OrderEditAddVariantPayload = {
    * with the edits applied but not saved.
    */
   calculatedOrder?: Maybe<CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<UserError>;
 };
@@ -40794,6 +42136,8 @@ export type OrderEditAppliedDiscountInput = {
 export type OrderEditBeginPayload = {
   /** The order that will be edited. */
   calculatedOrder?: Maybe<CalculatedOrder>;
+  /** The order edit session that was created. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<UserError>;
 };
@@ -40802,6 +42146,8 @@ export type OrderEditBeginPayload = {
 export type OrderEditCommitPayload = {
   /** The order with changes applied. */
   order?: Maybe<Order>;
+  /** Messages to display to the user after the staged changes are commmitted. */
+  successMessages?: Maybe<Array<Scalars['String']['output']>>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<UserError>;
 };
@@ -40810,6 +42156,8 @@ export type OrderEditCommitPayload = {
 export type OrderEditRemoveDiscountPayload = {
   /** An order with the edits applied but not saved. */
   calculatedOrder?: Maybe<CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<OrderEditRemoveDiscountUserError>;
 };
@@ -40835,6 +42183,8 @@ export type OrderEditRemoveLineItemDiscountPayload = {
   calculatedLineItem?: Maybe<CalculatedLineItem>;
   /** An order with the edits applied but not saved. */
   calculatedOrder?: Maybe<CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<UserError>;
 };
@@ -40846,6 +42196,8 @@ export type OrderEditRemoveShippingLinePayload = {
    * with the edits applied but not saved.
    */
   calculatedOrder?: Maybe<CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<OrderEditRemoveShippingLineUserError>;
 };
@@ -40865,12 +42217,20 @@ export type OrderEditRemoveShippingLineUserErrorCode =
   /** The input value is invalid. */
   | 'INVALID';
 
+/** An edit session for an order. */
+export type OrderEditSession = Node & {
+  /** The unique ID of the order edit session. */
+  id: Scalars['ID']['output'];
+};
+
 /** Return type for `orderEditSetQuantity` mutation. */
 export type OrderEditSetQuantityPayload = {
   /** The calculated line item with the edits applied but not saved. */
   calculatedLineItem?: Maybe<CalculatedLineItem>;
   /** The calculated order with the edits applied but not saved. */
   calculatedOrder?: Maybe<CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<UserError>;
 };
@@ -40879,6 +42239,8 @@ export type OrderEditSetQuantityPayload = {
 export type OrderEditUpdateDiscountPayload = {
   /** An order with the edits applied but not saved. */
   calculatedOrder?: Maybe<CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<OrderEditUpdateDiscountUserError>;
 };
@@ -40910,6 +42272,8 @@ export type OrderEditUpdateShippingLineInput = {
 export type OrderEditUpdateShippingLinePayload = {
   /** An order with the edits applied but not saved. */
   calculatedOrder?: Maybe<CalculatedOrder>;
+  /** The order edit session with the edits applied but not saved. */
+  orderEditSession?: Maybe<OrderEditSession>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<OrderEditUpdateShippingLineUserError>;
 };
@@ -40951,6 +42315,8 @@ export type OrderInput = {
   metafields?: InputMaybe<Array<MetafieldInput>>;
   /** The new contents for the note associated with the order. Overwrites the existing note. */
   note?: InputMaybe<Scalars['String']['input']>;
+  /** A new customer phone number for the order. Overwrites the existing phone number. */
+  phone?: InputMaybe<Scalars['String']['input']>;
   /** The new purchase order number for the order. */
   poNumber?: InputMaybe<Scalars['String']['input']>;
   /** The new shipping address for the order. Overwrites the existing shipping address. */
@@ -41204,6 +42570,8 @@ export type OrderRiskSummary = {
 export type OrderSortKeys =
   /** Sorts by the date and time the order was created. */
   | 'CREATED_AT'
+  /** Sorts by the current total price of an order in the shop currency, including any returns/refunds/removals. */
+  | 'CURRENT_TOTAL_PRICE'
   /** Sorts by the customer's name. */
   | 'CUSTOMER_NAME'
   /** Sort by shipping address to analyze regional sales patterns or plan logistics. */
@@ -41233,7 +42601,7 @@ export type OrderSortKeys =
   | 'UPDATED_AT';
 
 /** A change that has been applied to an order. */
-export type OrderStagedChange = OrderStagedChangeAddCustomItem | OrderStagedChangeAddLineItemDiscount | OrderStagedChangeAddShippingLine | OrderStagedChangeAddVariant | OrderStagedChangeDecrementItem | OrderStagedChangeIncrementItem | OrderStagedChangeRemoveShippingLine;
+export type OrderStagedChange = OrderStagedChangeAddCustomItem | OrderStagedChangeAddLineItemDiscount | OrderStagedChangeAddShippingLine | OrderStagedChangeAddVariant | OrderStagedChangeDecrementItem | OrderStagedChangeIncrementItem | OrderStagedChangeRemoveDiscount | OrderStagedChangeRemoveShippingLine;
 
 /**
  * A change to the order representing the addition of a
@@ -41318,6 +42686,12 @@ export type OrderStagedChangeIncrementItem = {
   lineItem: LineItem;
 };
 
+/** A discount application removed during an order edit. */
+export type OrderStagedChangeRemoveDiscount = {
+  /** The removed discount application. */
+  discountApplication: AutomaticDiscountApplication | DiscountCodeApplication | ManualDiscountApplication | ScriptDiscountApplication;
+};
+
 /** A shipping line removed during an order edit. */
 export type OrderStagedChangeRemoveShippingLine = {
   /** The removed shipping line. */
@@ -41365,7 +42739,10 @@ export type OrderTransaction = Node & {
    * @deprecated Use `amountSet` instead.
    */
   amountV2: MoneyV2;
-  /** Authorization code associated with the transaction. */
+  /**
+   * Authorization code associated with the transaction.
+   * @deprecated Use `paymentId` instead.
+   */
   authorizationCode?: Maybe<Scalars['String']['output']>;
   /** The time when the authorization expires. This field is available only to stores on a Shopify Plus plan. */
   authorizationExpiresAt?: Maybe<Scalars['DateTime']['output']>;
@@ -41425,7 +42802,9 @@ export type OrderTransaction = Node & {
   processedAt?: Maybe<Scalars['DateTime']['output']>;
   /**
    * The transaction receipt that the payment gateway attaches to the transaction.
-   * The value of this field depends on which payment gateway processed the transaction.
+   * > **Note:** This field is **gateway-specific** and **not a stable contract**.
+   * > Its structure and contents can vary by payment gateway and may change without notice.
+   * > Apps **shouldn't parse or rely on this field for business logic**; prefer typed fields on `OrderTransaction` and related objects.
    */
   receiptJson?: Maybe<Scalars['JSON']['output']>;
   /** The settlement currency. */
@@ -41493,7 +42872,7 @@ export type OrderTransactionErrorCode =
   | 'AMAZON_PAYMENTS_ORDER_REFERENCE_CANCELED'
   /** The order was not confirmed within three hours. */
   | 'AMAZON_PAYMENTS_STALE'
-  /** Call the card issuer. */
+  /** The issuer declined the transaction, the customer should contact their issuer for more details. */
   | 'CALL_ISSUER'
   /** The card was declined. */
   | 'CARD_DECLINED'
@@ -41503,17 +42882,17 @@ export type OrderTransactionErrorCode =
   | 'EXPIRED_CARD'
   /** There was an unknown error with processing the payment. */
   | 'GENERIC_ERROR'
-  /** The address does not match the card number. */
+  /** The address is incorrect. */
   | 'INCORRECT_ADDRESS'
-  /** The CVC does not match the card number. */
+  /** The card security code (CVC/CVV) is incorrect. */
   | 'INCORRECT_CVC'
   /** The card number is incorrect. */
   | 'INCORRECT_NUMBER'
-  /** The entered PIN is incorrect. */
+  /** The PIN entered is incorrect. */
   | 'INCORRECT_PIN'
-  /** The ZIP or postal code does not match the card number. */
+  /** The ZIP or postal code doesn't match the one on file. */
   | 'INCORRECT_ZIP'
-  /** The amount is either too high or too low for the provider. */
+  /** The amount is invalid. */
   | 'INVALID_AMOUNT'
   /** The payment method is not available in the customer's country. */
   | 'INVALID_COUNTRY'
@@ -42056,6 +43435,10 @@ export type PaymentCustomizationErrorCode =
   | 'INVALID_METAFIELDS'
   /** Maximum payment customizations are already enabled. */
   | 'MAXIMUM_ACTIVE_PAYMENT_CUSTOMIZATIONS'
+  /** Either function_id or function_handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function_id or function_handle can be provided, not both. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS'
   /** Shop must be on a Shopify Plus plan to activate payment customizations from a custom app. */
   | 'PAYMENT_CUSTOMIZATION_FUNCTION_NOT_ELIGIBLE'
   /** Payment customization not found. */
@@ -42067,8 +43450,8 @@ export type PaymentCustomizationErrorCode =
 export type PaymentCustomizationInput = {
   /** The enabled status of the payment customization. */
   enabled?: InputMaybe<Scalars['Boolean']['input']>;
-  /** The ID of the function providing the payment customization. */
-  functionId?: InputMaybe<Scalars['String']['input']>;
+  /** Function handle scoped to your app ID. */
+  functionHandle?: InputMaybe<Scalars['String']['input']>;
   /** Additional metafields to associate to the payment customization. */
   metafields?: InputMaybe<Array<MetafieldInput>>;
   /** The title of the payment customization. */
@@ -42087,7 +43470,7 @@ export type PaymentCustomizationUpdatePayload = {
 export type PaymentDetails = CardPaymentDetails | LocalPaymentMethodsPaymentDetails | PaypalWalletPaymentDetails | ShopPayInstallmentsPaymentDetails;
 
 /** All possible instrument outputs for Payment Mandates. */
-export type PaymentInstrument = VaultCreditCard | VaultPaypalBillingAgreement;
+export type PaymentInstrument = BankAccount | VaultCreditCard | VaultPaypalBillingAgreement;
 
 /**
  * A payment instrument and the permission
@@ -42098,6 +43481,36 @@ export type PaymentMandate = Node & {
   id: Scalars['ID']['output'];
   /** The outputs details of the payment instrument. */
   paymentInstrument: PaymentInstrument;
+};
+
+/**
+ * A payment mandate with resource information, representing the permission
+ * the owner of the payment instrument gives to the merchant to debit it
+ * for specific resources (e.g., Order, Subscriptions).
+ */
+export type PaymentMandateResource = {
+  /** The ID of the resource that this payment method was created for. */
+  resourceId?: Maybe<Scalars['ID']['output']>;
+  /** The resource type that this payment method was created for (e.g., Order, Subscriptions). */
+  resourceType?: Maybe<MandateResourceType>;
+};
+
+/** An auto-generated type for paginating through multiple PaymentMandateResources. */
+export type PaymentMandateResourceConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  edges: Array<PaymentMandateResourceEdge>;
+  /** A list of nodes that are contained in PaymentMandateResourceEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  nodes: Array<PaymentMandateResource>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  pageInfo: PageInfo;
+};
+
+/** An auto-generated type which holds one PaymentMandateResource and a cursor during pagination. */
+export type PaymentMandateResourceEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of PaymentMandateResourceEdge. */
+  node: PaymentMandateResource;
 };
 
 /** Some of the payment methods used in Shopify. */
@@ -42159,8 +43572,12 @@ export type PaymentSchedule = Node & {
    * @deprecated Use `balanceDue`, `totalBalance`, or `Order.totalOutstandingSet` instead.
    */
   amount: MoneyV2;
+  /** Remaining balance to be captured for this payment schedule. */
+  balanceDue: MoneyV2;
   /** Date and time when the payment schedule is paid or fulfilled. */
   completedAt?: Maybe<Scalars['DateTime']['output']>;
+  /** Whether the payment schedule is due. */
+  due: Scalars['Boolean']['output'];
   /** Date and time when the payment schedule is due. */
   dueAt?: Maybe<Scalars['DateTime']['output']>;
   /** A globally-unique ID. */
@@ -42169,6 +43586,8 @@ export type PaymentSchedule = Node & {
   issuedAt?: Maybe<Scalars['DateTime']['output']>;
   /** The payment terms the payment schedule belongs to. */
   paymentTerms: PaymentTerms;
+  /** Remaining balance to be paid or authorized by the customer for this payment schedule. */
+  totalBalance: MoneyV2;
 };
 
 /** An auto-generated type for paginating through multiple PaymentSchedules. */
@@ -42203,10 +43622,18 @@ export type PaymentSettings = {
   supportedDigitalWallets: Array<DigitalWallet>;
 };
 
-/** Represents the payment terms for an order or draft order. */
+/**
+ * Payment conditions for an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) or [`DraftOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder), including when payment is due and how it's scheduled. Payment terms are created from templates that specify net terms (payment due after a certain number of days) or fixed schedules with specific due dates. You can optionally provide custom payment schedules using [`PaymentScheduleInput`](https://shopify.dev/docs/api/admin-graphql/latest/input-objects/PaymentScheduleInput).
+ *
+ * Each payment term contains one or more [`PaymentSchedule`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentSchedule), which you can access through the [`paymentSchedules`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentTerms#field-PaymentTerms.fields.paymentSchedules) field. Payment schedules contain detailed information for each payment installment.
+ *
+ * Learn more about [payment terms](https://shopify.dev/docs/apps/build/checkout/payments/payment-terms).
+ */
 export type PaymentTerms = Node & {
   /** The draft order associated with the payment terms. */
   draftOrder?: Maybe<DraftOrder>;
+  /** Whether payment terms have a payment schedule that's due. */
+  due: Scalars['Boolean']['output'];
   /** Duration of payment terms in days based on the payment terms template used to create the payment terms. */
   dueInDays?: Maybe<Scalars['Int']['output']>;
   /** A globally-unique ID. */
@@ -42226,7 +43653,13 @@ export type PaymentTerms = Node & {
 };
 
 
-/** Represents the payment terms for an order or draft order. */
+/**
+ * Payment conditions for an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) or [`DraftOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder), including when payment is due and how it's scheduled. Payment terms are created from templates that specify net terms (payment due after a certain number of days) or fixed schedules with specific due dates. You can optionally provide custom payment schedules using [`PaymentScheduleInput`](https://shopify.dev/docs/api/admin-graphql/latest/input-objects/PaymentScheduleInput).
+ *
+ * Each payment term contains one or more [`PaymentSchedule`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentSchedule), which you can access through the [`paymentSchedules`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentTerms#field-PaymentTerms.fields.paymentSchedules) field. Payment schedules contain detailed information for each payment installment.
+ *
+ * Learn more about [payment terms](https://shopify.dev/docs/apps/build/checkout/payments/payment-terms).
+ */
 export type PaymentTermsPaymentSchedulesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -42460,13 +43893,11 @@ export type PriceInput = {
 };
 
 /**
- * Represents a price list, including information about related prices and eligibility rules.
- * You can use price lists to specify either fixed prices or adjusted relative prices that
- * override initial product variant prices. Price lists are applied to customers
- * using context rules, which determine price list eligibility.
+ * A list that defines pricing for [product variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant). Price lists override default product prices with either fixed prices or percentage-based adjustments.
  *
- *   For more information on price lists, refer to
- *   [Support different pricing models](https://shopify.dev/apps/internationalization/product-price-lists).
+ * Each price list associates with a [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) to determine which customers see the pricing. The catalog's context rules control when the price list applies, such as for specific markets, company locations, or apps.
+ *
+ * Learn how to [support different pricing models](https://shopify.dev/docs/apps/build/markets/build-catalog).
  */
 export type PriceList = Node & {
   /** The catalog that the price list is associated with. */
@@ -42489,13 +43920,11 @@ export type PriceList = Node & {
 
 
 /**
- * Represents a price list, including information about related prices and eligibility rules.
- * You can use price lists to specify either fixed prices or adjusted relative prices that
- * override initial product variant prices. Price lists are applied to customers
- * using context rules, which determine price list eligibility.
+ * A list that defines pricing for [product variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant). Price lists override default product prices with either fixed prices or percentage-based adjustments.
  *
- *   For more information on price lists, refer to
- *   [Support different pricing models](https://shopify.dev/apps/internationalization/product-price-lists).
+ * Each price list associates with a [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) to determine which customers see the pricing. The catalog's context rules control when the price list applies, such as for specific markets, company locations, or apps.
+ *
+ * Learn how to [support different pricing models](https://shopify.dev/docs/apps/build/markets/build-catalog).
  */
 export type PriceListPricesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -42509,13 +43938,11 @@ export type PriceListPricesArgs = {
 
 
 /**
- * Represents a price list, including information about related prices and eligibility rules.
- * You can use price lists to specify either fixed prices or adjusted relative prices that
- * override initial product variant prices. Price lists are applied to customers
- * using context rules, which determine price list eligibility.
+ * A list that defines pricing for [product variants](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant). Price lists override default product prices with either fixed prices or percentage-based adjustments.
  *
- *   For more information on price lists, refer to
- *   [Support different pricing models](https://shopify.dev/apps/internationalization/product-price-lists).
+ * Each price list associates with a [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) to determine which customers see the pricing. The catalog's context rules control when the price list applies, such as for specific markets, company locations, or apps.
+ *
+ * Learn how to [support different pricing models](https://shopify.dev/docs/apps/build/markets/build-catalog).
  */
 export type PriceListQuantityRulesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -42646,6 +44073,10 @@ export type PriceListFixedPricesByProductBulkUpdateUserErrorCode =
   | 'DUPLICATE_ID_IN_INPUT'
   /** IDs must be mutually exclusive across add or delete operations. */
   | 'ID_MUST_BE_MUTUALLY_EXCLUSIVE'
+  /** The issuance currency of a local currency gift card must match the price list currency. */
+  | 'LOCAL_CURRENCY_GIFT_CARD_ISSUANCE_CURRENCY_MISMATCH'
+  /** The price of a local currency gift card cannot exceed the maximum gift card purchase limit. */
+  | 'LOCAL_CURRENCY_GIFT_CARD_LIMIT_EXCEEDED'
   /** No update operations specified. */
   | 'NO_UPDATE_OPERATIONS_SPECIFIED'
   /** The currency specified does not match the price list's currency. */
@@ -42721,8 +44152,9 @@ export type PriceListParentUpdateInput = {
 };
 
 /**
- * Represents information about pricing for a product variant
- *         as defined on a price list, such as the price, compare at price, and origin type. You can use a `PriceListPrice` to specify a fixed price for a specific product variant. For examples, refer to [PriceListFixedPricesAdd](https://shopify.dev/api/admin-graphql/latest/mutations/priceListFixedPricesAdd) and [PriceList](https://shopify.dev/api/admin-graphql/latest/queries/priceList#section-examples).
+ * Pricing for a [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) on a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList). Represents the variant's price, compare-at price, and whether the price is fixed or calculated using percentage-based adjustments. The [`PriceListPriceOriginType`](https://shopify.dev/docs/api/admin-graphql/latest/enums/PriceListPriceOriginType) distinguishes between prices set directly on the price list (fixed) and prices calculated using the price list's adjustment configuration (relative).
+ *
+ * Learn more about [building catalogs with different pricing models](https://shopify.dev/docs/apps/build/markets/build-catalog).
  */
 export type PriceListPrice = {
   /** The compare-at price of the product variant on this price list. */
@@ -42739,8 +44171,9 @@ export type PriceListPrice = {
 
 
 /**
- * Represents information about pricing for a product variant
- *         as defined on a price list, such as the price, compare at price, and origin type. You can use a `PriceListPrice` to specify a fixed price for a specific product variant. For examples, refer to [PriceListFixedPricesAdd](https://shopify.dev/api/admin-graphql/latest/mutations/priceListFixedPricesAdd) and [PriceList](https://shopify.dev/api/admin-graphql/latest/queries/priceList#section-examples).
+ * Pricing for a [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) on a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList). Represents the variant's price, compare-at price, and whether the price is fixed or calculated using percentage-based adjustments. The [`PriceListPriceOriginType`](https://shopify.dev/docs/api/admin-graphql/latest/enums/PriceListPriceOriginType) distinguishes between prices set directly on the price list (fixed) and prices calculated using the price list's adjustment configuration (relative).
+ *
+ * Learn more about [building catalogs with different pricing models](https://shopify.dev/docs/apps/build/markets/build-catalog).
  */
 export type PriceListPriceQuantityPriceBreaksArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -42800,6 +44233,10 @@ export type PriceListPriceUserError = DisplayableError & {
 export type PriceListPriceUserErrorCode =
   /** The input value is blank. */
   | 'BLANK'
+  /** The issuance currency of a local currency gift card must match the price list currency. */
+  | 'LOCAL_CURRENCY_GIFT_CARD_ISSUANCE_CURRENCY_MISMATCH'
+  /** The price of a local currency gift card cannot exceed the maximum gift card purchase limit. */
+  | 'LOCAL_CURRENCY_GIFT_CARD_LIMIT_EXCEEDED'
   /** The specified currency doesn't match the price list's currency. */
   | 'PRICE_LIST_CURRENCY_MISMATCH'
   /** The price list doesn't exist. */
@@ -42811,6 +44248,8 @@ export type PriceListPriceUserErrorCode =
 
 /** The input fields representing the price for all variants of a product. */
 export type PriceListProductPriceInput = {
+  /** Specifies the compare-at price and currency to apply to the product's variants on the price list. */
+  compareAtPrice?: InputMaybe<MoneyInput>;
   /** Specifies the price and currency to apply to the product's variants on the price list. */
   price: MoneyInput;
   /** Specifies the ID of the product to update its variants for. */
@@ -43920,6 +45359,8 @@ export type Product = HasEvents & HasMetafieldDefinitions & HasMetafields & HasP
    * that are associated with a product in a bundle.
    */
   bundleComponents: ProductBundleComponentConnection;
+  /** A list of consolidated options for a product in a bundle. */
+  bundleConsolidatedOptions?: Maybe<Array<ComponentizedProductsBundleConsolidatedOption>>;
   /**
    * The category of a product
    * from [Shopify's Standard Product Taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17).
@@ -44139,6 +45580,7 @@ export type Product = HasEvents & HasMetafieldDefinitions & HasMetafields & HasP
    * Whether the resource is published to the app's
    * [publication](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
    * For example, the resource might be published to the app's online store channel.
+   * @deprecated Use `publishedOnPublication` instead.
    */
   publishedOnCurrentPublication: Scalars['Boolean']['output'];
   /**
@@ -44156,6 +45598,7 @@ export type Product = HasEvents & HasMetafieldDefinitions & HasMetafields & HasP
   /**
    * The resource that's either published or staged to be published to
    * the [publication](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
+   * @deprecated Use `resourcePublications` instead.
    */
   resourcePublicationOnCurrentPublication?: Maybe<ResourcePublicationV2>;
   /**
@@ -44975,10 +46418,39 @@ export type ProductBundleComponentQuantityOptionValueInput = {
   quantity: Scalars['Int']['input'];
 };
 
+/** The input fields for mapping a consolidated option to a specific component option. */
+export type ProductBundleConsolidatedOptionComponentInput = {
+  /**
+   * The ID of the component option that this consolidated option maps to.
+   * If null, this selection targets the component's quantity option with the given name.
+   */
+  componentOptionId?: InputMaybe<Scalars['ID']['input']>;
+  /** The value to use for the component option (e.g., 'Small', 'Red'). */
+  componentOptionValue: Scalars['String']['input'];
+};
+
+/** The input fields for a consolidated option on a componentized product. */
+export type ProductBundleConsolidatedOptionInput = {
+  /** The name of the consolidated option (e.g., 'Size', 'Color'). */
+  optionName: Scalars['String']['input'];
+  /** The option selections that define how this consolidated option maps to component options. */
+  optionSelections: Array<ProductBundleConsolidatedOptionSelectionInput>;
+};
+
+/** The input fields for a consolidated option selection that maps to component options. */
+export type ProductBundleConsolidatedOptionSelectionInput = {
+  /** The component mappings that define how this option value maps to specific component options. */
+  components: Array<ProductBundleConsolidatedOptionComponentInput>;
+  /** The value for this consolidated option selection (e.g., 'Small', 'Medium', 'Large'). */
+  optionValue: Scalars['String']['input'];
+};
+
 /** The input fields for creating a componentized product. */
 export type ProductBundleCreateInput = {
   /** The component products to bundle with the bundle product. */
   components: Array<ProductBundleComponentInput>;
+  /** The consolidated options of the componentized product to create, if provided. */
+  consolidatedOptions?: InputMaybe<Array<ProductBundleConsolidatedOptionInput>>;
   /** The title of the product to create. */
   title: Scalars['String']['input'];
 };
@@ -45042,6 +46514,8 @@ export type ProductBundleOperation = Node & ProductOperation & {
 export type ProductBundleUpdateInput = {
   /** The components to update existing ones. If none provided, no changes occur. Note: This replaces, not adds to, current components. */
   components?: InputMaybe<Array<ProductBundleComponentInput>>;
+  /** The consolidated options of the componentized product to update, if provided. */
+  consolidatedOptions?: InputMaybe<Array<ProductBundleConsolidatedOptionInput>>;
   /** The ID of the componentized product to update. */
   productId: Scalars['ID']['input'];
   /** The title to rename the componentized product to, if provided. */
@@ -45056,7 +46530,7 @@ export type ProductBundleUpdatePayload = {
   userErrors: Array<UserError>;
 };
 
-/** The details of a specific product category within the [Shopify product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17). */
+/** The details of a specific product category within Shopify's [standardized product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17). Provides access to the associated [`ProductTaxonomyNode`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductTaxonomyNode). */
 export type ProductCategory = {
   /** The product taxonomy node associated with the product category. */
   productTaxonomyNode?: Maybe<ProductTaxonomyNode>;
@@ -45190,12 +46664,7 @@ export type ProductConnection = {
   pageInfo: PageInfo;
 };
 
-/**
- * The price of a product in a specific country.
- * Prices vary between countries.
- * Refer to [Product](https://shopify.dev/docs/api/admin-graphql/latest/queries/product?example=Get+the+price+range+for+a+product+for+buyers+from+Canada)
- * for more information on how to use this object.
- */
+/** The price of a [product](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) in a specific country. Shows the minimum and maximum variant prices through the price range and the count of fixed quantity rules that apply to the product's variants in the given pricing context. */
 export type ProductContextualPricing = {
   /** The number of fixed quantity rules for the product's variants on the price list. */
   fixedQuantityRulesCount: Scalars['Int']['output'];
@@ -45885,7 +47354,11 @@ export type ProductOptionUpdateVariantStrategy =
    */
   | 'MANAGE';
 
-/** The product option value names. For example, "Red", "Blue", and "Green" for a "Color" option. */
+/**
+ * A specific value for a [`ProductOption`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductOption), such as "Red" or "Blue" for a "Color" option. Each value can be assigned to [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects to create different versions of a [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product).
+ *
+ * The value tracks whether any variants currently use it through the [`hasVariants`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductOptionValue#field-hasVariants) field. Values can include visual representations through swatches that display colors or images. When linked to a [`Metafield`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Metafield), the [`linkedMetafieldValue`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductOptionValue#field-linkedMetafieldValue) provides additional structured data for the option value.
+ */
 export type ProductOptionValue = HasPublishedTranslations & Node & {
   /** Whether the product option value has any linked variants. */
   hasVariants: Scalars['Boolean']['output'];
@@ -45902,7 +47375,11 @@ export type ProductOptionValue = HasPublishedTranslations & Node & {
 };
 
 
-/** The product option value names. For example, "Red", "Blue", and "Green" for a "Color" option. */
+/**
+ * A specific value for a [`ProductOption`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductOption), such as "Red" or "Blue" for a "Color" option. Each value can be assigned to [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects to create different versions of a [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product).
+ *
+ * The value tracks whether any variants currently use it through the [`hasVariants`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductOptionValue#field-hasVariants) field. Values can include visual representations through swatches that display colors or images. When linked to a [`Metafield`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Metafield), the [`linkedMetafieldValue`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductOptionValue#field-linkedMetafieldValue) provides additional structured data for the option value.
+ */
 export type ProductOptionValueTranslationsArgs = {
   locale: Scalars['String']['input'];
   marketId?: InputMaybe<Scalars['ID']['input']>;
@@ -46433,6 +47910,8 @@ export type ProductSetUserErrorCode =
   | 'INVALID_PRODUCT'
   /** Product variant is not valid. */
   | 'INVALID_VARIANT'
+  /** Inventory quantity input exceeds the limit of 50000. Consider using separate `inventorySetQuantities` mutations. */
+  | 'INVENTORY_QUANTITIES_LIMIT_EXCEEDED'
   /** Error processing request in the background job. */
   | 'JOB_ERROR'
   /** No valid metafield definition found for linked option. */
@@ -46499,7 +47978,9 @@ export type ProductStatus =
   /** The product is no longer being sold and isn't available to customers on sales channels and apps. */
   | 'ARCHIVED'
   /** The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft. */
-  | 'DRAFT';
+  | 'DRAFT'
+  /** The product is active but you need a direct link to view it. The product doesn't show up in search, collections, or product recommendations. It will be returned in Storefront API and Liquid only when referenced individually by handle, id, or metafield reference.This status is only visible from 2025-10 and up, is translated to active in older versions and can't be changed from unlisted in older versions. */
+  | 'UNLISTED';
 
 /** Represents a [Shopify product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17) node. */
 export type ProductTaxonomyNode = Node & {
@@ -47510,6 +48991,8 @@ export type ProductVariantSetInput = {
    * The inventory quantities at each location where the variant is stocked.
    * If you're updating an existing variant, then you can only update the
    * quantities at locations where the variant is already stocked.
+   *
+   * The total number of inventory quantities across all variants in the mutation can't exceed 50000.
    */
   inventoryQuantities?: InputMaybe<Array<ProductSetInventoryInput>>;
   /**
@@ -47589,6 +49072,8 @@ export type ProductVariantsBulkCreatePayload = {
 export type ProductVariantsBulkCreateStrategy =
   /** The default strategy. Deletes the standalone default ("Default Title") variant when it's the only variant on the product. Preserves the standalone custom variant. */
   | 'DEFAULT'
+  /** Preserves the existing standalone variant when the product has only a single default ("Default Title") or a single custom variant. */
+  | 'PRESERVE_STANDALONE_VARIANT'
   /** Deletes the existing standalone variant when the product has only a single default ("Default Title") or custom variant. */
   | 'REMOVE_STANDALONE_VARIANT';
 
@@ -47612,6 +49097,8 @@ export type ProductVariantsBulkCreateUserErrorCode =
   | 'INVALID'
   /** Input is invalid. */
   | 'INVALID_INPUT'
+  /** Inventory quantity input exceeds the limit of 50000. Consider using separate `inventorySetQuantities` mutations. */
+  | 'INVENTORY_QUANTITIES_LIMIT_EXCEEDED'
   /** Input must be for this product. */
   | 'MUST_BE_FOR_THIS_PRODUCT'
   /** Variant options are not enough. */
@@ -47700,6 +49187,8 @@ export type ProductVariantsBulkInput = {
   optionValues?: InputMaybe<Array<VariantOptionValueInput>>;
   /** The price of the variant. */
   price?: InputMaybe<Scalars['Money']['input']>;
+  /** Adjust inventory quantities with deltas. */
+  quantityAdjustments?: InputMaybe<Array<InventoryAdjustmentInput>>;
   /**
    * Whether a product variant requires components. The default value is `false`.
    * If `true`, then the product variant can only be purchased as a parent bundle with components and it will be
@@ -47781,6 +49270,8 @@ export type ProductVariantsBulkUpdateUserErrorCode =
   | 'INVALID_INPUT'
   /** Metafield value is invalid. */
   | 'INVALID_VALUE'
+  /** Inventory quantity input exceeds the limit of 50000. Consider using separate `inventorySetQuantities` mutations. */
+  | 'INVENTORY_QUANTITIES_LIMIT_EXCEEDED'
   /** Input must be for this product. */
   | 'MUST_BE_FOR_THIS_PRODUCT'
   /** Mandatory field input field missing. */
@@ -47922,7 +49413,13 @@ export type PubSubWebhookSubscriptionUpdateUserErrorCode =
   /** Address for this topic has already been taken. */
   | 'TAKEN';
 
-/** A publication is a group of products and collections that is published to an app. */
+/**
+ * A group of [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [collections](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) that are published to an app.
+ *
+ * Each publication manages which products and collections display on its associated [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel). Merchants can automatically publish products when they're created if [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.autoPublish) is enabled, or manually control publication through publication records.
+ *
+ * Publications support scheduled publishing through future publish dates for online store channels, allowing merchants to coordinate product launches and promotional campaigns. The [`catalog`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.catalog) field links to pricing and availability rules specific to that publication's context.
+ */
 export type Publication = Node & {
   /**
    * The app associated with the publication.
@@ -47943,6 +49440,8 @@ export type Publication = Node & {
   id: Scalars['ID']['output'];
   /** The list of products included, but not necessarily published, in the publication. */
   includedProducts: ProductConnection;
+  /** The count of products included in the publication. Limited to a maximum of 10000 by default. */
+  includedProductsCount?: Maybe<Count>;
   /**
    * Name of the publication.
    * @deprecated Use [Catalog.title](https://shopify.dev/api/admin-graphql/unstable/interfaces/Catalog#field-catalog-title) instead.
@@ -47959,7 +49458,13 @@ export type Publication = Node & {
 };
 
 
-/** A publication is a group of products and collections that is published to an app. */
+/**
+ * A group of [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [collections](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) that are published to an app.
+ *
+ * Each publication manages which products and collections display on its associated [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel). Merchants can automatically publish products when they're created if [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.autoPublish) is enabled, or manually control publication through publication records.
+ *
+ * Publications support scheduled publishing through future publish dates for online store channels, allowing merchants to coordinate product launches and promotional campaigns. The [`catalog`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.catalog) field links to pricing and availability rules specific to that publication's context.
+ */
 export type PublicationCollectionPublicationsV3Args = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -47969,7 +49474,13 @@ export type PublicationCollectionPublicationsV3Args = {
 };
 
 
-/** A publication is a group of products and collections that is published to an app. */
+/**
+ * A group of [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [collections](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) that are published to an app.
+ *
+ * Each publication manages which products and collections display on its associated [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel). Merchants can automatically publish products when they're created if [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.autoPublish) is enabled, or manually control publication through publication records.
+ *
+ * Publications support scheduled publishing through future publish dates for online store channels, allowing merchants to coordinate product launches and promotional campaigns. The [`catalog`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.catalog) field links to pricing and availability rules specific to that publication's context.
+ */
 export type PublicationCollectionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -47979,23 +49490,58 @@ export type PublicationCollectionsArgs = {
 };
 
 
-/** A publication is a group of products and collections that is published to an app. */
+/**
+ * A group of [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [collections](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) that are published to an app.
+ *
+ * Each publication manages which products and collections display on its associated [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel). Merchants can automatically publish products when they're created if [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.autoPublish) is enabled, or manually control publication through publication records.
+ *
+ * Publications support scheduled publishing through future publish dates for online store channels, allowing merchants to coordinate product launches and promotional campaigns. The [`catalog`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.catalog) field links to pricing and availability rules specific to that publication's context.
+ */
 export type PublicationHasCollectionArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-/** A publication is a group of products and collections that is published to an app. */
+/**
+ * A group of [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [collections](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) that are published to an app.
+ *
+ * Each publication manages which products and collections display on its associated [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel). Merchants can automatically publish products when they're created if [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.autoPublish) is enabled, or manually control publication through publication records.
+ *
+ * Publications support scheduled publishing through future publish dates for online store channels, allowing merchants to coordinate product launches and promotional campaigns. The [`catalog`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.catalog) field links to pricing and availability rules specific to that publication's context.
+ */
 export type PublicationIncludedProductsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
+  savedSearchId?: InputMaybe<Scalars['ID']['input']>;
+  sortKey?: InputMaybe<ProductSortKeys>;
 };
 
 
-/** A publication is a group of products and collections that is published to an app. */
+/**
+ * A group of [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [collections](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) that are published to an app.
+ *
+ * Each publication manages which products and collections display on its associated [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel). Merchants can automatically publish products when they're created if [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.autoPublish) is enabled, or manually control publication through publication records.
+ *
+ * Publications support scheduled publishing through future publish dates for online store channels, allowing merchants to coordinate product launches and promotional campaigns. The [`catalog`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.catalog) field links to pricing and availability rules specific to that publication's context.
+ */
+export type PublicationIncludedProductsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
+  savedSearchId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+/**
+ * A group of [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [collections](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) that are published to an app.
+ *
+ * Each publication manages which products and collections display on its associated [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel). Merchants can automatically publish products when they're created if [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.autoPublish) is enabled, or manually control publication through publication records.
+ *
+ * Publications support scheduled publishing through future publish dates for online store channels, allowing merchants to coordinate product launches and promotional campaigns. The [`catalog`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.catalog) field links to pricing and availability rules specific to that publication's context.
+ */
 export type PublicationProductPublicationsV3Args = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -48005,13 +49551,22 @@ export type PublicationProductPublicationsV3Args = {
 };
 
 
-/** A publication is a group of products and collections that is published to an app. */
+/**
+ * A group of [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [collections](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) that are published to an app.
+ *
+ * Each publication manages which products and collections display on its associated [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel). Merchants can automatically publish products when they're created if [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.autoPublish) is enabled, or manually control publication through publication records.
+ *
+ * Publications support scheduled publishing through future publish dates for online store channels, allowing merchants to coordinate product launches and promotional campaigns. The [`catalog`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication#field-Publication.fields.catalog) field links to pricing and availability rules specific to that publication's context.
+ */
 export type PublicationProductsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
+  savedSearchId?: InputMaybe<Scalars['ID']['input']>;
+  sortKey?: InputMaybe<ProductSortKeys>;
 };
 
 /** An auto-generated type for paginating through multiple Publications. */
@@ -48191,6 +49746,7 @@ export type Publishable = {
    * Whether the resource is published to the app's
    * [publication](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
    * For example, the resource might be published to the app's online store channel.
+   * @deprecated Use `publishedOnPublication` instead.
    */
   publishedOnCurrentPublication: Scalars['Boolean']['output'];
   /**
@@ -48487,6 +50043,10 @@ export type QuantityPricingByVariantUserErrorCode =
   | 'PRICE_ADD_CURRENCY_MISMATCH'
   /** Prices to add inputs must be unique by variant id. */
   | 'PRICE_ADD_DUPLICATE_INPUT_FOR_VARIANT'
+  /** The issuance currency of a local currency gift card must match the price list currency. */
+  | 'PRICE_ADD_LOCAL_CURRENCY_GIFT_CARD_ISSUANCE_CURRENCY_MISMATCH'
+  /** The price of a local currency gift card cannot exceed the maximum gift card purchase limit. */
+  | 'PRICE_ADD_LOCAL_CURRENCY_GIFT_CARD_LIMIT_EXCEEDED'
   /** Fixed price's variant not found. */
   | 'PRICE_ADD_VARIANT_NOT_FOUND'
   /** Price is not fixed. */
@@ -48769,7 +50329,10 @@ export type QueryRoot = {
   automaticDiscount?: Maybe<DiscountAutomatic>;
   /** Returns a `DiscountAutomaticNode` resource by ID. */
   automaticDiscountNode?: Maybe<DiscountAutomaticNode>;
-  /** Returns a list of [automatic discounts](https://help.shopify.com/manual/discounts/discount-types#automatic-discounts). */
+  /**
+   * Returns a list of [automatic discounts](https://help.shopify.com/manual/discounts/discount-types#automatic-discounts).
+   * @deprecated Use `discountNodes` instead.
+   */
   automaticDiscountNodes: DiscountAutomaticNodeConnection;
   /** List of the shop's automatic discount saved searches. */
   automaticDiscountSavedSearches: SavedSearchConnection;
@@ -48796,7 +50359,17 @@ export type QueryRoot = {
   blogs: BlogConnection;
   /** Count of blogs. Limited to a maximum of 10000 by default. */
   blogsCount?: Maybe<Count>;
-  /** Returns a list of Business Entities associated with the shop. */
+  /** Returns a `BulkOperation` resource by ID. */
+  bulkOperation?: Maybe<BulkOperation>;
+  /** Returns the app's bulk operations meeting the specified filters. Defaults to sorting by created_at, with newest operations first. */
+  bulkOperations: BulkOperationConnection;
+  /**
+   * Returns the list of [business entities](https://shopify.dev/docs/api/admin-graphql/latest/objects/BusinessEntity) associated with the shop. Use this query to retrieve business entities for assigning to markets, managing payment providers per entity, or viewing entity attribution on orders.
+   *
+   * Each shop can have multiple business entities with one designated as primary. To identify the primary entity in the query results, set the [`primary`](https://shopify.dev/docs/api/admin-graphql/latest/queries/businessEntities#returns-BusinessEntity.fields.primary) field to `true`.
+   *
+   * Learn more about [managing multiple legal entities](https://shopify.dev/docs/apps/build/markets/multiple-entities).
+   */
   businessEntities: Array<BusinessEntity>;
   /** Returns a Business Entity by ID. */
   businessEntity?: Maybe<BusinessEntity>;
@@ -48846,29 +50419,36 @@ export type QueryRoot = {
   catalog?: Maybe<AppCatalog | CompanyLocationCatalog | MarketCatalog>;
   /** Returns the most recent catalog operations for the shop. */
   catalogOperations: Array<AddAllProductsOperation | CatalogCsvOperation | PublicationResourceOperation>;
-  /** The catalogs belonging to the shop. */
+  /**
+   * Returns a paginated list of catalogs for the shop. Catalogs control which products are published and how they're priced in different contexts, such as international markets (Canada vs. United States), B2B company locations (different branches of the same business), or specific sales channels (such as online store vs. POS).
+   *
+   * Filter catalogs by [`type`](https://shopify.dev/docs/api/admin-graphql/latest/queries/catalogs#arguments-type) and use the [`query`](https://shopify.dev/docs/api/admin-graphql/latest/queries/catalogs#arguments-query) argument to search and filter by additional criteria.
+   *
+   * Learn more about [Shopify Catalogs](https://shopify.dev/docs/apps/build/markets/catalogs-different-markets).
+   */
   catalogs: CatalogConnection;
   /** The count of catalogs belonging to the shop. Limited to a maximum of 10000 by default. */
   catalogsCount?: Maybe<Count>;
-  /**
-   * Returns a `Channel` resource by ID.
-   * @deprecated Use `publication` instead.
-   */
+  /** Returns a [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) by ID. The channel must belong to the calling application. */
   channel?: Maybe<Channel>;
-  /**
-   * Returns active [channels](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) where merchants sell products and collections. Each channel is an authenticated link to an external platform such as marketplaces, social media platforms, online stores, or point-of-sale systems.
-   * @deprecated Use `publications` instead.
-   */
+  /** The list of [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) objects on the shop. When the calling application supports multi-channel, only channels established by the calling application are returned. Each channel represents an authenticated connection to an external selling platform such as a marketplace, social media platform, online store, or point-of-sale system. */
   channels: ChannelConnection;
   /**
    * Returns the visual customizations for checkout for a given [checkout profile](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutProfile).
    *
    * To update checkout branding settings, use the [`checkoutBrandingUpsert`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/checkoutBrandingUpsert) mutation. Learn more about [customizing checkout's appearance](https://shopify.dev/docs/apps/build/checkout/styling).
+   * @deprecated Use `checkoutAndAccountsConfiguration` instead.
    */
   checkoutBranding?: Maybe<CheckoutBranding>;
-  /** Returns a [`CheckoutProfile`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutProfile). Checkout profiles define the branding settings and UI extensions for a store's checkout experience. Stores can have one published profile that renders on their live checkout and multiple draft profiles for testing customizations in the checkout editor. */
+  /**
+   * Returns a [`CheckoutProfile`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutProfile). Checkout profiles define the branding settings and UI extensions for a store's checkout experience. Stores can have one published profile that renders on their live checkout and multiple draft profiles for testing customizations in the checkout editor.
+   * @deprecated Use `checkoutAndAccountsConfiguration` instead.
+   */
   checkoutProfile?: Maybe<CheckoutProfile>;
-  /** List of checkout profiles on a shop. */
+  /**
+   * List of checkout profiles on a shop.
+   * @deprecated Use `checkoutAndAccountsConfigurations` instead.
+   */
   checkoutProfiles: CheckoutProfileConnection;
   /** Returns a [code discount](https://help.shopify.com/manual/discounts/discount-types#discount-codes) resource by ID. */
   codeDiscountNode?: Maybe<DiscountCodeNode>;
@@ -48880,7 +50460,10 @@ export type QueryRoot = {
    * Learn more about working with [Shopify's discount model](https://shopify.dev/docs/apps/build/discounts).
    */
   codeDiscountNodeByCode?: Maybe<DiscountCodeNode>;
-  /** Returns a list of [code-based discounts](https://help.shopify.com/manual/discounts/discount-types#discount-codes). */
+  /**
+   * Returns a list of [code-based discounts](https://help.shopify.com/manual/discounts/discount-types#discount-codes).
+   * @deprecated Use `discountNodes` instead.
+   */
   codeDiscountNodes: DiscountCodeNodeConnection;
   /** List of the shop's code discount saved searches. */
   codeDiscountSavedSearches: SavedSearchConnection;
@@ -49110,7 +50693,11 @@ export type QueryRoot = {
    * which indicates its progress through the sales workflow.
    */
   draftOrder?: Maybe<DraftOrder>;
-  /** Returns a list of available delivery options for a draft order. */
+  /**
+   * Available delivery options for a [`DraftOrder`](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder) based on the provided input. The query returns shipping rates, local delivery rates, and pickup locations that merchants can choose from when creating draft orders.
+   *
+   * Accepts draft order details including [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects, [`MailingAddress`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MailingAddress) for shipping, and discounts to determine which delivery methods are available. Pagination parameters control the number of local pickup options returned.
+   */
   draftOrderAvailableDeliveryOptions: DraftOrderAvailableDeliveryOptions;
   /** List of the shop's draft order saved searches. */
   draftOrderSavedSearches: SavedSearchConnection;
@@ -49156,7 +50743,11 @@ export type QueryRoot = {
   financeAppAccessPolicy: FinanceAppAccessPolicy;
   /** Returns the KYC information for the shop's Shopify Payments account, used in embedded finance apps. */
   financeKycInformation?: Maybe<FinanceKycInformation>;
-  /** Returns a Fulfillment resource by ID. */
+  /**
+   * Retrieves a [`Fulfillment`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Fulfillment) by its ID. A fulfillment is a record that the merchant has completed their work required for one or more line items in an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). It includes tracking information, [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) objects, and the status of the fulfillment.
+   *
+   * Use this query to track the progress of shipped items, view tracking details, or check [fulfillment events](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentEvent) for example when a package is out for delivery or delivered.
+   */
   fulfillment?: Maybe<Fulfillment>;
   /** The fulfillment constraint rules that belong to a shop. */
   fulfillmentConstraintRules: Array<FulfillmentConstraintRule>;
@@ -49176,7 +50767,13 @@ export type QueryRoot = {
    * connection.
    */
   fulfillmentOrders: FulfillmentOrderConnection;
-  /** Returns a FulfillmentService resource by ID. */
+  /**
+   * Returns a [`FulfillmentService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentService) by its ID. The service can manage inventory, process fulfillment requests, and provide tracking details through callback endpoints or directly calling Shopify's APIs.
+   *
+   * When you register a fulfillment service, Shopify automatically creates an associated [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) where fulfillment order's can be assigned to be processed.
+   *
+   * Learn more about [building fulfillment service apps](https://shopify.dev/docs/apps/build/orders-fulfillment/fulfillment-service-apps/build-for-fulfillment-services).
+   */
   fulfillmentService?: Maybe<FulfillmentService>;
   /**
    * Retrieves a [`GiftCard`](https://shopify.dev/docs/api/admin-graphql/latest/objects/GiftCard) by its ID. Returns the gift card's balance, transaction history, [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer) information, and whether it's enabled.
@@ -49208,21 +50805,33 @@ export type QueryRoot = {
    * object by ID.
    */
   inventoryLevel?: Maybe<InventoryLevel>;
-  /** General inventory properties for the shop. */
+  /** Returns the shop's inventory configuration, including all inventory quantity names. Quantity names represent different [inventory states](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps#inventory-states) that merchants use to track inventory. */
   inventoryProperties: InventoryProperties;
-  /** Returns an inventory shipment by ID. */
+  /** Retrieves an [`InventoryShipment`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryShipment) by ID. Returns tracking details, [`InventoryShipmentLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryShipmentLineItem) objects with quantities, and the shipment's current [`InventoryShipmentStatus`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryShipmentStatus). */
   inventoryShipment?: Maybe<InventoryShipment>;
-  /** Returns an inventory transfer by ID. */
+  /** Returns an [`InventoryTransfer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransfer) by ID. Inventory transfers track the movement of inventory between locations, including origin and destination details, [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects, quantities, and [`InventoryTransferStatus`](https://shopify.dev/docs/api/admin-graphql/latest/enums/InventoryTransferStatus) values. */
   inventoryTransfer?: Maybe<InventoryTransfer>;
-  /** Returns a paginated list of transfers. */
+  /**
+   * Returns a paginated list of [`InventoryTransfer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransfer) objects between locations. Transfers track the movement of [`InventoryItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryItem) objects between [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) objects.
+   *
+   * Supports filtering transfers using query parameters and sorting by various criteria. Use the connection's edges to access transfer details including [`InventoryTransferLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/InventoryTransferLineItem) objects, quantities, and shipment status.
+   */
   inventoryTransfers: InventoryTransferConnection;
   /** Returns a Job resource by ID. Used to check the status of internal jobs and any applicable changes. */
   job?: Maybe<Job>;
-  /** Returns an inventory Location resource by ID. */
+  /**
+   * Retrieves a [`Location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Location) by its ID. Locations are physical places where merchants store inventory, such as warehouses, retail stores, or fulfillment centers.
+   *
+   * Each location tracks inventory levels, fulfillment capabilities, and address information. Active locations can stock products and fulfill orders based on their configuration settings.
+   */
   location?: Maybe<Location>;
   /** Return a location by an identifier. */
   locationByIdentifier?: Maybe<Location>;
-  /** Returns a list of active inventory locations. */
+  /**
+   * A paginated list of inventory locations where merchants can stock [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) items and fulfill [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) items.
+   *
+   * Returns only active locations by default. Use the [`includeInactive`](https://shopify.dev/docs/api/admin-graphql/latest/queries/locations#arguments-includeInactive) argument to retrieve deactivated locations that can no longer stock inventory or fulfill orders. Use the [`includeLegacy`](https://shopify.dev/docs/api/admin-graphql/latest/queries/locations#arguments-includeLegacy) argument to include locations that [`FulfillmentService`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentService) apps manage. Use the [`query`](https://shopify.dev/docs/api/admin-graphql/latest/queries/locations#arguments-query) argument to filter by location attributes like name, address, and whether local pickup is enabled.
+   */
   locations: LocationConnection;
   /**
    * Returns a list of all origin locations available for a delivery profile.
@@ -49268,7 +50877,11 @@ export type QueryRoot = {
   marketsResolvedValues: MarketsResolvedValues;
   /** Returns a `Menu` resource by ID. */
   menu?: Maybe<Menu>;
-  /** The shop's menus. */
+  /**
+   * Retrieves navigation menus. Menus organize content into hierarchical navigation structures that merchants can display in the online store (for example, in headers, footers, and sidebars) and customer accounts.
+   *
+   * Each [`Menu`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Menu) contains a handle for identification, a title for display, and a collection of [`MenuItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/MenuItem) objects that can be nested up to 3 levels deep. Default menus have protected handles that can't be modified.
+   */
   menus: MenuConnection;
   /**
    * Retrieves a [`MetafieldDefinition`](https://shopify.dev/docs/api/admin-graphql/current/objects/MetafieldDefinition) by its identifier. You can identify a definition using either its owner type, namespace, and key, or its global ID.
@@ -49321,14 +50934,14 @@ export type QueryRoot = {
    * [Relay specification](https://relay.dev/docs/guides/graphql-server-specification/#object-identification).
    * This field is commonly used for refetching an object.
    */
-  node?: Maybe<AbandonedCheckout | AbandonedCheckoutLineItem | Abandonment | AddAllProductsOperation | AdditionalFee | App | AppCatalog | AppCredit | AppInstallation | AppPurchaseOneTime | AppRevenueAttributionRecord | AppSubscription | AppUsageRecord | Article | BasicEvent | Blog | BulkOperation | BusinessEntity | CalculatedOrder | CartTransform | CashTrackingAdjustment | CashTrackingSession | CatalogCsvOperation | Channel | ChannelDefinition | ChannelInformation | CheckoutProfile | Collection | Comment | CommentEvent | Company | CompanyAddress | CompanyContact | CompanyContactRole | CompanyContactRoleAssignment | CompanyLocation | CompanyLocationCatalog | CompanyLocationStaffMemberAssignment | ConsentPolicy | CurrencyExchangeAdjustment | Customer | CustomerAccountAppExtensionPage | CustomerAccountNativePage | CustomerPaymentMethod | CustomerSegmentMembersQuery | CustomerVisit | DeliveryCarrierService | DeliveryCondition | DeliveryCountry | DeliveryCustomization | DeliveryLocationGroup | DeliveryMethod | DeliveryMethodDefinition | DeliveryParticipant | DeliveryProfile | DeliveryProfileItem | DeliveryPromiseParticipant | DeliveryPromiseProvider | DeliveryProvince | DeliveryRateDefinition | DeliveryZone | DiscountAutomaticBxgy | DiscountAutomaticNode | DiscountCodeNode | DiscountNode | DiscountRedeemCodeBulkCreation | Domain | DraftOrder | DraftOrderLineItem | DraftOrderTag | Duty | ExchangeLineItem | ExchangeV2 | ExternalVideo | Fulfillment | FulfillmentConstraintRule | FulfillmentEvent | FulfillmentHold | FulfillmentLineItem | FulfillmentOrder | FulfillmentOrderDestination | FulfillmentOrderLineItem | FulfillmentOrderMerchantRequest | GenericFile | GiftCard | GiftCardCreditTransaction | GiftCardDebitTransaction | InventoryAdjustmentGroup | InventoryItem | InventoryItemMeasurement | InventoryLevel | InventoryQuantity | InventoryShipment | InventoryShipmentLineItem | InventoryTransfer | InventoryTransferLineItem | LineItem | LineItemGroup | Location | MailingAddress | Market | MarketCatalog | MarketRegionCountry | MarketWebPresence | MarketingActivity | MarketingEvent | MediaImage | Menu | Metafield | MetafieldDefinition | Metaobject | MetaobjectDefinition | Model3d | OnlineStoreTheme | Order | OrderAdjustment | OrderDisputeSummary | OrderTransaction | Page | PaymentCustomization | PaymentMandate | PaymentSchedule | PaymentTerms | PaymentTermsTemplate | PointOfSaleDevice | PriceList | PriceRule | PriceRuleDiscountCode | Product | ProductBundleOperation | ProductDeleteOperation | ProductDuplicateOperation | ProductFeed | ProductOption | ProductOptionValue | ProductSetOperation | ProductTaxonomyNode | ProductVariant | ProductVariantComponent | Publication | PublicationResourceOperation | QuantityPriceBreak | Refund | RefundShippingLine | Return | ReturnLineItem | ReturnableFulfillment | ReverseDelivery | ReverseDeliveryLineItem | ReverseFulfillmentOrder | ReverseFulfillmentOrderDisposition | ReverseFulfillmentOrderLineItem | SaleAdditionalFee | SavedSearch | ScriptTag | Segment | SellingPlan | SellingPlanGroup | ServerPixel | Shop | ShopAddress | ShopPolicy | ShopifyPaymentsAccount | ShopifyPaymentsBalanceTransaction | ShopifyPaymentsBankAccount | ShopifyPaymentsDispute | ShopifyPaymentsDisputeEvidence | ShopifyPaymentsDisputeFileUpload | ShopifyPaymentsDisputeFulfillment | ShopifyPaymentsPayout | StaffMember | StandardMetafieldDefinitionTemplate | StoreCreditAccount | StoreCreditAccountCreditTransaction | StoreCreditAccountDebitRevertTransaction | StoreCreditAccountDebitTransaction | StorefrontAccessToken | SubscriptionBillingAttempt | SubscriptionContract | SubscriptionDraft | TaxonomyAttribute | TaxonomyCategory | TaxonomyChoiceListAttribute | TaxonomyMeasurementAttribute | TaxonomyValue | TenderTransaction | TransactionFee | UnverifiedReturnLineItem | UrlRedirect | UrlRedirectImport | Validation | Video | WebPixel | WebhookSubscription>;
+  node?: Maybe<AbandonedCheckout | AbandonedCheckoutLineItem | Abandonment | AddAllProductsOperation | AdditionalFee | App | AppCatalog | AppCredit | AppInstallation | AppPurchaseOneTime | AppRevenueAttributionRecord | AppSubscription | AppUsageRecord | Article | BasicEvent | Blog | BulkOperation | BusinessEntity | CalculatedOrder | CartTransform | CashTrackingAdjustment | CashTrackingSession | CatalogCsvOperation | Channel | ChannelDefinition | ChannelInformation | CheckoutProfile | Collection | Comment | CommentEvent | Company | CompanyAddress | CompanyContact | CompanyContactRole | CompanyContactRoleAssignment | CompanyLocation | CompanyLocationCatalog | CompanyLocationStaffMemberAssignment | ConsentPolicy | CurrencyExchangeAdjustment | Customer | CustomerAccountAppExtensionPage | CustomerAccountNativePage | CustomerPaymentMethod | CustomerSegmentMembersQuery | CustomerVisit | DeliveryCarrierService | DeliveryCondition | DeliveryCountry | DeliveryCustomization | DeliveryLocationGroup | DeliveryMethod | DeliveryMethodDefinition | DeliveryParticipant | DeliveryProfile | DeliveryProfileItem | DeliveryPromiseParticipant | DeliveryPromiseProvider | DeliveryProvince | DeliveryRateDefinition | DeliveryZone | DiscountAutomaticBxgy | DiscountAutomaticNode | DiscountCodeNode | DiscountNode | DiscountRedeemCodeBulkCreation | Domain | DraftOrder | DraftOrderLineItem | DraftOrderTag | Duty | ExchangeLineItem | ExchangeV2 | ExternalVideo | Fulfillment | FulfillmentConstraintRule | FulfillmentEvent | FulfillmentHold | FulfillmentLineItem | FulfillmentOrder | FulfillmentOrderDestination | FulfillmentOrderLineItem | FulfillmentOrderMerchantRequest | GenericFile | GiftCard | GiftCardCreditTransaction | GiftCardDebitTransaction | InventoryAdjustmentGroup | InventoryItem | InventoryItemMeasurement | InventoryLevel | InventoryQuantity | InventoryShipment | InventoryShipmentLineItem | InventoryTransfer | InventoryTransferLineItem | LineItem | LineItemGroup | Location | MailingAddress | Market | MarketCatalog | MarketRegionCountry | MarketWebPresence | MarketingActivity | MarketingEvent | MediaImage | Menu | Metafield | MetafieldDefinition | Metaobject | MetaobjectDefinition | Model3d | OnlineStoreTheme | Order | OrderAdjustment | OrderDisputeSummary | OrderEditSession | OrderTransaction | Page | PaymentCustomization | PaymentMandate | PaymentSchedule | PaymentTerms | PaymentTermsTemplate | PointOfSaleDevice | PriceList | PriceRule | PriceRuleDiscountCode | Product | ProductBundleOperation | ProductDeleteOperation | ProductDuplicateOperation | ProductFeed | ProductOption | ProductOptionValue | ProductSetOperation | ProductTaxonomyNode | ProductVariant | ProductVariantComponent | Publication | PublicationResourceOperation | QuantityPriceBreak | Refund | RefundShippingLine | Return | ReturnLineItem | ReturnReasonDefinition | ReturnableFulfillment | ReverseDelivery | ReverseDeliveryLineItem | ReverseFulfillmentOrder | ReverseFulfillmentOrderDisposition | ReverseFulfillmentOrderLineItem | SaleAdditionalFee | SavedSearch | ScriptTag | Segment | SellingPlan | SellingPlanGroup | ServerPixel | Shop | ShopAddress | ShopPolicy | ShopifyPaymentsAccount | ShopifyPaymentsBalanceTransaction | ShopifyPaymentsBankAccount | ShopifyPaymentsDispute | ShopifyPaymentsDisputeEvidence | ShopifyPaymentsDisputeFileUpload | ShopifyPaymentsDisputeFulfillment | ShopifyPaymentsPayout | StaffMember | StandardMetafieldDefinitionTemplate | StoreCreditAccount | StoreCreditAccountCreditTransaction | StoreCreditAccountDebitRevertTransaction | StoreCreditAccountDebitTransaction | StorefrontAccessToken | SubscriptionBillingAttempt | SubscriptionContract | SubscriptionDraft | TaxonomyAttribute | TaxonomyCategory | TaxonomyChoiceListAttribute | TaxonomyMeasurementAttribute | TaxonomyValue | TenderTransaction | TransactionFee | UnverifiedReturnLineItem | UrlRedirect | UrlRedirectImport | Validation | Video | WebPixel | WebhookSubscription>;
   /**
    * Returns the list of nodes (any objects that implement the
    * [Node](https://shopify.dev/api/admin-graphql/latest/interfaces/Node)
    * interface) with the given IDs, in accordance with the
    * [Relay specification](https://relay.dev/docs/guides/graphql-server-specification/#object-identification).
    */
-  nodes: Array<Maybe<AbandonedCheckout | AbandonedCheckoutLineItem | Abandonment | AddAllProductsOperation | AdditionalFee | App | AppCatalog | AppCredit | AppInstallation | AppPurchaseOneTime | AppRevenueAttributionRecord | AppSubscription | AppUsageRecord | Article | BasicEvent | Blog | BulkOperation | BusinessEntity | CalculatedOrder | CartTransform | CashTrackingAdjustment | CashTrackingSession | CatalogCsvOperation | Channel | ChannelDefinition | ChannelInformation | CheckoutProfile | Collection | Comment | CommentEvent | Company | CompanyAddress | CompanyContact | CompanyContactRole | CompanyContactRoleAssignment | CompanyLocation | CompanyLocationCatalog | CompanyLocationStaffMemberAssignment | ConsentPolicy | CurrencyExchangeAdjustment | Customer | CustomerAccountAppExtensionPage | CustomerAccountNativePage | CustomerPaymentMethod | CustomerSegmentMembersQuery | CustomerVisit | DeliveryCarrierService | DeliveryCondition | DeliveryCountry | DeliveryCustomization | DeliveryLocationGroup | DeliveryMethod | DeliveryMethodDefinition | DeliveryParticipant | DeliveryProfile | DeliveryProfileItem | DeliveryPromiseParticipant | DeliveryPromiseProvider | DeliveryProvince | DeliveryRateDefinition | DeliveryZone | DiscountAutomaticBxgy | DiscountAutomaticNode | DiscountCodeNode | DiscountNode | DiscountRedeemCodeBulkCreation | Domain | DraftOrder | DraftOrderLineItem | DraftOrderTag | Duty | ExchangeLineItem | ExchangeV2 | ExternalVideo | Fulfillment | FulfillmentConstraintRule | FulfillmentEvent | FulfillmentHold | FulfillmentLineItem | FulfillmentOrder | FulfillmentOrderDestination | FulfillmentOrderLineItem | FulfillmentOrderMerchantRequest | GenericFile | GiftCard | GiftCardCreditTransaction | GiftCardDebitTransaction | InventoryAdjustmentGroup | InventoryItem | InventoryItemMeasurement | InventoryLevel | InventoryQuantity | InventoryShipment | InventoryShipmentLineItem | InventoryTransfer | InventoryTransferLineItem | LineItem | LineItemGroup | Location | MailingAddress | Market | MarketCatalog | MarketRegionCountry | MarketWebPresence | MarketingActivity | MarketingEvent | MediaImage | Menu | Metafield | MetafieldDefinition | Metaobject | MetaobjectDefinition | Model3d | OnlineStoreTheme | Order | OrderAdjustment | OrderDisputeSummary | OrderTransaction | Page | PaymentCustomization | PaymentMandate | PaymentSchedule | PaymentTerms | PaymentTermsTemplate | PointOfSaleDevice | PriceList | PriceRule | PriceRuleDiscountCode | Product | ProductBundleOperation | ProductDeleteOperation | ProductDuplicateOperation | ProductFeed | ProductOption | ProductOptionValue | ProductSetOperation | ProductTaxonomyNode | ProductVariant | ProductVariantComponent | Publication | PublicationResourceOperation | QuantityPriceBreak | Refund | RefundShippingLine | Return | ReturnLineItem | ReturnableFulfillment | ReverseDelivery | ReverseDeliveryLineItem | ReverseFulfillmentOrder | ReverseFulfillmentOrderDisposition | ReverseFulfillmentOrderLineItem | SaleAdditionalFee | SavedSearch | ScriptTag | Segment | SellingPlan | SellingPlanGroup | ServerPixel | Shop | ShopAddress | ShopPolicy | ShopifyPaymentsAccount | ShopifyPaymentsBalanceTransaction | ShopifyPaymentsBankAccount | ShopifyPaymentsDispute | ShopifyPaymentsDisputeEvidence | ShopifyPaymentsDisputeFileUpload | ShopifyPaymentsDisputeFulfillment | ShopifyPaymentsPayout | StaffMember | StandardMetafieldDefinitionTemplate | StoreCreditAccount | StoreCreditAccountCreditTransaction | StoreCreditAccountDebitRevertTransaction | StoreCreditAccountDebitTransaction | StorefrontAccessToken | SubscriptionBillingAttempt | SubscriptionContract | SubscriptionDraft | TaxonomyAttribute | TaxonomyCategory | TaxonomyChoiceListAttribute | TaxonomyMeasurementAttribute | TaxonomyValue | TenderTransaction | TransactionFee | UnverifiedReturnLineItem | UrlRedirect | UrlRedirectImport | Validation | Video | WebPixel | WebhookSubscription>>;
+  nodes: Array<Maybe<AbandonedCheckout | AbandonedCheckoutLineItem | Abandonment | AddAllProductsOperation | AdditionalFee | App | AppCatalog | AppCredit | AppInstallation | AppPurchaseOneTime | AppRevenueAttributionRecord | AppSubscription | AppUsageRecord | Article | BasicEvent | Blog | BulkOperation | BusinessEntity | CalculatedOrder | CartTransform | CashTrackingAdjustment | CashTrackingSession | CatalogCsvOperation | Channel | ChannelDefinition | ChannelInformation | CheckoutProfile | Collection | Comment | CommentEvent | Company | CompanyAddress | CompanyContact | CompanyContactRole | CompanyContactRoleAssignment | CompanyLocation | CompanyLocationCatalog | CompanyLocationStaffMemberAssignment | ConsentPolicy | CurrencyExchangeAdjustment | Customer | CustomerAccountAppExtensionPage | CustomerAccountNativePage | CustomerPaymentMethod | CustomerSegmentMembersQuery | CustomerVisit | DeliveryCarrierService | DeliveryCondition | DeliveryCountry | DeliveryCustomization | DeliveryLocationGroup | DeliveryMethod | DeliveryMethodDefinition | DeliveryParticipant | DeliveryProfile | DeliveryProfileItem | DeliveryPromiseParticipant | DeliveryPromiseProvider | DeliveryProvince | DeliveryRateDefinition | DeliveryZone | DiscountAutomaticBxgy | DiscountAutomaticNode | DiscountCodeNode | DiscountNode | DiscountRedeemCodeBulkCreation | Domain | DraftOrder | DraftOrderLineItem | DraftOrderTag | Duty | ExchangeLineItem | ExchangeV2 | ExternalVideo | Fulfillment | FulfillmentConstraintRule | FulfillmentEvent | FulfillmentHold | FulfillmentLineItem | FulfillmentOrder | FulfillmentOrderDestination | FulfillmentOrderLineItem | FulfillmentOrderMerchantRequest | GenericFile | GiftCard | GiftCardCreditTransaction | GiftCardDebitTransaction | InventoryAdjustmentGroup | InventoryItem | InventoryItemMeasurement | InventoryLevel | InventoryQuantity | InventoryShipment | InventoryShipmentLineItem | InventoryTransfer | InventoryTransferLineItem | LineItem | LineItemGroup | Location | MailingAddress | Market | MarketCatalog | MarketRegionCountry | MarketWebPresence | MarketingActivity | MarketingEvent | MediaImage | Menu | Metafield | MetafieldDefinition | Metaobject | MetaobjectDefinition | Model3d | OnlineStoreTheme | Order | OrderAdjustment | OrderDisputeSummary | OrderEditSession | OrderTransaction | Page | PaymentCustomization | PaymentMandate | PaymentSchedule | PaymentTerms | PaymentTermsTemplate | PointOfSaleDevice | PriceList | PriceRule | PriceRuleDiscountCode | Product | ProductBundleOperation | ProductDeleteOperation | ProductDuplicateOperation | ProductFeed | ProductOption | ProductOptionValue | ProductSetOperation | ProductTaxonomyNode | ProductVariant | ProductVariantComponent | Publication | PublicationResourceOperation | QuantityPriceBreak | Refund | RefundShippingLine | Return | ReturnLineItem | ReturnReasonDefinition | ReturnableFulfillment | ReverseDelivery | ReverseDeliveryLineItem | ReverseFulfillmentOrder | ReverseFulfillmentOrderDisposition | ReverseFulfillmentOrderLineItem | SaleAdditionalFee | SavedSearch | ScriptTag | Segment | SellingPlan | SellingPlanGroup | ServerPixel | Shop | ShopAddress | ShopPolicy | ShopifyPaymentsAccount | ShopifyPaymentsBalanceTransaction | ShopifyPaymentsBankAccount | ShopifyPaymentsDispute | ShopifyPaymentsDisputeEvidence | ShopifyPaymentsDisputeFileUpload | ShopifyPaymentsDisputeFulfillment | ShopifyPaymentsPayout | StaffMember | StandardMetafieldDefinitionTemplate | StoreCreditAccount | StoreCreditAccountCreditTransaction | StoreCreditAccountDebitRevertTransaction | StoreCreditAccountDebitTransaction | StorefrontAccessToken | SubscriptionBillingAttempt | SubscriptionContract | SubscriptionDraft | TaxonomyAttribute | TaxonomyCategory | TaxonomyChoiceListAttribute | TaxonomyMeasurementAttribute | TaxonomyValue | TenderTransaction | TransactionFee | UnverifiedReturnLineItem | UrlRedirect | UrlRedirectImport | Validation | Video | WebPixel | WebhookSubscription>>;
   /** The shop's online store channel. */
   onlineStore: OnlineStore;
   /**
@@ -49350,7 +50963,13 @@ export type QueryRoot = {
   order?: Maybe<Order>;
   /** Return an order by an identifier. */
   orderByIdentifier?: Maybe<Order>;
-  /** Returns a payment status by payment reference ID. Used to check the status of a deferred payment. */
+  /** Returns a `OrderEditSession` resource by ID. */
+  orderEditSession?: Maybe<OrderEditSession>;
+  /**
+   * Retrieves the status of a deferred payment by its payment reference ID. Use this query to monitor the processing status of payments that are initiated through payment mutations. Deferred payments are called [payment terms](https://shopify.dev/docs/apps/build/checkout/payments/payment-terms) in the API.
+   *
+   * The query returns an [`OrderPaymentStatus`](https://shopify.dev/docs/api/admin-graphql/latest/objects/OrderPaymentStatus) object that includes the current payment status, any error messages, and associated transactions. Poll this query to track [asynchronous payment processing](https://shopify.dev/docs/apps/build/payments/processing) after initiating a deferred payment.
+   */
   orderPaymentStatus?: Maybe<OrderPaymentStatus>;
   /** Returns [saved searches](https://shopify.dev/docs/api/admin-graphql/latest/objects/SavedSearch) for orders in the shop. Saved searches store search queries with their filters and search terms. */
   orderSavedSearches: SavedSearchConnection;
@@ -49360,7 +50979,14 @@ export type QueryRoot = {
    * [sorting](https://shopify.dev/docs/api/admin-graphql/latest/queries/orders#arguments-sortKey), and [filtering](https://shopify.dev/docs/api/admin-graphql/latest/queries/orders#arguments-query).
    */
   orders: OrderConnection;
-  /** Returns the count of orders for the given shop. Limited to a maximum of 10000 by default. */
+  /**
+   * Returns the number of [orders](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) in the shop. You can filter orders using [search syntax](https://shopify.dev/docs/api/usage/search-syntax) or a [`SavedSearch`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SavedSearch), and set a maximum count limit to control query performance.
+   *
+   * Use the [`query`](https://shopify.dev/docs/api/admin-graphql/latest/queries/ordersCount#arguments-query) argument to filter the count by criteria like order status, financial state, or fulfillment status. The response includes both the count value and its precision, indicating whether the count is exact or an estimate.
+   *
+   * > Note:
+   * > The count is limited to 10,000 orders by default. Use the [`limit`](https://shopify.dev/docs/api/admin-graphql/latest/queries/ordersCount#arguments-limit) argument to adjust this value, or pass `null` for no limit. Limited to a maximum of 10000 by default.
+   */
   ordersCount?: Maybe<Count>;
   /** Returns a `Page` resource by ID. */
   page?: Maybe<Page>;
@@ -49382,7 +51008,11 @@ export type QueryRoot = {
   pendingOrdersCount?: Maybe<Count>;
   /** Returns a `PointOfSaleDevice` resource by ID. */
   pointOfSaleDevice?: Maybe<PointOfSaleDevice>;
-  /** Returns a price list resource by ID. */
+  /**
+   * Returns a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) by ID. You can use price lists to specify either fixed prices or adjusted relative prices that override initial [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) prices.
+   *
+   * Price lists enable contextual pricing for the [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) they are associated to. Each price list can define fixed prices for specific [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects or percentage-based adjustments relative to other prices.
+   */
   priceList?: Maybe<PriceList>;
   /** All price lists for a shop. */
   priceLists: PriceListConnection;
@@ -49474,7 +51104,7 @@ export type QueryRoot = {
    */
   productTags?: Maybe<StringConnection>;
   /**
-   * The list of types added to products.
+   * Returns a paginated list of product types assigned to [products](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) in the store. The maximum page size is 1000.
    * The maximum page size is 1000.
    */
   productTypes?: Maybe<StringConnection>;
@@ -49566,9 +51196,17 @@ export type QueryRoot = {
   productsCount?: Maybe<Count>;
   /** The list of publicly-accessible Admin API versions, including supported versions, the release candidate, and unstable versions. */
   publicApiVersions: Array<ApiVersion>;
-  /** Lookup a publication by ID. */
+  /**
+   * Retrieves a [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) by [`ID`](https://shopify.dev/docs/api/usage/gids).
+   *
+   * Returns `null` if the publication doesn't exist.
+   */
   publication?: Maybe<Publication>;
-  /** List of publications. */
+  /**
+   * Returns a paginated list of [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
+   *
+   * Filter publications by [`CatalogType`](https://shopify.dev/docs/api/admin-graphql/latest/enums/CatalogType).
+   */
   publications: PublicationConnection;
   /** Count of publications. Limited to a maximum of 10000 by default. */
   publicationsCount?: Maybe<Count>;
@@ -49613,8 +51251,25 @@ export type QueryRoot = {
    * which indicates the state of the return.
    */
   return?: Maybe<Return>;
-  /** The calculated monetary value to be exchanged due to the return. */
+  /**
+   * Calculates the financial outcome of a [`Return`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Return) without creating it. Use this query to preview return costs before initiating the actual return process.
+   *
+   * The calculation provides detailed breakdowns of refund amounts, taxes, [`RestockingFee`](https://shopify.dev/docs/api/admin-graphql/latest/objects/RestockingFee) charges, return shipping fees, and order-level discount adjustments based on the [`FulfillmentLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentLineItem) objects that customers select for return.
+   *
+   * Learn more about building for [return management](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/build-return-management).
+   */
   returnCalculate?: Maybe<CalculatedReturn>;
+  /**
+   * Returns the full library of available return reason definitions.
+   *
+   * Use this query to retrieve the standardized return reasons available for creating returns.
+   * Filter by IDs or handles to get specific definitions.
+   *
+   * Only non-deleted reasons should be shown to customers when creating new returns.
+   * Deleted reasons have been replaced with better alternatives and are no longer recommended.
+   * However, they remain valid options and may still appear on existing returns.
+   */
+  returnReasonDefinitions: ReturnReasonDefinitionConnection;
   /** Returns a `ReturnableFulfillment` resource by ID. */
   returnableFulfillment?: Maybe<ReturnableFulfillment>;
   /** List of returnable fulfillments. */
@@ -49669,7 +51324,13 @@ export type QueryRoot = {
   segmentsCount?: Maybe<Count>;
   /** Returns a `SellingPlanGroup` resource by ID. */
   sellingPlanGroup?: Maybe<SellingPlanGroup>;
-  /** List Selling Plan Groups. */
+  /**
+   * Retrieves a paginated list of [`SellingPlanGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlanGroup) objects that belong to the app making the API call. Selling plan groups are selling methods like subscriptions, preorders, or other purchase options that merchants offer to customers.
+   *
+   * Each group has one or more [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan) objects that define specific billing and delivery schedules, pricing adjustments, and policies. Use the [`query`](https://shopify.dev/docs/api/admin-graphql/latest/queries/sellingPlanGroups#arguments-query) argument to search by name or filter results by other criteria.
+   *
+   * Learn more about [building selling plans](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/selling-plans).
+   */
   sellingPlanGroups: SellingPlanGroupConnection;
   /** The server pixel configured by the app. */
   serverPixel?: Maybe<ServerPixel>;
@@ -49710,8 +51371,20 @@ export type QueryRoot = {
    * Learn more about [building functions](https://shopify.dev/docs/api/functions).
    */
   shopifyFunctions: ShopifyFunctionConnection;
-  /** Shopify Payments account information, including balances and payouts. */
+  /**
+   * Returns the Shopify Payments account information for the shop. Includes current balances across all currencies, payout schedules, and bank account configurations.
+   *
+   * The account includes [`ShopifyPaymentsBalanceTransaction`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBalanceTransaction) records showing charges, refunds, and adjustments that affect your balance. Also includes [`ShopifyPaymentsDispute`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute) records and [`ShopifyPaymentsPayout`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout) history between the account and connected [`ShopifyPaymentsBankAccount`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBankAccount) configurations.
+   */
   shopifyPaymentsAccount?: Maybe<ShopifyPaymentsAccount>;
+  /**
+   * Executes a [ShopifyQL query](https://shopify.dev/docs/apps/build/shopifyql) to analyze store data and returns results in a tabular format.
+   *
+   * The response includes column metadata with names, data types, and display names, along with the actual data rows. If the query contains syntax errors, then the response provides parse error messages instead of table data.
+   *
+   * Read the [ShopifyQL reference documentation](https://shopify.dev/docs/api/shopifyql) for more information on how to write ShopifyQL queries.
+   */
+  shopifyqlQuery?: Maybe<ShopifyqlQueryResponse>;
   /**
    * Retrieves a [staff member](https://shopify.dev/docs/api/admin-graphql/latest/objects/StaffMember) by ID. If no ID is provided, the query returns the staff member that's making the request. A staff member is a user who can access the Shopify admin to manage store operations.
    *
@@ -49745,13 +51418,25 @@ export type QueryRoot = {
   subscriptionBillingCycleBulkResults: SubscriptionBillingCycleConnection;
   /** Returns subscription billing cycles for a contract ID. */
   subscriptionBillingCycles: SubscriptionBillingCycleConnection;
-  /** Returns a Subscription Contract resource by ID. */
+  /**
+   * Retrieves a [`SubscriptionContract`](https://shopify.dev/docs/api/customer/latest/objects/SubscriptionContract) by ID.
+   *
+   * The contract tracks the subscription's lifecycle through various [statuses](https://shopify.dev/docs/api/admin-graphql/latest/queries/subscriptionContract#returns-SubscriptionContract.fields.status), and links to related billing attempts, generated [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) objects, and the customer's [`CustomerPaymentMethod`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CustomerPaymentMethod).
+   */
   subscriptionContract?: Maybe<SubscriptionContract>;
-  /** List Subscription Contracts. */
+  /**
+   * Returns a [`SubscriptionContractConnection`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContractConnection) containing [subscription contracts](https://shopify.dev/docs/api/customer/latest/objects/SubscriptionContract). Subscription contracts are agreements between [customers](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer) and merchants for recurring purchases with defined billing and delivery schedules.
+   *
+   * Filter results with the [`query`](https://shopify.dev/docs/api/admin-graphql/latest/queries/subscriptionContracts#arguments-query) argument. You can paginate results using standard [cursor-based pagination](https://shopify.dev/docs/api/usage/pagination-graphql).
+   */
   subscriptionContracts: SubscriptionContractConnection;
   /** Returns a Subscription Draft resource by ID. */
   subscriptionDraft?: Maybe<SubscriptionDraft>;
-  /** The Taxonomy resource lets you access the categories, attributes and values of the loaded taxonomy tree. */
+  /**
+   * Access to Shopify's [standardized product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17) for categorizing products. The [`Taxonomy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Taxonomy) organizes products into a hierarchical tree structure with categories, attributes, and values.
+   *
+   * Query categories using search terms, or navigate the hierarchy by requesting children, siblings, or descendants of specific categories. Each [`TaxonomyCategory`](https://shopify.dev/docs/api/admin-graphql/latest/objects/TaxonomyCategory) includes its position in the tree, parent-child relationships, and associated attributes for that product category.
+   */
   taxonomy?: Maybe<Taxonomy>;
   /**
    * Transactions representing a movement of money between customers and the shop. Each transaction records the amount, payment method, processing details, and the associated [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order).
@@ -50039,6 +51724,24 @@ export type QueryRootBlogsArgs = {
 export type QueryRootBlogsCountArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   query?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type QueryRootBulkOperationArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type QueryRootBulkOperationsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
+  sortKey?: InputMaybe<BulkOperationsSortKeys>;
 };
 
 
@@ -51082,6 +52785,12 @@ export type QueryRootOrderByIdentifierArgs = {
 
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type QueryRootOrderEditSessionArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type QueryRootOrderPaymentStatusArgs = {
   orderId: Scalars['ID']['input'];
   paymentReferenceId: Scalars['String']['input'];
@@ -51385,6 +53094,20 @@ export type QueryRootReturnCalculateArgs = {
 
 
 /** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type QueryRootReturnReasonDefinitionsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  handles?: InputMaybe<Array<Scalars['String']['input']>>;
+  ids?: InputMaybe<Array<Scalars['ID']['input']>>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
+  sortKey?: InputMaybe<ReturnReasonDefinitionSortKeys>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type QueryRootReturnableFulfillmentArgs = {
   id: Scalars['ID']['input'];
 };
@@ -51551,6 +53274,12 @@ export type QueryRootShopifyFunctionsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
   useCreationUi?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+/** The schema's entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type QueryRootShopifyqlQueryArgs = {
+  query: Scalars['String']['input'];
 };
 
 
@@ -51814,6 +53543,7 @@ export type QueryRootWebhookSubscriptionsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<WebhookSubscriptionSortKeys>;
   topics?: InputMaybe<Array<WebhookSubscriptionTopic>>;
+  uri?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -51875,6 +53605,8 @@ export type Refund = LegacyInteroperability & Node & {
   order: Order;
   /** The order adjustments that are attached with the refund. */
   orderAdjustments: OrderAdjustmentConnection;
+  /** The date and time when the refund was processed. */
+  processedAt: Scalars['DateTime']['output'];
   /** The `RefundLineItem` resources attached to the refund. */
   refundLineItems: RefundLineItemConnection;
   /** The `RefundShippingLine` resources attached to the refund. */
@@ -52173,6 +53905,8 @@ export type RefundInput = {
   notify?: InputMaybe<Scalars['Boolean']['input']>;
   /** The ID of the order that's being refunded. */
   orderId: Scalars['ID']['input'];
+  /** The date and time when the refund is being processed. If not provided, it will be set to the current time. */
+  processedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** A list of duties to refund. */
   refundDuties?: InputMaybe<Array<RefundDutyInput>>;
   /** A list of line items to refund. */
@@ -52185,7 +53919,11 @@ export type RefundInput = {
   transactions?: InputMaybe<Array<OrderTransactionInput>>;
 };
 
-/** A line item that's included in a refund. */
+/**
+ * A [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) or [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) being refunded from an order. Each refund line item tracks the quantity, pricing, and restocking details for items returned to the merchant.
+ *
+ * The refund line item links to the original [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) from the [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) and includes financial information such as the refunded price, subtotal, and taxes in both shop and presentment currencies. The [`restockType`](https://shopify.dev/docs/api/admin-graphql/latest/objects/RefundLineItem#field-RefundLineItem.fields.restockType) field indicates whether and how the merchant restocks the returned items to inventory, while the [`location`](https://shopify.dev/docs/api/admin-graphql/latest/objects/RefundLineItem#field-RefundLineItem.fields.location) field specifies where restocking occurs.
+ */
 export type RefundLineItem = {
   /** A globally-unique ID. */
   id?: Maybe<Scalars['ID']['output']>;
@@ -52671,6 +54409,8 @@ export type Return = Node & {
   returnShippingFees: Array<ReturnShippingFee>;
   /** The list of reverse fulfillment orders for the return. */
   reverseFulfillmentOrders: ReverseFulfillmentOrderConnection;
+  /** The staff member that created the return. */
+  staffMember?: Maybe<StaffMember>;
   /** The status of the return. */
   status: ReturnStatus;
   /** A suggested financial outcome for the return. */
@@ -52682,6 +54422,8 @@ export type Return = Node & {
   suggestedRefund?: Maybe<SuggestedReturnRefund>;
   /** The sum of all return line item quantities for the return. */
   totalQuantity: Scalars['Int']['output'];
+  /** The order transactions created from the return. */
+  transactions: OrderTransactionConnection;
 };
 
 
@@ -52709,6 +54451,7 @@ export type ReturnExchangeLineItemsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   includeRemovedItems?: InputMaybe<Scalars['Boolean']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
+  processingStatus?: InputMaybe<ReturnProcessingStatusFilterInput>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -52763,6 +54506,7 @@ export type ReturnReturnLineItemsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
+  processingStatus?: InputMaybe<ReturnProcessingStatusFilterInput>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -52818,6 +54562,7 @@ export type ReturnSuggestedFinancialOutcomeArgs = {
   refundMethodAllocation?: InputMaybe<RefundMethodAllocation>;
   refundShipping?: InputMaybe<RefundShippingInput>;
   returnLineItems: Array<SuggestedOutcomeReturnLineItemInput>;
+  tipLineId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
@@ -52843,6 +54588,33 @@ export type ReturnSuggestedRefundArgs = {
   refundDuties?: InputMaybe<Array<RefundDutyInput>>;
   refundShipping?: InputMaybe<RefundShippingInput>;
   returnRefundLineItems: Array<ReturnRefundLineItemInput>;
+};
+
+
+/**
+ * The `Return` object represents the intent of a buyer to ship one or more items from an order back to a merchant
+ * or a third-party fulfillment location. A return is associated with an [order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order)
+ * and can include multiple return [line items](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem).
+ * Each return has a [status](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps#return-statuses),
+ * which indicates the state of the return.
+ *
+ * Use the `Return` object to capture the financial, logistical,
+ * and business intent of a return. For example, you can identify eligible items for a return and issue customers
+ * a refund for returned items on behalf of the merchant.
+ *
+ * Learn more about providing a
+ * [return management workflow](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/build-return-management)
+ * for merchants. You can also manage [exchanges](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-exchanges),
+ * [reverse fulfillment orders](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-reverse-fulfillment-orders),
+ * and [reverse deliveries](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/manage-reverse-deliveries)
+ * on behalf of merchants.
+ */
+export type ReturnTransactionsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** An agreement between the merchant and customer for a return. */
@@ -53047,7 +54819,13 @@ export type ReturnInput = {
   returnShippingFee?: InputMaybe<ReturnShippingFeeInput>;
 };
 
-/** A return line item. */
+/**
+ * An item that a customer returns from a fulfilled order. Links to the original [`FulfillmentLineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/FulfillmentLineItem) and tracks quantities through the return process.
+ *
+ * The line item includes the customer's reason for returning the item and any additional notes. It also tracks processing status with separate quantities for items that are processable, processed, refundable, and refunded. You can apply optional restocking fees to cover handling costs.
+ *
+ * Learn more about [creating a return](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnCreate).
+ */
 export type ReturnLineItem = Node & ReturnLineItemType & {
   /** A note from the customer that describes the item to be returned. Maximum length: 300 characters. */
   customerNote?: Maybe<Scalars['String']['output']>;
@@ -53067,8 +54845,13 @@ export type ReturnLineItem = Node & ReturnLineItemType & {
   refundedQuantity: Scalars['Int']['output'];
   /** The restocking fee for the return line item. */
   restockingFee?: Maybe<RestockingFee>;
-  /** The reason for returning the item. */
+  /**
+   * The reason for returning the item.
+   * @deprecated Use `returnReasonDefinition` instead. This field will be removed in the future.
+   */
   returnReason: ReturnReason;
+  /** The standardized reason for why the item is being returned. */
+  returnReasonDefinition?: Maybe<ReturnReasonDefinition>;
   /** Additional information about the reason for the return. Maximum length: 255 characters. */
   returnReasonNote: Scalars['String']['output'];
   /** The total weight of the item. */
@@ -53090,8 +54873,8 @@ export type ReturnLineItemInput = {
   quantity: Scalars['Int']['input'];
   /** The restocking fee to capture. */
   restockingFee?: InputMaybe<RestockingFeeInput>;
-  /** The reason for the item to be returned. */
-  returnReason: ReturnReason;
+  /** The ID of a [`ReturnReasonDefinition`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ReturnReasonDefinition). Accepts any ID from the full library of reasons available via [`returnReasonDefinitions`](https://shopify.dev/docs/api/admin-graphql/latest/queries/returnReasonDefinitions), not limited to the suggested reasons for the line item. */
+  returnReasonDefinitionId?: InputMaybe<Scalars['ID']['input']>;
   /**
    * A note about the reason that the item is being returned.
    * Maximum length: 255 characters.
@@ -53131,8 +54914,13 @@ export type ReturnLineItemType = {
   refundableQuantity: Scalars['Int']['output'];
   /** The quantity that was refunded. */
   refundedQuantity: Scalars['Int']['output'];
-  /** The reason for returning the item. */
+  /**
+   * The reason for returning the item.
+   * @deprecated Use `returnReasonDefinition` instead. This field will be removed in the future.
+   */
   returnReason: ReturnReason;
+  /** The standardized reason for why the item is being returned. */
+  returnReasonDefinition?: Maybe<ReturnReasonDefinition>;
   /** Additional information about the reason for the return. Maximum length: 255 characters. */
   returnReasonNote: Scalars['String']['output'];
   /** The quantity that has't been processed. */
@@ -53224,6 +55012,13 @@ export type ReturnProcessReturnLineItemInput = {
   quantity: Scalars['Int']['input'];
 };
 
+/** Filter line items based on processing status. */
+export type ReturnProcessingStatusFilterInput =
+  /** Only include line items that have some processable quantity. */
+  | 'PROCESSABLE'
+  /** Only include line items that have been processed. */
+  | 'PROCESSED';
+
 /** The reason for returning the return line item. */
 export type ReturnReason =
   /** The item is returned because the buyer did not like the color. Displays as **Color**. */
@@ -53246,6 +55041,68 @@ export type ReturnReason =
   | 'UNWANTED'
   /** The item is returned because the customer received the wrong one. Displays as **Received the wrong item**. */
   | 'WRONG_ITEM';
+
+/**
+ * A standardized reason for returning an item.
+ *
+ * - Shopify offers an expanded library of return reasons available to all merchants
+ * - For each product, Shopify suggests a curated subset of reasons based on the product's category
+ * - Suggested reasons aren't the only valid options. When creating a return via the API, you can use any reason from the [full library](https://shopify.dev/docs/api/admin-graphql/latest/queries/returnReasonDefinitions).
+ */
+export type ReturnReasonDefinition = Node & {
+  /**
+   * Whether the return reason has been removed from taxonomy.
+   *
+   * Deleted reasons should not be presented to customers when creating new returns, but may still
+   * appear on existing returns that were created before the reason was deleted. This field enables
+   * graceful deprecation of return reasons without breaking historical data.
+   */
+  deleted: Scalars['Boolean']['output'];
+  /**
+   * A unique, human-readable, stable identifier for the return reason.
+   *
+   * Example values include "arrived-late", "comfort", "too-tight", "color-too-bright", and "quality".
+   * The handle remains consistent across API versions and localizations, making it suitable for programmatic use.
+   */
+  handle: Scalars['String']['output'];
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /**
+   * The localized, user-facing name of the return reason.
+   *
+   * This field returns the reason name in the requested locale, automatically falling back to
+   * English if no translation is available. Use this field when displaying return reasons to
+   * customers or merchants.
+   */
+  name: Scalars['String']['output'];
+};
+
+/** An auto-generated type for paginating through multiple ReturnReasonDefinitions. */
+export type ReturnReasonDefinitionConnection = {
+  /** The connection between the node and its parent. Each edge contains a minimum of the edge's cursor and the node. */
+  edges: Array<ReturnReasonDefinitionEdge>;
+  /** A list of nodes that are contained in ReturnReasonDefinitionEdge. You can fetch data about an individual node, or you can follow the edges to fetch data about a collection of related nodes. At each node, you specify the fields that you want to retrieve. */
+  nodes: Array<ReturnReasonDefinition>;
+  /** An object that’s used to retrieve [cursor information](https://shopify.dev/api/usage/pagination-graphql) about the current page. */
+  pageInfo: PageInfo;
+};
+
+/** An auto-generated type which holds one ReturnReasonDefinition and a cursor during pagination. */
+export type ReturnReasonDefinitionEdge = {
+  /** The position of each node in an array, used in [pagination](https://shopify.dev/api/usage/pagination-graphql). */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of ReturnReasonDefinitionEdge. */
+  node: ReturnReasonDefinition;
+};
+
+/** The set of valid sort keys for the ReturnReasonDefinition query. */
+export type ReturnReasonDefinitionSortKeys =
+  /** Sort by the `handle` value. */
+  | 'HANDLE'
+  /** Sort by the `id` value. */
+  | 'ID'
+  /** Sort by the `name` value. */
+  | 'NAME';
 
 /** The input fields to refund a return. */
 export type ReturnRefundInput = {
@@ -53322,8 +55179,8 @@ export type ReturnRequestLineItemInput = {
   quantity: Scalars['Int']['input'];
   /** The restocking fee to capture. */
   restockingFee?: InputMaybe<RestockingFeeInput>;
-  /** The reason why the line item is being returned. */
-  returnReason: ReturnReason;
+  /** The ID of a [`ReturnReasonDefinition`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ReturnReasonDefinition). Accepts any ID from the full library of reasons available via [`returnReasonDefinitions`](https://shopify.dev/docs/api/admin-graphql/latest/queries/returnReasonDefinitions), not limited to the suggested reasons for the line item. */
+  returnReasonDefinitionId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 /** Return type for `returnRequest` mutation. */
@@ -54213,7 +56070,7 @@ export type SearchResult = {
   /** Returns the Image resource presented to accompany a search result. */
   image?: Maybe<Image>;
   /** Returns the resource represented by the search result. */
-  reference: AbandonedCheckout | AbandonedCheckoutLineItem | Abandonment | AddAllProductsOperation | AdditionalFee | App | AppCatalog | AppCredit | AppInstallation | AppPurchaseOneTime | AppRevenueAttributionRecord | AppSubscription | AppUsageRecord | Article | BasicEvent | Blog | BulkOperation | BusinessEntity | CalculatedOrder | CartTransform | CashTrackingAdjustment | CashTrackingSession | CatalogCsvOperation | Channel | ChannelDefinition | ChannelInformation | CheckoutProfile | Collection | Comment | CommentEvent | Company | CompanyAddress | CompanyContact | CompanyContactRole | CompanyContactRoleAssignment | CompanyLocation | CompanyLocationCatalog | CompanyLocationStaffMemberAssignment | ConsentPolicy | CurrencyExchangeAdjustment | Customer | CustomerAccountAppExtensionPage | CustomerAccountNativePage | CustomerPaymentMethod | CustomerSegmentMembersQuery | CustomerVisit | DeliveryCarrierService | DeliveryCondition | DeliveryCountry | DeliveryCustomization | DeliveryLocationGroup | DeliveryMethod | DeliveryMethodDefinition | DeliveryParticipant | DeliveryProfile | DeliveryProfileItem | DeliveryPromiseParticipant | DeliveryPromiseProvider | DeliveryProvince | DeliveryRateDefinition | DeliveryZone | DiscountAutomaticBxgy | DiscountAutomaticNode | DiscountCodeNode | DiscountNode | DiscountRedeemCodeBulkCreation | Domain | DraftOrder | DraftOrderLineItem | DraftOrderTag | Duty | ExchangeLineItem | ExchangeV2 | ExternalVideo | Fulfillment | FulfillmentConstraintRule | FulfillmentEvent | FulfillmentHold | FulfillmentLineItem | FulfillmentOrder | FulfillmentOrderDestination | FulfillmentOrderLineItem | FulfillmentOrderMerchantRequest | GenericFile | GiftCard | GiftCardCreditTransaction | GiftCardDebitTransaction | InventoryAdjustmentGroup | InventoryItem | InventoryItemMeasurement | InventoryLevel | InventoryQuantity | InventoryShipment | InventoryShipmentLineItem | InventoryTransfer | InventoryTransferLineItem | LineItem | LineItemGroup | Location | MailingAddress | Market | MarketCatalog | MarketRegionCountry | MarketWebPresence | MarketingActivity | MarketingEvent | MediaImage | Menu | Metafield | MetafieldDefinition | Metaobject | MetaobjectDefinition | Model3d | OnlineStoreTheme | Order | OrderAdjustment | OrderDisputeSummary | OrderTransaction | Page | PaymentCustomization | PaymentMandate | PaymentSchedule | PaymentTerms | PaymentTermsTemplate | PointOfSaleDevice | PriceList | PriceRule | PriceRuleDiscountCode | Product | ProductBundleOperation | ProductDeleteOperation | ProductDuplicateOperation | ProductFeed | ProductOption | ProductOptionValue | ProductSetOperation | ProductTaxonomyNode | ProductVariant | ProductVariantComponent | Publication | PublicationResourceOperation | QuantityPriceBreak | Refund | RefundShippingLine | Return | ReturnLineItem | ReturnableFulfillment | ReverseDelivery | ReverseDeliveryLineItem | ReverseFulfillmentOrder | ReverseFulfillmentOrderDisposition | ReverseFulfillmentOrderLineItem | SaleAdditionalFee | SavedSearch | ScriptTag | Segment | SellingPlan | SellingPlanGroup | ServerPixel | Shop | ShopAddress | ShopPolicy | ShopifyPaymentsAccount | ShopifyPaymentsBalanceTransaction | ShopifyPaymentsBankAccount | ShopifyPaymentsDispute | ShopifyPaymentsDisputeEvidence | ShopifyPaymentsDisputeFileUpload | ShopifyPaymentsDisputeFulfillment | ShopifyPaymentsPayout | StaffMember | StandardMetafieldDefinitionTemplate | StoreCreditAccount | StoreCreditAccountCreditTransaction | StoreCreditAccountDebitRevertTransaction | StoreCreditAccountDebitTransaction | StorefrontAccessToken | SubscriptionBillingAttempt | SubscriptionContract | SubscriptionDraft | TaxonomyAttribute | TaxonomyCategory | TaxonomyChoiceListAttribute | TaxonomyMeasurementAttribute | TaxonomyValue | TenderTransaction | TransactionFee | UnverifiedReturnLineItem | UrlRedirect | UrlRedirectImport | Validation | Video | WebPixel | WebhookSubscription;
+  reference: AbandonedCheckout | AbandonedCheckoutLineItem | Abandonment | AddAllProductsOperation | AdditionalFee | App | AppCatalog | AppCredit | AppInstallation | AppPurchaseOneTime | AppRevenueAttributionRecord | AppSubscription | AppUsageRecord | Article | BasicEvent | Blog | BulkOperation | BusinessEntity | CalculatedOrder | CartTransform | CashTrackingAdjustment | CashTrackingSession | CatalogCsvOperation | Channel | ChannelDefinition | ChannelInformation | CheckoutProfile | Collection | Comment | CommentEvent | Company | CompanyAddress | CompanyContact | CompanyContactRole | CompanyContactRoleAssignment | CompanyLocation | CompanyLocationCatalog | CompanyLocationStaffMemberAssignment | ConsentPolicy | CurrencyExchangeAdjustment | Customer | CustomerAccountAppExtensionPage | CustomerAccountNativePage | CustomerPaymentMethod | CustomerSegmentMembersQuery | CustomerVisit | DeliveryCarrierService | DeliveryCondition | DeliveryCountry | DeliveryCustomization | DeliveryLocationGroup | DeliveryMethod | DeliveryMethodDefinition | DeliveryParticipant | DeliveryProfile | DeliveryProfileItem | DeliveryPromiseParticipant | DeliveryPromiseProvider | DeliveryProvince | DeliveryRateDefinition | DeliveryZone | DiscountAutomaticBxgy | DiscountAutomaticNode | DiscountCodeNode | DiscountNode | DiscountRedeemCodeBulkCreation | Domain | DraftOrder | DraftOrderLineItem | DraftOrderTag | Duty | ExchangeLineItem | ExchangeV2 | ExternalVideo | Fulfillment | FulfillmentConstraintRule | FulfillmentEvent | FulfillmentHold | FulfillmentLineItem | FulfillmentOrder | FulfillmentOrderDestination | FulfillmentOrderLineItem | FulfillmentOrderMerchantRequest | GenericFile | GiftCard | GiftCardCreditTransaction | GiftCardDebitTransaction | InventoryAdjustmentGroup | InventoryItem | InventoryItemMeasurement | InventoryLevel | InventoryQuantity | InventoryShipment | InventoryShipmentLineItem | InventoryTransfer | InventoryTransferLineItem | LineItem | LineItemGroup | Location | MailingAddress | Market | MarketCatalog | MarketRegionCountry | MarketWebPresence | MarketingActivity | MarketingEvent | MediaImage | Menu | Metafield | MetafieldDefinition | Metaobject | MetaobjectDefinition | Model3d | OnlineStoreTheme | Order | OrderAdjustment | OrderDisputeSummary | OrderEditSession | OrderTransaction | Page | PaymentCustomization | PaymentMandate | PaymentSchedule | PaymentTerms | PaymentTermsTemplate | PointOfSaleDevice | PriceList | PriceRule | PriceRuleDiscountCode | Product | ProductBundleOperation | ProductDeleteOperation | ProductDuplicateOperation | ProductFeed | ProductOption | ProductOptionValue | ProductSetOperation | ProductTaxonomyNode | ProductVariant | ProductVariantComponent | Publication | PublicationResourceOperation | QuantityPriceBreak | Refund | RefundShippingLine | Return | ReturnLineItem | ReturnReasonDefinition | ReturnableFulfillment | ReverseDelivery | ReverseDeliveryLineItem | ReverseFulfillmentOrder | ReverseFulfillmentOrderDisposition | ReverseFulfillmentOrderLineItem | SaleAdditionalFee | SavedSearch | ScriptTag | Segment | SellingPlan | SellingPlanGroup | ServerPixel | Shop | ShopAddress | ShopPolicy | ShopifyPaymentsAccount | ShopifyPaymentsBalanceTransaction | ShopifyPaymentsBankAccount | ShopifyPaymentsDispute | ShopifyPaymentsDisputeEvidence | ShopifyPaymentsDisputeFileUpload | ShopifyPaymentsDisputeFulfillment | ShopifyPaymentsPayout | StaffMember | StandardMetafieldDefinitionTemplate | StoreCreditAccount | StoreCreditAccountCreditTransaction | StoreCreditAccountDebitRevertTransaction | StoreCreditAccountDebitTransaction | StorefrontAccessToken | SubscriptionBillingAttempt | SubscriptionContract | SubscriptionDraft | TaxonomyAttribute | TaxonomyCategory | TaxonomyChoiceListAttribute | TaxonomyMeasurementAttribute | TaxonomyValue | TenderTransaction | TransactionFee | UnverifiedReturnLineItem | UrlRedirect | UrlRedirectImport | Validation | Video | WebPixel | WebhookSubscription;
   /** Returns the resource title. */
   title: Scalars['String']['output'];
   /** Returns the absolute URL to the resource in the search result. */
@@ -54608,12 +56465,14 @@ export type SelectedVariantOptionInput = {
 };
 
 /**
- * Represents how a product can be sold and purchased. Selling plans and associated records (selling plan groups
- * and policies) are deleted 48 hours after a merchant uninstalls their subscriptions app. We recommend backing
- * up these records if you need to restore them later.
+ * How a product can be sold and purchased through recurring billing or deferred purchase options. Defines the specific terms for subscriptions, pre-orders, or try-before-you-buy offers, including when to bill customers, when to fulfill orders, and what pricing adjustments to apply.
  *
- * For more information on selling plans, refer to
- * [*Creating and managing selling plans*](https://shopify.dev/docs/apps/selling-strategies/subscriptions/selling-plans).
+ * Each selling plan has billing, delivery, and pricing policies that control the purchase experience. The plan's [`options`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan#field-SellingPlan.fields.options) and [`category`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan#field-SellingPlan.fields.category) help merchants organize and report on different selling strategies. Plans are grouped within a [`SellingPlanGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlanGroup) that associates them with [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects.
+ *
+ * > Caution:
+ * > Selling plans and associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
+ *
+ * Learn more about [selling plans](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/selling-plans/build-a-selling-plan).
  */
 export type SellingPlan = HasMetafieldDefinitions & HasMetafields & HasPublishedTranslations & Node & {
   /** A selling plan policy which describes the recurring billing details. */
@@ -54664,12 +56523,14 @@ export type SellingPlan = HasMetafieldDefinitions & HasMetafields & HasPublished
 
 
 /**
- * Represents how a product can be sold and purchased. Selling plans and associated records (selling plan groups
- * and policies) are deleted 48 hours after a merchant uninstalls their subscriptions app. We recommend backing
- * up these records if you need to restore them later.
+ * How a product can be sold and purchased through recurring billing or deferred purchase options. Defines the specific terms for subscriptions, pre-orders, or try-before-you-buy offers, including when to bill customers, when to fulfill orders, and what pricing adjustments to apply.
  *
- * For more information on selling plans, refer to
- * [*Creating and managing selling plans*](https://shopify.dev/docs/apps/selling-strategies/subscriptions/selling-plans).
+ * Each selling plan has billing, delivery, and pricing policies that control the purchase experience. The plan's [`options`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan#field-SellingPlan.fields.options) and [`category`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan#field-SellingPlan.fields.category) help merchants organize and report on different selling strategies. Plans are grouped within a [`SellingPlanGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlanGroup) that associates them with [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects.
+ *
+ * > Caution:
+ * > Selling plans and associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
+ *
+ * Learn more about [selling plans](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/selling-plans/build-a-selling-plan).
  */
 export type SellingPlanMetafieldArgs = {
   key: Scalars['String']['input'];
@@ -54678,12 +56539,14 @@ export type SellingPlanMetafieldArgs = {
 
 
 /**
- * Represents how a product can be sold and purchased. Selling plans and associated records (selling plan groups
- * and policies) are deleted 48 hours after a merchant uninstalls their subscriptions app. We recommend backing
- * up these records if you need to restore them later.
+ * How a product can be sold and purchased through recurring billing or deferred purchase options. Defines the specific terms for subscriptions, pre-orders, or try-before-you-buy offers, including when to bill customers, when to fulfill orders, and what pricing adjustments to apply.
  *
- * For more information on selling plans, refer to
- * [*Creating and managing selling plans*](https://shopify.dev/docs/apps/selling-strategies/subscriptions/selling-plans).
+ * Each selling plan has billing, delivery, and pricing policies that control the purchase experience. The plan's [`options`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan#field-SellingPlan.fields.options) and [`category`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan#field-SellingPlan.fields.category) help merchants organize and report on different selling strategies. Plans are grouped within a [`SellingPlanGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlanGroup) that associates them with [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects.
+ *
+ * > Caution:
+ * > Selling plans and associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
+ *
+ * Learn more about [selling plans](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/selling-plans/build-a-selling-plan).
  */
 export type SellingPlanMetafieldDefinitionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -54699,12 +56562,14 @@ export type SellingPlanMetafieldDefinitionsArgs = {
 
 
 /**
- * Represents how a product can be sold and purchased. Selling plans and associated records (selling plan groups
- * and policies) are deleted 48 hours after a merchant uninstalls their subscriptions app. We recommend backing
- * up these records if you need to restore them later.
+ * How a product can be sold and purchased through recurring billing or deferred purchase options. Defines the specific terms for subscriptions, pre-orders, or try-before-you-buy offers, including when to bill customers, when to fulfill orders, and what pricing adjustments to apply.
  *
- * For more information on selling plans, refer to
- * [*Creating and managing selling plans*](https://shopify.dev/docs/apps/selling-strategies/subscriptions/selling-plans).
+ * Each selling plan has billing, delivery, and pricing policies that control the purchase experience. The plan's [`options`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan#field-SellingPlan.fields.options) and [`category`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan#field-SellingPlan.fields.category) help merchants organize and report on different selling strategies. Plans are grouped within a [`SellingPlanGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlanGroup) that associates them with [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects.
+ *
+ * > Caution:
+ * > Selling plans and associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
+ *
+ * Learn more about [selling plans](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/selling-plans/build-a-selling-plan).
  */
 export type SellingPlanMetafieldsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -54718,12 +56583,14 @@ export type SellingPlanMetafieldsArgs = {
 
 
 /**
- * Represents how a product can be sold and purchased. Selling plans and associated records (selling plan groups
- * and policies) are deleted 48 hours after a merchant uninstalls their subscriptions app. We recommend backing
- * up these records if you need to restore them later.
+ * How a product can be sold and purchased through recurring billing or deferred purchase options. Defines the specific terms for subscriptions, pre-orders, or try-before-you-buy offers, including when to bill customers, when to fulfill orders, and what pricing adjustments to apply.
  *
- * For more information on selling plans, refer to
- * [*Creating and managing selling plans*](https://shopify.dev/docs/apps/selling-strategies/subscriptions/selling-plans).
+ * Each selling plan has billing, delivery, and pricing policies that control the purchase experience. The plan's [`options`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan#field-SellingPlan.fields.options) and [`category`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan#field-SellingPlan.fields.category) help merchants organize and report on different selling strategies. Plans are grouped within a [`SellingPlanGroup`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlanGroup) that associates them with [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects.
+ *
+ * > Caution:
+ * > Selling plans and associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
+ *
+ * Learn more about [selling plans](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/selling-plans/build-a-selling-plan).
  */
 export type SellingPlanTranslationsArgs = {
   locale: Scalars['String']['input'];
@@ -55038,9 +56905,12 @@ export type SellingPlanFulfillmentTrigger =
   | 'UNKNOWN';
 
 /**
- * Represents a selling method (for example, "Subscribe and save" or "Pre-paid"). Selling plan groups
- * and associated records (selling plans and policies) are deleted 48 hours after a merchant
- * uninstalls their subscriptions app. We recommend backing up these records if you need to restore them later.
+ * A selling method that defines how products can be sold through purchase options like subscriptions, pre-orders, or try-before-you-buy. Groups one or more [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan) objects that share the same selling method and options.
+ *
+ * The group provides buyer-facing labels and merchant-facing descriptions for the selling method. Associates [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects with selling plan groups to offer them through these purchase options.
+ *
+ * > Caution:
+ * > Selling plan groups and their associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
  */
 export type SellingPlanGroup = HasPublishedTranslations & Node & {
   /** The ID for app, exposed in Liquid and product JSON. */
@@ -55083,9 +56953,12 @@ export type SellingPlanGroup = HasPublishedTranslations & Node & {
 
 
 /**
- * Represents a selling method (for example, "Subscribe and save" or "Pre-paid"). Selling plan groups
- * and associated records (selling plans and policies) are deleted 48 hours after a merchant
- * uninstalls their subscriptions app. We recommend backing up these records if you need to restore them later.
+ * A selling method that defines how products can be sold through purchase options like subscriptions, pre-orders, or try-before-you-buy. Groups one or more [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan) objects that share the same selling method and options.
+ *
+ * The group provides buyer-facing labels and merchant-facing descriptions for the selling method. Associates [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects with selling plan groups to offer them through these purchase options.
+ *
+ * > Caution:
+ * > Selling plan groups and their associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
  */
 export type SellingPlanGroupAppliesToProductArgs = {
   productId: Scalars['ID']['input'];
@@ -55093,9 +56966,12 @@ export type SellingPlanGroupAppliesToProductArgs = {
 
 
 /**
- * Represents a selling method (for example, "Subscribe and save" or "Pre-paid"). Selling plan groups
- * and associated records (selling plans and policies) are deleted 48 hours after a merchant
- * uninstalls their subscriptions app. We recommend backing up these records if you need to restore them later.
+ * A selling method that defines how products can be sold through purchase options like subscriptions, pre-orders, or try-before-you-buy. Groups one or more [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan) objects that share the same selling method and options.
+ *
+ * The group provides buyer-facing labels and merchant-facing descriptions for the selling method. Associates [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects with selling plan groups to offer them through these purchase options.
+ *
+ * > Caution:
+ * > Selling plan groups and their associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
  */
 export type SellingPlanGroupAppliesToProductVariantArgs = {
   productVariantId: Scalars['ID']['input'];
@@ -55103,9 +56979,12 @@ export type SellingPlanGroupAppliesToProductVariantArgs = {
 
 
 /**
- * Represents a selling method (for example, "Subscribe and save" or "Pre-paid"). Selling plan groups
- * and associated records (selling plans and policies) are deleted 48 hours after a merchant
- * uninstalls their subscriptions app. We recommend backing up these records if you need to restore them later.
+ * A selling method that defines how products can be sold through purchase options like subscriptions, pre-orders, or try-before-you-buy. Groups one or more [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan) objects that share the same selling method and options.
+ *
+ * The group provides buyer-facing labels and merchant-facing descriptions for the selling method. Associates [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects with selling plan groups to offer them through these purchase options.
+ *
+ * > Caution:
+ * > Selling plan groups and their associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
  */
 export type SellingPlanGroupAppliesToProductVariantsArgs = {
   productId: Scalars['ID']['input'];
@@ -55113,9 +56992,12 @@ export type SellingPlanGroupAppliesToProductVariantsArgs = {
 
 
 /**
- * Represents a selling method (for example, "Subscribe and save" or "Pre-paid"). Selling plan groups
- * and associated records (selling plans and policies) are deleted 48 hours after a merchant
- * uninstalls their subscriptions app. We recommend backing up these records if you need to restore them later.
+ * A selling method that defines how products can be sold through purchase options like subscriptions, pre-orders, or try-before-you-buy. Groups one or more [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan) objects that share the same selling method and options.
+ *
+ * The group provides buyer-facing labels and merchant-facing descriptions for the selling method. Associates [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects with selling plan groups to offer them through these purchase options.
+ *
+ * > Caution:
+ * > Selling plan groups and their associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
  */
 export type SellingPlanGroupProductVariantsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -55128,9 +57010,12 @@ export type SellingPlanGroupProductVariantsArgs = {
 
 
 /**
- * Represents a selling method (for example, "Subscribe and save" or "Pre-paid"). Selling plan groups
- * and associated records (selling plans and policies) are deleted 48 hours after a merchant
- * uninstalls their subscriptions app. We recommend backing up these records if you need to restore them later.
+ * A selling method that defines how products can be sold through purchase options like subscriptions, pre-orders, or try-before-you-buy. Groups one or more [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan) objects that share the same selling method and options.
+ *
+ * The group provides buyer-facing labels and merchant-facing descriptions for the selling method. Associates [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects with selling plan groups to offer them through these purchase options.
+ *
+ * > Caution:
+ * > Selling plan groups and their associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
  */
 export type SellingPlanGroupProductVariantsCountArgs = {
   productId?: InputMaybe<Scalars['ID']['input']>;
@@ -55138,9 +57023,12 @@ export type SellingPlanGroupProductVariantsCountArgs = {
 
 
 /**
- * Represents a selling method (for example, "Subscribe and save" or "Pre-paid"). Selling plan groups
- * and associated records (selling plans and policies) are deleted 48 hours after a merchant
- * uninstalls their subscriptions app. We recommend backing up these records if you need to restore them later.
+ * A selling method that defines how products can be sold through purchase options like subscriptions, pre-orders, or try-before-you-buy. Groups one or more [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan) objects that share the same selling method and options.
+ *
+ * The group provides buyer-facing labels and merchant-facing descriptions for the selling method. Associates [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects with selling plan groups to offer them through these purchase options.
+ *
+ * > Caution:
+ * > Selling plan groups and their associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
  */
 export type SellingPlanGroupProductsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -55152,9 +57040,12 @@ export type SellingPlanGroupProductsArgs = {
 
 
 /**
- * Represents a selling method (for example, "Subscribe and save" or "Pre-paid"). Selling plan groups
- * and associated records (selling plans and policies) are deleted 48 hours after a merchant
- * uninstalls their subscriptions app. We recommend backing up these records if you need to restore them later.
+ * A selling method that defines how products can be sold through purchase options like subscriptions, pre-orders, or try-before-you-buy. Groups one or more [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan) objects that share the same selling method and options.
+ *
+ * The group provides buyer-facing labels and merchant-facing descriptions for the selling method. Associates [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects with selling plan groups to offer them through these purchase options.
+ *
+ * > Caution:
+ * > Selling plan groups and their associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
  */
 export type SellingPlanGroupSellingPlansArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -55166,9 +57057,12 @@ export type SellingPlanGroupSellingPlansArgs = {
 
 
 /**
- * Represents a selling method (for example, "Subscribe and save" or "Pre-paid"). Selling plan groups
- * and associated records (selling plans and policies) are deleted 48 hours after a merchant
- * uninstalls their subscriptions app. We recommend backing up these records if you need to restore them later.
+ * A selling method that defines how products can be sold through purchase options like subscriptions, pre-orders, or try-before-you-buy. Groups one or more [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan) objects that share the same selling method and options.
+ *
+ * The group provides buyer-facing labels and merchant-facing descriptions for the selling method. Associates [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects with selling plan groups to offer them through these purchase options.
+ *
+ * > Caution:
+ * > Selling plan groups and their associated records are automatically deleted 48 hours after a merchant uninstalls the [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) that created them. Back up these records if you need to restore them later.
  */
 export type SellingPlanGroupTranslationsArgs = {
   locale: Scalars['String']['input'];
@@ -55649,6 +57543,8 @@ export type SellingPlanRemainingBalanceChargeTrigger =
   | 'EXACT_TIME'
   /** When there's no remaining balance to be charged after checkout. */
   | 'NO_REMAINING_BALANCE'
+  /** When the order is fulfilled. */
+  | 'ON_FULFILLMENT'
   /** After the duration defined by the remaining_balance_charge_time_after_checkout field. */
   | 'TIME_AFTER_CHECKOUT';
 
@@ -55707,7 +57603,7 @@ export type ShippingDiscountClass =
   /** Combined as a shipping discount. */
   | 'SHIPPING';
 
-/** Represents the shipping details that the customer chose for their order. */
+/** The shipping method that customers select for an order. Includes pricing details, carrier information, and any applied discounts or taxes. */
 export type ShippingLine = {
   /**
    * A reference to the carrier service that provided the rate.
@@ -55740,11 +57636,11 @@ export type ShippingLine = {
   /** Whether the shipping line has been removed. */
   isRemoved: Scalars['Boolean']['output'];
   /**
-   * The pre-tax shipping price without any discounts applied.
+   * The shipping price without any discounts applied. If the parent order.taxesIncluded field is true, then this price includes taxes. Otherwise, this field is the pre-tax price.
    * @deprecated Use `originalPriceSet` instead.
    */
   originalPrice: MoneyV2;
-  /** The pre-tax shipping price without any discounts applied. */
+  /** The shipping price without any discounts applied. If the parent order.taxesIncluded field is true, then this price includes taxes. Otherwise, this field is the pre-tax price. */
   originalPriceSet: MoneyBag;
   /** The phone number at the shipping address. */
   phone?: Maybe<Scalars['String']['output']>;
@@ -55900,7 +57796,11 @@ export type ShippingRefundInput = {
   fullRefund?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type Shop = HasMetafieldDefinitions & HasMetafields & HasPublishedTranslations & Node & {
   /** Account owner information. */
   accountOwner: StaffMember;
@@ -55997,11 +57897,6 @@ export type Shop = HasMetafieldDefinitions & HasMetafields & HasPublishedTransla
   domains: Array<Domain>;
   /** A list of tags that have been added to draft orders. */
   draftOrderTags: StringConnection;
-  /**
-   * List of saved draft orders on the shop.
-   * @deprecated Removed as of 2026-01. Use `QueryRoot.draftOrders` instead.
-   */
-  draftOrders: DraftOrderConnection;
   /**
    * The shop owner's email address.
    * Shopify will use this email address to communicate with the shop owner.
@@ -56130,6 +58025,8 @@ export type Shop = HasMetafieldDefinitions & HasMetafields & HasPublishedTransla
   setupRequired: Scalars['Boolean']['output'];
   /** The list of countries that the shop ships to. */
   shipsToCountries: Array<CountryCode>;
+  /** The shop's address information as it will appear to buyers. */
+  shopAddress: ShopAddress;
   /** The name of the shop owner. */
   shopOwnerName: Scalars['String']['output'];
   /** The list of all legal policies associated with a shop. */
@@ -56171,7 +58068,11 @@ export type Shop = HasMetafieldDefinitions & HasMetafields & HasPublishedTransla
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopAssignedFulfillmentOrdersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   assignmentStatus?: InputMaybe<FulfillmentOrderAssignmentStatus>;
@@ -56184,7 +58085,11 @@ export type ShopAssignedFulfillmentOrdersArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopAvailableChannelAppsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56194,7 +58099,11 @@ export type ShopAvailableChannelAppsArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopChannelsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56204,7 +58113,11 @@ export type ShopChannelsArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopCollectionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56217,7 +58130,11 @@ export type ShopCollectionsArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopCurrencySettingsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56227,13 +58144,21 @@ export type ShopCurrencySettingsArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopCustomerTagsArgs = {
   first: Scalars['Int']['input'];
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopCustomersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56245,25 +58170,21 @@ export type ShopCustomersArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopDraftOrderTagsArgs = {
   first: Scalars['Int']['input'];
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
-export type ShopDraftOrdersArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  query?: InputMaybe<Scalars['String']['input']>;
-  reverse?: InputMaybe<Scalars['Boolean']['input']>;
-  sortKey?: InputMaybe<DraftOrderSortKeys>;
-};
-
-
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopFulfillmentOrdersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56276,7 +58197,11 @@ export type ShopFulfillmentOrdersArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopInventoryItemsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56287,7 +58212,11 @@ export type ShopInventoryItemsArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopLocationsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56301,14 +58230,22 @@ export type ShopLocationsArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopMetafieldDefinitionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56322,7 +58259,11 @@ export type ShopMetafieldDefinitionsArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopMetafieldsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56334,14 +58275,22 @@ export type ShopMetafieldsArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopOrderTagsArgs = {
   first: Scalars['Int']['input'];
   sort?: InputMaybe<ShopTagSort>;
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopOrdersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56353,7 +58302,11 @@ export type ShopOrdersArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopProductImagesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56364,19 +58317,31 @@ export type ShopProductImagesArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopProductTagsArgs = {
   first: Scalars['Int']['input'];
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopProductTypesArgs = {
   first: Scalars['Int']['input'];
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopProductVariantsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56388,13 +58353,21 @@ export type ShopProductVariantsArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopProductVendorsArgs = {
   first: Scalars['Int']['input'];
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopProductsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56407,7 +58380,11 @@ export type ShopProductsArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopSearchArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first: Scalars['Int']['input'];
@@ -56416,7 +58393,11 @@ export type ShopSearchArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopStaffMembersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56426,7 +58407,11 @@ export type ShopStaffMembersArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopStorefrontAccessTokensArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -56436,7 +58421,11 @@ export type ShopStorefrontAccessTokensArgs = {
 };
 
 
-/** Represents a collection of general settings and information about the shop. */
+/**
+ * The central configuration and settings hub for a Shopify store. Access business information, operational preferences, feature availability, and store-wide settings that control how the shop operates.
+ *
+ * Includes core business details like the shop name, contact emails, billing address, and currency settings. The shop configuration determines customer account requirements, available sales channels, enabled features, payment settings, and policy documents. Also provides access to shop-level resources such as staff members, fulfillment services, navigation settings, and storefront access tokens.
+ */
 export type ShopTranslationsArgs = {
   locale: Scalars['String']['input'];
   marketId?: InputMaybe<Scalars['ID']['input']>;
@@ -56941,7 +58930,7 @@ export type ShopPayPaymentRequestTotalShippingPrice = {
   originalTotal?: Maybe<MoneyV2>;
 };
 
-/** The billing plan of the shop. */
+/** The shop's billing plan and subscription details. Indicates the plan tier (such as Basic, Advanced, or Plus), whether the shop has a Shopify Plus subscription, and if it's a dev store for testing. */
 export type ShopPlan = {
   /**
    * The name of the shop's billing plan.
@@ -56950,7 +58939,7 @@ export type ShopPlan = {
   displayName: Scalars['String']['output'];
   /** Whether the shop is a partner development shop for testing purposes. */
   partnerDevelopment: Scalars['Boolean']['output'];
-  /** The public display name of the shop's billing plan. Possible values are: Advanced, Basic, Development, Grow, Inactive, Lite, Other, Paused, Plus, Plus Trial, Retail, Shop Component, Shopify Finance, Staff Business, Starter, and Trial. */
+  /** The public display name of the shop's billing plan. Possible values are: Advanced, Agentic, Agentic Enterprise, Basic, Development, Grow, Inactive, Lite, Other, Paused, Plus, Plus Trial, Retail, Shop Component, Shopify Finance, Staff Business, Starter, and Trial. */
   publicDisplayName: Scalars['String']['output'];
   /** Whether the shop has a Shopify Plus subscription. */
   shopifyPlus: Scalars['Boolean']['output'];
@@ -57035,7 +59024,7 @@ export type ShopPolicyUserError = DisplayableError & {
 
 /** Return type for `shopResourceFeedbackCreate` mutation. */
 export type ShopResourceFeedbackCreatePayload = {
-  /** The shop feedback that's created. */
+  /** The shop feedback that's created. Returns `null` when `state: ACCEPTED` is used, because setting state to `ACCEPTED` clears the active feedback signal. A `null` value here indicates success, not an error. */
   feedback?: Maybe<AppFeedback>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<ShopResourceFeedbackCreateUserError>;
@@ -57099,6 +59088,8 @@ export type ShopifyFunction = {
   appKey: Scalars['String']['output'];
   /** The description of the Shopify Function. */
   description?: Maybe<Scalars['String']['output']>;
+  /** The handle of the Shopify Function. */
+  handle: Scalars['String']['output'];
   /** The ID of the Shopify Function. */
   id: Scalars['String']['output'];
   /** The input query of the Shopify Function. */
@@ -57128,10 +59119,9 @@ export type ShopifyFunctionEdge = {
 };
 
 /**
- * Balance and payout information for a
- * [Shopify Payments](https://help.shopify.com/manual/payments/shopify-payments/getting-paid-with-shopify-payments)
- * account. Balance includes all balances for the currencies supported by the shop.
- * You can also query for a list of payouts, where each payout includes the corresponding currencyCode field.
+ * Financial account information for merchants using Shopify Payments. Tracks current balances across all supported currencies, payout schedules, and [`ShopifyPaymentsBalanceTransaction`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBalanceTransaction) records.
+ *
+ * The account includes configuration details such as [`ShopifyPaymentsBankAccount`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBankAccount) objects for receiving [`ShopifyPaymentsPayout`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout) transfers, statement descriptors that appear on customer credit card statements, and the [`ShopifyPaymentsPayoutSchedule`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayoutSchedule) that determines when funds transfer to your bank. Access balance transactions to review individual charges, refunds, and adjustments that affect your account balance. Query payouts to track money movement between your Shopify Payments balance and bank accounts.
  */
 export type ShopifyPaymentsAccount = Node & {
   /** The name of the account opener. */
@@ -57181,10 +59171,9 @@ export type ShopifyPaymentsAccount = Node & {
 
 
 /**
- * Balance and payout information for a
- * [Shopify Payments](https://help.shopify.com/manual/payments/shopify-payments/getting-paid-with-shopify-payments)
- * account. Balance includes all balances for the currencies supported by the shop.
- * You can also query for a list of payouts, where each payout includes the corresponding currencyCode field.
+ * Financial account information for merchants using Shopify Payments. Tracks current balances across all supported currencies, payout schedules, and [`ShopifyPaymentsBalanceTransaction`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBalanceTransaction) records.
+ *
+ * The account includes configuration details such as [`ShopifyPaymentsBankAccount`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBankAccount) objects for receiving [`ShopifyPaymentsPayout`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout) transfers, statement descriptors that appear on customer credit card statements, and the [`ShopifyPaymentsPayoutSchedule`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayoutSchedule) that determines when funds transfer to your bank. Access balance transactions to review individual charges, refunds, and adjustments that affect your account balance. Query payouts to track money movement between your Shopify Payments balance and bank accounts.
  */
 export type ShopifyPaymentsAccountBalanceTransactionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -57200,10 +59189,9 @@ export type ShopifyPaymentsAccountBalanceTransactionsArgs = {
 
 
 /**
- * Balance and payout information for a
- * [Shopify Payments](https://help.shopify.com/manual/payments/shopify-payments/getting-paid-with-shopify-payments)
- * account. Balance includes all balances for the currencies supported by the shop.
- * You can also query for a list of payouts, where each payout includes the corresponding currencyCode field.
+ * Financial account information for merchants using Shopify Payments. Tracks current balances across all supported currencies, payout schedules, and [`ShopifyPaymentsBalanceTransaction`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBalanceTransaction) records.
+ *
+ * The account includes configuration details such as [`ShopifyPaymentsBankAccount`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBankAccount) objects for receiving [`ShopifyPaymentsPayout`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout) transfers, statement descriptors that appear on customer credit card statements, and the [`ShopifyPaymentsPayoutSchedule`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayoutSchedule) that determines when funds transfer to your bank. Access balance transactions to review individual charges, refunds, and adjustments that affect your account balance. Query payouts to track money movement between your Shopify Payments balance and bank accounts.
  */
 export type ShopifyPaymentsAccountBankAccountsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -57215,10 +59203,9 @@ export type ShopifyPaymentsAccountBankAccountsArgs = {
 
 
 /**
- * Balance and payout information for a
- * [Shopify Payments](https://help.shopify.com/manual/payments/shopify-payments/getting-paid-with-shopify-payments)
- * account. Balance includes all balances for the currencies supported by the shop.
- * You can also query for a list of payouts, where each payout includes the corresponding currencyCode field.
+ * Financial account information for merchants using Shopify Payments. Tracks current balances across all supported currencies, payout schedules, and [`ShopifyPaymentsBalanceTransaction`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBalanceTransaction) records.
+ *
+ * The account includes configuration details such as [`ShopifyPaymentsBankAccount`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBankAccount) objects for receiving [`ShopifyPaymentsPayout`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout) transfers, statement descriptors that appear on customer credit card statements, and the [`ShopifyPaymentsPayoutSchedule`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayoutSchedule) that determines when funds transfer to your bank. Access balance transactions to review individual charges, refunds, and adjustments that affect your account balance. Query payouts to track money movement between your Shopify Payments balance and bank accounts.
  */
 export type ShopifyPaymentsAccountDisputesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -57231,10 +59218,9 @@ export type ShopifyPaymentsAccountDisputesArgs = {
 
 
 /**
- * Balance and payout information for a
- * [Shopify Payments](https://help.shopify.com/manual/payments/shopify-payments/getting-paid-with-shopify-payments)
- * account. Balance includes all balances for the currencies supported by the shop.
- * You can also query for a list of payouts, where each payout includes the corresponding currencyCode field.
+ * Financial account information for merchants using Shopify Payments. Tracks current balances across all supported currencies, payout schedules, and [`ShopifyPaymentsBalanceTransaction`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBalanceTransaction) records.
+ *
+ * The account includes configuration details such as [`ShopifyPaymentsBankAccount`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBankAccount) objects for receiving [`ShopifyPaymentsPayout`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout) transfers, statement descriptors that appear on customer credit card statements, and the [`ShopifyPaymentsPayoutSchedule`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayoutSchedule) that determines when funds transfer to your bank. Access balance transactions to review individual charges, refunds, and adjustments that affect your account balance. Query payouts to track money movement between your Shopify Payments balance and bank accounts.
  */
 export type ShopifyPaymentsAccountPayoutsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -57288,7 +59274,7 @@ export type ShopifyPaymentsAssociatedOrder = {
   name: Scalars['String']['output'];
 };
 
-/** A transaction that contributes to a Shopify Payments account balance. */
+/** A transaction that contributes to a Shopify Payments account balance. Records money movement from charges, refunds, payouts, adjustments, or other payment activities. Includes the gross amount, processing fees, and resulting net amount that affects the account balance. Links to the source of the transaction and associated [`ShopifyPaymentsPayout`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout) details, with optional references to [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order) objects or adjustment reasons when applicable. */
 export type ShopifyPaymentsBalanceTransaction = Node & {
   /**
    * The reason for the adjustment that's associated with the transaction.
@@ -57510,6 +59496,8 @@ export type ShopifyPaymentsDefaultChargeStatementDescriptor = ShopifyPaymentsCha
 export type ShopifyPaymentsDispute = LegacyInteroperability & Node & {
   /** The total amount disputed by the cardholder. */
   amount: MoneyV2;
+  /** The evidence associated with the dispute. */
+  disputeEvidence: ShopifyPaymentsDisputeEvidence;
   /** The deadline for evidence submission. */
   evidenceDueBy?: Maybe<Scalars['Date']['output']>;
   /** The date when evidence was sent. Returns null if evidence hasn't yet been sent. */
@@ -57744,9 +59732,15 @@ export type ShopifyPaymentsExtendedAuthorization = {
 export type ShopifyPaymentsJpChargeStatementDescriptor = ShopifyPaymentsChargeStatementDescriptor & {
   /** The default charge statement descriptor. */
   default?: Maybe<Scalars['String']['output']>;
-  /** The charge statement descriptor in kana. */
+  /**
+   * The charge statement descriptor in kana.
+   * @deprecated This field is deprecated and will be removed in a future release.
+   */
   kana?: Maybe<Scalars['String']['output']>;
-  /** The charge statement descriptor in kanji. */
+  /**
+   * The charge statement descriptor in kanji.
+   * @deprecated This field is deprecated and will be removed in a future release.
+   */
   kanji?: Maybe<Scalars['String']['output']>;
   /** The prefix of the statement descriptor. */
   prefix: Scalars['String']['output'];
@@ -57767,8 +59761,9 @@ export type ShopifyPaymentsMerchantCategoryCode = {
 };
 
 /**
- * Payouts represent the movement of money between a merchant's Shopify
- * Payments balance and their bank account.
+ * A transfer of funds between a merchant's Shopify Payments balance and their [`ShopifyPaymentsBankAccount`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsBankAccount). Provides the [net amount](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout#field-ShopifyPaymentsPayout.fields.net), [issue date](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayout#field-ShopifyPaymentsPayout.fields.issuedAt), and current [`ShopifyPaymentsPayoutStatus`](https://shopify.dev/docs/api/admin-graphql/latest/enums/ShopifyPaymentsPayoutStatus).
+ *
+ * The payout includes a [`ShopifyPaymentsPayoutSummary`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsPayoutSummary) that breaks down fees and gross amounts by transaction type, such as charges, refunds, and adjustments. The [`ShopifyPaymentsPayoutTransactionType`](https://shopify.dev/docs/api/admin-graphql/latest/enums/ShopifyPaymentsPayoutTransactionType) indicates whether funds move into the bank account (deposit) or back to Shopify Payments (withdrawal).
  */
 export type ShopifyPaymentsPayout = LegacyInteroperability & Node & {
   /**
@@ -57778,6 +59773,8 @@ export type ShopifyPaymentsPayout = LegacyInteroperability & Node & {
   bankAccount?: Maybe<ShopifyPaymentsBankAccount>;
   /** The business entity associated with the payout. */
   businessEntity: BusinessEntity;
+  /** A unique trace ID from the financial institution. Use this reference number to track the payout with your provider. */
+  externalTraceId?: Maybe<Scalars['String']['output']>;
   /**
    * The total amount and currency of the payout.
    * @deprecated Use `net` instead.
@@ -57928,6 +59925,8 @@ export type ShopifyPaymentsPayoutSummary = {
   retriedPayoutsFee: MoneyV2;
   /** Total gross amount for all retried payouts. */
   retriedPayoutsGross: MoneyV2;
+  /** Total amount for all usdc rebate credit balance adjustments. */
+  usdcRebateCreditAmount: MoneyV2;
 };
 
 /** The possible transaction types for a payout. */
@@ -58035,6 +60034,8 @@ export type ShopifyPaymentsTransactionType =
   | 'APPLICATION_FEE_REFUND'
   /** The balance_transfer_inbound transaction type. */
   | 'BALANCE_TRANSFER_INBOUND'
+  /** The balance_transfer_outbound transaction type. */
+  | 'BALANCE_TRANSFER_OUTBOUND'
   /** The billing_debit transaction type. */
   | 'BILLING_DEBIT'
   /** The billing_debit_reversal transaction type. */
@@ -58275,6 +60276,34 @@ export type ShopifyProtectStatus =
   | 'PENDING'
   /** The order received a fraudulent chargeback and it was protected. */
   | 'PROTECTED';
+
+/** A response to a ShopifyQL query. */
+export type ShopifyqlQueryResponse = {
+  /** A list of parse errors, if parsing fails. */
+  parseErrors: Array<Scalars['String']['output']>;
+  /** The result in a tabular format with column and row data. */
+  tableData?: Maybe<ShopifyqlTableData>;
+};
+
+/** The result of a ShopifyQL query. */
+export type ShopifyqlTableData = {
+  /** The columns of the table. */
+  columns: Array<ShopifyqlTableDataColumn>;
+  /** The rows of the table. */
+  rows: Scalars['JSON']['output'];
+};
+
+/** Represents a column in a ShopifyQL query response. */
+export type ShopifyqlTableDataColumn = {
+  /** The data type of the column. */
+  dataType: ColumnDataType;
+  /** The human-readable display name of the column. */
+  displayName: Scalars['String']['output'];
+  /** The name of the column. */
+  name: Scalars['String']['output'];
+  /** The sub type of an array column. */
+  subType?: Maybe<ColumnDataType>;
+};
 
 /**
  * A user account that can access the Shopify admin to manage store operations. Includes personal information and account status.
@@ -58599,6 +60628,13 @@ export type StagedUploadTargetGenerateUploadResource =
    */
   | 'COLLECTION_IMAGE'
   /**
+   * Represents a file associated with a dispute.
+   *
+   * For example, after uploading the file, you can add the file to a dispute using the
+   * [disputeEvidenceUpdate mutation](https://shopify.dev/api/admin-graphql/latest/mutations/disputeEvidenceUpdate).
+   */
+  | 'DISPUTE_FILE_UPLOAD'
+  /**
    * Represents any file other than HTML.
    *
    * For example, after uploading the file, you can add the file to the
@@ -58721,6 +60757,8 @@ export type StandardMetafieldDefinitionEnableUserErrorCode =
   | 'INVALID_INPUT_COMBINATION'
   /** The maximum number of definitions per owner type has been exceeded. */
   | 'LIMIT_EXCEEDED'
+  /** You have reached the maximum allowed definitions to be used as admin filters. */
+  | 'OWNER_TYPE_LIMIT_EXCEEDED_FOR_USE_AS_ADMIN_FILTERS'
   /** The input value is already taken. */
   | 'TAKEN'
   /** The standard metafield definition template was not found. */
@@ -58843,7 +60881,7 @@ export type StoreCreditAccount = Node & {
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
   /** The owner of the store credit account. */
-  owner: Customer;
+  owner: CompanyLocation | Customer;
   /** The transaction history of the store credit account. */
   transactions: StoreCreditAccountTransactionConnection;
 };
@@ -58881,6 +60919,11 @@ export type StoreCreditAccountCreditInput = {
   creditAmount: MoneyInput;
   /** The date and time when the credit expires. */
   expiresAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /**
+   * Whether to send a notification to the account owner when the store credit is issued.
+   * Defaults to `false`.
+   */
+  notify?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Return type for `storeCreditAccountCredit` mutation. */
@@ -59236,9 +61279,9 @@ export type SubscriptionAtomicManualDiscountInput = {
 };
 
 /**
- * A record of an execution of the subscription billing process. Billing attempts use
- * idempotency keys to avoid duplicate order creation. A successful billing attempt
- * will create an order.
+ * A record of an execution of the subscription billing process. Billing attempts use idempotency keys to avoid duplicate order creation.
+ *
+ * When a billing attempt completes successfully, it creates an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). The attempt includes associated payment transactions and any errors that occur during billing. If 3D Secure authentication is required, the `nextActionUrl` field provides the redirect URL for customer verification.
  */
 export type SubscriptionBillingAttempt = Node & {
   /** The date and time when the billing attempt was completed. */
@@ -59247,21 +61290,27 @@ export type SubscriptionBillingAttempt = Node & {
   createdAt: Scalars['DateTime']['output'];
   /**
    * A code corresponding to a payment error during processing.
-   * @deprecated Use `processingError.code` instead to get the errorCode
+   * @deprecated Use `state` instead.
    */
   errorCode?: Maybe<SubscriptionBillingAttemptErrorCode>;
   /**
    * A message describing a payment error during processing.
-   * @deprecated Use `processingError.message` instead to get the errorMessage
+   * @deprecated Use `state` instead.
    */
   errorMessage?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
   /** A unique key generated by the client to avoid duplicate payments. */
   idempotencyKey: Scalars['String']['output'];
-  /** The URL where the customer needs to be redirected so they can complete the 3D Secure payment flow. */
+  /**
+   * The URL where the customer needs to be redirected so they can complete the 3D Secure payment flow.
+   * @deprecated Use `state` instead.
+   */
   nextActionUrl?: Maybe<Scalars['URL']['output']>;
-  /** The result of this billing attempt if completed successfully. */
+  /**
+   * The result of this billing attempt if completed successfully.
+   * @deprecated Use `state` instead.
+   */
   order?: Maybe<Order>;
   /**
    * The date and time used to calculate fulfillment intervals for a billing attempt that
@@ -59273,9 +61322,15 @@ export type SubscriptionBillingAttempt = Node & {
   paymentGroupId?: Maybe<Scalars['String']['output']>;
   /** The reference shared between payment attempts with similar payment details. */
   paymentSessionId?: Maybe<Scalars['String']['output']>;
-  /** Error information from processing the billing attempt. */
+  /**
+   * Error information from processing the billing attempt.
+   * @deprecated Use `state` instead.
+   */
   processingError?: Maybe<SubscriptionBillingAttemptGenericError | SubscriptionBillingAttemptInsufficientStockProductVariantsError | SubscriptionBillingAttemptOutOfStockProductVariantsError>;
-  /** Whether the billing attempt is still processing. */
+  /**
+   * Whether the billing attempt is still processing.
+   * @deprecated Use `state` instead.
+   */
   ready: Scalars['Boolean']['output'];
   /** Whether the billing attempt respects the merchant's inventory policy. */
   respectInventoryPolicy: Scalars['Boolean']['output'];
@@ -59287,9 +61342,9 @@ export type SubscriptionBillingAttempt = Node & {
 
 
 /**
- * A record of an execution of the subscription billing process. Billing attempts use
- * idempotency keys to avoid duplicate order creation. A successful billing attempt
- * will create an order.
+ * A record of an execution of the subscription billing process. Billing attempts use idempotency keys to avoid duplicate order creation.
+ *
+ * When a billing attempt completes successfully, it creates an [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). The attempt includes associated payment transactions and any errors that occur during billing. If 3D Secure authentication is required, the `nextActionUrl` field provides the redirect URL for customer verification.
  */
 export type SubscriptionBillingAttemptTransactionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -59332,7 +61387,7 @@ export type SubscriptionBillingAttemptEdge = {
 export type SubscriptionBillingAttemptErrorCode =
   /** The amount is too small. */
   | 'AMOUNT_TOO_SMALL'
-  /** There was an error during the authentication. */
+  /** There was an error during the payment authentication. */
   | 'AUTHENTICATION_ERROR'
   /** Payment method was canceled by buyer. */
   | 'BUYER_CANCELED_PAYMENT_METHOD'
@@ -59352,6 +61407,8 @@ export type SubscriptionBillingAttemptErrorCode =
   | 'INSUFFICIENT_FUNDS'
   /** Not enough inventory found. */
   | 'INSUFFICIENT_INVENTORY'
+  /** The billing address is invalid. */
+  | 'INVALID_BILLING_ADDRESS'
   /** The billing agreement ID or the transaction ID for the customer's payment method is invalid. */
   | 'INVALID_CUSTOMER_BILLING_AGREEMENT'
   /** Payment method is invalid. Please update or create a new payment method. */
@@ -59919,7 +61976,13 @@ export type SubscriptionBillingPolicyInput = {
   minCycles?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** Represents a Subscription Contract. */
+/**
+ * A subscription contract that defines recurring purchases for a customer. Each contract specifies what products to deliver, when to bill and ship them, and at what price.
+ *
+ * The contract includes [`SubscriptionBillingPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingPolicy) and [`SubscriptionDeliveryPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionDeliveryPolicy) that control the frequency of charges and fulfillments. [`SubscriptionLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionLine) items define the products, quantities, and pricing for each recurring [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). The contract tracks [`SubscriptionBillingAttempt`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingAttempt) records, payment status, and generated orders throughout its lifecycle. [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) instances manage contracts through various status transitions including active, paused, failed, cancelled, or expired states.
+ *
+ * Learn more about [building subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract) and [updating subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract).
+ */
 export type SubscriptionContract = Node & SubscriptionContractBase & {
   /** The subscription app that the subscription contract is registered to. */
   app?: Maybe<App>;
@@ -59984,7 +62047,13 @@ export type SubscriptionContract = Node & SubscriptionContractBase & {
 };
 
 
-/** Represents a Subscription Contract. */
+/**
+ * A subscription contract that defines recurring purchases for a customer. Each contract specifies what products to deliver, when to bill and ship them, and at what price.
+ *
+ * The contract includes [`SubscriptionBillingPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingPolicy) and [`SubscriptionDeliveryPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionDeliveryPolicy) that control the frequency of charges and fulfillments. [`SubscriptionLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionLine) items define the products, quantities, and pricing for each recurring [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). The contract tracks [`SubscriptionBillingAttempt`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingAttempt) records, payment status, and generated orders throughout its lifecycle. [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) instances manage contracts through various status transitions including active, paused, failed, cancelled, or expired states.
+ *
+ * Learn more about [building subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract) and [updating subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract).
+ */
 export type SubscriptionContractBillingAttemptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -59994,13 +62063,25 @@ export type SubscriptionContractBillingAttemptsArgs = {
 };
 
 
-/** Represents a Subscription Contract. */
+/**
+ * A subscription contract that defines recurring purchases for a customer. Each contract specifies what products to deliver, when to bill and ship them, and at what price.
+ *
+ * The contract includes [`SubscriptionBillingPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingPolicy) and [`SubscriptionDeliveryPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionDeliveryPolicy) that control the frequency of charges and fulfillments. [`SubscriptionLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionLine) items define the products, quantities, and pricing for each recurring [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). The contract tracks [`SubscriptionBillingAttempt`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingAttempt) records, payment status, and generated orders throughout its lifecycle. [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) instances manage contracts through various status transitions including active, paused, failed, cancelled, or expired states.
+ *
+ * Learn more about [building subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract) and [updating subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract).
+ */
 export type SubscriptionContractCustomerPaymentMethodArgs = {
   showRevoked?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
-/** Represents a Subscription Contract. */
+/**
+ * A subscription contract that defines recurring purchases for a customer. Each contract specifies what products to deliver, when to bill and ship them, and at what price.
+ *
+ * The contract includes [`SubscriptionBillingPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingPolicy) and [`SubscriptionDeliveryPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionDeliveryPolicy) that control the frequency of charges and fulfillments. [`SubscriptionLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionLine) items define the products, quantities, and pricing for each recurring [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). The contract tracks [`SubscriptionBillingAttempt`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingAttempt) records, payment status, and generated orders throughout its lifecycle. [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) instances manage contracts through various status transitions including active, paused, failed, cancelled, or expired states.
+ *
+ * Learn more about [building subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract) and [updating subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract).
+ */
 export type SubscriptionContractDiscountsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -60010,7 +62091,13 @@ export type SubscriptionContractDiscountsArgs = {
 };
 
 
-/** Represents a Subscription Contract. */
+/**
+ * A subscription contract that defines recurring purchases for a customer. Each contract specifies what products to deliver, when to bill and ship them, and at what price.
+ *
+ * The contract includes [`SubscriptionBillingPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingPolicy) and [`SubscriptionDeliveryPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionDeliveryPolicy) that control the frequency of charges and fulfillments. [`SubscriptionLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionLine) items define the products, quantities, and pricing for each recurring [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). The contract tracks [`SubscriptionBillingAttempt`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingAttempt) records, payment status, and generated orders throughout its lifecycle. [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) instances manage contracts through various status transitions including active, paused, failed, cancelled, or expired states.
+ *
+ * Learn more about [building subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract) and [updating subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract).
+ */
 export type SubscriptionContractLinesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -60020,7 +62107,13 @@ export type SubscriptionContractLinesArgs = {
 };
 
 
-/** Represents a Subscription Contract. */
+/**
+ * A subscription contract that defines recurring purchases for a customer. Each contract specifies what products to deliver, when to bill and ship them, and at what price.
+ *
+ * The contract includes [`SubscriptionBillingPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingPolicy) and [`SubscriptionDeliveryPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionDeliveryPolicy) that control the frequency of charges and fulfillments. [`SubscriptionLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionLine) items define the products, quantities, and pricing for each recurring [`Order`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order). The contract tracks [`SubscriptionBillingAttempt`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionBillingAttempt) records, payment status, and generated orders throughout its lifecycle. [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App) instances manage contracts through various status transitions including active, paused, failed, cancelled, or expired states.
+ *
+ * Learn more about [building subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract) and [updating subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract).
+ */
 export type SubscriptionContractOrdersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -61367,7 +63460,13 @@ export type SubscriptionFreeShippingDiscountInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** Represents a Subscription Line. */
+/**
+ * A product line item within a [`SubscriptionContract`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract). Each line represents a specific product variant that the customer subscribes to, including its quantity, pricing, and whether shipping is required.
+ *
+ * The line maintains references to the [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant), [`SellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SellingPlan), and custom [`Attribute`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Attribute) objects. It tracks the current price and any scheduled price changes through its [`pricingPolicy`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionPricingPolicy). You can modify lines through [`SubscriptionDraft`](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionDraft) objects without affecting the original contract until you commit changes.
+ *
+ * Learn more about [subscription contracts](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts) and [selling plans](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/selling-plans).
+ */
 export type SubscriptionLine = {
   /** The origin contract of the line if it was concatenated from another contract. */
   concatenatedOriginContract?: Maybe<SubscriptionContract>;
@@ -61843,7 +63942,7 @@ export type SuggestedStoreCreditRefund = SuggestedRefundMethod & {
 /** Return type for `tagsAdd` mutation. */
 export type TagsAddPayload = {
   /** The object that was updated. */
-  node?: Maybe<AbandonedCheckout | AbandonedCheckoutLineItem | Abandonment | AddAllProductsOperation | AdditionalFee | App | AppCatalog | AppCredit | AppInstallation | AppPurchaseOneTime | AppRevenueAttributionRecord | AppSubscription | AppUsageRecord | Article | BasicEvent | Blog | BulkOperation | BusinessEntity | CalculatedOrder | CartTransform | CashTrackingAdjustment | CashTrackingSession | CatalogCsvOperation | Channel | ChannelDefinition | ChannelInformation | CheckoutProfile | Collection | Comment | CommentEvent | Company | CompanyAddress | CompanyContact | CompanyContactRole | CompanyContactRoleAssignment | CompanyLocation | CompanyLocationCatalog | CompanyLocationStaffMemberAssignment | ConsentPolicy | CurrencyExchangeAdjustment | Customer | CustomerAccountAppExtensionPage | CustomerAccountNativePage | CustomerPaymentMethod | CustomerSegmentMembersQuery | CustomerVisit | DeliveryCarrierService | DeliveryCondition | DeliveryCountry | DeliveryCustomization | DeliveryLocationGroup | DeliveryMethod | DeliveryMethodDefinition | DeliveryParticipant | DeliveryProfile | DeliveryProfileItem | DeliveryPromiseParticipant | DeliveryPromiseProvider | DeliveryProvince | DeliveryRateDefinition | DeliveryZone | DiscountAutomaticBxgy | DiscountAutomaticNode | DiscountCodeNode | DiscountNode | DiscountRedeemCodeBulkCreation | Domain | DraftOrder | DraftOrderLineItem | DraftOrderTag | Duty | ExchangeLineItem | ExchangeV2 | ExternalVideo | Fulfillment | FulfillmentConstraintRule | FulfillmentEvent | FulfillmentHold | FulfillmentLineItem | FulfillmentOrder | FulfillmentOrderDestination | FulfillmentOrderLineItem | FulfillmentOrderMerchantRequest | GenericFile | GiftCard | GiftCardCreditTransaction | GiftCardDebitTransaction | InventoryAdjustmentGroup | InventoryItem | InventoryItemMeasurement | InventoryLevel | InventoryQuantity | InventoryShipment | InventoryShipmentLineItem | InventoryTransfer | InventoryTransferLineItem | LineItem | LineItemGroup | Location | MailingAddress | Market | MarketCatalog | MarketRegionCountry | MarketWebPresence | MarketingActivity | MarketingEvent | MediaImage | Menu | Metafield | MetafieldDefinition | Metaobject | MetaobjectDefinition | Model3d | OnlineStoreTheme | Order | OrderAdjustment | OrderDisputeSummary | OrderTransaction | Page | PaymentCustomization | PaymentMandate | PaymentSchedule | PaymentTerms | PaymentTermsTemplate | PointOfSaleDevice | PriceList | PriceRule | PriceRuleDiscountCode | Product | ProductBundleOperation | ProductDeleteOperation | ProductDuplicateOperation | ProductFeed | ProductOption | ProductOptionValue | ProductSetOperation | ProductTaxonomyNode | ProductVariant | ProductVariantComponent | Publication | PublicationResourceOperation | QuantityPriceBreak | Refund | RefundShippingLine | Return | ReturnLineItem | ReturnableFulfillment | ReverseDelivery | ReverseDeliveryLineItem | ReverseFulfillmentOrder | ReverseFulfillmentOrderDisposition | ReverseFulfillmentOrderLineItem | SaleAdditionalFee | SavedSearch | ScriptTag | Segment | SellingPlan | SellingPlanGroup | ServerPixel | Shop | ShopAddress | ShopPolicy | ShopifyPaymentsAccount | ShopifyPaymentsBalanceTransaction | ShopifyPaymentsBankAccount | ShopifyPaymentsDispute | ShopifyPaymentsDisputeEvidence | ShopifyPaymentsDisputeFileUpload | ShopifyPaymentsDisputeFulfillment | ShopifyPaymentsPayout | StaffMember | StandardMetafieldDefinitionTemplate | StoreCreditAccount | StoreCreditAccountCreditTransaction | StoreCreditAccountDebitRevertTransaction | StoreCreditAccountDebitTransaction | StorefrontAccessToken | SubscriptionBillingAttempt | SubscriptionContract | SubscriptionDraft | TaxonomyAttribute | TaxonomyCategory | TaxonomyChoiceListAttribute | TaxonomyMeasurementAttribute | TaxonomyValue | TenderTransaction | TransactionFee | UnverifiedReturnLineItem | UrlRedirect | UrlRedirectImport | Validation | Video | WebPixel | WebhookSubscription>;
+  node?: Maybe<AbandonedCheckout | AbandonedCheckoutLineItem | Abandonment | AddAllProductsOperation | AdditionalFee | App | AppCatalog | AppCredit | AppInstallation | AppPurchaseOneTime | AppRevenueAttributionRecord | AppSubscription | AppUsageRecord | Article | BasicEvent | Blog | BulkOperation | BusinessEntity | CalculatedOrder | CartTransform | CashTrackingAdjustment | CashTrackingSession | CatalogCsvOperation | Channel | ChannelDefinition | ChannelInformation | CheckoutProfile | Collection | Comment | CommentEvent | Company | CompanyAddress | CompanyContact | CompanyContactRole | CompanyContactRoleAssignment | CompanyLocation | CompanyLocationCatalog | CompanyLocationStaffMemberAssignment | ConsentPolicy | CurrencyExchangeAdjustment | Customer | CustomerAccountAppExtensionPage | CustomerAccountNativePage | CustomerPaymentMethod | CustomerSegmentMembersQuery | CustomerVisit | DeliveryCarrierService | DeliveryCondition | DeliveryCountry | DeliveryCustomization | DeliveryLocationGroup | DeliveryMethod | DeliveryMethodDefinition | DeliveryParticipant | DeliveryProfile | DeliveryProfileItem | DeliveryPromiseParticipant | DeliveryPromiseProvider | DeliveryProvince | DeliveryRateDefinition | DeliveryZone | DiscountAutomaticBxgy | DiscountAutomaticNode | DiscountCodeNode | DiscountNode | DiscountRedeemCodeBulkCreation | Domain | DraftOrder | DraftOrderLineItem | DraftOrderTag | Duty | ExchangeLineItem | ExchangeV2 | ExternalVideo | Fulfillment | FulfillmentConstraintRule | FulfillmentEvent | FulfillmentHold | FulfillmentLineItem | FulfillmentOrder | FulfillmentOrderDestination | FulfillmentOrderLineItem | FulfillmentOrderMerchantRequest | GenericFile | GiftCard | GiftCardCreditTransaction | GiftCardDebitTransaction | InventoryAdjustmentGroup | InventoryItem | InventoryItemMeasurement | InventoryLevel | InventoryQuantity | InventoryShipment | InventoryShipmentLineItem | InventoryTransfer | InventoryTransferLineItem | LineItem | LineItemGroup | Location | MailingAddress | Market | MarketCatalog | MarketRegionCountry | MarketWebPresence | MarketingActivity | MarketingEvent | MediaImage | Menu | Metafield | MetafieldDefinition | Metaobject | MetaobjectDefinition | Model3d | OnlineStoreTheme | Order | OrderAdjustment | OrderDisputeSummary | OrderEditSession | OrderTransaction | Page | PaymentCustomization | PaymentMandate | PaymentSchedule | PaymentTerms | PaymentTermsTemplate | PointOfSaleDevice | PriceList | PriceRule | PriceRuleDiscountCode | Product | ProductBundleOperation | ProductDeleteOperation | ProductDuplicateOperation | ProductFeed | ProductOption | ProductOptionValue | ProductSetOperation | ProductTaxonomyNode | ProductVariant | ProductVariantComponent | Publication | PublicationResourceOperation | QuantityPriceBreak | Refund | RefundShippingLine | Return | ReturnLineItem | ReturnReasonDefinition | ReturnableFulfillment | ReverseDelivery | ReverseDeliveryLineItem | ReverseFulfillmentOrder | ReverseFulfillmentOrderDisposition | ReverseFulfillmentOrderLineItem | SaleAdditionalFee | SavedSearch | ScriptTag | Segment | SellingPlan | SellingPlanGroup | ServerPixel | Shop | ShopAddress | ShopPolicy | ShopifyPaymentsAccount | ShopifyPaymentsBalanceTransaction | ShopifyPaymentsBankAccount | ShopifyPaymentsDispute | ShopifyPaymentsDisputeEvidence | ShopifyPaymentsDisputeFileUpload | ShopifyPaymentsDisputeFulfillment | ShopifyPaymentsPayout | StaffMember | StandardMetafieldDefinitionTemplate | StoreCreditAccount | StoreCreditAccountCreditTransaction | StoreCreditAccountDebitRevertTransaction | StoreCreditAccountDebitTransaction | StorefrontAccessToken | SubscriptionBillingAttempt | SubscriptionContract | SubscriptionDraft | TaxonomyAttribute | TaxonomyCategory | TaxonomyChoiceListAttribute | TaxonomyMeasurementAttribute | TaxonomyValue | TenderTransaction | TransactionFee | UnverifiedReturnLineItem | UrlRedirect | UrlRedirectImport | Validation | Video | WebPixel | WebhookSubscription>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<UserError>;
 };
@@ -61851,7 +63950,7 @@ export type TagsAddPayload = {
 /** Return type for `tagsRemove` mutation. */
 export type TagsRemovePayload = {
   /** The object that was updated. */
-  node?: Maybe<AbandonedCheckout | AbandonedCheckoutLineItem | Abandonment | AddAllProductsOperation | AdditionalFee | App | AppCatalog | AppCredit | AppInstallation | AppPurchaseOneTime | AppRevenueAttributionRecord | AppSubscription | AppUsageRecord | Article | BasicEvent | Blog | BulkOperation | BusinessEntity | CalculatedOrder | CartTransform | CashTrackingAdjustment | CashTrackingSession | CatalogCsvOperation | Channel | ChannelDefinition | ChannelInformation | CheckoutProfile | Collection | Comment | CommentEvent | Company | CompanyAddress | CompanyContact | CompanyContactRole | CompanyContactRoleAssignment | CompanyLocation | CompanyLocationCatalog | CompanyLocationStaffMemberAssignment | ConsentPolicy | CurrencyExchangeAdjustment | Customer | CustomerAccountAppExtensionPage | CustomerAccountNativePage | CustomerPaymentMethod | CustomerSegmentMembersQuery | CustomerVisit | DeliveryCarrierService | DeliveryCondition | DeliveryCountry | DeliveryCustomization | DeliveryLocationGroup | DeliveryMethod | DeliveryMethodDefinition | DeliveryParticipant | DeliveryProfile | DeliveryProfileItem | DeliveryPromiseParticipant | DeliveryPromiseProvider | DeliveryProvince | DeliveryRateDefinition | DeliveryZone | DiscountAutomaticBxgy | DiscountAutomaticNode | DiscountCodeNode | DiscountNode | DiscountRedeemCodeBulkCreation | Domain | DraftOrder | DraftOrderLineItem | DraftOrderTag | Duty | ExchangeLineItem | ExchangeV2 | ExternalVideo | Fulfillment | FulfillmentConstraintRule | FulfillmentEvent | FulfillmentHold | FulfillmentLineItem | FulfillmentOrder | FulfillmentOrderDestination | FulfillmentOrderLineItem | FulfillmentOrderMerchantRequest | GenericFile | GiftCard | GiftCardCreditTransaction | GiftCardDebitTransaction | InventoryAdjustmentGroup | InventoryItem | InventoryItemMeasurement | InventoryLevel | InventoryQuantity | InventoryShipment | InventoryShipmentLineItem | InventoryTransfer | InventoryTransferLineItem | LineItem | LineItemGroup | Location | MailingAddress | Market | MarketCatalog | MarketRegionCountry | MarketWebPresence | MarketingActivity | MarketingEvent | MediaImage | Menu | Metafield | MetafieldDefinition | Metaobject | MetaobjectDefinition | Model3d | OnlineStoreTheme | Order | OrderAdjustment | OrderDisputeSummary | OrderTransaction | Page | PaymentCustomization | PaymentMandate | PaymentSchedule | PaymentTerms | PaymentTermsTemplate | PointOfSaleDevice | PriceList | PriceRule | PriceRuleDiscountCode | Product | ProductBundleOperation | ProductDeleteOperation | ProductDuplicateOperation | ProductFeed | ProductOption | ProductOptionValue | ProductSetOperation | ProductTaxonomyNode | ProductVariant | ProductVariantComponent | Publication | PublicationResourceOperation | QuantityPriceBreak | Refund | RefundShippingLine | Return | ReturnLineItem | ReturnableFulfillment | ReverseDelivery | ReverseDeliveryLineItem | ReverseFulfillmentOrder | ReverseFulfillmentOrderDisposition | ReverseFulfillmentOrderLineItem | SaleAdditionalFee | SavedSearch | ScriptTag | Segment | SellingPlan | SellingPlanGroup | ServerPixel | Shop | ShopAddress | ShopPolicy | ShopifyPaymentsAccount | ShopifyPaymentsBalanceTransaction | ShopifyPaymentsBankAccount | ShopifyPaymentsDispute | ShopifyPaymentsDisputeEvidence | ShopifyPaymentsDisputeFileUpload | ShopifyPaymentsDisputeFulfillment | ShopifyPaymentsPayout | StaffMember | StandardMetafieldDefinitionTemplate | StoreCreditAccount | StoreCreditAccountCreditTransaction | StoreCreditAccountDebitRevertTransaction | StoreCreditAccountDebitTransaction | StorefrontAccessToken | SubscriptionBillingAttempt | SubscriptionContract | SubscriptionDraft | TaxonomyAttribute | TaxonomyCategory | TaxonomyChoiceListAttribute | TaxonomyMeasurementAttribute | TaxonomyValue | TenderTransaction | TransactionFee | UnverifiedReturnLineItem | UrlRedirect | UrlRedirectImport | Validation | Video | WebPixel | WebhookSubscription>;
+  node?: Maybe<AbandonedCheckout | AbandonedCheckoutLineItem | Abandonment | AddAllProductsOperation | AdditionalFee | App | AppCatalog | AppCredit | AppInstallation | AppPurchaseOneTime | AppRevenueAttributionRecord | AppSubscription | AppUsageRecord | Article | BasicEvent | Blog | BulkOperation | BusinessEntity | CalculatedOrder | CartTransform | CashTrackingAdjustment | CashTrackingSession | CatalogCsvOperation | Channel | ChannelDefinition | ChannelInformation | CheckoutProfile | Collection | Comment | CommentEvent | Company | CompanyAddress | CompanyContact | CompanyContactRole | CompanyContactRoleAssignment | CompanyLocation | CompanyLocationCatalog | CompanyLocationStaffMemberAssignment | ConsentPolicy | CurrencyExchangeAdjustment | Customer | CustomerAccountAppExtensionPage | CustomerAccountNativePage | CustomerPaymentMethod | CustomerSegmentMembersQuery | CustomerVisit | DeliveryCarrierService | DeliveryCondition | DeliveryCountry | DeliveryCustomization | DeliveryLocationGroup | DeliveryMethod | DeliveryMethodDefinition | DeliveryParticipant | DeliveryProfile | DeliveryProfileItem | DeliveryPromiseParticipant | DeliveryPromiseProvider | DeliveryProvince | DeliveryRateDefinition | DeliveryZone | DiscountAutomaticBxgy | DiscountAutomaticNode | DiscountCodeNode | DiscountNode | DiscountRedeemCodeBulkCreation | Domain | DraftOrder | DraftOrderLineItem | DraftOrderTag | Duty | ExchangeLineItem | ExchangeV2 | ExternalVideo | Fulfillment | FulfillmentConstraintRule | FulfillmentEvent | FulfillmentHold | FulfillmentLineItem | FulfillmentOrder | FulfillmentOrderDestination | FulfillmentOrderLineItem | FulfillmentOrderMerchantRequest | GenericFile | GiftCard | GiftCardCreditTransaction | GiftCardDebitTransaction | InventoryAdjustmentGroup | InventoryItem | InventoryItemMeasurement | InventoryLevel | InventoryQuantity | InventoryShipment | InventoryShipmentLineItem | InventoryTransfer | InventoryTransferLineItem | LineItem | LineItemGroup | Location | MailingAddress | Market | MarketCatalog | MarketRegionCountry | MarketWebPresence | MarketingActivity | MarketingEvent | MediaImage | Menu | Metafield | MetafieldDefinition | Metaobject | MetaobjectDefinition | Model3d | OnlineStoreTheme | Order | OrderAdjustment | OrderDisputeSummary | OrderEditSession | OrderTransaction | Page | PaymentCustomization | PaymentMandate | PaymentSchedule | PaymentTerms | PaymentTermsTemplate | PointOfSaleDevice | PriceList | PriceRule | PriceRuleDiscountCode | Product | ProductBundleOperation | ProductDeleteOperation | ProductDuplicateOperation | ProductFeed | ProductOption | ProductOptionValue | ProductSetOperation | ProductTaxonomyNode | ProductVariant | ProductVariantComponent | Publication | PublicationResourceOperation | QuantityPriceBreak | Refund | RefundShippingLine | Return | ReturnLineItem | ReturnReasonDefinition | ReturnableFulfillment | ReverseDelivery | ReverseDeliveryLineItem | ReverseFulfillmentOrder | ReverseFulfillmentOrderDisposition | ReverseFulfillmentOrderLineItem | SaleAdditionalFee | SavedSearch | ScriptTag | Segment | SellingPlan | SellingPlanGroup | ServerPixel | Shop | ShopAddress | ShopPolicy | ShopifyPaymentsAccount | ShopifyPaymentsBalanceTransaction | ShopifyPaymentsBankAccount | ShopifyPaymentsDispute | ShopifyPaymentsDisputeEvidence | ShopifyPaymentsDisputeFileUpload | ShopifyPaymentsDisputeFulfillment | ShopifyPaymentsPayout | StaffMember | StandardMetafieldDefinitionTemplate | StoreCreditAccount | StoreCreditAccountCreditTransaction | StoreCreditAccountDebitRevertTransaction | StoreCreditAccountDebitTransaction | StorefrontAccessToken | SubscriptionBillingAttempt | SubscriptionContract | SubscriptionDraft | TaxonomyAttribute | TaxonomyCategory | TaxonomyChoiceListAttribute | TaxonomyMeasurementAttribute | TaxonomyValue | TenderTransaction | TransactionFee | UnverifiedReturnLineItem | UrlRedirect | UrlRedirectImport | Validation | Video | WebPixel | WebhookSubscription>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<UserError>;
 };
@@ -62036,7 +64135,11 @@ export type TaxExemption =
   /** This customer is exempt from specific taxes for holding a valid RESELLER_EXEMPTION in Wyoming. */
   | 'US_WY_RESELLER_EXEMPTION';
 
-/** Represents a single tax applied to the associated line item. */
+/**
+ * A tax applied to a [`LineItem`](https://shopify.dev/docs/api/admin-graphql/latest/objects/LineItem) or [`ShippingLine`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ShippingLine). Includes the tax amount, rate, title, and whether the channel that submitted the tax is liable for remitting it.
+ *
+ * The tax amount in both shop and presentment currencies after applying discounts. Includes information about the tax rate, whether the channel is liable for remitting the tax, and other tax-related details.
+ */
 export type TaxLine = {
   /** Whether the channel that submitted the tax line is liable for remitting. A value of null indicates unknown liability for this tax line. */
   channelLiable?: Maybe<Scalars['Boolean']['output']>;
@@ -62066,7 +64169,36 @@ export type TaxPartnerState =
   /** App is configured, but not used for tax calculations. */
   | 'READY';
 
-/** The Taxonomy resource lets you access the categories, attributes and values of a taxonomy tree. */
+/** Return type for `taxSummaryCreate` mutation. */
+export type TaxSummaryCreatePayload = {
+  /** A list of orders that were successfully enqueued to create a tax summary. */
+  enqueuedOrders?: Maybe<Array<Order>>;
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<TaxSummaryCreateUserError>;
+};
+
+/** An error that occurs during the execution of `TaxSummaryCreate`. */
+export type TaxSummaryCreateUserError = DisplayableError & {
+  /** The error code. */
+  code?: Maybe<TaxSummaryCreateUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  field?: Maybe<Array<Scalars['String']['output']>>;
+  /** The error message. */
+  message: Scalars['String']['output'];
+};
+
+/** Possible error codes that can be returned by `TaxSummaryCreateUserError`. */
+export type TaxSummaryCreateUserErrorCode =
+  /** There was an error during enqueueing of the tax summary creation job(s). */
+  | 'GENERAL_ERROR'
+  /** No order was not found. */
+  | 'ORDER_NOT_FOUND';
+
+/**
+ * Represents Shopify's [standardized product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17) tree. Provides categories that you can filter by search criteria or hierarchical relationships.
+ *
+ * You can search categories globally, retrieve children of a specific category, find siblings, or get descendants. When you specify no filter arguments, you get all top-level categories in the taxonomy.
+ */
 export type Taxonomy = {
   /**
    * Returns the categories of the product taxonomy based on the arguments provided.
@@ -62080,7 +64212,11 @@ export type Taxonomy = {
 };
 
 
-/** The Taxonomy resource lets you access the categories, attributes and values of a taxonomy tree. */
+/**
+ * Represents Shopify's [standardized product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17) tree. Provides categories that you can filter by search criteria or hierarchical relationships.
+ *
+ * You can search categories globally, retrieve children of a specific category, find siblings, or get descendants. When you specify no filter arguments, you get all top-level categories in the taxonomy.
+ */
 export type TaxonomyCategoriesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -62098,7 +64234,11 @@ export type TaxonomyAttribute = Node & {
   id: Scalars['ID']['output'];
 };
 
-/** The details of a specific product category within the [Shopify product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17). */
+/**
+ * A product category within Shopify's [standardized product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17). Provides hierarchical organization through parent-child relationships, with each category tracking its ancestors, children, and level in the taxonomy tree.
+ *
+ * Categories include attributes specific to their product type and navigation properties like whether they're root, leaf, or archived categories. The taxonomy enables consistent product classification across Shopify and integrated marketplaces.
+ */
 export type TaxonomyCategory = Node & {
   /** The IDs of the category's ancestor categories. */
   ancestorIds: Array<Scalars['ID']['output']>;
@@ -62125,7 +64265,11 @@ export type TaxonomyCategory = Node & {
 };
 
 
-/** The details of a specific product category within the [Shopify product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17). */
+/**
+ * A product category within Shopify's [standardized product taxonomy](https://shopify.github.io/product-taxonomy/releases/unstable/?categoryId=sg-4-17-2-17). Provides hierarchical organization through parent-child relationships, with each category tracking its ancestors, children, and level in the taxonomy tree.
+ *
+ * Categories include attributes specific to their product type and navigation properties like whether they're root, leaf, or archived categories. The taxonomy enables consistent product classification across Shopify and integrated marketplaces.
+ */
 export type TaxonomyCategoryAttributesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -62336,6 +64480,29 @@ export type ThemeDeleteUserError = DisplayableError & {
 
 /** Possible error codes that can be returned by `ThemeDeleteUserError`. */
 export type ThemeDeleteUserErrorCode =
+  /** The record with the ID used as the input value couldn't be found. */
+  | 'NOT_FOUND';
+
+/** Return type for `themeDuplicate` mutation. */
+export type ThemeDuplicatePayload = {
+  /** The newly duplicated theme. */
+  newTheme?: Maybe<OnlineStoreTheme>;
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ThemeDuplicateUserError>;
+};
+
+/** An error that occurs during the execution of `ThemeDuplicate`. */
+export type ThemeDuplicateUserError = DisplayableError & {
+  /** The error code. */
+  code?: Maybe<ThemeDuplicateUserErrorCode>;
+  /** The path to the input field that caused the error. */
+  field?: Maybe<Array<Scalars['String']['output']>>;
+  /** The error message. */
+  message: Scalars['String']['output'];
+};
+
+/** Possible error codes that can be returned by `ThemeDuplicateUserError`. */
+export type ThemeDuplicateUserErrorCode =
   /** The record with the ID used as the input value couldn't be found. */
   | 'NOT_FOUND';
 
@@ -62648,11 +64815,15 @@ export type TranslatableResourceEdge = {
 export type TranslatableResourceType =
   /** A blog post. Translatable fields: `title`, `body_html`, `summary_html`, `handle`, `meta_title`, `meta_description`. */
   | 'ARTICLE'
+  /** An article image. Translatable fields: `alt`. */
+  | 'ARTICLE_IMAGE'
   /** A blog. Translatable fields: `title`, `handle`, `meta_title`, `meta_description`. */
   | 'BLOG'
   /** A product collection. Translatable fields: `title`, `body_html`, `handle`, `meta_title`, `meta_description`. */
   | 'COLLECTION'
-  /** The delivery method definition. For example, "Standard", or "Expedited". Translatable fields: `name`. */
+  /** A collection image. Translatable fields: `alt`. */
+  | 'COLLECTION_IMAGE'
+  /** The delivery method definition. For example, "Standard", or "Expedited". Translatable fields: `name`, `description`. */
   | 'DELIVERY_METHOD_DEFINITION'
   /** An email template. Translatable fields: `title`, `body_html`. */
   | 'EMAIL_TEMPLATE'
@@ -62660,6 +64831,8 @@ export type TranslatableResourceType =
   | 'FILTER'
   /** A link to direct users. Translatable fields: `title`. */
   | 'LINK'
+  /** An image. Translatable fields: `alt`. */
+  | 'MEDIA_IMAGE'
   /** A category of links. Translatable fields: `title`. */
   | 'MENU'
   /** A Metafield. Translatable fields: `value`. */
@@ -62986,8 +65159,13 @@ export type UnverifiedReturnLineItem = Node & ReturnLineItemType & {
   refundableQuantity: Scalars['Int']['output'];
   /** The quantity that was refunded. */
   refundedQuantity: Scalars['Int']['output'];
-  /** The reason for returning the item. */
+  /**
+   * The reason for returning the item.
+   * @deprecated Use `returnReasonDefinition` instead. This field will be removed in the future.
+   */
   returnReason: ReturnReason;
+  /** The standardized reason for why the item is being returned. */
+  returnReasonDefinition?: Maybe<ReturnReasonDefinition>;
   /** Additional information about the reason for the return. Maximum length: 255 characters. */
   returnReasonNote: Scalars['String']['output'];
   /** The unit price of the unverified return line item. */
@@ -63357,8 +65535,8 @@ export type ValidationCreateInput = {
   blockOnFailure?: InputMaybe<Scalars['Boolean']['input']>;
   /** Whether the validation should be live on the merchant checkout. */
   enable?: InputMaybe<Scalars['Boolean']['input']>;
-  /** The function ID representing the extension to install. */
-  functionId: Scalars['String']['input'];
+  /** The function handle representing the extension to install. */
+  functionHandle?: InputMaybe<Scalars['String']['input']>;
   /** Additional metafields to associate to the validation. */
   metafields?: InputMaybe<Array<MetafieldInput>>;
   /** The title of the validation. */
@@ -63454,6 +65632,10 @@ export type ValidationUserErrorCode =
   | 'INVALID_VALUE'
   /** Cannot have more than 25 active validation functions. */
   | 'MAX_VALIDATIONS_ACTIVATED'
+  /** Either function_id or function_handle must be provided. */
+  | 'MISSING_FUNCTION_IDENTIFIER'
+  /** Only one of function_id or function_handle can be provided, not both. */
+  | 'MULTIPLE_FUNCTION_IDENTIFIERS'
   /** Validation not found. */
   | 'NOT_FOUND'
   /** The input value needs to be blank. */
@@ -63775,7 +65957,7 @@ export type WebhookSubscription = LegacyInteroperability & Node & {
   format: WebhookSubscriptionFormat;
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
-  /** The list of fields to be included in the webhook subscription. Only the fields specified will be included in the webhook payload. If null, then all fields will be included. Learn more about [modifying webhook payloads](https://shopify.dev/docs/apps/build/webhooks/customize/modify_payloads). */
+  /** The list of fields to be included in the webhook subscription. Only the fields specified will be included in the webhook payload. If null, then all fields will be included. Learn more about [modifying webhook payloads](https://shopify.dev/docs/apps/build/webhooks/customize/modify-payloads). */
   includeFields: Array<Scalars['String']['output']>;
   /** The ID of the corresponding resource in the REST Admin API. */
   legacyResourceId: Scalars['UnsignedInt64']['output'];
@@ -63787,6 +65969,8 @@ export type WebhookSubscription = LegacyInteroperability & Node & {
   topic: WebhookSubscriptionTopic;
   /** The date and time when the webhook subscription was updated. */
   updatedAt: Scalars['DateTime']['output'];
+  /** The URI to which the webhook subscription will send events. */
+  uri: Scalars['String']['output'];
 };
 
 /** An auto-generated type for paginating through multiple WebhookSubscriptions. */
@@ -63843,6 +66027,8 @@ export type WebhookSubscriptionInput = {
   metafieldNamespaces?: InputMaybe<Array<Scalars['String']['input']>>;
   /** A list of identifiers specifying metafields to include in the webhook payload. */
   metafields?: InputMaybe<Array<HasMetafieldsMetafieldIdentifierInput>>;
+  /** The URI where the webhook subscription should send events. Supports an HTTPS URL, a Google Pub/Sub URI (pubsub://{project-id}:{topic-id}) or an Amazon EventBridge event source ARN. */
+  uri?: InputMaybe<Scalars['String']['input']>;
 };
 
 /**
@@ -63930,7 +66116,7 @@ export type WebhookSubscriptionTopic =
   | 'COLLECTIONS_CREATE'
   /** The webhook topic for `collections/delete` events. Occurs whenever a collection is deleted. Requires the `read_products` scope. */
   | 'COLLECTIONS_DELETE'
-  /** The webhook topic for `collections/update` events. Occurs whenever a collection is updated, including whenever products are added or removed from the collection. Occurs once if multiple products are added or removed from a collection at the same time. Requires the `read_products` scope. */
+  /** The webhook topic for `collections/update` events. Occurs whenever a collection is updated, including when a product is manually added or removed from the collection or when the collection rules change. Occurs once if multiple products are manually added or removed from a collection at the same time. Not fired when attribute changes affect whether a product matches a collection's rules. Requires the `read_products` scope. */
   | 'COLLECTIONS_UPDATE'
   /** The webhook topic for `collection_listings/add` events. Occurs whenever a collection listing is added. Requires the `read_product_listings` scope. */
   | 'COLLECTION_LISTINGS_ADD'
@@ -64174,6 +66360,8 @@ export type WebhookSubscriptionTopic =
   | 'INVENTORY_TRANSFERS_UPDATE_ITEM_QUANTITIES'
   /** The webhook topic for `locales/create` events. Occurs whenever a shop locale is created Requires the `read_locales` scope. */
   | 'LOCALES_CREATE'
+  /** The webhook topic for `locales/destroy` events. Occurs whenever a shop locale is destroyed Requires the `read_locales` scope. */
+  | 'LOCALES_DESTROY'
   /** The webhook topic for `locales/update` events. Occurs whenever a shop locale is updated, such as published or unpublished Requires the `read_locales` scope. */
   | 'LOCALES_UPDATE'
   /** The webhook topic for `locations/activate` events. Occurs whenever a deactivated location is re-activated. Requires the `read_locations` scope. */
@@ -64216,6 +66404,8 @@ export type WebhookSubscriptionTopic =
   | 'ORDERS_EDITED'
   /** The webhook topic for `orders/fulfilled` events. Occurs whenever an order is fulfilled. Requires at least one of the following scopes: read_orders, read_marketplace_orders. */
   | 'ORDERS_FULFILLED'
+  /** The webhook topic for `orders/link_requested` events. Occurs whenever a customer requests a new order link from the expired order status page. Requires at least one of the following scopes: read_orders, read_marketplace_orders, read_buyer_membership_orders. */
+  | 'ORDERS_LINK_REQUESTED'
   /** The webhook topic for `orders/paid` events. Occurs whenever an order is paid. Requires at least one of the following scopes: read_orders, read_marketplace_orders. */
   | 'ORDERS_PAID'
   /** The webhook topic for `orders/partially_fulfilled` events. Occurs whenever an order is partially fulfilled. Requires at least one of the following scopes: read_orders, read_marketplace_orders. */
@@ -64372,6 +66562,8 @@ export type WebhookSubscriptionTopic =
   | 'TAX_SERVICES_CREATE'
   /** The webhook topic for `tax_services/update` events. Occurs whenver a tax service is updated. Requires the `read_taxes` scope. */
   | 'TAX_SERVICES_UPDATE'
+  /** The webhook topic for `tax_summaries/create` events. Occurs when a tax summary is created. Consumed by tax partners. Requires at least one of the following scopes: read_fulfillments, read_marketplace_orders, read_orders. */
+  | 'TAX_SUMMARIES_CREATE'
   /** The webhook topic for `tender_transactions/create` events. Occurs when a tender transaction is created. Requires the `read_orders` scope. */
   | 'TENDER_TRANSACTIONS_CREATE'
   /** The webhook topic for `themes/create` events. Occurs whenever a theme is created. Does not occur when theme files are created. Requires the `read_themes` scope. */

@@ -25,7 +25,6 @@ export default withNuxt(
       // TypeScript
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
-      '@typescript-eslint/operator-linebreak': 'before',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
@@ -52,6 +51,7 @@ export default withNuxt(
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/brace-style': ['error', '1tbs'],
       '@stylistic/arrow-parens': ['error', 'always'],
+      '@stylistic/operator-linebreak': ['error', 'before'],
     },
   },
 )

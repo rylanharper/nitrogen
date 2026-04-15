@@ -2,66 +2,72 @@
 import { useCartStore } from '@/stores/cart'
 
 // Emits
-const emits = defineEmits<{
+const emit = defineEmits<{
   toggleMobileMenu: []
   toggleSearchMenu: []
   toggleCartDrawer: []
 }>()
 
-// Stores
+// Emit events
+const toggleMobileMenu = () => {
+  emit('toggleMobileMenu')
+}
+
+const toggleSearchMenu = () => {
+  emit('toggleSearchMenu')
+}
+
+const toggleCartDrawer = () => {
+  emit('toggleCartDrawer')
+}
+
+// Composables
 const cartStore = useCartStore()
 
 // Computed
 const cartTotalItems = computed(() => cartStore.lineItemCount)
-
-// Emit events
-const toggleMobileMenu = () => {
-  emits('toggleMobileMenu')
-}
-
-const toggleSearchMenu = () => {
-  emits('toggleSearchMenu')
-}
-
-const toggleCartDrawer = () => {
-  emits('toggleCartDrawer')
-}
 </script>
 
 <template>
   <nav class="grid grid-cols-[1fr_max-content_1fr] gap-4 min-h-(--header-height) px-4 lg:hidden">
     <div class="grid grid-flow-col justify-start items-center">
       <button
-        class="flex p-2 text-normalize bg-transparent rounded-full"
+        class="flex p-2 bg-transparent rounded-full"
         @click="toggleMobileMenu"
       >
-        <span>Menu</span>
+        <span class="uppercase whitespace-nowrap">
+          Menu
+        </span>
       </button>
     </div>
     <div class="flex items-center">
       <NuxtLink
         id="logo"
         to="/"
-        class="p-2 text-normalize bg-transparent rounded-full"
+        class="p-2 bg-transparent rounded-full"
       >
-        <span>Nitrogen</span>
+        <span class="uppercase whitespace-nowrap">
+          Nitrogen
+        </span>
       </NuxtLink>
     </div>
     <div class="grid grid-flow-col justify-end items-center">
       <button
-        class="flex p-2 text-normalize bg-transparent rounded-full"
+        class="flex p-2 bg-transparent rounded-full"
         @click="toggleSearchMenu"
       >
         <Icon
           name="ph:magnifying-glass"
-          class="inline-block shrink-0 !size-5"
+          class="inline-block shrink-0 size-5!"
         />
       </button>
       <button
-        class="flex p-2 text-normalize bg-transparent rounded-full"
+        class="flex p-2 bg-transparent rounded-full"
         @click="toggleCartDrawer"
       >
-        <span>Cart ({{ cartTotalItems }})</span>
+        <span class="uppercase whitespace-nowrap">
+          Cart ({{ cartTotalItems }})
+        </span>
       </button>
     </div>
   </nav>

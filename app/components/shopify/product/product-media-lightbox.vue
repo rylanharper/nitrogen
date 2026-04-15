@@ -22,19 +22,13 @@ const mediaRefs = useTemplateRef('mediaRefs')
 
 // Watchers
 const { escape } = useMagicKeys()
+if (escape) watch(escape, closeLightbox)
 
-watch(
-  () => props.mediaIndex,
-  async (index) => {
-    await nextTick()
-    const el = mediaRefs.value?.[index]
-    el?.scrollIntoView()
-  },
-)
-
-if (escape) {
-  watch(escape, closeLightbox)
-}
+watchEffect(async () => {
+  if (!appStore.mediaLightbox) return
+  await nextTick()
+  mediaRefs.value?.[props.mediaIndex]?.scrollIntoView()
+})
 </script>
 
 <template>
@@ -48,7 +42,7 @@ if (escape) {
     >
       <Icon
         name="ph:x"
-        class="inline-block shrink-0 !size-6"
+        class="inline-block shrink-0 size-6!"
       />
     </button>
     <div class="flex flex-col overflow-auto size-full">

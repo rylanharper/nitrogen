@@ -7,16 +7,16 @@
 export default defineEventHandler(async (event) => {
   const { klaviyo: options } = useRuntimeConfig(event)
   const body = await readBody(event)
-  const type = body.data.type
+  const type = body?.data?.type
 
-  let endpoint = ''
+  let path = ''
 
   switch (type) {
     case 'subscription':
-      endpoint = `https://a.klaviyo.com/client/subscriptions/?company_id=${options.publicApiKey}`
+      path = 'subscriptions'
       break
     case 'back-in-stock-subscription':
-      endpoint = `https://a.klaviyo.com/client/back-in-stock-subscriptions/?company_id=${options.publicApiKey}`
+      path = 'back-in-stock-subscriptions'
       break
     default:
       throw createError({
@@ -25,7 +25,9 @@ export default defineEventHandler(async (event) => {
       })
   }
 
-  return await $fetch(endpoint, {
+  const endpoint = `https://a.klaviyo.com/client/${path}/?company_id=${options.publicApiKey}`
+
+  return $fetch(endpoint, {
     method: 'POST',
     headers: {
       'accept': 'application/json',
@@ -33,6 +35,6 @@ export default defineEventHandler(async (event) => {
       'content-type': 'application/json',
       'Authorization': `Klaviyo-API-Key ${options.privateApiKey}`,
     },
-    body: JSON.stringify(body),
+    body,
   })
 })

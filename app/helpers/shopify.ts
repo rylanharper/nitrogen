@@ -1,6 +1,7 @@
 import type {
   ProductCollectionSortKeys,
   SearchSortKeys,
+  FilterFragment,
   ProductFilter,
   MoneyFragment,
   VideoFragment,
@@ -8,6 +9,7 @@ import type {
   ProductOptionFragment,
   ProductVariantFragment,
 } from '@@/types/shopify-storefront'
+import type { LocationQueryValue } from 'vue-router'
 
 /**
  * Gets the collection sort values from the URL query.
@@ -72,48 +74,29 @@ export const getSearchSortValues = (sortParam: string | null): {
 
 /**
  * Gets the filter values from the URL query.
- * @param query - The URL query object containing potential filter values
+ * @param query - The URL query object containing filter values
+ * @param filterFragments - Filter fragments for resolving filter IDs to input values
  * @returns An array of filters to apply to the collection
  */
-export const getFilterValues = (query: Record<string, any>) => {
+export const getFilterValues = (query: Record<string, any>, filterFragments?: FilterFragment[]) => {
   const filters: ProductFilter[] = []
-  const { color, size, productType } = query
+  const { filter } = query
 
-  if (color || size || productType) {
-    filters.push({
-      available: true,
-    })
-  }
+  if (!filter || !filterFragments) return filters
 
-  if (color) {
-    color.split(',').forEach((color: any) => {
-      filters.push({
-        variantOption: {
-          name: 'Color',
-          value: color,
-        },
-      })
-    })
-  }
+  filters.push({ available: true })
 
-  if (size) {
-    size.split(',').forEach((size: any) => {
-      filters.push({
-        variantOption: {
-          name: 'Size',
-          value: size,
-        },
-      })
-    })
-  }
+  const filterIds = Array.isArray(filter) ? filter : [filter]
 
-  if (productType) {
-    productType.split(',').forEach((productType: any) => {
-      filters.push({
-        productType: productType,
-      })
-    })
-  }
+  filterIds.forEach((id: string) => {
+    for (const fragment of filterFragments) {
+      const match = fragment.values?.find((value) => value.id === id)
+      if (match) {
+        filters.push(JSON.parse(match.input))
+        break
+      }
+    }
+  })
 
   return filters
 }
@@ -164,9 +147,7 @@ export const isNewItem = (date: string, daysOld = 30): boolean => {
  * @param product - The product object containing availability information
  * @returns A boolean indicating if the product is sold out
  */
-export const isSoldOut = (availableForSale: boolean): boolean => {
-  return !availableForSale
-}
+export const isSoldOut = (availableForSale: boolean): boolean => !availableForSale
 
 /**
  * Determines if a product is on sale by comparing its current price to its original price.
@@ -175,7 +156,9 @@ export const isSoldOut = (availableForSale: boolean): boolean => {
  * @returns A boolean indicating if the product is on sale
  */
 export const isOnSale = (price: MoneyFragment, compareAtPrice: MoneyFragment): boolean => {
-  return compareAtPrice.amount > price.amount
+  if (!price?.amount || !compareAtPrice?.amount) return false
+  if (price.currencyCode !== compareAtPrice.currencyCode) return false
+  return Number.parseFloat(compareAtPrice.amount) > Number.parseFloat(price.amount)
 }
 
 /**
@@ -242,13 +225,9 @@ export const getSizeOption = (optionInput: ProductOptionFragment[]) => {
  */
 export const isSizeSoldOut = (variants: ProductVariantFragment[], sizeValue: string): boolean => {
   const sizeVariants = variants.filter((variant) =>
-    variant.selectedOptions.some((option) =>
-      isSizeOption(option.name) && option.value === sizeValue,
-    ),
+    variant.selectedOptions.some((option) => isSizeOption(option.name) && option.value === sizeValue),
   )
-
-  if (!sizeVariants.length) return false
-  return sizeVariants.every((variant) => !variant.availableForSale)
+  return sizeVariants.length > 0 && sizeVariants.every((variant) => !variant.availableForSale)
 }
 
 /**
@@ -259,11 +238,24 @@ export const isSizeSoldOut = (variants: ProductVariantFragment[], sizeValue: str
  */
 export const isColorSoldOut = (variants: ProductVariantFragment[], colorValue: string): boolean => {
   const colorVariants = variants.filter((variant) =>
-    variant.selectedOptions.some((option) =>
-      isColorOption(option.name) && option.value === colorValue,
-    ),
+    variant.selectedOptions.some((option) => isColorOption(option.name) && option.value === colorValue),
   )
+  return colorVariants.length > 0 && colorVariants.every((variant) => !variant.availableForSale)
+}
 
-  if (!colorVariants.length) return false
-  return colorVariants.every((variant) => !variant.availableForSale)
+/**
+ * Normalizes a URL query filter value to a string array.
+ * @param filter - The raw query value (string, string[], or null)
+ * @returns A normalized array of filter ID strings
+ */
+export const normalizeFilterQuery = (filter: LocationQueryValue | LocationQueryValue[] | undefined): string[] =>
+  (Array.isArray(filter) ? filter : filter ? [filter] : []).filter(Boolean) as string[]
+
+/**
+ * Parses the numeric ID from a Shopify product variant GID
+ * @param gid - The variant ID (e.g., 'gid://shopify/ProductVariant/44284874064058')
+ * @returns The numeric portion of the ID (e.g., '44284874064058')
+ */
+export const parseVariantId = (gid: string): string => {
+  return gid.split('/').pop() ?? ''
 }

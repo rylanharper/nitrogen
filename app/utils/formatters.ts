@@ -42,12 +42,3 @@ export const formatCurrency = (amount: string | number, currencyCode: string = '
     .format(numericAmount)
     .replace(/\.00/g, '')
 }
-
-/**
- * Formats a product variant ID to its numeric form.
- * @param gid - The variant ID (e.g., 'gid://shopify/ProductVariant/44284874064058')
- * @returns The numeric portion of the ID (e.g., '44284874064058')
- */
-export const formatVariantId = (gid: string): string => {
-  return gid.split('/').pop() ?? ''
-}

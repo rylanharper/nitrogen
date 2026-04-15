@@ -12,7 +12,7 @@ import {
   SEARCH_FILTERS,
   PREDICTIVE_SEARCH,
 } from '../graphql/storefront/queries/search'
-import { query } from '../utils/graphql-client'
+import { query } from '../graphql-client'
 
 /**
  * Fetches the search data.
@@ -20,11 +20,9 @@ import { query } from '../utils/graphql-client'
  * @returns A Promise resolving to the search results
  * @see https://shopify.dev/docs/api/storefront/latest/queries/search
  */
-const get = async (
-  options: SearchQueryVariables,
-): Promise<SearchQuery['search']> => {
-  const response = await query(SEARCH, options)
-  return response.data?.search
+const get = async (options: SearchQueryVariables) => {
+  const { data } = await query<{ data: SearchQuery }>(SEARCH, options)
+  return data?.search
 }
 
 /**
@@ -33,11 +31,9 @@ const get = async (
  * @returns A Promise resolving to the search results
  * @see https://shopify.dev/docs/api/storefront/latest/queries/search
  */
-const getFilters = async (
-  options: SearchFiltersQueryVariables,
-): Promise<SearchFiltersQuery['search']> => {
-  const response = await query(SEARCH_FILTERS, options)
-  return response.data?.search
+const getFilters = async (options: SearchFiltersQueryVariables) => {
+  const { data } = await query<{ data: SearchFiltersQuery }>(SEARCH_FILTERS, options)
+  return data?.search
 }
 
 /**
@@ -46,14 +42,12 @@ const getFilters = async (
  * @returns A Promise resolving to the predictive search results
  * @see https://shopify.dev/docs/api/storefront/latest/queries/predictiveSearch
  */
-const getPredictive = async (
-  options: PredictiveSearchQueryVariables,
-): Promise<PredictiveSearchQuery['predictiveSearch']> => {
-  const response = await query(PREDICTIVE_SEARCH, options)
-  return response.data?.predictiveSearch
+const getPredictive = async (options: PredictiveSearchQueryVariables) => {
+  const { data } = await query<{ data: PredictiveSearchQuery }>(PREDICTIVE_SEARCH, options)
+  return data?.predictiveSearch
 }
 
-export default {
+export const search = {
   get,
   getFilters,
   getPredictive,

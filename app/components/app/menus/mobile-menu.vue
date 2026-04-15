@@ -1,29 +1,22 @@
 <script setup lang="ts">
-// Links
 const navLinks = [
   { label: 'Shop', path: '/collections/latest' },
   { label: 'Catalog', path: '/collections/latest' },
-  { label: 'Account', path: '/account' },
+  { label: 'Account', path: '/' },
   { label: 'About', path: '/collections/latest' },
 ]
 
-// Stores
+// Composables
+const route = useRoute()
 const appStore = useAppStore()
 
 // Actions
-const closeMenu = () => {
-  appStore.toggle('mobileMenu', false)
-}
+const closeMenu = () => appStore.toggle('mobileMenu', false)
 
 // Watchers
-const route = useRoute()
 const { escape } = useMagicKeys()
-
 watch(() => route.path, closeMenu)
-
-if (escape) {
-  watch(escape, closeMenu)
-}
+if (escape) watch(escape, closeMenu)
 </script>
 
 <template>
@@ -44,9 +37,9 @@ if (escape) {
             v-for="link in navLinks"
             :key="link.label"
             :to="link.path"
-            class="py-1 text-xl tracking-tight"
+            class="py-1.5 text-xl tracking-tight"
           >
-            <span>{{ link.label }}</span>
+            {{ link.label }}
           </NuxtLink>
         </div>
         <div class="flex flex-col mb-4">
@@ -54,7 +47,7 @@ if (escape) {
             class="flex items-center justify-center p-2 px-4 bg-transparent border border-zinc-300 rounded-md"
             @click="closeMenu"
           >
-            <span class="text-normalize">
+            <span class="uppercase whitespace-nowrap">
               Close Menu
             </span>
           </button>

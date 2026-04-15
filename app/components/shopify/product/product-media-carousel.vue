@@ -2,7 +2,7 @@
 import type { MediaFragment } from '@@/types/shopify-storefront'
 import type { EmblaCarouselType } from 'embla-carousel'
 
-import emblaCarouselVue from 'embla-carousel-vue'
+import useEmblaCarousel from 'embla-carousel-vue'
 
 import { isMediaVideo, isMediaImage } from '@/helpers/shopify'
 
@@ -12,7 +12,7 @@ const props = defineProps<{
 }>()
 
 // Embla setup
-const [emblaRef, emblaApiMain] = emblaCarouselVue({
+const [emblaRef, emblaApiMain] = useEmblaCarousel({
   loop: true,
 })
 
@@ -106,7 +106,7 @@ onUnmounted(() => {
       >
         <Icon
           name="ph:caret-left"
-          class="inline-block shrink-0 !size-5"
+          class="inline-block shrink-0 size-5!"
         />
       </button>
       <button
@@ -115,7 +115,7 @@ onUnmounted(() => {
       >
         <Icon
           name="ph:caret-right"
-          class="inline-block shrink-0 !size-5"
+          class="inline-block shrink-0 size-5!"
         />
       </button>
     </div>

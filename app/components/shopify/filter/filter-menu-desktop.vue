@@ -5,55 +5,46 @@ const props = defineProps<{
     label: string
     value: string | null
   }[]
-  colorOptions: {
+  filterOptions: {
     label: string
-    id: string
-    count: number
-    swatch?: any
-  }[]
-  sizeOptions: {
-    label: string
-    id: string
-    count: number
-  }[]
-  productTypeOptions: {
-    label: string
-    id: string
-    count: number
+    values: {
+      label: string
+      id: string
+      count: number
+      swatch?: any
+    }[]
   }[]
   activeFilterCount: number
 }>()
 
 // Emits
-const emits = defineEmits<{
+const emit = defineEmits<{
   closeFilter: []
   setSortOption: [sortValue: string | null]
-  setFilterOption: [filterName: string, filterValue: string]
+  setFilterOption: [filterId: string]
   clearAllFilters: []
 }>()
 
-// Route
-const route = useRoute()
-
-// Stores
-const appStore = useAppStore()
-
 // Emit events
 const closeFilter = () => {
-  emits('closeFilter')
+  emit('closeFilter')
 }
 
 const setSortOption = (sortValue: string | null) => {
-  emits('setSortOption', sortValue)
+  emit('setSortOption', sortValue)
 }
 
-const setFilterOption = (filterName: string, filterValue: string) => {
-  emits('setFilterOption', filterName, filterValue)
+const setFilterOption = (filterId: string) => {
+  emit('setFilterOption', filterId)
 }
 
 const clearAllFilters = () => {
-  emits('clearAllFilters')
+  emit('clearAllFilters')
 }
+
+// Composables
+const route = useRoute()
+const appStore = useAppStore()
 </script>
 
 <template>
@@ -78,7 +69,7 @@ const clearAllFilters = () => {
           >
             <Icon
               name="ph:x"
-              class="inline-block shrink-0 !size-5"
+              class="inline-block shrink-0 size-5!"
             />
           </button>
         </div>
@@ -99,70 +90,41 @@ const clearAllFilters = () => {
               </button>
             </div>
           </div>
-          <div>
+          <div
+            v-for="group in props.filterOptions"
+            :key="group.label"
+          >
             <h3 class="mb-5 uppercase">
-              Color
+              {{ group.label }}
             </h3>
             <div class="flex flex-col">
               <button
-                v-for="color in props.colorOptions"
-                :key="color.id"
-                :class="{ 'underline border-black': (route.query.color as string)?.split(',').includes(color.label) }"
+                v-for="option in group.values"
+                :key="option.id"
+                :class="{ 'underline border-black': (route.query.filter as string[])?.includes(option.id) }"
                 class="flex items-center gap-3 max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
-                @click="setFilterOption('color', color.label)"
+                @click="setFilterOption(option.id)"
               >
                 <span
-                  v-if="color.swatch.color"
+                  v-if="option.swatch?.color"
                   :class="{
-                    'border-black': (route.query.color as string)?.split(',').includes(color.label),
-                    'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label),
+                    'border-black': (route.query.filter as string[])?.includes(option.id),
+                    'border-gray-100': !(route.query.filter as string[])?.includes(option.id),
                   }"
-                  :style="{ backgroundColor: color.swatch.color }"
+                  :style="{ backgroundColor: option.swatch.color }"
                   class="size-3 border rounded-full"
                 />
                 <img
-                  v-if="color.swatch.image"
-                  :src="color.swatch.image.url"
+                  v-if="option.swatch?.image"
+                  :src="option.swatch.image.url"
                   :class="{
-                    'border-black': (route.query.color as string)?.split(',').includes(color.label),
-                    'border-gray-100': !(route.query.color as string)?.split(',').includes(color.label),
+                    'border-black': (route.query.filter as string[])?.includes(option.id),
+                    'border-gray-100': !(route.query.filter as string[])?.includes(option.id),
                   }"
                   alt="Color Swatch Image"
                   class="size-3 border rounded-full"
                 >
-                <span>{{ color.label }}</span>
-              </button>
-            </div>
-          </div>
-          <div>
-            <h3 class="mb-5 uppercase">
-              Size
-            </h3>
-            <div class="flex flex-col">
-              <button
-                v-for="size in props.sizeOptions"
-                :key="size.id"
-                :class="{ underline: (route.query.size as string)?.split(',').includes(size.label) }"
-                class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
-                @click="setFilterOption('size', size.label)"
-              >
-                <span>{{ size.label }}</span>
-              </button>
-            </div>
-          </div>
-          <div>
-            <h3 class="mb-5 uppercase">
-              Style
-            </h3>
-            <div class="flex flex-col">
-              <button
-                v-for="type in props.productTypeOptions"
-                :key="type.id"
-                :class="{ underline: (route.query.productType as string)?.split(',').includes(type.label) }"
-                class="max-w-fit normal-case decoration-dotted decoration-1 underline-offset-[3px] hover:underline"
-                @click="setFilterOption('productType', type.label)"
-              >
-                {{ type.label }}
+                <span>{{ option.label }}</span>
               </button>
             </div>
           </div>
@@ -171,14 +133,14 @@ const clearAllFilters = () => {
           <div class="flex gap-4">
             <button
               type="button"
-              class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-100"
+              class="flex items-center justify-center p-2 px-4 uppercase bg-transparent border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-100"
               @click="clearAllFilters"
             >
               <span>Clear All Filters ({{ props.activeFilterCount }})</span>
             </button>
             <button
               type="button"
-              class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
+              class="flex items-center justify-center p-2 px-4 uppercase bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
               @click="closeFilter"
             >
               <span>View Products</span>

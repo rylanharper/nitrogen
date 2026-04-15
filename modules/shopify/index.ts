@@ -19,9 +19,6 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@nitrogen/shopify',
     configKey: 'shopify',
-    compatibility: {
-      nuxt: '>=3.0.0',
-    },
   },
 
   defaults: {
@@ -32,9 +29,9 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   setup(options, nuxt) {
-    nuxt.options.runtimeConfig.shopify = options
-
     const { resolve } = createResolver(import.meta.url)
+
+    nuxt.options.runtimeConfig.shopify = options
 
     const imports = [
       {

@@ -12,19 +12,6 @@ const emits = defineEmits<{
   closeSearch: []
 }>()
 
-// Model bindings
-const searchQuery = defineModel<string>()
-
-// Stores
-const appStore = useAppStore()
-
-// Suggested links
-const defaulSearchLinks = [
-  { label: 'Mens tops', path: '/' },
-  { label: 'Womens tops', path: '/' },
-  { label: 'Womens Pants', path: '/' },
-]
-
 // Emit events
 const onKeyDown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
@@ -35,6 +22,19 @@ const onKeyDown = (event: KeyboardEvent) => {
 const closeSearch = () => {
   emits('closeSearch')
 }
+
+// Suggested links
+const defaulSearchLinks = [
+  { label: 'Mens tops', path: '/' },
+  { label: 'Womens tops', path: '/' },
+  { label: 'Womens Pants', path: '/' },
+]
+
+// Composables
+const appStore = useAppStore()
+
+// Model bindings
+const searchQuery = defineModel<string>()
 
 // Refs
 const input = useTemplateRef('inputRef')
@@ -81,19 +81,19 @@ watch(
             class="peer flex w-full py-2 pl-8 bg-white border-b border-zinc-300 appearance-none rounded-none placeholder:text-zinc-400 focus:border-black focus:outline-none"
             @keydown="onKeyDown"
           >
-          <div class="absolute flex inset-y-0 start-0 items-center text-zinc-400 peer-focus:text-black select-none">
+          <div class="absolute flex inset-y-0 inset-s-0 items-center text-zinc-400 peer-focus:text-black select-none">
             <Icon
               name="ph:magnifying-glass"
-              class="inline-block shrink-0 !size-5"
+              class="inline-block shrink-0 size-5!"
             />
           </div>
           <button
-            class="absolute flex inset-y-0 end-0 items-center text-zinc-400 peer-focus:text-black active:text-black"
+            class="absolute flex inset-y-0 inset-e-0 items-center text-zinc-400 peer-focus:text-black active:text-black"
             @click="closeSearch"
           >
             <Icon
               name="ph:x"
-              class="inline-block shrink-0 !size-5"
+              class="inline-block shrink-0 size-5!"
             />
           </button>
         </div>

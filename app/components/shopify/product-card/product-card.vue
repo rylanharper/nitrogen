@@ -8,7 +8,7 @@ const props = defineProps<{
   product: ProductFragment
 }>()
 
-// Access data nodes
+// Media data nodes
 const mediaItems = computed(() => flattenConnection(props.product.media))
 
 // Computed

@@ -20,13 +20,13 @@ const colorOptionName = computed(() => colorOption.value?.optionValues[0]?.name)
   >
     <p
       v-if="colorOptionName"
-      class="truncate ..."
+      class="truncate"
     >
       {{ product.title }} ({{ colorOptionName }})
     </p>
     <p
       v-else
-      class="truncate ..."
+      class="truncate"
     >{{ product.title }}</p>
   </NuxtLink>
 </template>

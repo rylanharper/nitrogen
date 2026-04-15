@@ -9,45 +9,47 @@ import type {
 
 import { getCollectionSortValues, getFilterValues } from '@/helpers/shopify'
 
-// Route data
+// Composables
 const route = useRoute()
-const router = useRouter()
-const handle = computed(() => route.params.handle as string)
-
-// Stores
+const shopify = useShopify()
 const appStore = useAppStore()
 const shopStore = useShopStore()
 
-// Sort params/values
+// Handle
+const handle = computed(() => route.params.handle as string)
+
+// Filter query
+const filterVars = computed<CollectionFiltersQueryVariables>(() => ({
+  handle: handle.value,
+  country: shopStore.buyerCountryCode,
+  language: shopStore.buyerLanguageCode,
+}))
+
+const { data: filterData, error: filterError } = await useAsyncData(
+  `filter-${handle.value}`,
+  () => shopify.collection.getFilters(filterVars.value),
+  { watch: [filterVars] },
+)
+
+// Filter response data
+const filter = computed(() => filterData.value)
+const filters = computed(() => filter.value?.products?.filters as FilterFragment[])
+
+// Filter data nodes
+const filterProducts = computed(() => flattenConnection(filter.value?.products) as ProductFragment[])
+
+// Get active URL filters
+const { activeFilterOptions, removeActiveFilterOption } = useActiveFilters(filters)
+
+// Sort/filter params
 const sortParam = computed(() => route.query.sort as string | null)
 const sortValues = computed(() => getCollectionSortValues(sortParam.value))
+const filterValues = computed(() => getFilterValues(route.query, filters.value))
 
-// Filter params/values
-const filterParam = computed(() => route.query)
-const filterValues = computed(() => getFilterValues(filterParam.value))
+// Pagination
+const { itemsPerPage, loadMoreProducts } = usePagination()
 
-// Get the active filter options from URL query
-const activeFilterOptions = computed(() => {
-  const allowedParams = ['sort', 'color', 'size', 'productType']
-
-  return Object.entries(route.query)
-    .filter(([name, value]) => value && allowedParams.includes(name))
-    .flatMap(([name, value]) => {
-      const values = name === 'sort'
-        ? [value as string]
-        : (value as string).split(',')
-      return values.map((value) => ({ name, value: value }))
-    })
-})
-
-// State
-const limit = 12
-const itemsPerPage = ref(Number(route.query.limit) || limit)
-
-// Shopify
-const shopify = useShopify()
-
-// Fetch Shopify data
+// Collection query
 const collectionVars = computed<CollectionQueryVariables>(() => ({
   handle: handle.value,
   first: itemsPerPage.value,
@@ -58,82 +60,24 @@ const collectionVars = computed<CollectionQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode,
 }))
 
-const filterVars = computed<CollectionFiltersQueryVariables>(() => ({
-  handle: handle.value,
-  country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode,
-}))
+const { data: collectionData, error: collectionError } = await useAsyncData(
+  `collection-${handle.value}`,
+  () => shopify.collection.get(collectionVars.value),
+  { watch: [collectionVars] },
+)
 
-const [collectionQuery, filterQuery] = await Promise.all([
-  useAsyncData(
-    `collection-${handle.value}`,
-    () => shopify.collection.get(collectionVars.value),
-    { watch: [collectionVars] },
-  ),
-  useAsyncData(
-    `filter-${handle.value}`,
-    () => shopify.collection.getFilters(filterVars.value),
-    { watch: [filterVars] },
-  ),
-])
-
-const { data: collectionData, error: collectionError } = collectionQuery
-const { data: filterData, error: filterError } = filterQuery
-
-// Response data
+// Collection response data
 const collection = computed(() => collectionData.value)
-const collectionFilter = computed(() => filterData.value)
-
-// Access data nodes
-const products = computed(() => flattenConnection(collection.value?.products) as ProductFragment[])
-const filterIds = computed(() => flattenConnection(collectionFilter.value?.products) as ProductFragment[])
-
-// Computed data
 const pageInfo = computed(() => collection.value?.products?.pageInfo as PageInfoFragment)
-const filters = computed(() => collectionFilter.value?.products?.filters as FilterFragment[])
 
-// Number of products
-const numberOfProducts = computed<number>(() => {
-  return filterValues.value.length
-    ? products.value.length
-    : filterIds.value.length
-})
+// Collection data nodes
+const collectionProducts = computed(() => flattenConnection(collection.value?.products) as ProductFragment[])
+
+// Calculate number of products
+const numberOfProducts = computed(() => filterValues.value.length ? collectionProducts.value.length : filterProducts.value.length)
 
 // Actions
-const loadMoreProducts = () => {
-  const productLimit = itemsPerPage.value += limit
-
-  router.replace({
-    path: route.path,
-    query: { ...route.query, limit: productLimit },
-  })
-}
-
-const removeActiveFilterOption = (filterName: string, filterValue: string) => {
-  const query = { ...route.query }
-
-  if (filterName === 'sort') {
-    delete query.sort
-  } else {
-    const currentValues = (route.query[filterName] as string)?.split(',') || []
-    const newValues = currentValues.filter((value) => value !== filterValue)
-
-    if (newValues.length > 0) {
-      query[filterName] = newValues.join(',')
-    } else {
-      delete query[filterName]
-    }
-  }
-
-  router.replace({
-    path: route.path,
-    query,
-  })
-}
-
-const toggleFilter = () => {
-  appStore.toggle('filterMenu')
-}
+const toggleFilter = () => appStore.toggle('filterMenu')
 
 // SEO
 useHead({
@@ -149,9 +93,9 @@ useHead({
     <div class="flex items-center justify-center gap-2.5 py-2">
       <Icon
         name="ph:warning-circle"
-        class="inline-block shrink-0 !size-5"
+        class="inline-block shrink-0 size-5!"
       />
-      <p class="text-normalize">
+      <p class="uppercase">
         503: No Shopify data found.
       </p>
     </div>
@@ -178,13 +122,13 @@ useHead({
             :key="option.value"
           >
             <button
-              class="flex items-center justify-center p-2 px-4 gap-2.5 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-red-50 hover:text-red-600 hover:border-red-500"
-              @click="removeActiveFilterOption(option.name, option.value)"
+              class="flex items-center justify-center p-2 px-4 gap-2.5 uppercase bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-red-50 hover:text-red-600 hover:border-red-500"
+              @click="removeActiveFilterOption(option.name, option.id)"
             >
               <span>{{ option.value }}</span>
               <Icon
                 name="ph:x"
-                class="inline-block shrink-0 !size-4"
+                class="inline-block shrink-0 size-4!"
               />
             </button>
           </div>
@@ -196,7 +140,7 @@ useHead({
       </div>
       <div class="col-start-3 flex justify-end items-center">
         <button
-          class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
+          class="flex items-center justify-center p-2 px-4 uppercase bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
           @click="toggleFilter"
         >
           <span>Filter & Sort</span>
@@ -206,12 +150,12 @@ useHead({
     <!-- Products -->
     <section class="flex flex-col">
       <div
-        v-if="products && products.length"
+        v-if="collectionProducts && collectionProducts.length"
         class="flex flex-col gap-10"
       >
         <div class="grid grid-cols-2 auto-rows-fr gap-x-6 gap-y-8 w-full lg:grid-cols-4 lg:gap-y-12">
           <div
-            v-for="product in products"
+            v-for="product in collectionProducts"
             :key="product.id"
           >
             <ProductCard :product="product" />
@@ -222,7 +166,7 @@ useHead({
           class="flex justify-center"
         >
           <button
-            class="flex items-center justify-center p-2 px-4 text-normalize bg-transparent border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-100"
+            class="flex items-center justify-center p-2 px-4 uppercase bg-transparent border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-100"
             @click="loadMoreProducts"
           >
             <span>See More Products</span>
@@ -235,7 +179,7 @@ useHead({
       >
         <Icon
           name="ph:warning-circle"
-          class="inline-block shrink-0 !size-5"
+          class="inline-block shrink-0 size-5!"
         />
         <p>No products found. Try adjusting your filters.</p>
       </div>

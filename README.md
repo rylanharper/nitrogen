@@ -15,8 +15,6 @@ Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/
 
 - 💪 Strongly typed
 - 🛒 Cart functionality
-- 🔒 User authentication, with password reset
-- 👤 Full customer account functionality
 - 🗂️ Collection pages, with pagination
 - 🕹️ Collection filter and sort functionality
 - 👕 Product pages, with metafields
@@ -55,7 +53,7 @@ NUXT_KLAVIYO_API_VERSION=2026-01-15
 NUXT_SANITY_PROJECT_ID=your_project_id
 NUXT_SANITY_DATASET=production
 NUXT_SANITY_API_VERSION=2026-02-01
-NUXT_SANITY_STUDIO_URL=http://your-site-domain.com
+NUXT_SANITY_STUDIO_URL=http://your-studio-domain.com
 NUXT_SANITY_API_READ_TOKEN=your_api_read_token
 ```
 
@@ -79,7 +77,7 @@ Nitrogen features two custom modules for [Shopify](https://github.com/rylanharpe
 
 ### API Integration
 
-A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/resources/utils/graphql-client.ts) is provided to seamlessly integrate with both the Storefront API and Admin API. It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
+A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/resources/graphql-client/index.ts) is provided to seamlessly integrate with both the Storefront API and Admin API. It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
 
 The client `query` function accepts three optional parameters:
 
@@ -97,12 +95,10 @@ This project includes pre-built GraphQL [operations](https://github.com/rylanhar
 ```ts
 import type { MyQuery, MyQueryVariables } from '@@/types/storefront'
 import { MY_QUERY } from '../graphql/custom'
-import { query } from '../utils/graphql-client'
+import { query } from '../graphql-client'
 
 // Fetch example with optional params
-const fetchExample = async (
-  variables: MyQueryVariables,
-): Promise<MyQuery['item']> => {
+const fetchExample = async (variables: MyQueryVariables) => {
   const response = await query(MY_QUERY, variables, { api: 'admin' })
   return response.data?.item
 }
@@ -121,7 +117,7 @@ const shopify = useShopify()
 Operations can be referenced using dot notation:
 
 ```ts
-// Shopify
+// Composable
 const shopify = useShopify()
 
 // With dot notation
@@ -132,10 +128,10 @@ await shopify.product.get({ handle: 'example-product' })
 Perfect for reactive data fetching using `useAsyncData`:
 
 ```ts
-// Shopify
+// Composable
 const shopify = useShopify()
 
-// Fetch Shopify data
+// Product Query
 const productVars = computed<ProductQueryVariables>(() => ({
   handle: handle.value,
   country: shopStore.buyerCountryCode,
@@ -148,14 +144,14 @@ const { data: productData } = await useAsyncData(
   { watch: [productVars] },
 )
 
-// Response data
+// Product response data
 const product = computed(() => productData.value)
 ```
 
 Ideal for working with actions in `Pinia`:
 
 ```ts
-// Shopify
+// Composable
 const shopify = useShopify()
 
 // Cart store actions
@@ -186,7 +182,7 @@ actions: {
 A handy `flattenConnection` utility function is provided to make working with GraphQL connection objects much more simple. This utility extracts and flattens nested node arrays, making your node data easier to work with:
 
 ```ts
-// Access product variant nodes
+// Access variant nodes
 const variants = computed(() => 
   flattenConnection(product.value?.variants) as ProductVariantFragment[]
 )

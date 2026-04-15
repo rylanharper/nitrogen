@@ -46,7 +46,7 @@ const setSizeOption = (size: string) => {
       <button class="flex items-center justify-center gap-1.5 hover:text-gray-500">
         <Icon
           name="ph:ruler"
-          class="inline-block shrink-0 !size-5"
+          class="inline-block shrink-0 size-5!"
         />
         Size Guide
       </button>
@@ -55,13 +55,13 @@ const setSizeOption = (size: string) => {
       <button
         v-for="size in productSizes"
         :key="size.id"
-        class="relative flex items-center justify-center p-2 px-4 text-normalize bg-white border rounded-md overflow-hidden transition duration-200 ease-in-out"
+        class="relative flex items-center justify-center p-2 px-4 uppercase bg-white border rounded-md overflow-hidden transition duration-200 ease-in-out"
         :class="[
           props.selectedSize === size.name
             ? 'border-black bg-gray-100'
             : 'border-zinc-300 hover:bg-zinc-200',
           size.isSoldOut
-            ? 'text-zinc-400 after:h-px after:w-[150%] after:-rotate-[18deg] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-zinc-300'
+            ? 'text-zinc-400 after:h-px after:w-[150%] after:-rotate-18 after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-zinc-300'
             : 'text-black',
         ]"
         :aria-label="`Size Option ${size.name}`"

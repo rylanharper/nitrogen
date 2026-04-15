@@ -6,17 +6,15 @@ import type {
   ProductVariantFragment,
 } from '@@/types/shopify-storefront'
 
-// Route data
+// Composables
 const route = useRoute()
-const handle = computed(() => route.params.handle as string)
-
-// Stores
+const shopify = useShopify()
 const shopStore = useShopStore()
 
-// Shopify
-const shopify = useShopify()
+// Handle
+const handle = computed(() => route.params.handle as string)
 
-// Fetch Shopify data
+// Product Query
 const productVars = computed<ProductQueryVariables>(() => ({
   handle: handle.value,
   country: shopStore.buyerCountryCode,
@@ -39,11 +37,11 @@ const [productQuery, recommendedQuery] = await Promise.all([
 const { data: productData, error: productError } = productQuery
 const { data: recommendedData, error: recommendedError } = recommendedQuery
 
-// Response data
+// Product response data
 const product = computed(() => productData.value)
-const recommendations = computed(() => recommendedData.value?.slice(0, 4))
+const recommendations = computed(() => recommendedData.value?.slice(0, 4) ?? [])
 
-// Access data nodes
+// Product data nodes
 const productMedia = computed(() => flattenConnection(product.value?.media) as MediaFragment[])
 const productVariants = computed(() => flattenConnection(product.value?.variants) as ProductVariantFragment[])
 const matchingColors = computed(() => flattenConnection(product.value?.matching_colors?.references) as ProductFragment[])
@@ -62,9 +60,9 @@ useHead({
     <div class="flex items-center justify-center gap-2.5 py-2">
       <Icon
         name="ph:warning-circle"
-        class="inline-block shrink-0 !size-5"
+        class="inline-block shrink-0 size-5!"
       />
-      <p class="text-normalize">
+      <p class="uppercase">
         503: No Shopify data found.
       </p>
     </div>

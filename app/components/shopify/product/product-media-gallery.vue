@@ -8,11 +8,11 @@ const props = defineProps<{
   productMedia: MediaFragment[]
 }>()
 
-// Stores
-const appStore = useAppStore()
-
 // State
 const mediaIndex = ref<number>(0)
+
+// Composables
+const appStore = useAppStore()
 
 // Actions
 const toggleLightbox = (index: number) => {

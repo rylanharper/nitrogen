@@ -3,7 +3,8 @@ import type { CountryCode } from '@@/types/shopify-storefront'
 
 import { useMagicKeys } from '@vueuse/core'
 
-// Stores
+// Composables
+const route = useRoute()
 const appStore = useAppStore()
 const cartStore = useCartStore()
 const shopStore = useShopStore()
@@ -16,8 +17,8 @@ const countryCode = shopStore.locale?.country?.isoCode
 const countryLocale = ref<CountryCode>(countryCode)
 const isLoading = ref(false)
 
-// Update localization
-const updateLocalization = async () => {
+// Update locale
+const updateLocale = async () => {
   isLoading.value = true
 
   await Promise.all([
@@ -30,19 +31,12 @@ const updateLocalization = async () => {
 }
 
 // Actions
-const closeModal = () => {
-  appStore.toggle('localeModal', false)
-}
+const closeModal = () => appStore.toggle('localeModal', false)
 
 // Watchers
-const route = useRoute()
 const { escape } = useMagicKeys()
-
 watch(() => route.path, closeModal)
-
-if (escape) {
-  watch(escape, closeModal)
-}
+if (escape) watch(escape, closeModal)
 </script>
 
 <template>
@@ -64,7 +58,7 @@ if (escape) {
         </h2>
         <form
           class="flex flex-col my-6"
-          @submit.prevent="updateLocalization"
+          @submit.prevent="updateLocale"
         >
           <div class="relative w-full mb-2.5">
             <select
@@ -81,7 +75,7 @@ if (escape) {
                 {{ country.name }} ({{ country.currency.isoCode }} {{ country.currency.symbol }})
               </option>
             </select>
-            <span class="absolute inset-y-0 end-0 flex items-center pointer-events-none px-2.5">
+            <span class="absolute inset-y-0 inset-e-0 flex items-center pointer-events-none px-2.5">
               <Icon
                 name="ph:caret-up-down"
                 class="size-4 shrink-0"
@@ -91,7 +85,7 @@ if (escape) {
           <button
             type="submit"
             :disabled="isLoading"
-            class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
+            class="flex items-center justify-center p-2 px-4 uppercase bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
           >
             <span>{{ isLoading ? 'Saving...' : 'Save' }}</span>
           </button>
@@ -105,7 +99,7 @@ if (escape) {
         >
           <Icon
             name="ph:x"
-            class="inline-block shrink-0 !size-5"
+            class="inline-block shrink-0 size-5!"
           />
         </button>
       </dialog>

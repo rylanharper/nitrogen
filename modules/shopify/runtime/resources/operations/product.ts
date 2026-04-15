@@ -12,7 +12,7 @@ import {
   PRODUCT_IDS,
   RECOMMENDED_PRODUCTS,
 } from '../graphql/storefront/queries/product'
-import { query } from '../utils/graphql-client'
+import { query } from '../graphql-client'
 
 /**
  * Fetches the product data.
@@ -20,11 +20,9 @@ import { query } from '../utils/graphql-client'
  * @returns A Promise resolving to the product data
  * @see https://shopify.dev/docs/api/storefront/latest/queries/product
  */
-const get = async (
-  variables: ProductQueryVariables,
-): Promise<ProductQuery['product']> => {
-  const response = await query(PRODUCT, variables)
-  return response.data?.product
+const get = async (variables: ProductQueryVariables) => {
+  const { data } = await query<{ data: ProductQuery }>(PRODUCT, variables)
+  return data?.product
 }
 
 /**
@@ -33,11 +31,9 @@ const get = async (
  * @returns A Promise resolving to an array of products
  * @see https://shopify.dev/docs/api/storefront/latest/queries/nodes
  */
-const getIds = async (
-  variables: ProductIdsQueryVariables,
-): Promise<ProductIdsQuery['nodes']> => {
-  const response = await query(PRODUCT_IDS, variables)
-  return response.data?.nodes
+const getIds = async (variables: ProductIdsQueryVariables) => {
+  const { data } = await query<{ data: ProductIdsQuery }>(PRODUCT_IDS, variables)
+  return data?.nodes
 }
 
 /**
@@ -46,14 +42,12 @@ const getIds = async (
  * @returns A Promise resolving to an array of recommended products
  * @see https://shopify.dev/docs/api/storefront/latest/queries/productRecommendations
  */
-async function getRecommended(
-  variables: ProductRecommendationsQueryVariables,
-): Promise<ProductRecommendationsQuery['recommended']> {
-  const response = await query(RECOMMENDED_PRODUCTS, variables)
-  return response.data?.recommended
+const getRecommended = async (variables: ProductRecommendationsQueryVariables) => {
+  const { data } = await query<{ data: ProductRecommendationsQuery }>(RECOMMENDED_PRODUCTS, variables)
+  return data?.recommended
 }
 
-export default {
+export const product = {
   get,
   getIds,
   getRecommended,

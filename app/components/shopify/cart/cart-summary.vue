@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useCartStore } from '@/stores/cart'
 
-// Stores
+// Composables
 const cartStore = useCartStore()
 
 // Computed
@@ -18,7 +18,7 @@ const checkoutUrl = computed(() => cartStore.checkoutUrl)
     <NuxtLink
       v-if="checkoutUrl"
       :to="checkoutUrl"
-      class="flex items-center justify-center p-2 px-4 text-normalize bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
+      class="flex items-center justify-center p-2 px-4 uppercase bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 hover:bg-zinc-200"
     >
       <span>Checkout</span>
     </NuxtLink>

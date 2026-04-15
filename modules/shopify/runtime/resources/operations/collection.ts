@@ -9,7 +9,7 @@ import {
   COLLECTION,
   COLLECTION_FILTERS,
 } from '../graphql/storefront/queries/collection'
-import { query } from '../utils/graphql-client'
+import { query } from '../graphql-client'
 
 /**
  * Fetches the collection data.
@@ -17,11 +17,9 @@ import { query } from '../utils/graphql-client'
  * @returns A Promise resolving to the collection data
  * @see https://shopify.dev/docs/api/storefront/latest/queries/collection
  */
-const get = async (
-  variables: CollectionQueryVariables,
-): Promise<CollectionQuery['collection']> => {
-  const response = await query(COLLECTION, variables)
-  return response.data?.collection
+const get = async (variables: CollectionQueryVariables) => {
+  const { data } = await query<{ data: CollectionQuery }>(COLLECTION, variables)
+  return data?.collection
 }
 
 /**
@@ -30,14 +28,12 @@ const get = async (
  * @returns A Promise resolving to the collection filters data
  * @see https://shopify.dev/docs/api/storefront/latest/queries/collection
  */
-const getFilters = async (
-  variables: CollectionFiltersQueryVariables,
-): Promise<CollectionFiltersQuery['collection']> => {
-  const response = await query(COLLECTION_FILTERS, variables)
-  return response.data?.collection
+const getFilters = async (variables: CollectionFiltersQueryVariables) => {
+  const { data } = await query<{ data: CollectionFiltersQuery }>(COLLECTION_FILTERS, variables)
+  return data?.collection
 }
 
-export default {
+export const collection = {
   get,
   getFilters,
 }

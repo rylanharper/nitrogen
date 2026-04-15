@@ -9,7 +9,7 @@ import { PRODUCT_OPTION_FRAGMENT } from '../fragments/productOption'
 
 export const SEARCH = gql`
   query search(
-    $searchTerm: String!
+    $query: String!
     $first: Int
     $reverse: Boolean
     $sortKey: SearchSortKeys
@@ -18,7 +18,7 @@ export const SEARCH = gql`
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
     search(
-      query: $searchTerm
+      query: $query
       first: $first
       reverse: $reverse
       sortKey: $sortKey
@@ -48,12 +48,12 @@ export const SEARCH = gql`
 
 export const SEARCH_FILTERS = gql`
   query searchFilters(
-    $searchTerm: String!
+    $query: String!
     $country: CountryCode
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
     search(
-      query: $searchTerm
+      query: $query
       first: 250
       types: PRODUCT
     ) {

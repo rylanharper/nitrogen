@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import type { FilterFragment } from '@@/types/shopify-storefront'
+import type { LocationQuery } from 'vue-router'
 
 import { useMagicKeys } from '@vueuse/core'
+import { normalizeFilterQuery } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
   filters: FilterFragment[]
 }>()
 
-// Route data
+// Composables
 const route = useRoute()
 const router = useRouter()
-
-// Stores
 const appStore = useAppStore()
 
 // Sort options
@@ -38,130 +38,63 @@ const sortOptions = computed(() => {
 
 // Get active filter count from URL query
 const activeFilterCount = computed(() => {
-  let count = 0
-  const excludedFilters = ['q', 'limit']
-
-  Object.entries(route.query).forEach(([name, value]) => {
-    if (!value || excludedFilters.includes(name)) return
-
-    if (name === 'sort') {
-      count += 1
-    } else {
-      count += (value as string).split(',').length
-    }
-  })
-
-  return count
+  const { sort, filter } = route.query
+  return (sort ? 1 : 0) + normalizeFilterQuery(filter).length
 })
 
 // Filter options
-const colorOptions = computed(() => {
-  const colorFilter = props.filters?.find((filter) => filter.label === 'Filter Color')
-
-  return (
-    colorFilter?.values?.map((value) => ({
-      count: value.count,
-      id: value.id,
-      label: value.label,
-      swatch: value.swatch,
-    })) || []
-  )
-})
-
-const sizeOptions = computed(() => {
-  const sizeFilter = props.filters?.find((filter) => filter.label === 'Size')
-
-  return (
-    sizeFilter?.values?.map((value) => ({
-      count: value.count,
-      id: value.id,
-      label: value.label,
-    })) || []
-  )
-})
-
-const productTypeOptions = computed(() => {
-  const productTypeFilter = props.filters?.find((filter) => filter.label === 'Product Type')
-
-  return (
-    productTypeFilter?.values?.map((value) => ({
-      count: value.count,
-      id: value.id,
-      label: value.label,
-    })) || []
-  )
+const filterOptions = computed(() => {
+  return props.filters
+    ?.filter((filter) => !filter.values[0]?.id.startsWith('filter.v.availability'))
+    .map((filter) => ({
+      label: filter.label,
+      values: filter.values.map((value) => ({
+        count: value.count,
+        id: value.id,
+        label: value.label,
+        swatch: value.swatch,
+      })),
+    })) ?? []
 })
 
 // Actions
 const setSortOption = (sortValue: string | null) => {
-  const query = { ...route.query }
-
-  if (sortValue) {
-    query.sort = sortValue
-  } else {
-    delete query.sort
-  }
-
-  router.replace({
-    path: route.path,
-    query,
-  })
+  const query: LocationQuery = { ...route.query }
+  query.sort = sortValue ?? undefined as any
+  router.replace({ query })
 }
 
-const setFilterOption = (filterName: string, filterValue: string) => {
-  const query = { ...route.query }
-  const currentValues = (route.query[filterName] as string)?.split(',') || []
+const setFilterOption = (filterId: string) => {
+  const query: LocationQuery = { ...route.query }
+  const current = normalizeFilterQuery(query.filter)
 
-  const newValues = currentValues.includes(filterValue)
-    ? currentValues.filter((value) => value !== filterValue)
-    : [...currentValues, filterValue]
+  const newFilters = current.includes(filterId)
+    ? current.filter((f) => f !== filterId)
+    : [...current, filterId]
 
-  if (newValues.length > 0) {
-    query[filterName] = newValues.join(',')
-  } else {
-    delete query[filterName]
-  }
-
-  router.replace({
-    path: route.path,
-    query,
-  })
+  query.filter = newFilters.length ? newFilters : undefined as any
+  router.replace({ query })
 }
 
 const clearAllFilters = () => {
-  const query = { ...route.query }
-  const excludedFilters = ['q', 'limit']
-
-  Object.keys(query).forEach((key) => {
-    if (!excludedFilters.includes(key)) {
-      delete query[key]
-    }
-  })
-
-  router.replace({
-    path: route.path,
-    query,
-  })
+  const preserveKeys = ['q', 'limit']
+  const query: LocationQuery = Object.fromEntries(
+    Object.entries(route.query).filter(([key]) => preserveKeys.includes(key)),
+  )
+  router.replace({ query })
 }
 
-const closeFilter = () => {
-  appStore.toggle('filterMenu', false)
-}
+const closeFilter = () => appStore.toggle('filterMenu', false)
 
 // Watchers
 const { escape } = useMagicKeys()
-
-if (escape) {
-  watch(escape, closeFilter)
-}
+if (escape) watch(escape, closeFilter)
 </script>
 
 <template>
   <FilterMenuMobile
     :sort-options="sortOptions"
-    :color-options="colorOptions"
-    :size-options="sizeOptions"
-    :product-type-options="productTypeOptions"
+    :filter-options="filterOptions"
     :active-filter-count="activeFilterCount"
     @close-filter="closeFilter"
     @set-sort-option="setSortOption"
@@ -170,9 +103,7 @@ if (escape) {
   />
   <FilterMenuDesktop
     :sort-options="sortOptions"
-    :color-options="colorOptions"
-    :size-options="sizeOptions"
-    :product-type-options="productTypeOptions"
+    :filter-options="filterOptions"
     :active-filter-count="activeFilterCount"
     @close-filter="closeFilter"
     @set-sort-option="setSortOption"
