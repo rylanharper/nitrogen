@@ -878,7 +878,7 @@ export type AppInstallation = HasMetafields & Node & {
   app: App;
   /**
    * Channel associated with the installed application.
-   * @deprecated Use `publication` instead.
+   * @deprecated Use the root-level `channels` query instead.
    */
   channel?: Maybe<Channel>;
   /** Credits that can be used towards future app purchases. */
@@ -900,7 +900,10 @@ export type AppInstallation = HasMetafields & Node & {
   metafields: MetafieldConnection;
   /** One-time purchases to a shop. */
   oneTimePurchases: AppPurchaseOneTimeConnection;
-  /** The publication associated with the installed application. */
+  /**
+   * The publication associated with the installed application.
+   * @deprecated Use the root-level `publications` query instead.
+   */
   publication?: Maybe<Publication>;
   /** The records that track the externally-captured revenue for the app. The records are used for revenue attribution purposes. */
   revenueAttributionRecords: AppRevenueAttributionRecordConnection;
@@ -2468,7 +2471,7 @@ export type BillingAttemptUserErrorCode =
   | 'CONTRACT_PAUSED'
   /** Subscription contract cannot be billed once terminated. */
   | 'CONTRACT_TERMINATED'
-  /** Subscription contract is under review. */
+  /** Subscription contract is under review, origin order is high risk and unfulfilled. */
   | 'CONTRACT_UNDER_REVIEW'
   /** Billing cycle selector cannot select billing cycle outside of index range. */
   | 'CYCLE_INDEX_OUT_OF_RANGE'
@@ -2974,7 +2977,7 @@ export type BulkOperationStatus =
    * [BulkOperation.errorCode](https://shopify.dev/api/admin-graphql/latest/enums/bulkoperationerrorcode).
    */
   | 'FAILED'
-  /** The bulk operation is runnning. */
+  /** The bulk operation is running. */
   | 'RUNNING';
 
 /** The valid values for the bulk operation's type. */
@@ -3038,6 +3041,8 @@ export type BulkProductResourceFeedbackCreateUserErrorCode =
   | 'LESS_THAN_OR_EQUAL_TO'
   /** The operation was attempted on too many feedback objects. The maximum number of feedback objects that you can operate on is 50. */
   | 'MAXIMUM_FEEDBACK_LIMIT_EXCEEDED'
+  /** The channel was not found or does not belong to this app. */
+  | 'NOT_FOUND'
   /** The feedback for a later version of this resource was already accepted. */
   | 'OUTDATED_FEEDBACK'
   /** The input value needs to be blank. */
@@ -4280,6 +4285,8 @@ export type CashTrackingSessionsSortKeys =
 /**
  * A list of products with publishing and pricing information.
  * A catalog can be associated with a specific context, such as a [`Market`](https://shopify.dev/api/admin-graphql/current/objects/market), [`CompanyLocation`](https://shopify.dev/api/admin-graphql/current/objects/companylocation), or [`App`](https://shopify.dev/api/admin-graphql/current/objects/app).
+ *
+ * Catalogs can optionally include a publication to control product visibility and a price list to customize pricing. When a publication isn't associated with a catalog, product availability is determined by the sales channel.
  */
 export type Catalog = {
   /** A globally-unique ID. */
@@ -4328,7 +4335,7 @@ export type CatalogCreateInput = {
   context: CatalogContextInput;
   /** The ID of the price list to associate to the catalog. */
   priceListId?: InputMaybe<Scalars['ID']['input']>;
-  /** The ID of the publication to associate to the catalog. */
+  /** The ID of the publication to associate to the catalog. Only include this if you need to control which products are visible in the catalog. When omitted, product availability is determined by the sales channel. */
   publicationId?: InputMaybe<Scalars['ID']['input']>;
   /** The status of the catalog. */
   status: CatalogStatus;
@@ -4462,6 +4469,8 @@ export type CatalogUserErrorCode =
   | 'CATALOG_CONTEXT_DOES_NOT_SUPPORT_QUANTITY_PRICE_BREAKS'
   /** Quantity rules can be associated only with company location catalogs or catalogs associated with compatible markets. */
   | 'CATALOG_CONTEXT_DOES_NOT_SUPPORT_QUANTITY_RULES'
+  /** The catalog context is currently being modified. Please try again later. */
+  | 'CATALOG_CONTEXT_LOCKED'
   /** Catalog failed to save. */
   | 'CATALOG_FAILED_TO_SAVE'
   /** The catalog wasn't found. */
@@ -4522,9 +4531,11 @@ export type CatalogUserErrorCode =
   | 'UNSUPPORTED_CATALOG_ACTION';
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type Channel = Node & {
   /** The underlying app used by the channel. */
@@ -4533,7 +4544,7 @@ export type Channel = Node & {
   collectionPublicationsV3: ResourcePublicationConnection;
   /** The list of collections published to the channel. */
   collections: CollectionConnection;
-  /** The unique identifier for the channel. */
+  /** A unique, human-readable identifier for the channel within the shop. Set during [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) or auto-generated from the specification handle and account ID. Use with [`channelByHandle`](https://shopify.dev/docs/api/admin-graphql/latest/queries/channelByHandle) for lookups. */
   handle: Scalars['String']['output'];
   /** Whether the collection is available to the channel. */
   hasCollection: Scalars['Boolean']['output'];
@@ -4570,9 +4581,11 @@ export type Channel = Node & {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelCollectionPublicationsV3Args = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4584,9 +4597,11 @@ export type ChannelCollectionPublicationsV3Args = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelCollectionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4598,9 +4613,11 @@ export type ChannelCollectionsArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelHasCollectionArgs = {
   id: Scalars['ID']['input'];
@@ -4608,9 +4625,11 @@ export type ChannelHasCollectionArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelProductPublicationsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4622,9 +4641,11 @@ export type ChannelProductPublicationsArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelProductPublicationsV3Args = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4636,9 +4657,11 @@ export type ChannelProductPublicationsV3Args = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelProductsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4650,9 +4673,11 @@ export type ChannelProductsArgs = {
 
 
 /**
- * An authenticated link to an external platform that supports syndication and optionally order ingestion, such as Facebook, Pinterest, an online store, or Point of Sale (POS).
+ * A connection between a Shopify shop and an external selling platform that supports product syndication and optionally order ingestion. Each channel binds a merchant's account on a specific platform — such as Amazon, eBay, Google, or a point-of-sale system — to the shop, establishing the publishing destination for product feeds.
  *
- * Each channel provides access to its underlying [`App`](https://shopify.dev/docs/api/admin-graphql/latest/objects/App), published products and collections, and [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings, as well as what features of the platform it supports such as [scheduled publishing](https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing). Use channels to manage where catalog items appear, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different customer touchpoints.
+ * Sales Channel applications use [`channelCreate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/channelCreate) to establish channels after merchant authentication, and can manage multiple channel connections per app. Each channel is bound to a channel specification that declares the platform's regional coverage, capabilities, and requirements.
+ *
+ * Use channels to manage where catalog items are syndicated, track publication status across platforms, and control [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) visibility for different selling destinations.
  */
 export type ChannelProductsCountArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -6412,6 +6437,7 @@ export type Collection = HasEvents & HasMetafieldDefinitions & HasMetafields & H
    * Whether the resource is published to the app's
    * [publication](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
    * For example, the resource might be published to the app's online store channel.
+   * @deprecated Use `publishedOnPublication` instead.
    */
   publishedOnCurrentPublication: Scalars['Boolean']['output'];
   /**
@@ -9108,7 +9134,11 @@ export type CompanyLocationAssignTaxExemptionsPayload = {
   userErrors: Array<BusinessCustomerUserError>;
 };
 
-/** A list of products with publishing and pricing information associated with company locations. */
+/**
+ * A list of products with publishing and pricing information associated with company locations.
+ *
+ * Company location catalogs can include an optional publication to control product visibility and a price list to customize pricing. When a publication isn't associated with the catalog, product availability is determined by the sales channel.
+ */
 export type CompanyLocationCatalog = Catalog & Node & {
   /** The company locations associated with the catalog. */
   companyLocations: CompanyLocationConnection;
@@ -9129,7 +9159,11 @@ export type CompanyLocationCatalog = Catalog & Node & {
 };
 
 
-/** A list of products with publishing and pricing information associated with company locations. */
+/**
+ * A list of products with publishing and pricing information associated with company locations.
+ *
+ * Company location catalogs can include an optional publication to control product visibility and a price list to customize pricing. When a publication isn't associated with the catalog, product availability is determined by the sales channel.
+ */
 export type CompanyLocationCatalogCompanyLocationsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -11186,10 +11220,7 @@ export type CustomerEmailMarketingConsentInput = {
   consentUpdatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** The customer opt-in level at the time of subscribing to marketing material. */
   marketingOptInLevel?: InputMaybe<CustomerMarketingOptInLevel>;
-  /**
-   * The current marketing state associated with the customer's email.
-   *           If the customer doesn't have an email, then this field is `null`.
-   */
+  /** The marketing state to set. Accepted values: SUBSCRIBED, UNSUBSCRIBED, and PENDING. NOT_SUBSCRIBED, REDACTED, and INVALID are rejected if sent as input. */
   marketingState: CustomerEmailMarketingState;
   /** Identifies the location where the customer consented to receiving marketing material by email. */
   sourceLocationId?: InputMaybe<Scalars['ID']['input']>;
@@ -11253,9 +11284,13 @@ export type CustomerEmailMarketingConsentUpdateUserErrorCode =
 
 /** The possible email marketing states for a customer. */
 export type CustomerEmailMarketingState =
-  /** The customer’s email address marketing state is invalid. */
+  /** This value is internally-set and read-only. */
   | 'INVALID'
-  /** The customer isn't subscribed to email marketing. */
+  /**
+   * Default state for customers who have never subscribed to email marketing.
+   * This value cannot be set via the mutation; use UNSUBSCRIBED instead to indicate
+   * a customer has opted out.
+   */
   | 'NOT_SUBSCRIBED'
   /** The customer is in the process of subscribing to email marketing. */
   | 'PENDING'
@@ -11288,8 +11323,6 @@ export type CustomerIdentifierInput = {
 
 /** The input fields and values to use when creating or updating a customer. */
 export type CustomerInput = {
-  /** The addresses for a customer. */
-  addresses?: InputMaybe<Array<MailingAddressInput>>;
   /** The unique email address of the customer. */
   email?: InputMaybe<Scalars['String']['input']>;
   /**
@@ -15573,8 +15606,8 @@ export type DiscountCodeApp = {
   /** The date and time when the discount was updated. */
   updatedAt: Scalars['DateTime']['output'];
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: Maybe<Scalars['Int']['output']>;
 };
@@ -15659,8 +15692,8 @@ export type DiscountCodeAppInput = {
   /** The discount's name that displays to merchants in the Shopify admin and to customers. */
   title?: InputMaybe<Scalars['String']['input']>;
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -15807,8 +15840,8 @@ export type DiscountCodeBasic = {
   /** The date and time when the discount was updated. */
   updatedAt: Scalars['DateTime']['output'];
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: Maybe<Scalars['Int']['output']>;
 };
@@ -15895,8 +15928,8 @@ export type DiscountCodeBasicInput = {
   /** The discount's name that displays to merchants in the Shopify admin and to customers. */
   title?: InputMaybe<Scalars['String']['input']>;
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -16031,8 +16064,8 @@ export type DiscountCodeBxgy = {
   /** The date and time when the discount was updated. */
   updatedAt: Scalars['DateTime']['output'];
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: Maybe<Scalars['Int']['output']>;
   /** The maximum number of times that the discount can be applied to an order. */
@@ -16123,8 +16156,8 @@ export type DiscountCodeBxgyInput = {
   /** The discount's name that displays to merchants in the Shopify admin and to customers. */
   title?: InputMaybe<Scalars['String']['input']>;
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: InputMaybe<Scalars['Int']['input']>;
   /** The maximum number of times that the discount can be applied to an order. */
@@ -16288,8 +16321,8 @@ export type DiscountCodeFreeShipping = {
   /** The date and time when the discount was updated. */
   updatedAt: Scalars['DateTime']['output'];
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: Maybe<Scalars['Int']['output']>;
 };
@@ -16389,8 +16422,8 @@ export type DiscountCodeFreeShippingInput = {
   /** The discount's name that displays to merchants in the Shopify admin and to customers. */
   title?: InputMaybe<Scalars['String']['input']>;
   /**
-   * The maximum number of times that a customer can use the discount.
-   * For discounts with unlimited usage, specify `null`.
+   * The maximum number of times the discount can be redeemed.
+   * For unlimited usage, specify `null`.
    */
   usageLimit?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -23579,7 +23612,7 @@ export type InventoryAdjustQuantitiesUserErrorCode =
   | 'ADJUST_QUANTITIES_FAILED'
   /** The changeFromQuantity argument no longer matches the persisted quantity. */
   | 'CHANGE_FROM_QUANTITY_STALE'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -23747,7 +23780,15 @@ export type InventoryChange = {
 
 /** The input fields for the change to be made to an inventory item at a location. */
 export type InventoryChangeInput = {
-  /** The quantity to compare against before applying the delta. For more information, refer to the [Compare and Swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap). */
+  /**
+   * The quantity currently expected at this location, before the delta is applied.
+   *
+   * This field enables a compare-and-swap (CAS) safety check. If the location’s current quantity doesn't equal the value you provide, then the mutation fails with a `CHANGE_FROM_QUANTITY_STALE` error. This prevents accidental overwrites when the client is operating on stale inventory data.
+   *
+   * To skip the CAS check, pass `null`. This is appropriate when your system is the source of truth for inventory at this location and you don’t need protection against concurrent updates.
+   *
+   * For more information, refer to the [compare and swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap).
+   */
   changeFromQuantity?: InputMaybe<Scalars['Int']['input']>;
   /** The amount by which the inventory quantity will be changed. */
   delta: Scalars['Int']['input'];
@@ -23969,7 +24010,10 @@ export type InventoryLevel = Node & {
    * [name](https://shopify.dev/docs/apps/fulfillment/inventory-management-apps#inventory-states).
    */
   quantities: Array<InventoryQuantity>;
-  /** Scheduled changes for the requested quantity names. */
+  /**
+   * Scheduled changes for the requested quantity names.
+   * @deprecated Scheduled changes will be phased out in a future version.
+   */
   scheduledChanges: InventoryScheduledChangeConnection;
   /** The date and time when the inventory level was updated. */
   updatedAt: Scalars['DateTime']['output'];
@@ -24081,7 +24125,7 @@ export type InventoryMoveQuantitiesUserErrorCode =
   | 'CHANGE_FROM_QUANTITY_STALE'
   /** The quantities can't be moved between different locations. */
   | 'DIFFERENT_LOCATIONS'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -24138,7 +24182,15 @@ export type InventoryMoveQuantityChange = {
 
 /** The input fields representing the change to be made to an inventory item at a location. */
 export type InventoryMoveQuantityTerminalInput = {
-  /** The quantity to compare against before applying the move. For more information, refer to the [Compare and Swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap). */
+  /**
+   * The quantity currently expected at this location, before the move is applied.
+   *
+   * This field enables a compare-and-swap (CAS) safety check. If the location’s current quantity doesn't match the value you provide, then the mutation fails with a `CHANGE_FROM_QUANTITY_STALE` error. This helps prevent unintended overwrites when the request is based on stale inventory data.
+   *
+   * To skip the CAS check, pass `null`. This is appropriate when your system is the source of truth for inventory at this location and you don’t need to guard against concurrent updates.
+   *
+   * For more information, refer to the [compare and swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap).
+   */
   changeFromQuantity?: InputMaybe<Scalars['Int']['input']>;
   /**
    * A non-Shopify URI that identifies what specific inventory transaction or ledger entry was changed. Represents the exact inventory movement being referenced, distinct from the business reason for the change.
@@ -24199,11 +24251,13 @@ export type InventoryQuantity = Node & {
 /** The input fields for the quantity to be set for an inventory item at a location. */
 export type InventoryQuantityInput = {
   /**
-   * The current quantity to be compared against the persisted quantity.
-   * Explicitly passing in `null` to this field opts out of the quantity comparison check.
-   * Explicitly passing in any value (be it `null` or an integer) to `changeFromQuantity` will cause the values
-   * passed into the `compareQuantity` and `InventorySetQuantitiesInput.ignoreCompareQuantity` fields to be
-   * ignored in favour of the `changeFromQuantity` value. For more information, refer to the [Compare and Swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap).
+   * The quantity currently expected at this location, before setting the new quantity.
+   *
+   * This field enables a compare-and-swap (CAS) safety check. If the location’s current quantity doesn't match the value you provide, then the mutation fails with a `CHANGE_FROM_QUANTITY_STALE` error. This helps prevent unintended overwrites when the request is based on stale inventory data.
+   *
+   * To skip the CAS check, pass `null`. This is appropriate when your system is the source of truth for inventory at this location and you don’t need to guard against concurrent updates.
+   *
+   * For more information, refer to the [compare and swap documentation](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states#compare-and-swap).
    */
   changeFromQuantity?: InputMaybe<Scalars['Int']['input']>;
   /** Specifies the inventory item to which the quantity will be set. */
@@ -24370,7 +24424,7 @@ export type InventorySetOnHandQuantitiesUserErrorCode =
   | 'CHANGE_FROM_QUANTITY_STALE'
   /** The compareQuantity value does not match persisted value. */
   | 'COMPARE_QUANTITY_STALE'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -24453,7 +24507,7 @@ export type InventorySetQuantitiesUserErrorCode =
   | 'COMPARE_QUANTITY_REQUIRED'
   /** The compareQuantity value does not match persisted value. */
   | 'COMPARE_QUANTITY_STALE'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -24545,7 +24599,7 @@ export type InventorySetScheduledChangesUserErrorCode =
   | 'DUPLICATE_TO_NAME'
   /** There was an error updating the scheduled changes. */
   | 'ERROR_UPDATING_SCHEDULED'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -24645,7 +24699,7 @@ export type InventoryShipmentAddItemsUserErrorCode =
   | 'ACTIVATION_FAILED'
   /** A single item can't be listed twice. */
   | 'DUPLICATE_ITEM'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -24700,7 +24754,7 @@ export type InventoryShipmentCreateInTransitUserErrorCode =
   | 'DUPLICATE_ITEM'
   /** The shipment input cannot be empty. */
   | 'EMPTY_SHIPMENT_INPUT'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -24763,16 +24817,20 @@ export type InventoryShipmentCreateUserError = DisplayableError & {
 export type InventoryShipmentCreateUserErrorCode =
   /** This barcode is already assigned to another shipment. */
   | 'BARCODE_DUPLICATE'
+  /** Barcode must be 255 characters or less. */
+  | 'BARCODE_TOO_LONG'
   /** Bundled items cannot be used for this operation. */
   | 'BUNDLED_ITEM'
   /** A single item can't be listed twice. */
   | 'DUPLICATE_ITEM'
   /** The shipment input cannot be empty. */
   | 'EMPTY_SHIPMENT_INPUT'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
+  /** The idempotency record was found but the associated scheduled changes no longer exist. */
+  | 'IDEMPOTENCY_RECORD_NOT_FOUND'
   /** One or more items are not valid. */
   | 'INVALID_ITEM'
   /** The quantity is invalid. */
@@ -24943,7 +25001,7 @@ export type InventoryShipmentReceiveUserError = DisplayableError & {
 
 /** Possible error codes that can be returned by `InventoryShipmentReceiveUserError`. */
 export type InventoryShipmentReceiveUserErrorCode =
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -25356,7 +25414,7 @@ export type InventoryTransferCreateAsReadyToShipUserErrorCode =
   | 'BUNDLED_ITEM'
   /** A single item can't be listed twice. */
   | 'DUPLICATE_ITEM'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -25427,7 +25485,7 @@ export type InventoryTransferCreateUserErrorCode =
   | 'BUNDLED_ITEM'
   /** A single item can't be listed twice. */
   | 'DUPLICATE_ITEM'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -25495,7 +25553,7 @@ export type InventoryTransferDuplicateUserError = DisplayableError & {
 
 /** Possible error codes that can be returned by `InventoryTransferDuplicateUserError`. */
 export type InventoryTransferDuplicateUserErrorCode =
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -25739,7 +25797,7 @@ export type InventoryTransferSetItemsUserErrorCode =
   | 'BUNDLED_ITEM'
   /** A single item can't be listed twice. */
   | 'DUPLICATE_ITEM'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -26975,7 +27033,7 @@ export type LocationActivateUserErrorCode =
   | 'HAS_NON_UNIQUE_NAME'
   /** This location currently cannot be activated as inventory, pending orders or transfers are being relocated from this location. */
   | 'HAS_ONGOING_RELOCATION'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -27157,7 +27215,7 @@ export type LocationDeactivateUserErrorCode =
   | 'HAS_INCOMING_MOVEMENTS_ERROR'
   /** Location could not be deactivated because it has open purchase orders. */
   | 'HAS_OPEN_PURCHASE_ORDERS_ERROR'
-  /** This request is currently inprogress, please try again. */
+  /** This request is currently in progress, please try again. */
   | 'IDEMPOTENCY_CONCURRENT_REQUEST'
   /** The same idempotency key cannot be used with different operation parameters. */
   | 'IDEMPOTENCY_KEY_PARAMETER_MISMATCH'
@@ -27779,7 +27837,7 @@ export type MarketWebPresencesArgs = {
 };
 
 /**
- * A catalog for managing product availability and pricing for specific [`Market`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) contexts. Each catalog links to one or more markets and defines what [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) objects customers see through its [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings. The catalog can include a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for market-specific pricing adjustments.
+ * A catalog for managing product availability and pricing for specific [`Market`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) contexts. Each catalog links to one or more markets. The catalog can optionally include a [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) to control which [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) objects customers see, and a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for market-specific pricing adjustments. When a publication isn't associated with the catalog, product availability is determined by the sales channel.
  *
  * Use catalogs to create distinct shopping experiences for different geographic regions or customer segments.
  *
@@ -27806,7 +27864,7 @@ export type MarketCatalog = Catalog & Node & {
 
 
 /**
- * A catalog for managing product availability and pricing for specific [`Market`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) contexts. Each catalog links to one or more markets and defines what [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) objects customers see through its [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings. The catalog can include a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for market-specific pricing adjustments.
+ * A catalog for managing product availability and pricing for specific [`Market`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) contexts. Each catalog links to one or more markets. The catalog can optionally include a [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) to control which [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) objects customers see, and a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for market-specific pricing adjustments. When a publication isn't associated with the catalog, product availability is determined by the sales channel.
  *
  * Use catalogs to create distinct shopping experiences for different geographic regions or customer segments.
  *
@@ -27824,7 +27882,7 @@ export type MarketCatalogMarketsArgs = {
 
 
 /**
- * A catalog for managing product availability and pricing for specific [`Market`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) contexts. Each catalog links to one or more markets and defines what [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) objects customers see through its [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) settings. The catalog can include a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for market-specific pricing adjustments.
+ * A catalog for managing product availability and pricing for specific [`Market`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) contexts. Each catalog links to one or more markets. The catalog can optionally include a [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) to control which [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) objects customers see, and a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for market-specific pricing adjustments. When a publication isn't associated with the catalog, product availability is determined by the sales channel.
  *
  * Use catalogs to create distinct shopping experiences for different geographic regions or customer segments.
  *
@@ -28393,6 +28451,8 @@ export type MarketUserErrorCode =
   | 'MARKET_NOT_FOUND'
   /** Can't add another web presence to the market. */
   | 'MARKET_REACHED_WEB_PRESENCE_LIMIT'
+  /** The country code is missing. */
+  | 'MISSING_COUNTRY_CODE'
   /** The province code is missing. */
   | 'MISSING_PROVINCE_CODE'
   /** All retail locations in a market must be in the same country. */
@@ -31079,7 +31139,7 @@ export type MetafieldIdentifierInput = {
  * [metafieldsSet](https://shopify.dev/api/admin-graphql/latest/mutations/metafieldsSet) mutation.
  */
 export type MetafieldInput = {
-  /** The unique ID of the metafield. Using `owner_id`, `namespace`, and `key` is preferred for creating and updating. */
+  /** The unique ID of the metafield. Using `namespace` and `key` is preferred for creating and updating. */
   id?: InputMaybe<Scalars['ID']['input']>;
   /**
    * The unique identifier for a metafield within its namespace.
@@ -32667,9 +32727,26 @@ export type Mutation = {
    */
   catalogContextUpdate?: Maybe<CatalogContextUpdatePayload>;
   /**
-   * Creates a [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) that controls product availability and pricing for specific contexts like [markets](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) or B2B [company locations](https://shopify.dev/docs/api/admin-graphql/latest/objects/CompanyLocation). Catalogs use [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) objects to determine which products are available and [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) objects to set custom pricing.
+   * Creates a [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog) that controls product availability and pricing for specific contexts like [markets](https://shopify.dev/docs/api/admin-graphql/latest/objects/Market) or B2B [company locations](https://shopify.dev/docs/api/admin-graphql/latest/objects/CompanyLocation).
+   *
+   * ### Publications and Price Lists
+   *
+   * - **[`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication)** objects control which products are visible in a catalog. Publications are **optional**. When a publication isn't associated with a catalog, product availability is determined by the sales channel.
+   * - **[`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList)** objects define custom pricing for products in a catalog.
    *
    * You can optionally associate a publication and price list when creating the catalog, or add them later using separate mutations.
+   *
+   * ### When to use Publications
+   *
+   * **Create a publication only if you need to:**
+   * - Limit which products are visible in a specific context (e.g., show different products to different company locations or markets)
+   * - Publish a curated subset of your product catalog
+   *
+   * **Do NOT create a publication if:**
+   * - You want product availability determined by the sales channel
+   * - You only need to customize pricing (use a price list without a publication)
+   *
+   * > **Important:** For company location catalogs that only require custom pricing, create the catalog with a price list but without a publication.
    *
    * Learn more about [managing catalog contexts](https://shopify.dev/docs/apps/build/markets/new-markets/catalogs) and [using catalogs for different markets](https://shopify.dev/docs/apps/build/markets/catalogs-different-markets).
    */
@@ -32690,6 +32767,7 @@ export type Mutation = {
    * Changes to a published checkout profile display immediately in the store's checkout. You can preview draft profiles in the Shopify admin's checkout editor before publishing.
    *
    * Learn more about [checkout styling](https://shopify.dev/docs/apps/checkout/styling).
+   * @deprecated Use `checkoutAndAccountsConfigurationUpdate` instead.
    */
   checkoutBrandingUpsert?: Maybe<CheckoutBrandingUpsertPayload>;
   /**
@@ -33052,7 +33130,13 @@ export type Mutation = {
    * Apps using protected customer data must meet Shopify's [protected customer data requirements](https://shopify.dev/docs/apps/launch/protected-customer-data#requirements).
    */
   customerDelete?: Maybe<CustomerDeletePayload>;
-  /** Updates a [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer)'s email marketing consent information. The customer must have an email address to update their consent. Records the [marketing state](https://shopify.dev/docs/api/admin-graphql/latest/objects/CustomerEmailAddress#field-marketingState) (such as subscribed, pending, unsubscribed), [opt-in level](https://shopify.dev/docs/api/admin-graphql/latest/objects/CustomerEmailAddress#field-marketingOptInLevel), and when and where the customer gave or withdrew consent. */
+  /**
+   * Updates a [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer)'s email marketing consent information. The customer must have an email address to update their consent. Records the [marketing state](https://shopify.dev/docs/api/admin-graphql/latest/objects/CustomerEmailAddress#field-marketingState) (such as subscribed, pending, unsubscribed), [opt-in level](https://shopify.dev/docs/api/admin-graphql/latest/objects/CustomerEmailAddress#field-marketingOptInLevel), and when and where the customer gave or withdrew consent.
+   *
+   * Only three values are accepted as input: SUBSCRIBED, UNSUBSCRIBED, and PENDING.
+   * NOT_SUBSCRIBED, REDACTED, and INVALID cannot be set via this mutation; they are
+   * read-only or internally-set states.
+   */
   customerEmailMarketingConsentUpdate?: Maybe<CustomerEmailMarketingConsentUpdatePayload>;
   /**
    * Generates a one-time activation URL for a [`Customer`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Customer) whose legacy customer account isn't yet enabled. Use this after importing customers or creating accounts that need activation.
@@ -34072,6 +34156,7 @@ export type Mutation = {
    * > As of 2026-01, this mutation supports an optional idempotency key using the `@idempotent` directive.
    * > As of 2026-04, the idempotency key is required and must be provided using the `@idempotent` directive.
    * > For more information, see the [idempotency documentation](https://shopify.dev/docs/api/usage/idempotent-requests).
+   * @deprecated Scheduled changes will be phased out in 2026-07.
    */
   inventorySetScheduledChanges?: Maybe<InventorySetScheduledChangesPayload>;
   /**
@@ -35334,6 +35419,20 @@ export type Mutation = {
   /**
    * Creates a [`Publication`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication) that controls which [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`Collection`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) customers can access through a [`Catalog`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Catalog).
    *
+   * ### When to create a publication
+   *
+   * Publications are **optional** for catalogs. Only create a publication if you need to control which products are visible in a specific catalog context. When a publication isn't associated with a catalog, product availability is determined by the sales channel.
+   *
+   * **Create a publication if you need to:**
+   * - Restrict product visibility to a subset of your inventory for a specific market or company location
+   * - Publish different product selections to different contexts
+   *
+   * **Do NOT create a publication if:**
+   * - You want product availability determined by the sales channel
+   * - You only need custom pricing (use a price list on the catalog instead)
+   *
+   * ### Configuration options
+   *
    * You can create an empty publication and add products later, or prepopulate it with all existing products. The [`autoPublish`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/publicationCreate#arguments-input.fields.autoPublish) field determines whether the publication automatically adds newly created products.
    */
   publicationCreate?: Maybe<PublicationCreatePayload>;
@@ -35357,6 +35456,7 @@ export type Mutation = {
    * Publishes a resource to the current [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) associated with the requesting app. The system determines the current channel by the app's API client ID. Resources include [`Product`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) and [`Collection`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Collection) objects that implement the [`Publishable`](https://shopify.dev/docs/api/admin-graphql/latest/interfaces/Publishable) interface.
    *
    * For products to be visible in the channel, they must have an active [`ProductStatus`](https://shopify.dev/docs/api/admin-graphql/latest/enums/ProductStatus). Products sold exclusively on subscription ([`requiresSellingPlan`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product#field-Product.fields.requiresSellingPlan): `true`) can only be published to online stores.
+   * @deprecated Use `publishablePublish` instead.
    */
   publishablePublishToCurrentChannel?: Maybe<PublishablePublishToCurrentChannelPayload>;
   /**
@@ -35365,7 +35465,10 @@ export type Mutation = {
    * For products to be visible in a channel, they must have an active [`ProductStatus`](https://shopify.dev/docs/api/admin-graphql/latest/enums/ProductStatus).
    */
   publishableUnpublish?: Maybe<PublishableUnpublishPayload>;
-  /** Unpublishes a resource from the current channel. If the resource is a product, then it's visible in the channel only if the product status is `active`. */
+  /**
+   * Unpublishes a resource from the current channel. If the resource is a product, then it's visible in the channel only if the product status is `active`.
+   * @deprecated Use `publishableUnpublish` instead.
+   */
   publishableUnpublishToCurrentChannel?: Maybe<PublishableUnpublishToCurrentChannelPayload>;
   /**
    * Updates quantity pricing on a [`PriceList`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceList) for specific [`ProductVariant`](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) objects. You can set fixed prices (see [`PriceListPrice`](https://shopify.dev/docs/api/admin-graphql/latest/objects/PriceListPrice)), quantity rules, and quantity price breaks in a single operation.
@@ -35613,11 +35716,14 @@ export type Mutation = {
    *
    * ## Sending feedback on a shop
    *
-   * You can send resource feedback on a shop to let the merchant know what steps they need to take to make sure that your app is set up correctly. Feedback can have one of two states: `requires_action` or `success`. You need to send a `requires_action` feedback request for each step that the merchant is required to complete.
+   * You can send resource feedback on a shop to let the merchant know what steps they need to take to make sure that your app is set up correctly. Feedback can have one of two states: `REQUIRES_ACTION` or `ACCEPTED`. You need to send a `REQUIRES_ACTION` feedback request for each step that the merchant is required to complete.
    *
-   * If there are multiple set-up steps that require merchant action, then send feedback with a state of `requires_action` as merchants complete prior steps. And to remove the feedback message from the Shopify admin, send a `success` feedback request.
+   * If there are multiple set-up steps that require merchant action, then send feedback with a state of `REQUIRES_ACTION` as merchants complete prior steps. When all required actions are resolved, send an `ACCEPTED` feedback request to clear the active feedback signal.
    *
-   * #### Important
+   * ### Clearing feedback with ACCEPTED
+   * Sending `state: ACCEPTED` removes the active feedback entry. After this mutation succeeds, reading `channel.resourceFeedback`, `app.feedback`, or the `feedback` field on this payload may return `null`—this is expected behavior, not a mutation failure. A `null` result means no outstanding feedback exists for the channel.
+   *
+   * ### Important
    * Sending feedback replaces previously sent feedback for the shop. Send a new `shopResourceFeedbackCreate` mutation to push the latest state of a shop or its resources to Shopify.
    */
   shopResourceFeedbackCreate?: Maybe<ShopResourceFeedbackCreatePayload>;
@@ -41686,7 +41792,7 @@ export type OrderCreateShippingLineInput = {
 export type OrderCreateTaxLineInput = {
   /** Whether the channel that submitted the tax line is liable for remitting. A value of `null` indicates unknown liability for the tax line. */
   channelLiable?: InputMaybe<Scalars['Boolean']['input']>;
-  /** The amount of tax to be charged on the item. */
+  /** The amount added to the order for this tax in shop and presentment currencies after discounts are applied. */
   priceSet?: InputMaybe<MoneyBagInput>;
   /** The proportion of the item price that the tax represents as a decimal. */
   rate: Scalars['Decimal']['input'];
@@ -43967,6 +44073,10 @@ export type PriceListFixedPricesByProductBulkUpdateUserErrorCode =
   | 'DUPLICATE_ID_IN_INPUT'
   /** IDs must be mutually exclusive across add or delete operations. */
   | 'ID_MUST_BE_MUTUALLY_EXCLUSIVE'
+  /** The issuance currency of a local currency gift card must match the price list currency. */
+  | 'LOCAL_CURRENCY_GIFT_CARD_ISSUANCE_CURRENCY_MISMATCH'
+  /** The price of a local currency gift card cannot exceed the maximum gift card purchase limit. */
+  | 'LOCAL_CURRENCY_GIFT_CARD_LIMIT_EXCEEDED'
   /** No update operations specified. */
   | 'NO_UPDATE_OPERATIONS_SPECIFIED'
   /** The currency specified does not match the price list's currency. */
@@ -44123,6 +44233,10 @@ export type PriceListPriceUserError = DisplayableError & {
 export type PriceListPriceUserErrorCode =
   /** The input value is blank. */
   | 'BLANK'
+  /** The issuance currency of a local currency gift card must match the price list currency. */
+  | 'LOCAL_CURRENCY_GIFT_CARD_ISSUANCE_CURRENCY_MISMATCH'
+  /** The price of a local currency gift card cannot exceed the maximum gift card purchase limit. */
+  | 'LOCAL_CURRENCY_GIFT_CARD_LIMIT_EXCEEDED'
   /** The specified currency doesn't match the price list's currency. */
   | 'PRICE_LIST_CURRENCY_MISMATCH'
   /** The price list doesn't exist. */
@@ -45466,6 +45580,7 @@ export type Product = HasEvents & HasMetafieldDefinitions & HasMetafields & HasP
    * Whether the resource is published to the app's
    * [publication](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
    * For example, the resource might be published to the app's online store channel.
+   * @deprecated Use `publishedOnPublication` instead.
    */
   publishedOnCurrentPublication: Scalars['Boolean']['output'];
   /**
@@ -45483,6 +45598,7 @@ export type Product = HasEvents & HasMetafieldDefinitions & HasMetafields & HasP
   /**
    * The resource that's either published or staged to be published to
    * the [publication](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
+   * @deprecated Use `resourcePublications` instead.
    */
   resourcePublicationOnCurrentPublication?: Maybe<ResourcePublicationV2>;
   /**
@@ -49630,6 +49746,7 @@ export type Publishable = {
    * Whether the resource is published to the app's
    * [publication](https://shopify.dev/docs/api/admin-graphql/latest/objects/Publication).
    * For example, the resource might be published to the app's online store channel.
+   * @deprecated Use `publishedOnPublication` instead.
    */
   publishedOnCurrentPublication: Scalars['Boolean']['output'];
   /**
@@ -49926,6 +50043,10 @@ export type QuantityPricingByVariantUserErrorCode =
   | 'PRICE_ADD_CURRENCY_MISMATCH'
   /** Prices to add inputs must be unique by variant id. */
   | 'PRICE_ADD_DUPLICATE_INPUT_FOR_VARIANT'
+  /** The issuance currency of a local currency gift card must match the price list currency. */
+  | 'PRICE_ADD_LOCAL_CURRENCY_GIFT_CARD_ISSUANCE_CURRENCY_MISMATCH'
+  /** The price of a local currency gift card cannot exceed the maximum gift card purchase limit. */
+  | 'PRICE_ADD_LOCAL_CURRENCY_GIFT_CARD_LIMIT_EXCEEDED'
   /** Fixed price's variant not found. */
   | 'PRICE_ADD_VARIANT_NOT_FOUND'
   /** Price is not fixed. */
@@ -50308,19 +50429,26 @@ export type QueryRoot = {
   catalogs: CatalogConnection;
   /** The count of catalogs belonging to the shop. Limited to a maximum of 10000 by default. */
   catalogsCount?: Maybe<Count>;
-  /** Returns a `Channel` resource by ID. */
+  /** Returns a [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) by ID. The channel must belong to the calling application. */
   channel?: Maybe<Channel>;
-  /** Returns active [channels](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) where merchants sell products and collections. Each channel is an authenticated link to an external platform such as marketplaces, social media platforms, online stores, or point-of-sale systems. */
+  /** The list of [`Channel`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Channel) objects on the shop. When the calling application supports multi-channel, only channels established by the calling application are returned. Each channel represents an authenticated connection to an external selling platform such as a marketplace, social media platform, online store, or point-of-sale system. */
   channels: ChannelConnection;
   /**
    * Returns the visual customizations for checkout for a given [checkout profile](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutProfile).
    *
    * To update checkout branding settings, use the [`checkoutBrandingUpsert`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/checkoutBrandingUpsert) mutation. Learn more about [customizing checkout's appearance](https://shopify.dev/docs/apps/build/checkout/styling).
+   * @deprecated Use `checkoutAndAccountsConfiguration` instead.
    */
   checkoutBranding?: Maybe<CheckoutBranding>;
-  /** Returns a [`CheckoutProfile`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutProfile). Checkout profiles define the branding settings and UI extensions for a store's checkout experience. Stores can have one published profile that renders on their live checkout and multiple draft profiles for testing customizations in the checkout editor. */
+  /**
+   * Returns a [`CheckoutProfile`](https://shopify.dev/docs/api/admin-graphql/latest/objects/CheckoutProfile). Checkout profiles define the branding settings and UI extensions for a store's checkout experience. Stores can have one published profile that renders on their live checkout and multiple draft profiles for testing customizations in the checkout editor.
+   * @deprecated Use `checkoutAndAccountsConfiguration` instead.
+   */
   checkoutProfile?: Maybe<CheckoutProfile>;
-  /** List of checkout profiles on a shop. */
+  /**
+   * List of checkout profiles on a shop.
+   * @deprecated Use `checkoutAndAccountsConfigurations` instead.
+   */
   checkoutProfiles: CheckoutProfileConnection;
   /** Returns a [code discount](https://help.shopify.com/manual/discounts/discount-types#discount-codes) resource by ID. */
   codeDiscountNode?: Maybe<DiscountCodeNode>;
@@ -57508,11 +57636,11 @@ export type ShippingLine = {
   /** Whether the shipping line has been removed. */
   isRemoved: Scalars['Boolean']['output'];
   /**
-   * The pre-tax shipping price without any discounts applied.
+   * The shipping price without any discounts applied. If the parent order.taxesIncluded field is true, then this price includes taxes. Otherwise, this field is the pre-tax price.
    * @deprecated Use `originalPriceSet` instead.
    */
   originalPrice: MoneyV2;
-  /** The pre-tax shipping price without any discounts applied. */
+  /** The shipping price without any discounts applied. If the parent order.taxesIncluded field is true, then this price includes taxes. Otherwise, this field is the pre-tax price. */
   originalPriceSet: MoneyBag;
   /** The phone number at the shipping address. */
   phone?: Maybe<Scalars['String']['output']>;
@@ -58811,7 +58939,7 @@ export type ShopPlan = {
   displayName: Scalars['String']['output'];
   /** Whether the shop is a partner development shop for testing purposes. */
   partnerDevelopment: Scalars['Boolean']['output'];
-  /** The public display name of the shop's billing plan. Possible values are: Advanced, Agentic, Basic, Development, Grow, Inactive, Lite, Other, Paused, Plus, Plus Trial, Retail, Shop Component, Shopify Finance, Staff Business, Starter, and Trial. */
+  /** The public display name of the shop's billing plan. Possible values are: Advanced, Agentic, Agentic Enterprise, Basic, Development, Grow, Inactive, Lite, Other, Paused, Plus, Plus Trial, Retail, Shop Component, Shopify Finance, Staff Business, Starter, and Trial. */
   publicDisplayName: Scalars['String']['output'];
   /** Whether the shop has a Shopify Plus subscription. */
   shopifyPlus: Scalars['Boolean']['output'];
@@ -58896,7 +59024,7 @@ export type ShopPolicyUserError = DisplayableError & {
 
 /** Return type for `shopResourceFeedbackCreate` mutation. */
 export type ShopResourceFeedbackCreatePayload = {
-  /** The shop feedback that's created. */
+  /** The shop feedback that's created. Returns `null` when `state: ACCEPTED` is used, because setting state to `ACCEPTED` clears the active feedback signal. A `null` value here indicates success, not an error. */
   feedback?: Maybe<AppFeedback>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<ShopResourceFeedbackCreateUserError>;
@@ -59604,9 +59732,15 @@ export type ShopifyPaymentsExtendedAuthorization = {
 export type ShopifyPaymentsJpChargeStatementDescriptor = ShopifyPaymentsChargeStatementDescriptor & {
   /** The default charge statement descriptor. */
   default?: Maybe<Scalars['String']['output']>;
-  /** The charge statement descriptor in kana. */
+  /**
+   * The charge statement descriptor in kana.
+   * @deprecated This field is deprecated and will be removed in a future release.
+   */
   kana?: Maybe<Scalars['String']['output']>;
-  /** The charge statement descriptor in kanji. */
+  /**
+   * The charge statement descriptor in kanji.
+   * @deprecated This field is deprecated and will be removed in a future release.
+   */
   kanji?: Maybe<Scalars['String']['output']>;
   /** The prefix of the statement descriptor. */
   prefix: Scalars['String']['output'];
@@ -59900,6 +60034,8 @@ export type ShopifyPaymentsTransactionType =
   | 'APPLICATION_FEE_REFUND'
   /** The balance_transfer_inbound transaction type. */
   | 'BALANCE_TRANSFER_INBOUND'
+  /** The balance_transfer_outbound transaction type. */
+  | 'BALANCE_TRANSFER_OUTBOUND'
   /** The billing_debit transaction type. */
   | 'BILLING_DEBIT'
   /** The billing_debit_reversal transaction type. */
@@ -64687,7 +64823,7 @@ export type TranslatableResourceType =
   | 'COLLECTION'
   /** A collection image. Translatable fields: `alt`. */
   | 'COLLECTION_IMAGE'
-  /** The delivery method definition. For example, "Standard", or "Expedited". Translatable fields: `name`. */
+  /** The delivery method definition. For example, "Standard", or "Expedited". Translatable fields: `name`, `description`. */
   | 'DELIVERY_METHOD_DEFINITION'
   /** An email template. Translatable fields: `title`, `body_html`. */
   | 'EMAIL_TEMPLATE'
@@ -66426,7 +66562,7 @@ export type WebhookSubscriptionTopic =
   | 'TAX_SERVICES_CREATE'
   /** The webhook topic for `tax_services/update` events. Occurs whenver a tax service is updated. Requires the `read_taxes` scope. */
   | 'TAX_SERVICES_UPDATE'
-  /** The webhook topic for `tax_summaries/create` events. Occurs when a tax summary is created. Consumed by tax partners. Requires at least one of the following scopes: read_fulfillments, read_marketplace_orders. */
+  /** The webhook topic for `tax_summaries/create` events. Occurs when a tax summary is created. Consumed by tax partners. Requires at least one of the following scopes: read_fulfillments, read_marketplace_orders, read_orders. */
   | 'TAX_SUMMARIES_CREATE'
   /** The webhook topic for `tender_transactions/create` events. Occurs when a tender transaction is created. Requires the `read_orders` scope. */
   | 'TENDER_TRANSACTIONS_CREATE'
