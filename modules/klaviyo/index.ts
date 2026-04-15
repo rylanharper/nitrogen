@@ -17,21 +17,18 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@nitrogen/klaviyo',
     configKey: 'klaviyo',
-    compatibility: {
-      nuxt: '>=3.0.0',
-    },
   },
 
   defaults: {
-    apiVersion: '2025-01-15',
+    apiVersion: '',
     publicApiKey: '',
     privateApiKey: '',
   },
 
   setup(options, nuxt) {
-    nuxt.options.runtimeConfig.klaviyo = options
-
     const { resolve } = createResolver(import.meta.url)
+
+    nuxt.options.runtimeConfig.klaviyo = options
 
     addImports({
       name: 'useKlaviyo',
