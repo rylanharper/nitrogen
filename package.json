@@ -14,8 +14,8 @@
   "dependencies": {
     "@nuxt/fonts": "^0.14.0",
     "@nuxt/icon": "^2.2.1",
-    "@nuxtjs/robots": "^6.0.7",
-    "@nuxtjs/sitemap": "^8.0.12",
+    "@nuxtjs/robots": "^6.0.8",
+    "@nuxtjs/sitemap": "^8.0.14",
     "@pinia/nuxt": "0.11.3",
     "@vueuse/core": "^14.2.1",
     "@vueuse/nuxt": "^14.2.1",
@@ -29,21 +29,21 @@
     "pinia-plugin-persistedstate": "^4.7.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^6.3.0",
+    "@graphql-codegen/cli": "^6.3.1",
     "@graphql-codegen/typescript": "^5.0.10",
     "@graphql-codegen/typescript-operations": "^5.1.0",
     "@iconify-json/ph": "^1.2.2",
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/kit": "^4.4.2",
     "@nuxthub/core": "0.10.7",
-    "@tailwindcss/vite": "^4.2.2",
-    "eslint": "^10.2.0",
+    "@tailwindcss/vite": "^4.2.4",
+    "eslint": "^10.2.1",
     "nuxt": "^4.4.2",
-    "tailwindcss": "^4.2.2",
-    "typescript": "^6.0.2",
-    "vue": "^3.5.32",
-    "vue-router": "^5.0.4",
-    "wrangler": "^4.82.2"
+    "tailwindcss": "^4.2.4",
+    "typescript": "^6.0.3",
+    "vue": "^3.5.33",
+    "vue-router": "^5.0.6",
+    "wrangler": "^4.85.0"
   },
   "packageManager": "pnpm@10.32.1"
 }
