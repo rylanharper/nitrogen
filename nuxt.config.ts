@@ -72,6 +72,7 @@ export default defineNuxtConfig({
       include: [
         'graphql',
         'graphql-tag',
+        'embla-carousel-vue',
       ],
     },
   },
