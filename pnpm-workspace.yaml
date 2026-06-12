@@ -1,0 +1,21 @@
+allowBuilds:
+  '@parcel/watcher': false
+  esbuild: false
+  unrs-resolver: false
+  vue-demi: false
+  workerd: false
+  sharp: true
+
+minimumReleaseAgeExclude:
+  # Nuxt
+  - '@nuxt/*'
+  - '@nuxtjs/*'
+  - '@nuxthub/*'
+  - 'nuxt'
+  - 'nuxt-*'
+  - 'nuxtseo-*'
+  # Cloudflare
+  - '@cloudflare/*'
+  - 'wrangler'
+  - 'workerd'
+  - 'miniflare'
