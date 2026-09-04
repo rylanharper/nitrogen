@@ -20,6 +20,8 @@ Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/
 - 👕 Product pages, with metafields
 - 🔍 Search functionality
 - 🌐 Shop localization
+- 👤 Customer accounts
+- 📊 Shopify analytics
 - 💡 Sitemap, with robots
 - 📫 Klaviyo integration
 - 🎠 Embla Carousel
@@ -39,10 +41,19 @@ To begin using Nitrogen, you'll need to add the following environment variables:
 
 ```ini
 # Shopify
-NUXT_SHOPIFY_DOMAIN=your-shop-name.myshopify.com
-NUXT_SHOPIFY_ADMIN_ACCESS_TOKEN=your_admin_access_token
-NUXT_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your_storefront_access_token
-NUXT_SHOPIFY_API_VERSION=2026-01
+NUXT_SHOPIFY_NAME=your-shop-name
+
+# Storefront API
+NUXT_SHOPIFY_CLIENTS_STOREFRONT_API_VERSION=2026-01
+NUXT_SHOPIFY_CLIENTS_STOREFRONT_PUBLIC_ACCESS_TOKEN=your_storefront_access_token
+
+# Customer Account API
+NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_API_VERSION=2026-01
+NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_CLIENT_ID=your_client_id
+NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_SESSION_PASSWORD=at_least_32_characters
+
+# Analytics
+NUXT_SHOPIFY_ANALYTICS_STOREFRONT_ID=your_storefront_id
 
 # Klaviyo (optional)
 NUXT_KLAVIYO_PUBLIC_API_KEY=your_public_api_key
@@ -63,73 +74,54 @@ NUXT_SANITY_API_READ_TOKEN=your_api_read_token
 ### Local Setup
 
 1. Install dependencies using `pnpm install`
-2. Generate your project types using `pnpm codegen`
-3. Start the development server using `pnpm dev`
+2. Start the development server using `pnpm dev`
+
+Types are generated automatically on `nuxt prepare`, `nuxt dev` and `nuxt build`, so there is no separate codegen step.
 
 ## ⚡ Basic Usage
 
-Nitrogen features two custom modules for [Shopify](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify) and [Klaviyo](https://github.com/rylanharper/nitrogen/blob/master/modules/klaviyo), located in the `/modules` folder. The Shopify module lets you connect to both the Storefront API and Admin API at the same time, which is ideal for building complex storefronts that may use Shopify to act a database in some way.
+Shopify is wired up with the official [`@nuxtjs/shopify`](https://shopify.nuxtjs.org) module, which provides the typed Storefront client, the server-side proxy, request caching and type generation. Klaviyo is a [custom module](https://github.com/rylanharper/nitrogen/blob/master/modules/klaviyo) in the `/modules` folder.
 
 > [!TIP]
 > Read the official Nuxt Author Module Guide to learn how to create and manage your own modules!
 
 [Author Module Guide](https://nuxt.com/docs/4.x/guide/modules/getting-started)
 
-### API Integration
-
-A minimal [GraphQL client](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/resources/graphql-client/index.ts) is provided to seamlessly integrate with both the Storefront API and Admin API. It uses two [server-side proxies](https://github.com/rylanharper/nitrogen/blob/master/modules/shopify/runtime/server) to handle API authentication and requests, while offering a typed interface for executing GraphQL operations.
-
-The client `query` function accepts three optional parameters:
-
-- `api` – Choose between `storefront` (default) or `admin`.
-- `maxRetries` – Number of retry attempts on failure (default: `3`).
-- `cacheable` – Enable response caching for common queries (default: `true`).
-
-> [!WARNING]
-> By default, the GraphQL client only caches collection, product, and search queries. Avoid caching global queries or mutations, as this can lead to hydration errors.
-
 ### GraphQL Operations
 
-This project includes pre-built GraphQL [operations](https://github.com/rylanharper/nitrogen/tree/master/modules/shopify/runtime/resources/operations) for common queries and mutations frequently used in headless storefront environments. All operations are powered by the GraphQL client `query`, so you can also pass optional parameters when needed:
+Fragments live in `/graphql/fragments` as plain `.graphql` files and are injected into any operation that spreads them at build time. Queries and mutations live in `/graphql/queries` and `/graphql/mutations` as `#graphql`-prefixed template literals, which is what makes them statically readable for type generation:
 
 ```ts
-import type { MyQuery, MyQueryVariables } from '@@/types/storefront'
-import { MY_QUERY } from '../graphql/custom'
-import { query } from '../graphql-client'
-
-// Fetch example with optional params
-const fetchExample = async (variables: MyQueryVariables) => {
-  const response = await query(MY_QUERY, variables, { api: 'admin' })
-  return response.data?.item
-}
+// graphql/queries/custom.ts
+export const MY_QUERY = `#graphql
+  query myQuery($handle: String) {
+    product(handle: $handle) {
+      ...Product
+    }
+  }
+`
 ```
 
 Feel free to add or remove operations that fit your project needs!
 
-### `useShopify`
+### `useStorefront`
 
-To get GraphQL operations, use the `useShopify` composable:
+For imperative calls (event handlers, store actions, server routes), use `useStorefront`:
 
 ```ts
-const shopify = useShopify()
+import { PREDICTIVE_SEARCH } from '@@/graphql/queries/search'
+
+const { data } = await useStorefront().request(PREDICTIVE_SEARCH, {
+  variables: { query: 'shirt' },
+})
 ```
 
-Operations can be referenced using dot notation:
+### `useStorefrontData`
+
+For reactive data fetching, use `useStorefrontData`. It wraps `useAsyncData`, so `watch`, `transform`, `pick`, etc. all work:
 
 ```ts
-// Composable
-const shopify = useShopify()
-
-// With dot notation
-await shopify.cart.addLines(cart.id, [ ... ])
-await shopify.product.get({ handle: 'example-product' })
-```
-
-Perfect for reactive data fetching using `useAsyncData`:
-
-```ts
-// Composable
-const shopify = useShopify()
+import { PRODUCT } from '@@/graphql/queries/product'
 
 // Product Query
 const productVars = computed<ProductQueryVariables>(() => ({
@@ -138,30 +130,30 @@ const productVars = computed<ProductQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode,
 }))
 
-const { data: productData } = await useAsyncData(
-  `product-${handle.value}`,
-  () => shopify.product.get(productVars.value),
-  { watch: [productVars] },
-)
-
-// Product response data
-const product = computed(() => productData.value)
+const { data: product } = await useStorefrontData(`product-${handle.value}`, PRODUCT, {
+  variables: productVars,
+  transform: (data) => data.product,
+  watch: [productVars],
+})
 ```
 
 Ideal for working with actions in `Pinia`:
 
 ```ts
-// Composable
-const shopify = useShopify()
+import { CART_CREATE } from '@@/graphql/mutations/cart'
 
 // Cart store actions
 actions: {
   async createCart(input?: CartInput, optionalParams?: CartOptionalInput) {
     try {
-      const response = await shopify.cart.create({
-        input: input,
-        ...optionalParams,
+      const { data } = await useStorefront().request(CART_CREATE, {
+        variables: {
+          input: input,
+          ...optionalParams,
+        },
       })
+
+      const response = data?.cartCreate
 
       if (response?.userErrors?.length) {
         throw new Error(response?.userErrors[0]?.message)
@@ -177,9 +169,54 @@ actions: {
 }
 ```
 
+Requests made from the browser are proxied through Nitro, and both client and proxy caching are configurable per request via `cache: 'short' | 'long'`. Nitrogen adds a third `catalog` tier (5 minutes) in `nuxt.config.ts`, which the collection, product and search queries opt into — these are keyed by country and language, so they are safe to share between visitors. Never assign a cache tier to cart or customer queries. See the [caching guide](https://shopify.nuxtjs.org/essentials/caching) for details.
+
+### Customer Accounts
+
+Accounts run on Shopify's Customer Account API. The OAuth routes, session cookie and token handling are provided by the module. The `/account` route is protected with the `customer-account` middleware, and `useCustomerAccountSession` exposes `user`, `isLoggedIn`, `login` and `logout`:
+
+```vue
+<script setup lang="ts">
+import { CUSTOMER } from '@@/graphql/customer-account/queries/customer'
+
+definePageMeta({
+  middleware: 'customer-account',
+})
+
+const { logout } = useCustomerAccountSession()
+
+const { data: customer } = await useCustomerAccountData('account-customer', CUSTOMER, {
+  transform: (data) => data.customer,
+})
+</script>
+```
+
+Customer Account documents live in `/graphql/customer-account` and their types are available from `#shopify/customer-account`.
+
+> [!IMPORTANT]
+> Shopify redirects back to a publicly reachable URL, so the login flow does not complete against `localhost`. For local development, set `shopify.clients.customerAccount.dev.tunnelURL` to a tunnel (e.g. ngrok) so the module Dev Bridge hands the session back to your local server. In production, set `NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_SESSION_PASSWORD` (32+ characters).
+
+### Analytics
+
+Shopify's headless analytics is enabled by default, so page views are reported automatically and renderless view components cover the rest:
+
+```vue
+<template>
+  <ShopifyProductView :data="{ products: [analyticsProduct] }" />
+  <ShopifyCollectionView :data="{ collection: { id: collection.id, handle: collection.handle } }" />
+  <ShopifySearchView :data="{ searchTerm: query }" />
+  <ShopifyCartView :data="{ cart: analyticsCart }" />
+</template>
+```
+
+Cart events are derived by diffing carts, so [`~/plugins/shopify-analytics.client.ts`](app/plugins/shopify-analytics.client.ts) watches the cart store and hands each update to `setCart`. The mapping helpers in [`~/utils/analytics.ts`](app/utils/analytics.ts) reshape the Shopify fragments into the payloads the analytics bus expects.
+
+> [!NOTE]
+> Every event is gated on Shopify's Customer Privacy API, so nothing is sent until the visitor consents in regions that require it. Use `ShopifyPrivacyBanner` or `analytics.setTrackingConsent()` to record that choice.
+
 ### `flattenConnection`
 
-A handy `flattenConnection` utility function is provided to make working with GraphQL connection objects much more simple. This utility extracts and flattens nested node arrays, making your node data easier to work with:
+A handy `flattenConnection` utility function is auto-imported to make working with GraphQL connection objects much more simple. This utility extracts and flattens nested node arrays, making your node data easier to work with:
 
 ```ts
 // Access variant nodes

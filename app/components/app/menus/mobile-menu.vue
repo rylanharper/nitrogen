@@ -2,7 +2,7 @@
 const navLinks = [
   { label: 'Shop', path: '/collections/latest' },
   { label: 'Catalog', path: '/collections/latest' },
-  { label: 'Account', path: '/' },
+  { label: 'Account', path: '/account' },
   { label: 'About', path: '/collections/latest' },
 ]
 

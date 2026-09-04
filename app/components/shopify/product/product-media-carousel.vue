@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaFragment } from '@@/types/shopify-storefront'
+import type { MediaFragment } from '#shopify/storefront'
 import type { EmblaCarouselType } from 'embla-carousel'
 
 import useEmblaCarousel from 'embla-carousel-vue'

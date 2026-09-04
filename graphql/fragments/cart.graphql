@@ -1,0 +1,33 @@
+fragment Cart on Cart {
+  attributes {
+    key
+    value
+  }
+  buyerIdentity {
+    ...BuyerIdentity
+  }
+  checkoutUrl
+  cost {
+    subtotalAmount {
+      ...Money
+    }
+    totalAmount {
+      ...Money
+    }
+  }
+  createdAt
+  id
+  lines(first: 250) {
+    edges {
+      node {
+        ...CartLine
+      }
+    }
+    pageInfo {
+      ...PageInfo
+    }
+  }
+  note
+  totalQuantity
+  updatedAt
+}

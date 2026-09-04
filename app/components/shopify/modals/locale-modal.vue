@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CountryCode } from '@@/types/shopify-storefront'
+import type { CountryCode } from '#shopify/storefront'
 
 import { useMagicKeys } from '@vueuse/core'
 
@@ -14,7 +14,7 @@ const countries = shopStore.locale?.availableCountries
 const countryCode = shopStore.locale?.country?.isoCode
 
 // State
-const countryLocale = ref<CountryCode>(countryCode)
+const countryLocale = ref<CountryCode | undefined>(countryCode)
 const isLoading = ref(false)
 
 // Update locale

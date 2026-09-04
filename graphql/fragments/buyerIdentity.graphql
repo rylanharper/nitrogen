@@ -1,0 +1,13 @@
+fragment BuyerIdentity on CartBuyerIdentity {
+  countryCode
+  customer {
+    defaultAddress {
+      ...MailingAddress
+    }
+    displayName
+    email
+    id
+  }
+  email
+  phone
+}

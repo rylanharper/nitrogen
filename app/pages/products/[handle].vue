@@ -4,11 +4,12 @@ import type {
   ProductFragment,
   MediaFragment,
   ProductVariantFragment,
-} from '@@/types/shopify-storefront'
+} from '#shopify/storefront'
+
+import { PRODUCT, RECOMMENDED_PRODUCTS } from '@@/graphql/queries/product'
 
 // Composables
 const route = useRoute()
-const shopify = useShopify()
 const shopStore = useShopStore()
 
 // Handle
@@ -22,20 +23,31 @@ const productVars = computed<ProductQueryVariables>(() => ({
 }))
 
 const [productQuery, recommendedQuery] = await Promise.all([
-  useAsyncData(
-    `product-${handle.value}`,
-    () => shopify.product.get(productVars.value),
-    { watch: [productVars] },
-  ),
-  useAsyncData(
-    `recommended-${handle.value}`,
-    () => shopify.product.getRecommended(productVars.value),
-    { watch: [productVars] },
-  ),
+  useStorefrontData(`product-${handle.value}`, PRODUCT, {
+    variables: productVars,
+    transform: (data) => data.product,
+    watch: [productVars],
+    cache: 'catalog',
+  }),
+  useStorefrontData(`recommended-${handle.value}`, RECOMMENDED_PRODUCTS, {
+    variables: productVars,
+    transform: (data) => data.recommended,
+    watch: [productVars],
+    cache: 'catalog',
+  }),
 ])
 
 const { data: productData, error: productError } = productQuery
 const { data: recommendedData, error: recommendedError } = recommendedQuery
+
+// A handle that does not resolve is a 404, not an empty page
+if (!productData.value && !productError.value) {
+  throw createError({
+    statusCode: 404,
+    statusMessage: `Product "${handle.value}" not found.`,
+    fatal: true,
+  })
+}
 
 // Product response data
 const product = computed(() => productData.value)
@@ -45,6 +57,9 @@ const recommendations = computed(() => recommendedData.value?.slice(0, 4) ?? [])
 const productMedia = computed(() => flattenConnection(product.value?.media) as MediaFragment[])
 const productVariants = computed(() => flattenConnection(product.value?.variants) as ProductVariantFragment[])
 const matchingColors = computed(() => flattenConnection(product.value?.matching_colors?.references) as ProductFragment[])
+
+// Analytics product (attributed to the first variant)
+const analyticsProduct = computed(() => toAnalyticsProduct(product.value, productVariants.value[0]))
 
 // SEO
 useHead({
@@ -86,9 +101,16 @@ useHead({
         />
       </div>
     </section>
+
     <!-- Recommendations -->
     <section class="px-6">
       <ProductRecommendations :products="recommendations" />
     </section>
+
+    <!-- Analytics -->
+    <ShopifyProductView
+      v-if="analyticsProduct"
+      :data="{ products: [analyticsProduct] }"
+    />
   </div>
 </template>

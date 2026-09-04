@@ -2,17 +2,23 @@ import type {
   CountryCode,
   LanguageCode,
   LocalizationQuery,
-} from '@@/types/shopify-storefront'
+} from '#shopify/storefront'
 
+import { LOCALIZATION } from '@@/graphql/queries/localization'
 import { defineStore } from 'pinia'
 
-// Interface
-interface ShopState {
-  locale: LocalizationQuery['localization']
-}
+// Types
+type Localization = LocalizationQuery['localization']
 
-// Composables
-const shopify = useShopify()
+// Interface
+// The buyer's country/language start out as bare ISO codes and are filled in
+// once `getLocalization` resolves them against Shopify
+interface ShopState {
+  locale: Omit<Localization, 'country' | 'language'> & {
+    country: Partial<Localization['country']>
+    language: Partial<Localization['language']>
+  }
+}
 
 // Store
 export const useShopStore = defineStore('@nikkoel/shop', {
@@ -37,10 +43,14 @@ export const useShopStore = defineStore('@nikkoel/shop', {
      */
     async getLocalization(newCountryCode?: CountryCode, newLanguageCode?: LanguageCode) {
       try {
-        const response = await shopify.localization.get({
-          country: newCountryCode ?? this.locale.country.isoCode,
-          language: newLanguageCode ?? this.locale.language.isoCode,
+        const { data } = await useStorefront().request(LOCALIZATION, {
+          variables: {
+            country: newCountryCode ?? this.locale.country.isoCode,
+            language: newLanguageCode ?? this.locale.language.isoCode,
+          },
         })
+
+        const response = data!.localization
 
         if (!response.country && !response.language) {
           throw new Error('No localization data found.')

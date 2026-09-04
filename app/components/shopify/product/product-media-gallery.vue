@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaFragment } from '@@/types/shopify-storefront'
+import type { MediaFragment } from '#shopify/storefront'
 
 import { isMediaVideo, isMediaImage } from '@/helpers/shopify'
 

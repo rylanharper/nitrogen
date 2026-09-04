@@ -1,0 +1,14 @@
+fragment Model3d on Model3d {
+  alt
+  id
+  mediaContentType
+  previewImage {
+    ...Image
+  }
+  sources {
+    filesize
+    format
+    mimeType
+    url
+  }
+}

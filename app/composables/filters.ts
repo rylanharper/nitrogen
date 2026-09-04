@@ -1,4 +1,4 @@
-import type { FilterFragment } from '@@/types/shopify-storefront'
+import type { FilterFragment } from '#shopify/storefront'
 import type { LocationQuery } from 'vue-router'
 
 import { normalizeFilterQuery } from '~/helpers/shopify'

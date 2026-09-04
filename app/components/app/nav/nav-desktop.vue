@@ -27,7 +27,7 @@ const navLinksLeft = [
 ]
 
 const navLinksRight = [
-  { label: 'Account', path: '/' },
+  { label: 'Account', path: '/account' },
 ]
 
 // Composables

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProductVariantFragment } from '@@/types/shopify-storefront'
+import type { ProductVariantFragment } from '#shopify/storefront'
 
 // Props
 const props = defineProps<{

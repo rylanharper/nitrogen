@@ -5,13 +5,13 @@ import type {
   FilterFragment,
   ProductFragment,
   PageInfoFragment,
-} from '@@/types/shopify-storefront'
+} from '#shopify/storefront'
 
+import { COLLECTION, COLLECTION_FILTERS } from '@@/graphql/queries/collection'
 import { getCollectionSortValues, getFilterValues } from '@/helpers/shopify'
 
 // Composables
 const route = useRoute()
-const shopify = useShopify()
 const appStore = useAppStore()
 const shopStore = useShopStore()
 
@@ -25,10 +25,15 @@ const filterVars = computed<CollectionFiltersQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode,
 }))
 
-const { data: filterData, error: filterError } = await useAsyncData(
+const { data: filterData, error: filterError } = await useStorefrontData(
   `filter-${handle.value}`,
-  () => shopify.collection.getFilters(filterVars.value),
-  { watch: [filterVars] },
+  COLLECTION_FILTERS,
+  {
+    variables: filterVars,
+    transform: (data) => data.collection,
+    watch: [filterVars],
+    cache: 'catalog',
+  },
 )
 
 // Filter response data
@@ -60,11 +65,25 @@ const collectionVars = computed<CollectionQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode,
 }))
 
-const { data: collectionData, error: collectionError } = await useAsyncData(
+const { data: collectionData, error: collectionError } = await useStorefrontData(
   `collection-${handle.value}`,
-  () => shopify.collection.get(collectionVars.value),
-  { watch: [collectionVars] },
+  COLLECTION,
+  {
+    variables: collectionVars,
+    transform: (data) => data.collection,
+    watch: [collectionVars],
+    cache: 'catalog',
+  },
 )
+
+// A handle that does not resolve is a 404, not an empty page
+if (!collectionData.value && !collectionError.value) {
+  throw createError({
+    statusCode: 404,
+    statusMessage: `Collection "${handle.value}" not found.`,
+    fatal: true,
+  })
+}
 
 // Collection response data
 const collection = computed(() => collectionData.value)
@@ -189,5 +208,7 @@ useHead({
       v-if="filters"
       :filters="filters"
     />
+    <!-- Analytics -->
+    <ShopifyCollectionView :data="{ collection: { id: collection.id, handle: collection.handle } }" />
   </div>
 </template>

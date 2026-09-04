@@ -8,7 +8,7 @@ import type {
   MediaImageFragment,
   ProductOptionFragment,
   ProductVariantFragment,
-} from '@@/types/shopify-storefront'
+} from '#shopify/storefront'
 import type { LocationQueryValue } from 'vue-router'
 
 /**
@@ -250,12 +250,3 @@ export const isColorSoldOut = (variants: ProductVariantFragment[], colorValue: s
  */
 export const normalizeFilterQuery = (filter: LocationQueryValue | LocationQueryValue[] | undefined): string[] =>
   (Array.isArray(filter) ? filter : filter ? [filter] : []).filter(Boolean) as string[]
-
-/**
- * Parses the numeric ID from a Shopify product variant GID
- * @param gid - The variant ID (e.g., 'gid://shopify/ProductVariant/44284874064058')
- * @returns The numeric portion of the ID (e.g., '44284874064058')
- */
-export const parseVariantId = (gid: string): string => {
-  return gid.split('/').pop() ?? ''
-}

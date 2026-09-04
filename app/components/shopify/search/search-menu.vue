@@ -2,13 +2,13 @@
 import type {
   PredictiveSearchQueryVariables,
   ProductFragment,
-} from '@@/types/shopify-storefront'
+} from '#shopify/storefront'
 
+import { PREDICTIVE_SEARCH } from '@@/graphql/queries/search'
 import { useDebounceFn, useMagicKeys } from '@vueuse/core'
 
 // Composables
 const route = useRoute()
-const shopify = useShopify()
 const appStore = useAppStore()
 const shopStore = useShopStore()
 
@@ -30,8 +30,11 @@ const handleSearch = useDebounceFn(async () => {
     return
   }
 
-  const response = await shopify.search.getPredictive(searchVars.value)
-  searchResults.value = response?.products as ProductFragment[]
+  const { data } = await useStorefront().request(PREDICTIVE_SEARCH, {
+    variables: searchVars.value,
+  })
+
+  searchResults.value = data?.predictiveSearch?.products as ProductFragment[]
 }, 300)
 
 // Actions
