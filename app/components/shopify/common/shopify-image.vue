@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ImageFragment } from '@@/types/shopify-storefront'
+import type { ImageFragment } from '#shopify/storefront'
 
 import { formatImageUrl } from '@/utils/formatters'
 

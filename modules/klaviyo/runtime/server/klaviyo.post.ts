@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const type = body?.data?.type
 
-  let path = ''
+  let path
 
   switch (type) {
     case 'subscription':

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CartLineFragment } from '@@/types/shopify-storefront'
+import type { CartLineFragment } from '#shopify/storefront'
 
 import { useMagicKeys } from '@vueuse/core'
 
@@ -13,6 +13,9 @@ const cartTotalItems = computed(() => cartStore.lineItemCount)
 
 // Access data nodes
 const lineItems = computed(() => flattenConnection(cartStore.lineItems) as CartLineFragment[])
+
+// Analytics cart (lines flattened out of the GraphQL connection)
+const analyticsCart = computed(() => toAnalyticsCart(cartStore.cart))
 
 // Actions
 const closeDrawer = () => appStore.toggle('cartDrawer', false)
@@ -79,6 +82,8 @@ if (escape) watch(escape, closeDrawer)
           </button>
         </div>
       </div>
+
+      <ShopifyCartView :data="{ cart: analyticsCart }" />
     </aside>
   </Transition>
 </template>

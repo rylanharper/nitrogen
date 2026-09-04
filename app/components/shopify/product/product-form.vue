@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ProductFragment, ProductVariantFragment } from '@@/types/shopify-storefront'
+import type { ProductFragment, ProductVariantFragment } from '#shopify/storefront'
 import type { LocationQuery } from 'vue-router'
 
-import { isSizeOption, parseVariantId } from '@/helpers/shopify'
+import { isSizeOption } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
@@ -32,7 +32,7 @@ const currentVariant = computed(() =>
 // Actions
 const setVariantId = (variant: ProductVariantFragment | undefined) => {
   const query: LocationQuery = { ...route.query }
-  query.variant = variant ? parseVariantId(variant.id) : undefined as any
+  query.variant = variant ? parseGid(variant.id) : undefined as any
   router.replace({ query })
 }
 
@@ -44,7 +44,7 @@ const setSizeOption = (size: string) => {
 onMounted(() => {
   const initialVariant = props.variants.length === 1
     ? props.variants[0]
-    : props.variants.find((v) => parseVariantId(v.id) === variantQuery.value)
+    : props.variants.find((v) => parseGid(v.id) === variantQuery.value)
 
   if (initialVariant) {
     const sizeOption = initialVariant.selectedOptions.find((option) => isSizeOption(option.name))

@@ -1,0 +1,17 @@
+fragment Media on Media {
+  alt
+  id
+  mediaContentType
+  previewImage {
+    url
+  }
+  ... on MediaImage {
+    ...MediaImage
+  }
+  ... on Model3d {
+    ...Model3d
+  }
+  ... on Video {
+    ...Video
+  }
+}

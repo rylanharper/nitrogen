@@ -1,0 +1,13 @@
+fragment OrderSummary on Order {
+  id
+  name
+  number
+  processedAt
+  financialStatus
+  fulfillmentStatus
+  statusPageUrl
+  totalPrice {
+    amount
+    currencyCode
+  }
+}

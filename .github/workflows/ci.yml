@@ -1,0 +1,73 @@
+name: "Tests"
+
+env:
+  NUXT_SHOPIFY_NAME: ${{ secrets.NUXT_SHOPIFY_NAME }}
+
+  NUXT_SHOPIFY_CLIENTS_STOREFRONT_API_VERSION: ${{ secrets.NUXT_SHOPIFY_CLIENTS_STOREFRONT_API_VERSION }}
+  NUXT_SHOPIFY_CLIENTS_STOREFRONT_PUBLIC_ACCESS_TOKEN: ${{ secrets.NUXT_SHOPIFY_CLIENTS_STOREFRONT_PUBLIC_ACCESS_TOKEN }}
+
+  NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_API_VERSION: ${{ secrets.NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_API_VERSION }}
+  NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_CLIENT_ID: ${{ secrets.NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_CLIENT_ID }}
+  NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_SESSION_PASSWORD: ${{ secrets.NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_SESSION_PASSWORD }}
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.0
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6.0.9
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.18.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Lint
+        run: pnpm run lint
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.0
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6.0.9
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.18.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck]
+    steps:
+      - uses: actions/checkout@v7.0.0
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6.0.9
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.18.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Build
+        run: pnpm run prepare && pnpm run build

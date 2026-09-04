@@ -1,7 +1,6 @@
 import type { SitemapUrlInput } from '#sitemap/types'
 
-// Composables
-const shopify = useShopify()
+import { SITEMAP_COLLECTIONS, SITEMAP_PRODUCTS } from '@@/graphql/queries/sitemap'
 
 /**
  * Generates sitemap URLs for the web app.
@@ -9,14 +8,22 @@ const shopify = useShopify()
  * @see https://nuxt.com/modules/sitemap
  */
 export default defineSitemapEventHandler(async () => {
-  const collections = await shopify.sitemap.getCollections({ first: 250 })
-  const collectionUrls: SitemapUrlInput[] = collections.edges.map(({ node }) => ({
+  const storefront = useStorefront()
+
+  const { data: collectionsData } = await storefront.request(SITEMAP_COLLECTIONS, {
+    variables: { first: 250 },
+  })
+
+  const collectionUrls: SitemapUrlInput[] = (collectionsData?.collections.edges ?? []).map(({ node }) => ({
     loc: `/collections/${node.handle}`,
     lastmod: node.updatedAt,
   }))
 
-  const products = await shopify.sitemap.getProducts({ first: 250 })
-  const productUrls: SitemapUrlInput[] = products.edges.map(({ node }) => ({
+  const { data: productsData } = await storefront.request(SITEMAP_PRODUCTS, {
+    variables: { first: 250 },
+  })
+
+  const productUrls: SitemapUrlInput[] = (productsData?.products.edges ?? []).map(({ node }) => ({
     loc: `/products/${node.handle}`,
     lastmod: node.updatedAt,
   }))

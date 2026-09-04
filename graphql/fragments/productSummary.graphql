@@ -1,0 +1,27 @@
+fragment ProductSummary on Product {
+  availableForSale
+  compareAtPriceRange {
+    ...PriceRange
+  }
+  createdAt
+  handle
+  id
+  media(first: 250) {
+    edges {
+      node {
+        ...Media
+      }
+    }
+  }
+  options(first: 250) {
+    ...ProductOption
+  }
+  priceRange {
+    ...PriceRange
+  }
+  productType
+  publishedAt
+  tags
+  title
+  updatedAt
+}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FilterFragment } from '@@/types/shopify-storefront'
+import type { FilterFragment } from '#shopify/storefront'
 import type { LocationQuery } from 'vue-router'
 
 import { useMagicKeys } from '@vueuse/core'

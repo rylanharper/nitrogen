@@ -6,8 +6,16 @@ import type {
   CartLineInput,
   CartLineUpdateInput,
   CartBuyerIdentityInput,
-} from '@@/types/shopify-storefront'
+} from '#shopify/storefront'
 
+import {
+  CART_CREATE,
+  CART_LINES_ADD,
+  CART_LINES_REMOVE,
+  CART_LINES_UPDATE,
+  CART_BUYER_IDENTITY_UPDATE,
+} from '@@/graphql/mutations/cart'
+import { CART } from '@@/graphql/queries/cart'
 import { defineStore } from 'pinia'
 
 // Types
@@ -20,9 +28,6 @@ type CartOptionalInput = {
 interface CartState {
   cart: CartQuery['cart'] | null
 }
-
-// Composables
-const shopify = useShopify()
 
 // Store
 export const useCartStore = defineStore('@nikkoel/cart', {
@@ -38,10 +43,14 @@ export const useCartStore = defineStore('@nikkoel/cart', {
      */
     async createCart(input?: CartInput, optionalParams?: CartOptionalInput) {
       try {
-        const response = await shopify.cart.create({
-          input: input,
-          ...optionalParams,
+        const { data } = await useStorefront().request(CART_CREATE, {
+          variables: {
+            input: input,
+            ...optionalParams,
+          },
         })
+
+        const response = data?.cartCreate
 
         if (response?.userErrors?.length) {
           throw new Error(response?.userErrors[0]?.message)
@@ -64,10 +73,14 @@ export const useCartStore = defineStore('@nikkoel/cart', {
       }
 
       try {
-        const response = await shopify.cart.get({
-          id: this.cart.id,
-          ...optionalParams,
+        const { data } = await useStorefront().request(CART, {
+          variables: {
+            id: this.cart.id,
+            ...optionalParams,
+          },
         })
+
+        const response = data?.cart
 
         // If the cart ID is invalid or expired
         // Typically seen after user has placed an order
@@ -95,11 +108,15 @@ export const useCartStore = defineStore('@nikkoel/cart', {
       }
 
       try {
-        const response = await shopify.cart.addLines({
-          cartId: this.cart.id,
-          lines: lines,
-          ...optionalParams,
+        const { data } = await useStorefront().request(CART_LINES_ADD, {
+          variables: {
+            cartId: this.cart.id,
+            lines: lines,
+            ...optionalParams,
+          },
         })
+
+        const response = data?.cartLinesAdd
 
         if (response?.userErrors?.length) {
           throw new Error(response?.userErrors[0]?.message)
@@ -123,11 +140,15 @@ export const useCartStore = defineStore('@nikkoel/cart', {
       }
 
       try {
-        const response = await shopify.cart.removeLines({
-          cartId: this.cart.id,
-          lineIds: lineIds,
-          ...optionalParams,
+        const { data } = await useStorefront().request(CART_LINES_REMOVE, {
+          variables: {
+            cartId: this.cart.id,
+            lineIds: lineIds,
+            ...optionalParams,
+          },
         })
+
+        const response = data?.cartLinesRemove
 
         if (response?.userErrors?.length) {
           throw new Error(response?.userErrors[0]?.message)
@@ -151,11 +172,15 @@ export const useCartStore = defineStore('@nikkoel/cart', {
       }
 
       try {
-        const response = await shopify.cart.updateLines({
-          cartId: this.cart.id,
-          lines: lines,
-          ...optionalParams,
+        const { data } = await useStorefront().request(CART_LINES_UPDATE, {
+          variables: {
+            cartId: this.cart.id,
+            lines: lines,
+            ...optionalParams,
+          },
         })
+
+        const response = data?.cartLinesUpdate
 
         if (response?.userErrors?.length) {
           throw new Error(response?.userErrors[0]?.message)
@@ -179,11 +204,15 @@ export const useCartStore = defineStore('@nikkoel/cart', {
       }
 
       try {
-        const response = await shopify.cart.updateBuyerIdentity({
-          cartId: this.cart.id,
-          buyerIdentity: buyerIdentity,
-          ...optionalParams,
+        const { data } = await useStorefront().request(CART_BUYER_IDENTITY_UPDATE, {
+          variables: {
+            cartId: this.cart.id,
+            buyerIdentity: buyerIdentity,
+            ...optionalParams,
+          },
         })
+
+        const response = data?.cartBuyerIdentityUpdate
 
         if (response?.userErrors?.length) {
           throw new Error(response?.userErrors[0]?.message)

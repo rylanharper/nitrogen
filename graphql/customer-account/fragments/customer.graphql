@@ -1,0 +1,15 @@
+fragment Customer on Customer {
+  id
+  firstName
+  lastName
+  displayName
+  emailAddress {
+    emailAddress
+  }
+  phoneNumber {
+    phoneNumber
+  }
+  defaultAddress {
+    ...CustomerAddress
+  }
+}

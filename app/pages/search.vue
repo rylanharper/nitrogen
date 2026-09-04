@@ -5,13 +5,13 @@ import type {
   FilterFragment,
   ProductFragment,
   PageInfoFragment,
-} from '@@/types/shopify-storefront'
+} from '#shopify/storefront'
 
+import { SEARCH, SEARCH_FILTERS } from '@@/graphql/queries/search'
 import { getSearchSortValues, getFilterValues } from '@/helpers/shopify'
 
 // Composables
 const route = useRoute()
-const shopify = useShopify()
 const appStore = useAppStore()
 const shopStore = useShopStore()
 
@@ -25,10 +25,15 @@ const filterVars = computed<SearchFiltersQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode,
 }))
 
-const { data: filterData, error: filterError } = await useAsyncData(
+const { data: filterData, error: filterError } = await useStorefrontData(
   `filter-${query.value}`,
-  () => shopify.search.getFilters(filterVars.value),
-  { watch: [filterVars] },
+  SEARCH_FILTERS,
+  {
+    variables: filterVars,
+    transform: (data) => data.search,
+    watch: [filterVars],
+    cache: 'catalog',
+  },
 )
 
 // Filter response data
@@ -60,10 +65,15 @@ const searchVars = computed<SearchQueryVariables>(() => ({
   language: shopStore.buyerLanguageCode,
 }))
 
-const { data: searchData, error: searchError } = await useAsyncData(
+const { data: searchData, error: searchError } = await useStorefrontData(
   `search-${query.value}`,
-  () => shopify.search.get(searchVars.value),
-  { watch: [searchVars] },
+  SEARCH,
+  {
+    variables: searchVars,
+    transform: (data) => data.search,
+    watch: [searchVars],
+    cache: 'catalog',
+  },
 )
 
 // Search response data
@@ -168,6 +178,7 @@ useHead(() => ({
         </button>
       </div>
     </section>
+
     <!-- Products -->
     <section class="flex flex-col">
       <div
@@ -205,10 +216,14 @@ useHead(() => ({
         <p>No products found. Try adjusting your filters.</p>
       </div>
     </section>
+
     <!-- Filters -->
     <FilterMenu
       v-if="filters"
       :filters="filters"
     />
+
+    <!-- Analytics -->
+    <ShopifySearchView :data="{ searchTerm: query }" />
   </div>
 </template>

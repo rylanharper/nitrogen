@@ -1,0 +1,11 @@
+fragment MediaImage on MediaImage {
+  alt
+  id
+  image {
+    ...Image
+  }
+  mediaContentType
+  previewImage {
+    ...Image
+  }
+}

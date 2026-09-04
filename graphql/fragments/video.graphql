@@ -1,0 +1,15 @@
+fragment Video on Video {
+  alt
+  id
+  mediaContentType
+  previewImage {
+    ...Image
+  }
+  sources {
+    format
+    height
+    mimeType
+    url
+    width
+  }
+}
