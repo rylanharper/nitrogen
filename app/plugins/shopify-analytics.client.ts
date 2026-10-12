@@ -5,13 +5,17 @@
  * every mutation just needs to hand the updated cart over with its lines
  * flattened out of the GraphQL connection.
  */
-export default defineNuxtPlugin(() => {
-  const cartStore = useCartStore()
-  const analytics = useShopifyAnalytics()
+export default defineNuxtPlugin({
+  name: 'shopify-analytics',
+  dependsOn: ['shopify-init'],
+  setup() {
+    const cartStore = useCartStore()
+    const analytics = useShopifyAnalytics()
 
-  watch(
-    () => cartStore.cart,
-    (cart) => analytics.setCart(toAnalyticsCart(cart)),
-    { immediate: true, deep: true },
-  )
+    watch(
+      () => cartStore.cart,
+      (cart) => analytics.setCart(toAnalyticsCart(cart)),
+      { immediate: true, deep: true },
+    )
+  },
 })
