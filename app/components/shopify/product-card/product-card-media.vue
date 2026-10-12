@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { MediaFragment } from '@@/types/shopify-storefront'
-
-import { isMediaVideo, isMediaImage } from '@/helpers/shopify'
+import type { MediaFragment } from '#shopify/storefront'
 
 // Props
 const props = defineProps<{

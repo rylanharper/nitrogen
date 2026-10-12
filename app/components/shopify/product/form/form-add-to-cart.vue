@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProductVariantFragment } from '@@/types/shopify-storefront'
+import type { ProductVariantFragment } from '#shopify/storefront'
 
 // Props
 const props = defineProps<{
@@ -15,10 +15,6 @@ const cartStore = useCartStore()
 const isLoading = ref(false)
 
 // Actions
-const openModal = () => {
-  appStore.toggle('backInStockModal', true)
-}
-
 const openDrawer = () => {
   appStore.toggle('cartDrawer', true)
 }
@@ -27,15 +23,12 @@ const addToCart = async () => {
   if (!props.currentVariant) return
   isLoading.value = true
 
-  await cartStore.addToCart([
-    {
-      merchandiseId: props.currentVariant?.id,
-      quantity: 1,
-    },
-  ])
-
-  openDrawer()
-  isLoading.value = false
+  try {
+    await cartStore.addToCart([{ merchandiseId: props.currentVariant.id, quantity: 1 }])
+    openDrawer()
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
@@ -56,11 +49,11 @@ const addToCart = async () => {
       Select Size
     </button>
     <button
-      v-else-if="!props.currentVariant?.availableForSale"
-      class="flex items-center justify-center p-2 px-4 uppercase bg-zinc-100 border border-zinc-300 rounded-md transition duration-200 ease-in-out hover:bg-zinc-200"
-      @click="openModal"
+      v-else
+      disabled
+      class="flex items-center justify-center p-2 px-4 uppercase bg-line-pattern border border-zinc-300 rounded-md cursor-default"
     >
-      Notify Me
+      Sold Out
     </button>
   </div>
 </template>

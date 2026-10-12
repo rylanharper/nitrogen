@@ -1,0 +1,19 @@
+fragment ProductOption on ProductOption {
+  id
+  name
+  optionValues {
+    id
+    name
+    swatch {
+      color
+      image {
+        alt
+        id
+        mediaContentType
+        previewImage {
+          ...Image
+        }
+      }
+    }
+  }
+}

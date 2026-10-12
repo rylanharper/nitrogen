@@ -4,8 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
-    'pinia-plugin-persistedstate/nuxt',
     '@vueuse/nuxt',
+    '@nuxtjs/shopify',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
     '@nuxt/icon',
@@ -15,20 +15,42 @@ export default defineNuxtConfig({
   ],
 
   shopify: {
-    domain: process.env.NUXT_SHOPIFY_DOMAIN,
-    apiVersion: process.env.NUXT_SHOPIFY_API_VERSION,
-    adminAccessToken: process.env.NUXT_SHOPIFY_ADMIN_ACCESS_TOKEN,
-    storefrontAccessToken: process.env.NUXT_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    name: process.env.NUXT_SHOPIFY_NAME!,
+
+    clients: {
+      storefront: {
+        apiVersion: process.env.NUXT_SHOPIFY_CLIENTS_STOREFRONT_API_VERSION,
+        publicAccessToken: process.env.NUXT_SHOPIFY_CLIENTS_STOREFRONT_PUBLIC_ACCESS_TOKEN,
+        retries: 3,
+        cache: {
+          presets: {
+            short: { maxAge: 1, staleMaxAge: 9, swr: true },
+            long: { maxAge: 3600, staleMaxAge: 82800, swr: true },
+            catalog: { maxAge: 60, staleMaxAge: 240, swr: true },
+          },
+        },
+      },
+
+      customerAccount: {
+        apiVersion: process.env.NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_API_VERSION,
+        clientId: process.env.NUXT_SHOPIFY_CLIENTS_CUSTOMER_ACCOUNT_CLIENT_ID!,
+        afterLogin: '/account',
+        afterLogout: '/',
+      },
+    },
+
+    analytics: {
+      storefrontId: process.env.NUXT_SHOPIFY_ANALYTICS_STOREFRONT_ID,
+    },
   },
 
-  klaviyo: {
-    apiVersion: process.env.NUXT_KLAVIYO_API_VERSION,
-    publicApiKey: process.env.NUXT_KLAVIYO_PUBLIC_API_KEY,
-    privateApiKey: process.env.NUXT_KLAVIYO_PRIVATE_API_KEY,
+  routeRules: {
+    '/account/**': { headers: { 'cache-control': 'no-store' } },
+    '/*/account/**': { headers: { 'cache-control': 'no-store' } },
   },
 
   site: {
-    url: 'https://nitrogen.nuxt.dev',
+    url: 'https://nitrogen.rylanharper.workers.dev',
     name: 'Nitrogen',
   },
 
@@ -40,7 +62,7 @@ export default defineNuxtConfig({
 
   robots: {
     disallow: ['/account', '/account/*'],
-    sitemap: 'https://nitrogen.nuxt.dev/sitemap.xml',
+    sitemap: 'https://nitrogen.rylanharper.workers.dev/sitemap.xml',
   },
 
   icon: {
@@ -70,8 +92,6 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
     optimizeDeps: {
       include: [
-        'graphql',
-        'graphql-tag',
         'embla-carousel-vue',
       ],
     },
@@ -90,5 +110,5 @@ export default defineNuxtConfig({
       deployConfig: true,
       nodeCompat: true,
     },
-  },
+  }
 })

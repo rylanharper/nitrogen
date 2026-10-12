@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VideoFragment } from '@@/types/shopify-storefront'
+import type { VideoFragment } from '#shopify/storefront'
 
 // Props
 const props = defineProps<{

@@ -43,13 +43,8 @@ export const camelCase = (text: string): string => {
  * @returns The PascalCased string
  */
 export const pascalCase = (text: string): string => {
-  if (!text) return ''
-  return text
-    .trim()
-    .replace(/[^\w\s-]/g, '')
-    .split(/[-\s]/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join('')
+  const camel = camelCase(text)
+  return camel.charAt(0).toUpperCase() + camel.slice(1)
 }
 
 /**
@@ -87,8 +82,6 @@ export const kebabCase = (text: string): string => {
  */
 export const titleCase = (text: string): string => {
   return text
-    .replace(/(?:^\w|[A-Z]|\b\w)/g, (word) => {
-      return word.toUpperCase()
-    })
+    .replace(/\b\w/g, (char) => char.toUpperCase())
     .replace(/\s+/g, ' ')
 }

@@ -1,0 +1,37 @@
+fragment ProductVariant on ProductVariant {
+  availableForSale
+  compareAtPrice {
+    ...Money
+  }
+  currentlyNotInStock
+  id
+  image {
+    ...Image
+  }
+  price {
+    ...Money
+  }
+  product {
+    featuredImage {
+      ...Image
+    }
+    handle
+    id
+    title
+    vendor
+  }
+  quantityAvailable
+  requiresShipping
+  selectedOptions {
+    name
+    value
+  }
+  sku
+  taxable
+  title
+  unitPrice {
+    ...Money
+  }
+  weight
+  weightUnit
+}

@@ -27,16 +27,16 @@ const navLinksLeft = [
 ]
 
 const navLinksRight = [
-  { label: 'Account', path: '/' },
+  { label: 'Account', path: '/account' },
 ]
 
 // Composables
 const cartStore = useCartStore()
-const shopStore = useShopStore()
+const localeStore = useLocaleStore()
 
 // Computed
-const countryCode = computed(() => shopStore.buyerCountryCode)
-const currencySymbol = computed(() => shopStore.buyerCurrencySymbol)
+const countryCode = computed(() => localeStore.buyerCountryCode)
+const currencySymbol = computed(() => localeStore.buyerCurrencySymbol)
 const cartTotalItems = computed(() => cartStore.lineItemCount)
 </script>
 

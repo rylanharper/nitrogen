@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import type { MediaFragment } from '@@/types/shopify-storefront'
+import type { MediaFragment } from '#shopify/storefront'
 import type { EmblaCarouselType } from 'embla-carousel'
 
 import useEmblaCarousel from 'embla-carousel-vue'
-
-import { isMediaVideo, isMediaImage } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
@@ -17,8 +15,6 @@ const [emblaRef, emblaApiMain] = useEmblaCarousel({
 })
 
 // State
-const canScrollNext = ref(false)
-const canScrollPrev = ref(false)
 const selectedIndex = ref<number>(0)
 const scrollSnaps = ref<number[]>([])
 
@@ -36,23 +32,19 @@ const scrollTo = (index: number) => {
   emblaApiMain.value?.scrollTo(index)
 }
 
-// Embla event handlers
-const onInit = (api: EmblaCarouselType) => {
-  scrollSnaps.value = api?.scrollSnapList() || []
-}
-
-const onSelect = (api: EmblaCarouselType) => {
-  canScrollNext.value = api?.canScrollNext() || false
-  canScrollPrev.value = api?.canScrollPrev() || false
-  selectedIndex.value = api?.selectedScrollSnap() || 0
+// Sync state with Embla
+const updateState = (api: EmblaCarouselType) => {
+  scrollSnaps.value = api.scrollSnapList()
+  selectedIndex.value = api.selectedScrollSnap()
 }
 
 onMounted(() => {
-  if (!emblaApiMain.value) return
+  const api = emblaApiMain.value
+  if (!api) return
 
-  emblaApiMain.value?.on('init', onInit)
-  emblaApiMain.value?.on('select', onSelect)
-  emblaApiMain.value?.on('reInit', onSelect)
+  updateState(api)
+  api.on('select', updateState)
+  api.on('reInit', updateState)
 })
 
 // Cleanup

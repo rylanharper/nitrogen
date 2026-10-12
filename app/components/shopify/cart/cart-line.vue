@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { CartLineFragment } from '@@/types/shopify-storefront'
-
-import { parseVariantId } from '@/helpers/shopify'
+import type { CartLineFragment } from '#shopify/storefront'
 
 // Props
 const props = defineProps<{
@@ -10,7 +8,7 @@ const props = defineProps<{
 
 // Computed
 const merchandise = computed(() => props.line.merchandise)
-const variantId = computed(() => parseVariantId(props.line.merchandise.id))
+const variantId = computed(() => parseGid(props.line.merchandise.id))
 
 // Filters out default name and value from selected options
 // Appears only when products with default options are added to the cart

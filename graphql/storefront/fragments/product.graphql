@@ -1,0 +1,94 @@
+fragment Product on Product {
+  availableForSale
+  compareAtPriceRange {
+    ...PriceRange
+  }
+  createdAt
+  description
+  descriptionHtml
+  featuredImage {
+    ...Image
+  }
+  handle
+  id
+  isGiftCard
+  media(first: 250) {
+    edges {
+      node {
+        ...Media
+      }
+    }
+  }
+  onlineStoreUrl
+  options(first: 250) {
+    ...ProductOption
+  }
+  priceRange {
+    ...PriceRange
+  }
+  productType
+  publishedAt
+  seo {
+    description
+    title
+  }
+  tags
+  title
+  totalInventory
+  trackingParameters
+  updatedAt
+  vendor
+  variants(first: 250) {
+    edges {
+      node {
+        ...ProductVariant
+      }
+    }
+  }
+
+  # Custom product metafields
+  filter_color: metafield(namespace: "custom", key: "filter_color") {
+    key
+    value
+    references(first: 10) {
+      edges {
+        node {
+          ... on Metaobject {
+            fields {
+              key
+              value
+            }
+            handle
+            id
+          }
+        }
+      }
+    }
+  }
+  matching_colors: metafield(namespace: "custom", key: "matching_colors") {
+    key
+    value
+    references(first: 10) {
+      edges {
+        node {
+          ... on Product {
+            availableForSale
+            handle
+            id
+            options(first: 250) {
+              ...ProductOption
+            }
+          }
+        }
+      }
+    }
+  }
+  details: metafield(namespace: "custom", key: "details") {
+    key
+    value
+  }
+  shipping: metafield(namespace: "custom", key: "shipping") {
+    key
+    value
+  }
+}

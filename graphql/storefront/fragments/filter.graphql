@@ -1,0 +1,22 @@
+fragment Filter on Filter {
+  id
+  label
+  type
+  values {
+    count
+    id
+    input
+    label
+    swatch {
+      color
+      image {
+        alt
+        id
+        mediaContentType
+        previewImage {
+          ...Image
+        }
+      }
+    }
+  }
+}

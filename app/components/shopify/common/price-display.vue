@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { MoneyFragment } from '@@/types/shopify-storefront'
+import type { MoneyFragment } from '#shopify/storefront'
 
-import { isOnSale } from '@/helpers/shopify'
 import { formatCurrency } from '@/utils/formatters'
 
 // Props
