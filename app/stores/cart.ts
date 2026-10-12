@@ -14,8 +14,8 @@ import {
   CART_LINES_REMOVE,
   CART_LINES_UPDATE,
   CART_BUYER_IDENTITY_UPDATE,
-} from '@@/graphql/mutations/cart'
-import { CART } from '@@/graphql/queries/cart'
+} from '@@/graphql/storefront/mutations/cart'
+import { CART } from '@@/graphql/storefront/queries/cart'
 import { defineStore } from 'pinia'
 
 // Types
@@ -30,7 +30,7 @@ interface CartState {
 }
 
 // Store
-export const useCartStore = defineStore('@nikkoel/cart', {
+export const useCartStore = defineStore('@nitrogen/cart', {
   state: (): CartState => ({
     cart: null,
   }),
@@ -68,7 +68,7 @@ export const useCartStore = defineStore('@nikkoel/cart', {
      */
     async getCart(optionalParams?: CartOptionalInput) {
       if (!this.cart?.id) {
-        await this.createCart()
+        await this.createCart(undefined, optionalParams)
         return
       }
 
@@ -86,13 +86,13 @@ export const useCartStore = defineStore('@nikkoel/cart', {
         // Typically seen after user has placed an order
         if (!response) {
           console.warn('No cart data found. Creating a new cart...')
-          await this.createCart()
+          await this.createCart(undefined, optionalParams)
           return
         }
 
         this.cart = response
       } catch (error) {
-        console.error('Connot get cart data:', error)
+        console.error('Cannot get cart data:', error)
         throw error
       }
     },
@@ -103,7 +103,7 @@ export const useCartStore = defineStore('@nikkoel/cart', {
      */
     async addToCart(lines: CartLineInput[], optionalParams?: CartOptionalInput) {
       if (!this.cart?.id) {
-        await this.createCart()
+        await this.createCart({ lines }, optionalParams)
         return
       }
 
@@ -235,11 +235,6 @@ export const useCartStore = defineStore('@nikkoel/cart', {
   },
 
   persist: {
-    pick: ['cart'],
-    storage: piniaPluginPersistedstate.cookies({
-      sameSite: 'lax',
-      secure: !import.meta.dev,
-      maxAge: 60 * 60 * 24 * 365, // 1 year
-    }),
+    pick: ['cart.id'],
   },
 })

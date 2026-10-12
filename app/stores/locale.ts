@@ -4,16 +4,14 @@ import type {
   LocalizationQuery,
 } from '#shopify/storefront'
 
-import { LOCALIZATION } from '@@/graphql/queries/localization'
+import { LOCALIZATION } from '@@/graphql/storefront/queries/localization'
 import { defineStore } from 'pinia'
 
 // Types
 type Localization = LocalizationQuery['localization']
 
 // Interface
-// The buyer's country/language start out as bare ISO codes and are filled in
-// once `getLocalization` resolves them against Shopify
-interface ShopState {
+interface LocaleState {
   locale: Omit<Localization, 'country' | 'language'> & {
     country: Partial<Localization['country']>
     language: Partial<Localization['language']>
@@ -21,8 +19,8 @@ interface ShopState {
 }
 
 // Store
-export const useShopStore = defineStore('@nikkoel/shop', {
-  state: (): ShopState => ({
+export const useLocaleStore = defineStore('@nitrogen/locale', {
+  state: (): LocaleState => ({
     locale: {
       availableCountries: [],
       availableLanguages: [],
@@ -52,7 +50,7 @@ export const useShopStore = defineStore('@nikkoel/shop', {
 
         const response = data!.localization
 
-        if (!response.country && !response.language) {
+        if (!response.country || !response.language) {
           throw new Error('No localization data found.')
         }
 
@@ -61,7 +59,7 @@ export const useShopStore = defineStore('@nikkoel/shop', {
         this.locale.country = response.country
         this.locale.language = response.language
       } catch (error) {
-        console.error('Connot get localization data:', error)
+        console.error('Cannot get localization data:', error)
         throw error
       }
     },
@@ -76,10 +74,5 @@ export const useShopStore = defineStore('@nikkoel/shop', {
 
   persist: {
     pick: ['locale.country', 'locale.language'],
-    storage: piniaPluginPersistedstate.cookies({
-      sameSite: 'lax',
-      secure: !import.meta.dev,
-      maxAge: 60 * 60 * 24 * 365, // 1 year
-    }),
   },
 })

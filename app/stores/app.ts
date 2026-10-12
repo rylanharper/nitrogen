@@ -7,8 +7,6 @@ type ComponentName
     | 'filterMenu'
     | 'searchMenu'
     | 'localeModal'
-    | 'deleteAddressModal'
-    | 'backInStockModal'
     | 'mediaLightbox'
 
 type AppState = {
@@ -23,8 +21,6 @@ export const useAppStore = defineStore('@nitrogen/app', {
     filterMenu: false,
     searchMenu: false,
     localeModal: false,
-    deleteAddressModal: false,
-    backInStockModal: false,
     mediaLightbox: false,
   }),
 
