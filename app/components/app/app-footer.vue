@@ -63,7 +63,6 @@ const footerLinks3 = [
             {{ link.label }}
           </NuxtLink>
         </div>
-        <KlaviyoNewsletter />
       </div>
       <div class="flex justify-between">
         <span class="uppercase whitespace-nowrap">
@@ -72,7 +71,6 @@ const footerLinks3 = [
       </div>
     </nav>
     <nav class="flex flex-col px-6 py-8 gap-8 lg:hidden">
-      <KlaviyoNewsletter />
       <div class="flex flex-col divide-y divide-zinc-300">
         <details class="group">
           <summary class="flex items-center justify-between py-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">

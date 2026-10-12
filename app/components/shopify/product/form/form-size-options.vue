@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { ProductFragment, ProductVariantFragment } from '#shopify/storefront'
 
-import { getSizeOption, isSizeSoldOut } from '@/helpers/shopify'
-
 // Props
 const props = defineProps<{
   product: ProductFragment
@@ -20,10 +18,7 @@ const sizeOption = computed(() => getSizeOption(props.product.options))
 
 // Get size options
 const productSizes = computed(() => {
-  const sizeOption = getSizeOption(props.product.options)
-  const sizeOptions = sizeOption?.optionValues || []
-
-  return sizeOptions.map((option) => ({
+  return (sizeOption.value?.optionValues ?? []).map((option) => ({
     id: option.id,
     name: option.name,
     isSoldOut: isSizeSoldOut(props.variants, option.name),

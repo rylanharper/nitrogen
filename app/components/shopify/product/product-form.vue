@@ -2,8 +2,6 @@
 import type { ProductFragment, ProductVariantFragment } from '#shopify/storefront'
 import type { LocationQuery } from 'vue-router'
 
-import { isSizeOption } from '@/helpers/shopify'
-
 // Props
 const props = defineProps<{
   product: ProductFragment
@@ -23,16 +21,17 @@ const variantQuery = computed(() => route.query.variant as string | undefined)
 
 const currentVariant = computed(() =>
   props.variants.find((variant) =>
-    variant.selectedOptions.every(({ name, value }) =>
-      isSizeOption(name) ? value === selectedSize.value : true,
-    ),
+    variant.selectedOptions.every(({ name, value }) => !isSizeOption(name) || value === selectedSize.value),
   ),
 )
 
 // Actions
 const setVariantId = (variant: ProductVariantFragment | undefined) => {
   const query: LocationQuery = { ...route.query }
-  query.variant = variant ? parseGid(variant.id) : undefined as any
+
+  if (variant) query.variant = parseGid(variant.id)
+  else delete query.variant
+
   router.replace({ query })
 }
 
@@ -85,5 +84,4 @@ watch(currentVariant, setVariantId)
       />
     </div>
   </div>
-  <KlaviyoBackInStockModal :variant-id="variantQuery" />
 </template>

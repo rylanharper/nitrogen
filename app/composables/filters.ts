@@ -1,8 +1,6 @@
 import type { FilterFragment } from '#shopify/storefront'
 import type { LocationQuery } from 'vue-router'
 
-import { normalizeFilterQuery } from '~/helpers/shopify'
-
 /**
  * Reads and removes the active URL filter fragments.
  * @param fragments - Filter fragments used to resolve filter IDs to labels
@@ -14,15 +12,8 @@ export const useActiveFilters = (fragments?: MaybeRefOrGetter<FilterFragment[] |
 
   // Find filter label from filter ID
   const findLabel = (id: string): string => {
-    const resolved = toValue(fragments)
-    if (!resolved) return id
-
-    for (const filter of resolved) {
-      const match = filter.values?.find((value: FilterFragment['values'][number]) => value.id === id)
-      if (match) return match.label
-    }
-
-    return id
+    const values = toValue(fragments)?.flatMap((fragment) => fragment.values ?? [])
+    return values?.find((value) => value.id === id)?.label ?? id
   }
 
   // Get the active URL filter fragments
@@ -46,10 +37,12 @@ export const useActiveFilters = (fragments?: MaybeRefOrGetter<FilterFragment[] |
     const query: LocationQuery = { ...route.query }
 
     if (name === 'sort') {
-      query.sort = undefined as any
+      delete query.sort
     } else {
       const newFilters = normalizeFilterQuery(query.filter).filter((itemId) => itemId !== id)
-      query.filter = newFilters.length ? newFilters : undefined as any
+
+      if (newFilters.length) query.filter = newFilters
+      else delete query.filter
     }
 
     router.replace({ query })

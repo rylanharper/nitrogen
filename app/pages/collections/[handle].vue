@@ -7,13 +7,12 @@ import type {
   PageInfoFragment,
 } from '#shopify/storefront'
 
-import { COLLECTION, COLLECTION_FILTERS } from '@@/graphql/queries/collection'
-import { getCollectionSortValues, getFilterValues } from '@/helpers/shopify'
+import { COLLECTION, COLLECTION_FILTERS } from '@@/graphql/storefront/queries/collection'
 
 // Composables
 const route = useRoute()
 const appStore = useAppStore()
-const shopStore = useShopStore()
+const localeStore = useLocaleStore()
 
 // Handle
 const handle = computed(() => route.params.handle as string)
@@ -21,8 +20,8 @@ const handle = computed(() => route.params.handle as string)
 // Filter query
 const filterVars = computed<CollectionFiltersQueryVariables>(() => ({
   handle: handle.value,
-  country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode,
+  country: localeStore.buyerCountryCode,
+  language: localeStore.buyerLanguageCode,
 }))
 
 const { data: filterData, error: filterError } = await useStorefrontData(
@@ -61,8 +60,8 @@ const collectionVars = computed<CollectionQueryVariables>(() => ({
   reverse: sortValues.value.reverse,
   sortKey: sortValues.value.sortKey,
   filters: filterValues.value,
-  country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode,
+  country: localeStore.buyerCountryCode,
+  language: localeStore.buyerLanguageCode,
 }))
 
 const { data: collectionData, error: collectionError } = await useStorefrontData(

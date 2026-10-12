@@ -7,11 +7,11 @@ import { useMagicKeys } from '@vueuse/core'
 const route = useRoute()
 const appStore = useAppStore()
 const cartStore = useCartStore()
-const shopStore = useShopStore()
+const localeStore = useLocaleStore()
 
 // Shop data
-const countries = shopStore.locale?.availableCountries
-const countryCode = shopStore.locale?.country?.isoCode
+const countries = localeStore.locale?.availableCountries
+const countryCode = localeStore.locale?.country?.isoCode
 
 // State
 const countryLocale = ref<CountryCode | undefined>(countryCode)
@@ -23,7 +23,7 @@ const updateLocale = async () => {
 
   await Promise.all([
     cartStore.attachBuyer({ countryCode: countryLocale.value }),
-    shopStore.getLocalization(countryLocale.value),
+    localeStore.getLocalization(countryLocale.value),
   ])
 
   isLoading.value = false
@@ -52,7 +52,7 @@ if (escape) watch(escape, closeModal)
       v-if="appStore.localeModal"
       class="fixed flex items-center justify-center size-full inset-0 z-200 pointer-events-none"
     >
-      <dialog class="relative flex flex-col p-6 bg-white pointer-events-auto md:w-xl">
+      <dialog class="relative flex flex-col p-6 bg-white pointer-events-auto md:max-w-125">
         <h2 class="uppercase text-center">
           Select Country
         </h2>

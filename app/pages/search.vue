@@ -7,13 +7,12 @@ import type {
   PageInfoFragment,
 } from '#shopify/storefront'
 
-import { SEARCH, SEARCH_FILTERS } from '@@/graphql/queries/search'
-import { getSearchSortValues, getFilterValues } from '@/helpers/shopify'
+import { SEARCH, SEARCH_FILTERS } from '@@/graphql/storefront/queries/search'
 
 // Composables
 const route = useRoute()
 const appStore = useAppStore()
-const shopStore = useShopStore()
+const localeStore = useLocaleStore()
 
 // URL query
 const query = computed(() => route.query.q as string)
@@ -21,8 +20,8 @@ const query = computed(() => route.query.q as string)
 // Filter query
 const filterVars = computed<SearchFiltersQueryVariables>(() => ({
   query: query.value,
-  country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode,
+  country: localeStore.buyerCountryCode,
+  language: localeStore.buyerLanguageCode,
 }))
 
 const { data: filterData, error: filterError } = await useStorefrontData(
@@ -61,8 +60,8 @@ const searchVars = computed<SearchQueryVariables>(() => ({
   reverse: sortValues.value.reverse,
   sortKey: sortValues.value.sortKey,
   filters: filterValues.value,
-  country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode,
+  country: localeStore.buyerCountryCode,
+  language: localeStore.buyerLanguageCode,
 }))
 
 const { data: searchData, error: searchError } = await useStorefrontData(

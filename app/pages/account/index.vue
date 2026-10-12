@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CUSTOMER, CUSTOMER_ORDERS } from '@@/graphql/customer-account/queries/customer'
+import { CUSTOMER, CUSTOMER_ORDERS } from '@@/graphql/customer/queries/customer'
 
 definePageMeta({
   middleware: 'customer-account',

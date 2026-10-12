@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { ProductFragment } from '#shopify/storefront'
 
-import { getColorOption } from '@/helpers/shopify'
-
 // Props
 const props = defineProps<{
   product: ProductFragment

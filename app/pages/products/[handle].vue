@@ -6,11 +6,11 @@ import type {
   ProductVariantFragment,
 } from '#shopify/storefront'
 
-import { PRODUCT, RECOMMENDED_PRODUCTS } from '@@/graphql/queries/product'
+import { PRODUCT, RECOMMENDED_PRODUCTS } from '@@/graphql/storefront/queries/product'
 
 // Composables
 const route = useRoute()
-const shopStore = useShopStore()
+const localeStore = useLocaleStore()
 
 // Handle
 const handle = computed(() => route.params.handle as string)
@@ -18,8 +18,8 @@ const handle = computed(() => route.params.handle as string)
 // Product Query
 const productVars = computed<ProductQueryVariables>(() => ({
   handle: handle.value,
-  country: shopStore.buyerCountryCode,
-  language: shopStore.buyerLanguageCode,
+  country: localeStore.buyerCountryCode,
+  language: localeStore.buyerLanguageCode,
 }))
 
 const [productQuery, recommendedQuery] = await Promise.all([

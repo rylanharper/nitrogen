@@ -3,7 +3,6 @@ import type { FilterFragment } from '#shopify/storefront'
 import type { LocationQuery } from 'vue-router'
 
 import { useMagicKeys } from '@vueuse/core'
-import { normalizeFilterQuery } from '@/helpers/shopify'
 
 // Props
 const props = defineProps<{
@@ -60,7 +59,10 @@ const filterOptions = computed(() => {
 // Actions
 const setSortOption = (sortValue: string | null) => {
   const query: LocationQuery = { ...route.query }
-  query.sort = sortValue ?? undefined as any
+
+  if (sortValue) query.sort = sortValue
+  else delete query.sort
+
   router.replace({ query })
 }
 
@@ -72,7 +74,9 @@ const setFilterOption = (filterId: string) => {
     ? current.filter((f) => f !== filterId)
     : [...current, filterId]
 
-  query.filter = newFilters.length ? newFilters : undefined as any
+  if (newFilters.length) query.filter = newFilters
+  else delete query.filter
+
   router.replace({ query })
 }
 

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { ProductFragment } from '#shopify/storefront'
 
-import { getColorOption } from '@/helpers/shopify'
-
 // Props
 const props = defineProps<{
   product: ProductFragment
@@ -17,38 +15,24 @@ const handle = computed(() => route.params.handle as string)
 const colorOption = computed(() => getColorOption(props.product.options))
 const defaultColorName = computed(() => colorOption.value?.optionValues[0]?.name)
 
-// Get product color options
-const mainProductColor = computed(() => {
-  const colorOption = getColorOption(props.product.options)
+// Map a product to its color option
+const toColor = (product: ProductFragment) => {
+  const value = getColorOption(product.options)?.optionValues[0]
 
   return {
-    name: colorOption?.optionValues[0]?.name,
-    color: colorOption?.optionValues[0]?.swatch?.color,
-    image: colorOption?.optionValues[0]?.swatch?.image?.previewImage,
-    handle: props.product.handle,
-    isAvailable: props.product.availableForSale,
+    name: value?.name,
+    color: value?.swatch?.color,
+    image: value?.swatch?.image?.previewImage,
+    handle: product.handle,
+    isAvailable: product.availableForSale,
   }
-})
-
-const matchingProductColors = computed(() => {
-  return props.matchingColors.map((product) => {
-    const options = product.options
-    const colorOption = getColorOption(options)
-
-    return {
-      name: colorOption?.optionValues[0]?.name,
-      color: colorOption?.optionValues[0]?.swatch?.color,
-      image: colorOption?.optionValues[0]?.swatch?.image?.previewImage,
-      handle: product.handle,
-      isAvailable: product.availableForSale,
-    }
-  })
-})
+}
 
 // Combine all colors, sort alphabetically
 const sortedColors = computed(() => {
-  const allColors = [mainProductColor.value, ...matchingProductColors.value]
-  return allColors.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''))
+  return [props.product, ...props.matchingColors]
+    .map(toColor)
+    .sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''))
 })
 
 // State
