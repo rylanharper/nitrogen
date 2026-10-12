@@ -9,7 +9,7 @@
 Nitrogen is a Nuxt template inspired by Shopify's [Hydrogen](https://github.com/Shopify/hydrogen) framework for headless commerce. This template is designed to empower Nuxt developers to build fast, scalable, and customizable storefronts that incorporate key features from Hydrogen's starter theme.
 
 > [!IMPORTANT]
-> This template now uses the official [`@nuxtjs/shopify`](https://github.com/nuxt-modules/shopify) module for its Storefront and Customer Account API integration. Check out the module's documentation for more context on how to query and use Shopify data within Nuxt.
+> This template now uses the official [`@nuxtjs/shopify`](https://github.com/nuxt-modules/shopify) module for its Storefront and Customer Account API integration. Check out the module's [documentation](https://shopify.nuxtjs.org) for more context on how to query and use Shopify data within Nuxt.
 
 ## ✨ Key Features
 
@@ -57,13 +57,6 @@ NUXT_SHOPIFY_ANALYTICS_STOREFRONT_ID=your_storefront_id
 2. Start the development server using `pnpm dev`
 
 Types are generated automatically on `nuxt prepare`, `nuxt dev` and `nuxt build`, so there is no separate codegen step.
-
-## ⚡ Basic Usage
-
-Shopify is wired up with the official [`@nuxtjs/shopify`](https://shopify.nuxtjs.org) module, which provides the typed clients, the server-side proxy, request caching, and type generation.
-
-> [!TIP]
-> Read the [`@nuxtjs/shopify` documentation](https://shopify.nuxtjs.org) to learn how to query and use Shopify data in Nuxt.
 
 ## 🚀 Deployment
 
