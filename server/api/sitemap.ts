@@ -1,6 +1,6 @@
 import type { SitemapUrlInput } from '#sitemap/types'
 
-import { SITEMAP_COLLECTIONS, SITEMAP_PRODUCTS } from '@@/graphql/queries/sitemap'
+import { SITEMAP_COLLECTIONS, SITEMAP_PRODUCTS } from '@@/graphql/storefront/queries/sitemap'
 
 /**
  * Generates sitemap URLs for the web app.
