@@ -1,9 +1,13 @@
-import type { CartFragment, CartLineFragment, ProductFragment, ProductVariantFragment } from '#shopify/storefront'
+import type {
+  CartFragment,
+  CartLineFragment,
+  ProductFragment,
+  ProductVariantFragment,
+} from '#shopify/storefront'
 
 /**
- * Maps a cart line onto the payload Shopify analytics expects.
+ * Maps a cart line to its analytics payload.
  * @param line - The cart line fragment
- * @returns The analytics cart line
  */
 export const toAnalyticsCartLine = (line: CartLineFragment) => ({
   id: line.id,
@@ -22,9 +26,9 @@ export const toAnalyticsCartLine = (line: CartLineFragment) => ({
 })
 
 /**
- * Maps a cart onto the payload Shopify analytics expects, flattening its lines.
+ * Maps a cart to its analytics payload.
  * @param cart - The cart fragment
- * @returns The analytics cart, or null when there is no cart yet
+ * @returns The payload, or null if there is no cart
  */
 export const toAnalyticsCart = (cart: CartFragment | null | undefined) => {
   if (!cart?.id) return null
@@ -44,10 +48,10 @@ export const toAnalyticsCart = (cart: CartFragment | null | undefined) => {
 }
 
 /**
- * Maps a product and its selected variant onto the payload Shopify analytics expects.
+ * Maps a product and variant to an analytics payload.
  * @param product - The product fragment
  * @param variant - The variant to attribute the view to
- * @returns The analytics product, or null when there is no variant to price it with
+ * @returns The payload, or null if the product or variant is missing
  */
 export const toAnalyticsProduct = (
   product: ProductFragment | null | undefined,

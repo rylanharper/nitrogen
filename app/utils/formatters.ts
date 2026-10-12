@@ -1,19 +1,17 @@
 /**
- * Formats a date according to the specified locale.
+ * Formats a date for a locale.
  * @param locale - The locale code (e.g., 'en-US')
- * @param d - The date to format, either as a Date object or a string
- * @returns The formatted date string
+ * @param d - The date to format
  */
 export const formatDateByLocale = (locale: string, d: Date | string): string => {
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric' }
-  return new Date(d).toLocaleDateString(locale, options)
+  return new Date(d).toLocaleDateString(locale, { year: 'numeric', month: 'numeric', day: 'numeric' })
 }
 
 /**
- * Formats an image URL to include a specified width.
- * @param src - The original image URL
- * @param width - The desired width to include in the URL
- * @returns The formatted image URL or an empty string if undefined
+ * Sets the `width` param on an image URL.
+ * @param src - The image URL
+ * @param width - The desired width
+ * @returns The new URL, or an empty string if `src` is undefined
  */
 export const formatImageUrl = (src: string | undefined, width: number): string => {
   if (!src) return ''
@@ -25,20 +23,17 @@ export const formatImageUrl = (src: string | undefined, width: number): string =
 }
 
 /**
- * Formats a number as a currency string.
- * @param amount - The number (or string) to format
+ * Formats an amount as currency, dropping `.00`.
+ * @param amount - The amount to format
  * @param currencyCode - The currency code (e.g., 'USD')
  * @param locale - The locale code (e.g., 'en-US')
- * @returns The formatted currency string
  */
 export const formatCurrency = (amount: string | number, currencyCode: string = 'USD', locale: string = 'en-US'): string => {
-  const numericAmount = typeof amount === 'string' ? parseFloat(amount) : amount
-
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currencyCode,
     minimumFractionDigits: 2,
   })
-    .format(numericAmount)
+    .format(Number(amount))
     .replace(/\.00/g, '')
 }
