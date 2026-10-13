@@ -63,7 +63,7 @@ Types are generated automatically on `nuxt prepare`, `nuxt dev` and `nuxt build`
 Shopify is wired up with the official [`@nuxtjs/shopify`](https://shopify.nuxtjs.org) module, which provides the typed clients, the server-side proxy, request caching, and type generation.
 
 > [!TIP]
-> Read the module [documentation](https://shopify.nuxtjs.org) to learn how to query and use Shopify data in Nuxt.
+> Read the module's [documentation](https://shopify.nuxtjs.org) to learn how to query and use Shopify data within Nuxt.
 
 ## 🚀 Deployment
 
