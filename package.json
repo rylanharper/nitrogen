@@ -15,32 +15,31 @@
   "dependencies": {
     "@nuxt/fonts": "^1.0.1",
     "@nuxt/icon": "^2.5.1",
-    "@nuxtjs/robots": "^7.0.1",
-    "@nuxtjs/shopify": "^1.0.1",
-    "@nuxtjs/sitemap": "^9.0.1",
-    "@pinia/nuxt": "1.0.2",
-    "@shopify/hydrogen": "2026.10.0",
+    "@nuxtjs/robots": "^7.0.2",
+    "@nuxtjs/shopify": "^1.0.2",
+    "@nuxtjs/sitemap": "^9.1.0",
+    "@pinia/nuxt": "1.0.3",
+    "@shopify/hydrogen": "2026.10.1",
     "@shopify/hydrogen-react": "2026.4.4",
     "@vueuse/core": "^15.0.0",
     "@vueuse/nuxt": "^15.0.0",
     "embla-carousel": "^8.6.0",
     "embla-carousel-vue": "^8.6.0",
-    "pinia": "^4.0.3"
+    "pinia": "^4.1.0"
   },
   "devDependencies": {
     "@iconify-json/ph": "^1.2.2",
     "@nuxt/eslint": "^1.17.0",
-    "@nuxt/kit": "^4.6.1",
     "@nuxthub/core": "0.10.8",
     "@tailwindcss/vite": "^4.3.3",
     "eslint": "^10.12.0",
-    "nuxt": "^4.6.1",
+    "nuxt": "^4.6.2",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
-    "vue": "^3.5.43",
+    "vue": "^3.5.44",
     "vue-router": "^5.4.0",
     "vue-tsc": "^3.3.13",
-    "wrangler": "^4.149.0"
+    "wrangler": "^4.151.1"
   },
-  "packageManager": "pnpm@12.4.2"
+  "packageManager": "pnpm@12.14.0"
 }
